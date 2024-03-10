@@ -48,8 +48,7 @@
                     android:id="@+id/rvLogo"
                     android:layout_width="72dp"
                     android:layout_height="90dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/logo" />
+                    android:scaleType="fitXY" />
 
                 <TextView
                     android:id="@+id/txtWelcome"
