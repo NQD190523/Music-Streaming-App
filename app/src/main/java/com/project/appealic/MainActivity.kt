@@ -15,6 +15,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val  intent = Intent(this, Activity_welcome::class.java)
+            startActivity(intent)
             AppealicTheme {
                 // A surface container using the 'background' color from the theme
                 val signInIntent = Intent(this,SignUpActivity::class.java)
