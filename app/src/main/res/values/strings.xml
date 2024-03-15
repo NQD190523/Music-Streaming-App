@@ -48,5 +48,8 @@
     <string name="title_activity_maps">AIzaSyAXrv9RhlbG3gZPH2FiiqhAFhrQ7-u2hMU</string>
 
     <!--AutocompleteText-->
+    <!--GoogleSignIn-->
+    <string name="default_web_client_id">572466641139-i5e0ome8p6gijo23dq410in9oqnus64k.apps.googleusercontent.com</string>
+
 
 </resources>
