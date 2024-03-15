@@ -18,10 +18,10 @@
 
     <!-- Register -->
     <string name="register_register">ĐĂNG KÝ\nTÀI KHOẢN</string>
-    <string name="register_enter_name"><font color='@color/black'>Họ và tên</font><font color='@color/red'>*</font></string>
-    <string name="register_enter_mail"><font color='@color/black'>Email</font><font color='@color/red'>*</font></string>
-    <string name="register_enter_phone"><font color='@color/black'>Số điện thoại</font><font color='@color/red'>*</font></string>
-    <string name="register_enter_password"><font color='@color/black'>Mật khẩu</font><font color='@color/red'>*</font></string>
+    <string name="register_enter_name"><font color='@color/white'>Họ và tên</font><font color='@color/red'>*</font></string>
+    <string name="register_enter_mail"><font color='@color/white'>Email</font><font color='@color/red'>*</font></string>
+    <string name="register_enter_phone"><font color='@color/white'>Số điện thoại</font><font color='@color/red'>*</font></string>
+    <string name="register_enter_password"><font color='@color/white'>Mật khẩu</font><font color='@color/red'>*</font></string>
     <string name="register_send_otp">Gửi OTP</string>
     <string name="register_completion">Đăng ký thành công!</string>
     <string name="register_redirect">Bạn sẽ được chuyển hướng về trang chủ trong chốc lát</string>
