@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "572466641139",
+    "project_id": "music-streaming-app-f668e",
+    "storage_bucket": "music-streaming-app-f668e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572466641139:android:5aea23b6034f80343a5f86",
+        "android_client_info": {
+          "package_name": "com.project.appealic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "572466641139-i5e0ome8p6gijo23dq410in9oqnus64k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.appealic",
+            "certificate_hash": "6f39d06e719b42462ffbadeb12e73b2c20f8df23"
+          }
+        },
+        {
+          "client_id": "572466641139-m3cvm352ijd95cth3ed9ml0j7pibgkjh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2vbE-G8pnR2Z-Fixy9AgJZNAGjT4DAww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "572466641139-m3cvm352ijd95cth3ed9ml0j7pibgkjh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
