@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:orientation="vertical">
 
         <ImageView
@@ -15,26 +16,12 @@
             android:layout_gravity="center"
             android:padding="20dp"
             android:src="@drawable/logo" />
-        <EditText
-            android:id="@+id/loginEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/register_enter_mail"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:inputType="phone"
-            android:drawableStart="@drawable/account_phone"
-            android:drawablePadding="8dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_marginTop="8dp"/>
 
         <EditText
             android:id="@+id/loginPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mật khẩu"
+            android:hint="@string/login_enter_phone"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -49,7 +36,7 @@
             android:id="@+id/loginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nhập lại mật khẩu"
+            android:hint="@string/login_enter_password"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -61,6 +48,33 @@
             android:layout_marginTop="8dp"/>
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/cbRememberMe"
+                style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/login_remember"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnForgetPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/text"
+                android:text="@string/login_forget_password"
+                android:textSize="16sp"
+                android:onClick="toForgetPassword"
+                android:background="@drawable/noncolor_button"/>
+
+
+        </RelativeLayout>
 
         <Button
             android:id="@+id/btnLogin"
@@ -69,8 +83,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_button"
             android:onClick="toHome"
-            android:textColor="@color/text"
-            android:text="Sign Up"
+            android:text="@string/login_login"
             android:layout_gravity="center"
             android:textAllCaps="false"
             android:textSize="20sp" />
@@ -110,38 +123,21 @@
             android:layout_marginTop="10dp"
             android:gravity="center">
 
-            <Button
-                android:id="@+id/btnUsePhone"
-                android:layout_width="180dp"
+            <ImageButton
+                android:id="@+id/btnFacebook"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="16dp"
-                android:background="@drawable/button_color_white"
-                android:drawableStart="@drawable/phone"
-                android:gravity="center"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="Use Phone"
-                android:textColor="@color/text"
-                android:textAllCaps="false"
-                android:textSize="10sp" />
-
-            <Button
-                android:id="@+id/btnUseGoogle"
-                android:layout_width="171dp"
+                android:background="#00000000"
+                android:src="@drawable/logos_facebook"
+                android:onClick="toFacebook"/>
+            <ImageButton
+                android:id="@+id/btnGoogle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="16dp"
-                android:background="@drawable/button_color_white"
-                android:drawableStart="@drawable/google"
-                android:gravity="center"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="Use Google"
-                android:textColor="@color/text"
-                android:textAllCaps="false"
-                android:textSize="10sp" />
-
+                android:layout_marginStart="16dp"
+                android:background="#00000000"
+                android:src="@drawable/logogoogle"
+                android:onClick="toGoogle"/>
 
         </LinearLayout>
 
