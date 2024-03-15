@@ -1,3 +1,52 @@
 <resources>
     <string name="app_name">Appealic</string>
+    <string name="title_forget_password">Quên mật khẩu</string>
+    <string name="title_register">Đăng ký</string>
+
+    <!-- Intro -->
+
+
+    <!-- Login -->
+    <string name="login_enter_phone">Số điện thoại</string>
+    <string name="login_enter_password">Mật khẩu</string>
+    <string name="login_remember">Ghi nhớ</string>
+    <string name="login_forget_password">Quên mật khẩu?</string>
+    <string name="login_login">Đăng nhập</string>
+    <string name="login_register">Đăng ký</string>
+    <string name="login_continue">hoặc tiếp tục với</string>
+    <string name="login_no_account">Chưa có tài khoản?</string>
+
+    <!-- Register -->
+    <string name="register_register">ĐĂNG KÝ\nTÀI KHOẢN</string>
+    <string name="register_enter_name"><font color='@color/black'>Họ và tên</font><font color='@color/red'>*</font></string>
+    <string name="register_enter_mail"><font color='@color/black'>Email</font><font color='@color/red'>*</font></string>
+    <string name="register_enter_phone"><font color='@color/black'>Số điện thoại</font><font color='@color/red'>*</font></string>
+    <string name="register_enter_password"><font color='@color/black'>Mật khẩu</font><font color='@color/red'>*</font></string>
+    <string name="register_send_otp">Gửi OTP</string>
+    <string name="register_completion">Đăng ký thành công!</string>
+    <string name="register_redirect">Bạn sẽ được chuyển hướng về trang chủ trong chốc lát</string>
+
+    <!-- Forget Password -->
+    <string name="forger_forget">QUÊN\nMẬT KHẨU</string>
+    <string name="forget_desc">Số điện thoại đã đăng ký:</string>
+    <string name="forget_send_otp">Gửi OTP</string>
+    <string name="forget_enter_phone">Số điện thoại</string>
+    <string name="forget_reset">ĐẶT LẠI\nMẬT KHẨU</string>
+    <string name="forget_new">Mật khẩu mới</string>
+    <string name="forget_again">Nhập lại mật khẩu</string>
+    <string name="forget_confirm">Xác nhận</string>
+
+    <!-- Phone OTP -->
+    <string name="phoneotp_phoneotp">XÁC NHẬN\nMÃ OTP</string>
+    <string name="phoneotp_confirm">Xác nhận</string>
+    <string name="phoneotp_guide">Nhập mã OTP vừa được gửi đến số điện thoại của bạn</string>
+    <string name="phoneotp_no_otp">Không nhận được mã OTP?</string>
+    <string name="phoneotp_resend">Gửi lại</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">AIzaSyAXrv9RhlbG3gZPH2FiiqhAFhrQ7-u2hMU</string>
+
+    <!--AutocompleteText-->
+
 </resources>
