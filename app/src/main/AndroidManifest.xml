@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Appealic"
         tools:targetApi="31">
         <activity
-            android:name=".ui.screens.SignUpActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Appealic">
@@ -23,7 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.view.GoogleLoginActivity" />
+        <activity android:name=".Activity_welcome"/>
     </application>
 
 </manifest>

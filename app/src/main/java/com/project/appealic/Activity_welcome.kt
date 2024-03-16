@@ -4,9 +4,13 @@ import Activity_welcome2
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.databinding.ActivityWelcomeBinding
 
 class Activity_welcome : AppCompatActivity() {
+
+    val firebase : FirebaseAuth = FirebaseAuth.getInstance()
 
     private lateinit var binding: ActivityWelcomeBinding
 
@@ -19,7 +23,8 @@ class Activity_welcome : AppCompatActivity() {
 
         // Xử lý sự kiện khi nút "Continue" được nhấn
         binding.btnContinue.setOnClickListener {
-            val intent = Intent(this, Activity_welcome2::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, Activity_welcome2::class.java)
+//            startActivity(intent)
+            firebase.signOut()
         }
     }}

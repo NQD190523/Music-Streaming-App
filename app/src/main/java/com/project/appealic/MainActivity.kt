@@ -10,19 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.project.appealic.ui.screens.SignUpActivity
 import com.project.appealic.ui.theme.AppealicTheme
+import com.project.appealic.ui.view.GoogleLoginActivity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val  intent = Intent(this, Activity_welcome::class.java)
+            val  intent = Intent(this, GoogleLoginActivity::class.java)
             startActivity(intent)
-            AppealicTheme {
-                // A surface container using the 'background' color from the theme
-                val signInIntent = Intent(this,SignUpActivity::class.java)
-                startActivity(signInIntent)
-
-            }
         }
     }
 }
