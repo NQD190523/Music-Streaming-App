@@ -1,22 +1,34 @@
 package com.project.appealic.data.repository
 
-import android.content.Intent
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.project.appealic.Activity_welcome
-import com.project.appealic.data.model.User
 
 class AuthRepository {
     private val auth : FirebaseAuth = FirebaseAuth.getInstance()
 
-   fun firebaseAuthWithGoogle(account: GoogleSignInAccount){
+   fun firebaseAuthWithGoogle(account: GoogleSignInAccount) : Task<AuthResult> {
             val credential = GoogleAuthProvider.getCredential(account.idToken,null)
-            auth.signInWithCredential(credential)
+            return auth.signInWithCredential(credential)
+   }
+    fun getUser() : FirebaseUser?{
+        return auth.currentUser
     }
-    fun getUser() : User?{
-        return auth.currentUser?.let {
-            User(it.uid, it.displayName ?:"",it.email ?:"",it.photoUrl?.toString() ?:"")
+    fun signOut(googleSignInClient: GoogleSignInClient) : LiveData<Boolean>{
+        val logoutSuccess = MutableLiveData<Boolean>()
+        googleSignInClient.signOut().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                logoutSuccess.value = true
+            } else {
+                logoutSuccess.value = false
+            }
         }
+        return logoutSuccess
     }
 }

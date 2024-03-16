@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -24,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.view.GoogleLoginActivity" />
-        <activity android:name=".Activity_welcome"/>
+        <activity android:name=".ui.view.Activity_welcome"/>
     </application>
 
 </manifest>
