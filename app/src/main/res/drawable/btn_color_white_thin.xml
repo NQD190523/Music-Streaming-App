@@ -2,7 +2,7 @@
     android:shape="rectangle">
     <size
         android:width="69dp"
-        android:height="20dp"/>
+        android:height="30dp"/>
     <solid android:color="@android:color/transparent"/>
     <stroke
         android:width="0.5dp"

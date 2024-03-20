@@ -28,20 +28,74 @@
             android:src="@drawable/ic_mic_20_filled"
             android:layout_marginEnd="8dp" />
 
-        <!-- Hình ảnh "Search" -->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_play_20_filled"
+            android:src="@drawable/ic_se"
             android:layout_marginEnd="8dp" />
-
-        <!-- Hình ảnh "Thông báo" -->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_alert_20_filled" />
 
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rrBanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="100dp"
+    android:layout_marginStart="10dp"
+    android:orientation="vertical">
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:text="New Release" />
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnViewAll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="View All"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/rounded_button" />
+        <Button
+            android:id="@+id/btnVietnam"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="Viet Nam"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/button_color_white" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:textSize="10dp"
+
+            android:text="International"
+            android:textColor="@color/white"
+            android:background="@drawable/button_color_white" />
+    </LinearLayout>
+
+
+</LinearLayout>
+
 
 
 
