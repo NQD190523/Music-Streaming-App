@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -14,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.databinding.ActivityLoginBinding
 import com.project.appealic.ui.viewmodel.AuthViewModel
+import com.project.appealic.ui.viewmodel.SpotifyViewModel
 
 class GoogleLoginActivity : AppCompatActivity() {
 
@@ -24,6 +26,9 @@ class GoogleLoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
 
     private lateinit var viewModel: AuthViewModel
+
+    private val spotifyViewModel: SpotifyViewModel by viewModels()
+
 
     private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         result ->
@@ -45,6 +50,7 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         // Khởi tạo ViewModel
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+
         auth = FirebaseAuth.getInstance()
 
         // Khởi tạo GoogleSignInOptions
@@ -58,6 +64,7 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         binding.btnGoogle.setOnClickListener(){
             launcher.launch(googleSignInClient.signInIntent)
+            spotifyViewModel.connectToSpotify(this)
         }
 
         viewModel.signInSuccess.observe(this) { signInSuccess ->

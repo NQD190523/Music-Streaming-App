@@ -11,6 +11,7 @@ import com.project.appealic.R
 import com.project.appealic.data.repository.AuthRepository
 import com.project.appealic.databinding.ActivityWelcomeBinding
 import com.project.appealic.ui.viewmodel.AuthViewModel
+import com.project.appealic.ui.viewmodel.SpotifyViewModel
 
 class Activity_welcome : AppCompatActivity() {
 
