@@ -203,12 +203,12 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="15dp"
+                    android:text="More Action"
+                    android:textColor="@color/white"
                     android:background="@drawable/btn_color_white_thin"
                     android:drawableRight="@drawable/ic_upload_16_filled"
                     android:drawablePadding="-10dp"
                     android:paddingEnd="8dp"
-                    android:text="More Action"
-                    android:textColor="@color/white"
                     android:textSize="5sp" />
 
                 <ImageView

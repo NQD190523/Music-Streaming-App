@@ -1,32 +1,27 @@
-package com.project.appealic.ui.view.Adapters
-
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.project.appealic.R
 import com.project.appealic.data.model.Song
 
-class SongAdapter(private val songs: List<Song>) : RecyclerView.Adapter<SongAdapter.SongViewHolder>() {
+class SongAdapter(context: Context, private val songs: List<Song>) : ArrayAdapter<Song>(context, 0, songs) {
 
-    inner class SongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val songNameTextView: TextView = itemView.findViewById(R.id.txtSongName)
-        val singerTextView: TextView = itemView.findViewById(R.id.txtSinger)
-    }
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_song, parent, false)
+        val song = songs[position]
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_song, parent, false)
-        return SongViewHolder(itemView)
-    }
+        val songNameTextView = view.findViewById<TextView>(R.id.txtSongName)
+        val singerTextView = view.findViewById<TextView>(R.id.txtSinger)
+        val photoImageView = view.findViewById<ImageView>(R.id.imvPhoto)
 
-    override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
-        val currentSong = songs[position]
-        holder.songNameTextView.text = currentSong.songName
-        holder.singerTextView.text = currentSong.singer
-    }
+        songNameTextView.text = song.songName
+        singerTextView.text = song.singer
+        photoImageView.setImageResource(song.photoId)
 
-    override fun getItemCount(): Int {
-        return songs.size
+        return view
     }
 }
