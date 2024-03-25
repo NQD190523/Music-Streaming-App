@@ -26,6 +26,7 @@
         </activity>
         <activity android:name=".ui.view.GoogleLoginActivity" />
         <activity android:name=".ui.view.Activity_welcome"/>
+        <activity android:name=".ui.view.MediaActivity"/>
     </application>
 
 </manifest>

@@ -64,7 +64,7 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         binding.btnGoogle.setOnClickListener(){
             launcher.launch(googleSignInClient.signInIntent)
-            spotifyViewModel.connectToSpotify(this)
+//            spotifyViewModel.connectToSpotify(this)
         }
 
         viewModel.signInSuccess.observe(this) { signInSuccess ->
@@ -82,7 +82,7 @@ class GoogleLoginActivity : AppCompatActivity() {
     }
     private fun navigateToMainScreen() {
         // Chuyển hướng đến màn hình chính hoặc màn hình tiếp theo sau khi đăng nhập thành công
-        intent = Intent(this, Activity_welcome::class.java)
+        intent = Intent(this, MediaActivity::class.java)
         startActivity(intent)
     }
 }
