@@ -9,4 +9,100 @@
         <item name="cornerSize">16dp</item>
     </style>
 
+<!--    Text Style-->
+    <!--    Heading -->
+    <style name="Heading1">
+        <item name="android:textSize">28sp</item>
+        <item name="android:fontFamily">@font/prompt_semibold</item>
+    </style>
+
+    <style name="Heading2">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/prompt_semibold</item>
+    </style>
+
+    <style name="Heading3">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/prompt_medium</item>
+    </style>
+
+    <style name="Heading4">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/prompt_medium</item>
+    </style>
+
+    <style name="Heading5">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/prompt_medium</item>
+    </style>
+
+    <style name="Heading6">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/prompt_bold</item>
+    </style>
+
+    <!--    Subtile-->
+
+    <style name="Subtile1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/prompt_regular</item>
+    </style>
+
+    <style name="Subtile2">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/prompt_regular</item>
+    </style>
+
+    <!--    Body-->
+
+    <style name="Body1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+    </style>
+
+    <style name="Body2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+    </style>
+
+    <style name="Body1Bold">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/inter_bold</item>
+    </style>
+
+    <style name="Body2Bold">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/inter_bold</item>
+    </style>
+
+    <!--    Input-->
+    <style name="Label">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+    </style>
+    <style name="Placeholder">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+    </style>
+<!--    Button/ Links-->
+    <style name="CTALinks">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="CTAsLarge">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="CTAsMedium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="CTAsSmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+    </style>
+
 </resources>
