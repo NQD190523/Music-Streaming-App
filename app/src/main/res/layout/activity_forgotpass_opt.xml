@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/ForgotPassOpt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingHorizontal="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_arrow_16_left" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/Heading3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Verify Your Email"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="177dp"
+            android:layout_height="177dp"
+            android:src="@drawable/pass"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/verify_email"
+            android:textColor="@color/white"
+            style="@style/Body1Bold"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="46dp"
+                android:layout_height="48dp"
+                android:inputType="number"
+                android:maxLength="1"
+                style="@style/Heading3"
+                android:gravity="center"
+                android:background="@drawable/edittext_background"
+                android:padding="10dp"
+                android:layout_margin="5dp" />
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="46dp"
+                android:layout_height="48dp"
+                android:inputType="number"
+                android:maxLength="1"
+                android:background="@drawable/edittext_background"
+                style="@style/Heading3"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_margin="5dp" />
+
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="46dp"
+                android:layout_height="48dp"
+                android:inputType="number"
+                android:maxLength="1"
+                android:background="@drawable/edittext_background"
+                style="@style/Heading3"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_margin="5dp" />
+
+            <EditText
+                android:id="@+id/editText4"
+                android:layout_width="46dp"
+                android:layout_height="48dp"
+                android:inputType="number"
+                android:background="@drawable/edittext_background"
+                android:maxLength="1"
+                style="@style/Heading3"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_margin="5dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvResendCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resend Code"
+            android:textColor="@color/white"
+            style="@style/Body2"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"/>
+
+
+        <Button
+            android:id="@+id/btnVerify"
+            android:layout_width="290dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:text="Verify"
+            android:textColor="@color/white"
+            style="@style/CTAsMedium"
+            android:background="@drawable/rounded_button"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp" />
+
+    </LinearLayout>
+</RelativeLayout>
