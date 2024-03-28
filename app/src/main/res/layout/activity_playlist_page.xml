@@ -52,7 +52,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_marginRight="@dimen/dp_16"
-                            android:background="@drawable/round_btn"
+                            android:background="@drawable/btn_round"
                             android:drawablePadding="30dp"
                             android:gravity="center"
                             android:src="@drawable/ic_play_16_filled" />
