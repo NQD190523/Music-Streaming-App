@@ -82,7 +82,7 @@ class GoogleLoginActivity : AppCompatActivity() {
     }
     private fun navigateToMainScreen() {
         // Chuyển hướng đến màn hình chính hoặc màn hình tiếp theo sau khi đăng nhập thành công
-        intent = Intent(this, MediaActivity::class.java)
+        intent = Intent(this, ActivityHome::class.java)
         startActivity(intent)
     }
 }

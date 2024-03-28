@@ -22,7 +22,7 @@ object SpotifyAuthClient {
         .addConverterFactory(GsonConverterFactory.create())
         .client(httpClient)
         .build()
-    private val apiService = retrofit.create(SpotifyApiService::class.java)
+    private val authService = retrofit.create(SpotifyApiService::class.java)
 
 
     fun requestAccessToken( callback: Callback){

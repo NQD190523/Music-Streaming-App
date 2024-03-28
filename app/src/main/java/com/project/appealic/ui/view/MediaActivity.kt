@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
+import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import com.project.appealic.R
 import com.project.appealic.data.model.AccessTokenRespone
@@ -33,6 +34,7 @@ class MediaActivity: AppCompatActivity() {
     private lateinit var player : ExoPlayer
     private  val viewModel: PlayerViewModel by viewModels()
     private lateinit var spotifyAuthViewModel: SpotifyAuthViewModel
+    private lateinit var spotifyViewModel: SpotifyViewModel
 
     val apiService = RetrofitClient.createSpotifyApiService()
 
@@ -43,6 +45,9 @@ class MediaActivity: AppCompatActivity() {
 
 
         spotifyAuthViewModel= ViewModelProvider(this).get(SpotifyAuthViewModel::class.java)
+        spotifyViewModel = ViewModelProvider(this).get(SpotifyViewModel::class.java)
+
+
         spotifyAuthViewModel.requestAccessToken()
         spotifyAuthViewModel.accessToken.observe(this, Observer {
             token->
@@ -64,11 +69,6 @@ class MediaActivity: AppCompatActivity() {
                         println("Response: $responseBody")
                         val spotifyTrackUrl = "https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl/audio"
                         val source = Gson().fromJson(responseBody, Track::class.java)
-                        val mediaUri = Uri.parse(source.external_urls.spotify)
-                        
-                        runOnUiThread {
-                            viewModel.prepareMedia(mediaUri)
-                        }
                     } else {
                         println("Request failed with code: ${response.code}")
                     }
@@ -79,9 +79,18 @@ class MediaActivity: AppCompatActivity() {
                 }
             })
         })
+        val storageReference = FirebaseStorage.getInstance().reference.child("gs://music-streaming-app-f668e.appspot.com/HayTraoChoAnh-SonTungMTPSnoopDogg-6010660.mp3")
+        storageReference.downloadUrl.addOnSuccessListener { uri ->
+            // Lấy URL công khai thành công
+            val audioUrl = uri.toString()
+         // Sử dụng audioUrl để phát lại audio bằng ExoPlayer hoặc thư viện phát âm thanh khác
+        }.addOnFailureListener { exception ->
+            // Xử lý khi không thể lấy URL của audio
+        }
 
         viewModel.initializePlayer(this)
         player = viewModel.player!!
+
         binding.play.setOnClickListener(View.OnClickListener {
             if (player.isPlaying) {
                 player.pause()

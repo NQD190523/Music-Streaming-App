@@ -1,37 +1,51 @@
 package com.project.appealic.ui.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
-import com.project.appealic.data.model.Track
-import com.project.appealic.data.network.SpotifyApiService
+import com.project.appealic.data.model.AccessTokenRespone
+import com.project.appealic.data.model.Album
+import com.project.appealic.data.network.SpotifyAuthClient
 import com.project.appealic.data.repository.SpotifyRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import java.io.IOException
 
-class SpotifyViewModel(private val spotifyApiService: SpotifyApiService) : ViewModel() {
+class SpotifyViewModel(private val spotifyRepository: SpotifyRepository) : ViewModel() {
 
-    fun searchTrack(token : String ,query : String){
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = spotifyApiService.searchTrack(token, query,"single",1)
-            } catch (e :Exception) {
-                println(e)
+    private val _accessToken = MutableLiveData<String>()
+    val accessToken: LiveData<String>
+        get() = _accessToken
+
+    private val _album = MutableLiveData<Album>()
+    val album: LiveData<Album>
+        get() = _album
+
+
+    private val _authError = MutableLiveData<String>()
+    val authError: LiveData<String>
+        get() = _authError
+
+
+    fun getAlbum(accessToken : String, albumId : String) {
+        spotifyRepository.getAlbum(accessToken,albumId, object : Callback{
+            override fun onFailure(call: Call, e: IOException) {
+                _authError.postValue("Failed to get album")
+                e.printStackTrace()
             }
-        }
+
+            override fun onResponse(call: Call, response: Response) {
+                if(response.isSuccessful){
+                    val album = response.body?.string()
+                    val albumProject = Gson().fromJson(album,Album::class.java)
+                    _album.postValue(albumProject)
+                }
+            }
+
+        })
     }
 
-//    fun connectToSpotify(context: Context){
-//        repository.connectToSpotify(context)
-//    }
-//
-//    fun disconnectFromSpotify(){
-//        repository.disconnectFromSpotify()
-//    }
 }
 

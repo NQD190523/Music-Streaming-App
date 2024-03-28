@@ -3,6 +3,8 @@ package com.project.appealic.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
+import com.project.appealic.data.model.AccessTokenRespone
 import com.project.appealic.data.network.SpotifyAuthClient
 import okhttp3.Callback
 
@@ -24,7 +26,9 @@ class SpotifyAuthViewModel : ViewModel() {
                     if (token != null) {
                         println("access token : $token")
                     }
-                    _accessToken.postValue(token)
+                    val tokenObject = Gson().fromJson(token, AccessTokenRespone::class.java)
+                    val accessToken = tokenObject.accessToken
+                    _accessToken.postValue(accessToken)
                 } else {
                     // Handle error response
                     _authError.postValue("Failed to get access token")

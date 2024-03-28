@@ -80,6 +80,7 @@ dependencies {
     
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
 
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -90,6 +91,8 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.4.0-alpha10")
 
     implementation("io.coil-kt:coil:2.6.0")
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
