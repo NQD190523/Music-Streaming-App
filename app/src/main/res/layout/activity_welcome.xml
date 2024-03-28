@@ -52,8 +52,7 @@
                     android:layout_margin="20dp"
                     android:text="Welcome"
                     android:textColor="#ffffff"
-                    android:textSize="50sp"
-                    android:textStyle="bold" />
+                    style="@style/Heading2" />
 
                 <TextView
                     android:id="@+id/txtWelcome2"
@@ -68,7 +67,7 @@
                     android:id="@+id/btnContinue"
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
-                    android:layout_margin="16dp"
+                    android:layout_margin="18dp"
                     android:background="@drawable/rounded_button"
                     android:text="Continue"
                     android:textSize="20sp"
