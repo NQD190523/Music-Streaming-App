@@ -9,8 +9,10 @@
     android:layout_margin="8dp">
 
     <ImageView
+        android:id="@+id/rrBanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/imagecart" />
+        android:src="@drawable/imagecart"
+        android:scaleType="centerCrop" />
 
 </androidx.cardview.widget.CardView>
