@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Appealic"
         tools:targetApi="31">
         <activity
-            android:name=".ActivityAccount"
+            android:name=".ActivityHome"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Appealic">
@@ -25,6 +25,9 @@
         </activity>
         <activity android:name=".ui.view.GoogleLoginActivity" />
         <activity android:name=".ui.view.Activity_welcome"/>
+        <activity android:name=".ActivitySearch"/>
+        <activity android:name=".ActivityLibrary"/>
+        <activity android:name=".ActivityProfile"/>
     </application>
 
 </manifest>

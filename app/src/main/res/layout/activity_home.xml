@@ -189,10 +189,6 @@
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/radius_background"
         android:layout_marginBottom="0dp"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
         app:menu="@menu/nav_menu" />
-
 </RelativeLayout>

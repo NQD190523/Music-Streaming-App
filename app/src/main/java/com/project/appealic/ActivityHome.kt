@@ -1,9 +1,14 @@
 package com.project.appealic
 
+import ActivityLibrary
 import SongAdapter
+import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,7 +28,8 @@ class ActivityHome : AppCompatActivity() {
 
         // Initialize and configure the RecyclerView for banner
         val recyclerViewBanner = findViewById<RecyclerView>(R.id.rrBanner)
-        recyclerViewBanner.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewBanner.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewBanner.adapter = bannerAdapter
 
 
@@ -44,7 +50,8 @@ class ActivityHome : AppCompatActivity() {
 
 // Load top artists
         val recyclerViewArtists: RecyclerView = findViewById(R.id.recyclerViewArtist)
-        recyclerViewArtists.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewArtists.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         val artists = listOf(
             Artist("Artist 1", R.drawable.artist1),
             Artist("Artist 2", R.drawable.artist2),
@@ -56,26 +63,36 @@ class ActivityHome : AppCompatActivity() {
 
 
 
-//        Load bottom bar
-        val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
-        bottomNavigation.setOnNavigationItemSelectedListener { item ->
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.bottom_nav_icon_selector))
+
+
+
+        // Cập nhật icon được chọn dựa trên Activity hiện tại
+        bottomNavigationView.selectedItemId = R.id.navigation_home
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    // Handle Home item selection
+                    // Đã ở trang Home, không cần chuyển đổi
                     true
                 }
                 R.id.navigation_search -> {
-                    // Handle Search item selection
+                    val intent = Intent(this, ActivitySearch::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.navigation_library -> {
-                    // Handle Library item selection
+                    val intent = Intent(this, ActivityLibrary::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.navigation_profile -> {
-                    // Handle Profile item selection
+                    val intent = Intent(this, ActivityProfile::class.java)
+                    startActivity(intent)
                     true
                 }
+                // Thêm các case khác cho các mục khác
                 else -> false
             }
         }

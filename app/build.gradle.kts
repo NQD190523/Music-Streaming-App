@@ -89,4 +89,7 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.5.2")
     implementation("me.relex:circleindicator:2.1.6@aar")
     implementation("de.hdodenhof:circleimageview:2.2.0")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation ("com.google.android.material:material:1.5.0")
+
 }
