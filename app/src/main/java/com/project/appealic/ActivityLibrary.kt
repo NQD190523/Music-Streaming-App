@@ -1,9 +1,10 @@
+package com.project.appealic
+
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.project.appealic.R
 import com.project.appealic.ui.view.Adapters.BannerAdapter
 
 class ActivityLibrary : AppCompatActivity() {

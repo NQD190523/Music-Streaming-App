@@ -1,13 +1,10 @@
 package com.project.appealic
 
-import ActivityLibrary
 import SongAdapter
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
