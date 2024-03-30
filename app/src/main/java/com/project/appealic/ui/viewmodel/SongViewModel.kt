@@ -20,15 +20,17 @@ class SongViewModel(private val songRepository: SongRepository) : ViewModel() {
     private val _artists = MutableLiveData<Artist>()
     val artists: LiveData<Artist> get() = _artists
 
-    init {
-        loadSongs()
+    fun getAllTracks(){
+        songRepository.getAllTrack()
+            .addOnSuccessListener { tracks ->
+                    if(tracks != null) _tracks.postValue(tracks.toObjects(Track::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.e("error",exception.toString())
+            }
     }
 
-    private fun loadSongs() {
-        songRepository.getAllTrack { tracks ->
-            _tracks.postValue(tracks)
-        }
-    }
+
 
     fun getArtists(artistId : String){
         songRepository.getArtist(artistId)

@@ -11,6 +11,9 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+#-keepclassmembers class com.project.appealic.data.model.Artist {
+#    public <init>();
+#}
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.

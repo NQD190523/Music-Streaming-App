@@ -53,9 +53,11 @@ class MediaActivity: AppCompatActivity() {
 
         val factory = SongViewModelFactory(songRepository )
         songViewModel = ViewModelProvider(this,factory).get(SongViewModel::class.java)
-        songViewModel.artists.observe(this, Observer { artist->
-            Log.i("info", artist.name)
+        songViewModel.getAllTracks()
+        songViewModel.tracks.observe(this, Observer { tracks ->
+            Log.d("info", tracks.toString())
         })
+
 
 
 //        spotifyAuthViewModel= ViewModelProvider(this).get(SpotifyAuthViewModel::class.java)
