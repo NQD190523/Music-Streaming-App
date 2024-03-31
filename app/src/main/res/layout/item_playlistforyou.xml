@@ -12,32 +12,29 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/imvPhoto"
+            android:id="@+id/imvPlaylist"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:src="@drawable/song1"
             android:scaleType="centerCrop" />
 
         <TextView
-            android:id="@+id/txtSongName"
+            android:id="@+id/txtPlaylistName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Song Name"
+            android:text="Acoustic Love"
             android:textColor="@color/white"
             style="@style/Body1Bold"/>
 
 
         <TextView
-            android:id="@+id/txtSinger"
+            android:id="@+id/txtPlaylistSigner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Artist Name"
+            android:text="Kina Grannis, KaJot, Justin Bieber, ..."
             android:textColor="@color/subText"
             style="@style/Body2"/>
 
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
-
-
-

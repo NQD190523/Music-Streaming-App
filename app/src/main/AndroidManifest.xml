@@ -30,6 +30,7 @@
         <activity android:name=".ui.view.ActivityLibrary"/>
         <activity android:name=".ui.view.ActivityProfile"/>
         <activity android:name=".ui.view.MediaActivity"/>
+        <activity android:name=".ui.view.ActivityPlaylist" />
     </application>
 
 </manifest>

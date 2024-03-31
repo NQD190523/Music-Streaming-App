@@ -1,7 +1,9 @@
 package com.project.appealic.ui.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -9,6 +11,7 @@ import com.project.appealic.R
 import com.project.appealic.ui.view.Adapters.BannerAdapter
 
 class ActivityLibrary : AppCompatActivity() {
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,25 +32,27 @@ class ActivityLibrary : AppCompatActivity() {
         recyclerViewBanner.adapter = bannerAdapter
 
 
-        // Load bottom bar
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigation.selectedItemId = R.id.navigation_library
-        bottomNavigation.setOnNavigationItemSelectedListener { item ->
+        // Cấu hình BottomNavigationView
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigationView.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.bottom_nav_icon_selector))
+        bottomNavigationView.selectedItemId = R.id.navigation_library
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    // Handle Home item selection
+                    val intent = Intent(this, ActivityHome::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.navigation_search -> {
-                    // Handle Search item selection
+                    val intent = Intent(this, ActivitySearch::class.java)
+                    startActivity(intent)
                     true
                 }
-                R.id.navigation_library -> {
-                    // Handle Library item selection (already selected)
+                R.id.navigation_library ->
                     true
-                }
                 R.id.navigation_profile -> {
-                    // Handle Profile item selection
+                    val intent = Intent(this, ActivityProfile::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false

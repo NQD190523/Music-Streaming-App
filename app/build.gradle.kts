@@ -84,7 +84,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    
+
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
@@ -117,5 +117,7 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:2.2.0")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
     implementation ("com.google.android.material:material:1.5.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
 
 }
