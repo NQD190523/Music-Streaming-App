@@ -3,6 +3,7 @@ package com.project.appealic.ui.view
 import SongAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -42,6 +43,11 @@ class ActivityHome : AppCompatActivity() {
         val factory = SongViewModelFactory(songRepository )
         songViewModel = ViewModelProvider(this,factory).get(SongViewModel::class.java)
         songViewModel.getAllArtists()
+        songViewModel.getAllTracks()
+
+        songViewModel.tracks.observe(this, Observer{
+            tracks->
+        })
 
 
 // Load top songs
@@ -65,8 +71,10 @@ class ActivityHome : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         songViewModel.artists.observe(this, Observer { artists ->
+            val listArtist : ArrayList<Artist> = ArrayList()
             for (artist in artists){
-                val listArtist = listOf( Artist(artist.Bio,artist.Name,artist.albums,artist.ImageResource))
+                listArtist.add(Artist(artist.Bio,artist.Name,artist.albums,artist.ImageResource))
+                Log.d("info", listArtist.toString())
                 val artistAdapter = ArtistAdapter(this,listArtist)
                 recyclerViewArtists.adapter = artistAdapter
             }
