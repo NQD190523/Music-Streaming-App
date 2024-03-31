@@ -44,4 +44,12 @@ class SongViewModel(private val songRepository: SongRepository) : ViewModel() {
             }
     }
 
+    fun getTrackFromGenres(genre :String){
+        songRepository.getAllTrack()
+            .addOnSuccessListener { tracks ->
+                val genreTrack = tracks.documents.filter { it.toObject(Track::class.java)?.genre == genre }
+                _tracks.postValue(genreTrack.map { it.toObject(Track::class.java)!! })
+            }
+    }
+
 }

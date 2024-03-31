@@ -17,8 +17,10 @@ class SongRepository {
 
     fun getAllTrack(): Task<QuerySnapshot> {
         return db.collection("tracks").get()
-
     }
+//    fun getTracksFromGenren() : Task<DocumentSnapshot>{
+//        return db.collection("tracks").document("genre").get()
+//    }
 
     fun getAllArtist(): Task<QuerySnapshot>{
         return db.collection("artists").get()
