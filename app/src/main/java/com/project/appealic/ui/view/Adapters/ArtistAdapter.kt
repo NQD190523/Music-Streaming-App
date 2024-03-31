@@ -1,7 +1,6 @@
 package com.project.appealic.ui.view.Adapters
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
