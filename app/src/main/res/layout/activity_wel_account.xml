@@ -10,6 +10,7 @@
         android:layout_height="wrap_content">
 
         <FrameLayout
+            android:id="@+id/frameLayoutprofile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -36,14 +37,16 @@
         android:id="@+id/newContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/background_linear"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:layout_below="@id/nestedScrollView">
+        android:visibility="gone">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            style="@style/Heading3"
+            android:textColor="@color/white"
             android:text="Profile"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,50 +56,63 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="120dp"
                 android:layout_height="120dp"
+                android:layout_marginStart="16dp"
                 android:src="@drawable/img"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/sp_12"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Gia"
+                    style="@style/Body1Bold"
                     android:textColor="#FFFFFF"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Email:"
+                    style="@style/Body2"
                     android:textColor="#FFFFFF"/>
             </LinearLayout>
         </LinearLayout>
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="22dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Edit Profile"
-            android:textColor="#FFFFFF"/>
-
+            style="@style/Label"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:background="@drawable/button_color_white"
+            />
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/ll_Info_Account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_below="@id/newContent"
+        android:layout_marginTop="176dp"
+        android:background="@drawable/radius_background"
         android:clickable="true"
         android:focusable="true"
-        android:background="@drawable/radius_background"
-    android:layout_below="@id/newContent">
-    <TextView
-        android:layout_width="190dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Update Account "
-        android:textColor="#FBFAFA"
-        />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="190dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Update Account "
+            android:textColor="#FBFAFA" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -113,181 +129,199 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="151dp"
+                android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:src="@drawable/update_standard"
-                android:layout_marginStart="16dp" />
+                android:src="@drawable/update_standard" />
 
         </LinearLayout>
+
         <TextView
             android:layout_width="75dp"
             android:layout_height="22dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Personal"
-            android:textColor="#FBFAFA"/>
+            android:textColor="#FBFAFA" />
+
         <LinearLayout
+            android:id="@+id/ll_Profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="15dp"
-            android:id="@+id/ll_Profile">
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/sp_12"
-                android:src="@drawable/ic_info_20_outlined"/>
+                android:src="@drawable/ic_info_20_outlined" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Profile"
                 android:layout_marginStart="10dp"
                 android:layout_weight="10"
-                android:textColor="@color/white"/>
+                android:text="Profile"
+                android:textColor="@color/white" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_16_right"
-                android:backgroundTint="@color/white" />
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_arrow_16_right" />
         </LinearLayout>
 
         <!-- Divider View -->
         <View
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
             android:layout_height="1dp"
+            android:layout_marginTop="20dp"
             android:background="#4DFFFFFF" />
 
         <LinearLayout
+            android:id="@+id/ll_Account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="15dp"
-            android:id="@+id/ll_Account">
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/sp_12"
-                android:src="@drawable/ic_person_20_outlined"/>
+                android:src="@drawable/ic_person_20_outlined" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="10"
                 android:text="Account"
-                android:layout_marginStart="10dp"
-                android:layout_weight="10"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_16_right"
-                android:backgroundTint="@color/white" />
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_arrow_16_right" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
             android:layout_height="1dp"
+            android:layout_marginTop="20dp"
             android:background="#4DFFFFFF" />
 
         <LinearLayout
+            android:id="@+id/ll_Theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="15dp"
-            android:id="@+id/ll_Theme">
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/sp_12"
-                android:src="@drawable/ic_person_20_outlined"/>
+                android:src="@drawable/ic_person_20_outlined" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="10"
                 android:text="Theme"
-                android:layout_marginStart="10dp"
-                android:layout_weight="10"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_16_right"
-                android:backgroundTint="@color/white" />
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_arrow_16_right" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
             android:layout_height="1dp"
+            android:layout_marginTop="20dp"
             android:background="#4DFFFFFF" />
 
         <LinearLayout
+            android:id="@+id/ll_Contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="15dp"
-            android:id="@+id/ll_Contact">
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/sp_12"
-                android:src="@drawable/ic_person_20_outlined"/>
+                android:src="@drawable/ic_person_20_outlined" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="10"
                 android:text="Contact"
-                android:layout_marginStart="10dp"
-                android:layout_weight="10"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_16_right"
-                android:backgroundTint="@color/white" />
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_arrow_16_right" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
             android:layout_height="1dp"
+            android:layout_marginTop="20dp"
             android:background="#4DFFFFFF" />
 
         <LinearLayout
+            android:id="@+id/ll_Legal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="15dp"
-            android:id="@+id/ll_Legal">
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/sp_12"
-                android:src="@drawable/ic_person_20_outlined"/>
+                android:src="@drawable/ic_person_20_outlined" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Legal"
                 android:layout_marginStart="10dp"
                 android:layout_weight="10"
-                android:textColor="@color/white"/>
+                android:text="Legal"
+                android:textColor="@color/white" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_16_right"
-                android:backgroundTint="@color/white" />
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_arrow_16_right" />
         </LinearLayout>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Log Out"/>
+            android:text="Log Out" />
     </LinearLayout>
+    </ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        app:menu="@menu/nav_menu" />
 
-<com.google.android.material.bottomnavigation.BottomNavigationView
-android:id="@+id/bottom_navigation"
-android:layout_width="match_parent"
-android:layout_height="61dp"
-android:layout_alignParentBottom="true"
-android:background="@drawable/radius_background"
-android:layout_marginBottom="0dp"
-app:itemIconTint="@color/white"
-app:itemTextColor="@color/white"
-app:menu="@menu/nav_menu" />
-
-    </RelativeLayout>
+</RelativeLayout>

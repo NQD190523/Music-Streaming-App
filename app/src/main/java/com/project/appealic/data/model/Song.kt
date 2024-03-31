@@ -1,4 +1,4 @@
 package com.project.appealic.data.model
 
-class Song(val photoId: Int, val songName: String, val singer: String) {
+class Song(val photoId: String?, val songName: String, val singer: String) {
 }

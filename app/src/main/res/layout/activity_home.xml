@@ -58,8 +58,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="20dp"
-        android:paddingHorizontal="20dp">
+        android:paddingStart="10dp"
+        android:paddingTop="20dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -78,6 +78,7 @@
                     android:layout_marginTop="35dp" />
 
                 <LinearLayout
+                    android:id="@+id/llNewRelease"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -86,9 +87,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="New Release"
                         android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:text="New Release" />
+                        android:textSize="20dp" />
 
                     <LinearLayout
                         android:layout_width="300dp"
@@ -100,10 +101,10 @@
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
+                            android:background="@drawable/rounded_button"
                             android:text="View All"
-                            android:textSize="8dp"
                             android:textColor="@color/white"
-                            android:background="@drawable/rounded_button" />
+                            android:textSize="8dp" />
 
                         <Button
                             android:id="@+id/btnVietnam"
@@ -111,10 +112,10 @@
                             android:layout_height="40dp"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1"
+                            android:background="@drawable/button_color_white"
                             android:text="Viet Nam"
-                            android:textSize="8dp"
                             android:textColor="@color/white"
-                            android:background="@drawable/button_color_white" />
+                            android:textSize="8dp" />
 
                         <Button
                             android:layout_width="15dp"
@@ -128,73 +129,77 @@
 
                     </LinearLayout>
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="325dp"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <ListView
+                        android:id="@+id/lvNewRelease"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:textColor="@color/white"
-                        android:id="@+id/lvTopSong"/>
+                        android:textColor="@color/white" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/recentlyPlayed"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="230dp"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/Heading4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:text="Recently Played" />
+                        android:text="Recently Played"
+                        android:textColor="@color/white" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/RecentlyViewSong"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scrollbars="horizontal" />
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/ArtistForYou"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="185dp"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/Heading4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:text="Your Favourite Artists" />
+                        android:text="Your Favourite Artists"
+                        android:textColor="@color/white" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewArtist"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:scrollbars="horizontal" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/PlaylistforYou"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="245dp"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/Heading4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        style="@style/Body1"
                         android:text="Playlists For You"
+                        android:textColor="@color/white" />
 
-                        />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/PlaylistforYouRecyclerView"
                         android:layout_width="match_parent"
