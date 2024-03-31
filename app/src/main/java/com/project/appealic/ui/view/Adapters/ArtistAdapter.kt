@@ -25,13 +25,13 @@ class ArtistAdapter(private val context: Context, private val artists: List<Arti
 
         private val storage =Firebase.storage
     class ArtistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val artistImageView: ImageView = itemView.findViewById(R.id.artistImageView)
-        val artistNameTextView: TextView = itemView.findViewById(R.id.artistNameTextView)
+        val artistImageView: ImageView = itemView.findViewById(R.id.imvPhotoArtist)
+        val artistNameTextView: TextView = itemView.findViewById(R.id.txtArtistName)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.artist_card_item,
+            R.layout.item_artist,
             parent,
             false
         )

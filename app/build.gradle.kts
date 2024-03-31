@@ -60,7 +60,7 @@ android {
 dependencies {
 
     implementation ("com.github.bumptech.glide:glide:4.16.0")
-    ksp ("com.github.bumptech.glide:ksp:4.16.0")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.firebaseui:firebase-ui-storage:7.2.0")
 
 

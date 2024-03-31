@@ -75,7 +75,7 @@
                     android:id="@+id/rrBanner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp" />
+                    android:layout_marginTop="35dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -176,6 +176,27 @@
                         android:text="Your Favourite Artists" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewArtist"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="horizontal" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/PlaylistforYou"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        style="@style/Body1"
+                        android:text="Playlists For You"
+
+                        />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/PlaylistforYouRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scrollbars="horizontal" />
