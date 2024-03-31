@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.google.firebase.firestore.toObject
+import com.google.firebase.firestore.toObjects
 import com.project.appealic.data.model.Artist
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.AuthRepository
@@ -17,8 +18,8 @@ class SongViewModel(private val songRepository: SongRepository) : ViewModel() {
     private val _tracks = MutableLiveData<List<Track>>()
     val tracks: LiveData<List<Track>> get() = _tracks
 
-    private val _artists = MutableLiveData<Artist>()
-    val artists: LiveData<Artist> get() = _artists
+    private val _artists = MutableLiveData<List<Artist>>()
+    val artists: LiveData<List<Artist>> get() = _artists
 
     fun getAllTracks(){
         songRepository.getAllTrack()
@@ -32,11 +33,11 @@ class SongViewModel(private val songRepository: SongRepository) : ViewModel() {
 
 
 
-    fun getArtists(artistId : String){
-        songRepository.getArtist(artistId)
-            .addOnSuccessListener { document ->
-                if(document != null)
-                    _artists.postValue(document.toObject(Artist::class.java))
+    fun getAllArtists(){
+        songRepository.getAllArtist()
+            .addOnSuccessListener { artists ->
+                if(artists!= null)
+                    _artists.postValue(artists.toObjects(Artist::class.java))
             }
             .addOnFailureListener { exception->
                 Log.e("error" , exception.toString())

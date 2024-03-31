@@ -20,7 +20,7 @@ class SongRepository {
 
     }
 
-    fun getArtist(artistId : String): Task<DocumentSnapshot>{
-        return db.collection("artists").document(artistId).get()
+    fun getAllArtist(): Task<QuerySnapshot>{
+        return db.collection("artists").get()
     }
 }

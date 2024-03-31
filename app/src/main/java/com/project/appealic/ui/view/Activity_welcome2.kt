@@ -1,10 +1,9 @@
+package com.project.appealic.ui.view
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.project.appealic.Activity_Signin
-import com.project.appealic.Activiy_Singup
 import com.project.appealic.databinding.ActivityWelcome2Binding
-import com.project.appealic.databinding.ActivityWelcomeBinding
 
 class Activity_welcome2 : AppCompatActivity() {
 

@@ -1,0 +1,8 @@
+<!-- res/drawable/checkbox_border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"> <!-- Sử dụng oval để vẽ hình tròn -->
+    <stroke
+        android:width="0.5dp"
+        android:color="#888888" />
+    <size android:width="24dp" android:height="24dp"/> <!-- Kích thước của checkbox -->
+</shape>

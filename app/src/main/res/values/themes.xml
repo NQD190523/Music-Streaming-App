@@ -5,6 +5,9 @@
 
         <item name="windowNoTitle">true</item>   <!-- Đặt giá trị này thành true để ẩn tiêu đề của cửa sổ -->
 
+        <item name="windowActionBar">false</item> <!-- Đặt giá trị này thành false để ẩn Action Bar -->
+        <item name="windowNoTitle">true</item>   <!-- Đặt giá trị này thành true để ẩn tiêu đề của cửa sổ -->
+
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -14,14 +17,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
 
+
         <!-- Customize your theme here. -->
 <!--        <item name="android:fontFamily">@font/futura_bold</item>-->
 <!--        <item name="android:textSize">20sp</item>-->
 <!--        <item name="android:layout_gravity">center</item>-->
-    </style>
-
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <!--    bottom sheet dialog theme-->
@@ -33,11 +33,12 @@
     <!--    bottom sheet style-->
     <style name="AppModalStyle"
         parent="Widget.Design.BottomSheet.Modal">
-<!--        <item name="android:background">@drawable/custom_bottom_sheet</item>-->
     </style>
     <style name="DialogAnimation">
 
-<!--        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>-->
-<!--        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>-->
     </style>
+    <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="background">@color/dark</item>
+    </style>
+
 </resources>

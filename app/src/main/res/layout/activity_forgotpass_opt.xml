@@ -13,32 +13,30 @@
         android:paddingTop="20dp"
         android:paddingHorizontal="20dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:gravity="center_vertical">
+            android:paddingBottom="16dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_16_left"
-                android:layout_marginEnd="8dp" />
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_arrow_16_left" />
 
             <TextView
                 android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
+                style="@style/Heading3"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:text="Verify Your Email"
                 android:layout_marginStart="10dp"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_weight="1" />
+                android:text="Verify Your Email"
+                android:textColor="@color/white"
+                android:gravity="center"/>
 
-        </LinearLayout>
+        </RelativeLayout>
         <ImageView
             android:layout_width="177dp"
             android:layout_height="177dp"
@@ -50,7 +48,8 @@
             android:layout_height="wrap_content"
             android:text="@string/verify_email"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            style="@style/Body1Bold"
+            android:gravity="center"
             android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"/>
         <LinearLayout
@@ -67,7 +66,7 @@
                 android:layout_height="48dp"
                 android:inputType="number"
                 android:maxLength="1"
-                android:textSize="24sp"
+                style="@style/Heading3"
                 android:gravity="center"
                 android:background="@drawable/edittext_background"
                 android:padding="10dp"
@@ -80,7 +79,7 @@
                 android:inputType="number"
                 android:maxLength="1"
                 android:background="@drawable/edittext_background"
-                android:textSize="24sp"
+                style="@style/Heading3"
                 android:gravity="center"
                 android:padding="10dp"
                 android:layout_margin="5dp" />
@@ -92,7 +91,7 @@
                 android:inputType="number"
                 android:maxLength="1"
                 android:background="@drawable/edittext_background"
-                android:textSize="24sp"
+                style="@style/Heading3"
                 android:gravity="center"
                 android:padding="10dp"
                 android:layout_margin="5dp" />
@@ -104,7 +103,7 @@
                 android:inputType="number"
                 android:background="@drawable/edittext_background"
                 android:maxLength="1"
-                android:textSize="24sp"
+                style="@style/Heading3"
                 android:gravity="center"
                 android:padding="10dp"
                 android:layout_margin="5dp" />
@@ -112,11 +111,11 @@
 
         <TextView
             android:id="@+id/tvResendCode"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Resend Code"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            style="@style/Body2"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"/>
@@ -130,7 +129,7 @@
             android:layout_gravity="center"
             android:text="Verify"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            style="@style/CTAsMedium"
             android:background="@drawable/rounded_button"
             android:gravity="center"
             android:paddingStart="20dp"
