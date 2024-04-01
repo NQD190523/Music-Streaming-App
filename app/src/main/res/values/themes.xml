@@ -11,12 +11,17 @@
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorOnSurfaceInverse">@color/white</item>
+        <!-- Color for inactive items in BottomNavigationView (alternative) -->
+        <item name="colorControlNormal">@color/white</item>
 
         <!-- Customize your theme here. -->
 <!--        <item name="android:fontFamily">@font/futura_bold</item>-->
 <!--        <item name="android:textSize">20sp</item>-->
 <!--        <item name="android:layout_gravity">center</item>-->
     </style>
+
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>

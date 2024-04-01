@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="Library"
-                android:textSize="24sp"
+                style="@style/Heading2"
                 android:textStyle="bold"
                 android:layout_weight="1" />
 
@@ -39,6 +39,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rrBanner"
             android:layout_width="match_parent"
@@ -62,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        style="@style/Heading4"
         android:text="Recently Played" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -79,6 +80,9 @@
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:layout_alignParentBottom="true"
+        android:background="@color/dark"
         android:layout_marginBottom="0dp"
-        app:menu="@menu/nav_menu" />
+        app:itemIconSize="@dimen/dp_24"
+        app:menu="@menu/nav_menu"
+        app:itemTextAppearanceActive="@style/btn_nav"/>
 </RelativeLayout>

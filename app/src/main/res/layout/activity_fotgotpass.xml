@@ -13,61 +13,64 @@
         android:paddingTop="20dp"
         android:paddingHorizontal="20dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:gravity="center_vertical">
+            android:paddingBottom="16dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_16_left"
-                android:layout_marginEnd="8dp" />
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_arrow_16_left" />
 
             <TextView
                 android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
+                style="@style/Heading3"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:text="Forgot Password"
                 android:layout_marginStart="10dp"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_weight="1" />
+                android:text="Forgot Password"
+                android:textColor="@color/white"
+                android:gravity="center"/>
 
-        </LinearLayout>
+        </RelativeLayout>
+
         <ImageView
             android:layout_width="177dp"
             android:layout_height="177dp"
-            android:src="@drawable/pass"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_lock" />
+
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="275dp"
             android:layout_height="wrap_content"
             android:text="@string/forget_password"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            style="@style/Body1Bold"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email Address"
-            android:textColor="@color/white"
-            android:textSize="12sp"
+            android:text="@string/label_email"
+            android:textColor="@color/subText"
+            style="@style/Label"
             android:layout_marginTop="60dp"
             android:layout_marginStart="10dp"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter your email address"
-            android:textColorHint="@color/white"
+            android:textColorHint="@color/subText"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            style="@style/Placeholder"
             android:layout_marginTop="5dp"
             android:layout_marginStart="10dp"
             android:backgroundTint="@color/white" />
@@ -80,7 +83,7 @@
             android:layout_gravity="center"
             android:text="Send"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            style="@style/CTAsMedium"
             android:background="@drawable/rounded_button"
             android:gravity="center"
             android:paddingStart="20dp"

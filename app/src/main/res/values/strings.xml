@@ -28,6 +28,7 @@
 
     <!-- Forget Password -->
     <string name="forget_password">Please Enter Your Email Address To Receive a Verification Card</string>
+    <string name="label_email">Email Address</string>
     <string name="forger_forget">QUÊN\nMẬT KHẨU</string>
     <string name="new_pass">Your New Password Must Be Different from Previously Used Password</string>
     <string name="forget_send_otp">Gửi OTP</string>
@@ -38,7 +39,7 @@
     <string name="forget_confirm">Xác nhận</string>
 
     <!-- Phone OTP -->
-    <string name="verify_email">Please Enter The 4 Digit Code Sent To ......</string>
+    <string name="verify_email">Please Enter The 4 Digit Code Sent To nlgiakhanh2525@gmail.com</string>
     <string name="phoneotp_confirm">Xác nhận</string>
     <string name="phoneotp_guide">Nhập mã OTP vừa được gửi đến số điện thoại của bạn</string>
     <string name="phoneotp_no_otp">Không nhận được mã OTP?</string>

@@ -40,7 +40,7 @@
         <ImageView
             android:layout_width="177dp"
             android:layout_height="177dp"
-            android:src="@drawable/pass"
+            android:src="@drawable/ic_email_big"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"/>
         <TextView

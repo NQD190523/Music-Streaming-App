@@ -26,8 +26,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="Home"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                style="@style/Heading2"
                 android:layout_weight="1" />
 
             <ImageView
@@ -63,32 +62,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp" />
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    style="@style/Heading4"
+                    android:text="New Release" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:text="New Release" />
-
                     <LinearLayout
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
                         <Button
                             android:id="@+id/btnViewAll"
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:text="View All"
-                            android:textSize="8dp"
+                            style="@style/Caption"
                             android:textColor="@color/white"
                             android:background="@drawable/rounded_button" />
 
@@ -99,7 +95,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_weight="1"
                             android:text="Viet Nam"
-                            android:textSize="8dp"
+                            style="@style/Caption"
                             android:textColor="@color/white"
                             android:background="@drawable/button_color_white" />
 
@@ -111,7 +107,7 @@
                             android:background="@drawable/button_color_white"
                             android:text="International"
                             android:textColor="@color/white"
-                            android:textSize="8dp" />
+                            style="@style/Caption"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -141,7 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="20dp"
+                        style="@style/Heading4"
                         android:text="Recently Played" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewSong"
@@ -159,7 +155,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="20dp"
+                        style="@style/Heading4"
                         android:text="Your Favourite Artists" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewArtist"
@@ -178,8 +174,8 @@
         android:layout_alignParentBottom="true"
         android:background="@color/dark"
         android:layout_marginBottom="0dp"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:menu="@menu/nav_menu" />
+        app:itemIconSize="@dimen/dp_24"
+        app:menu="@menu/nav_menu"
+        app:itemTextAppearanceActive="@style/btn_nav"/>
 
 </RelativeLayout>
