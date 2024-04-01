@@ -66,7 +66,7 @@ class ActivityHome : AppCompatActivity() {
         // Xác định ListView
         listView = findViewById(R.id.lvNewRelease)
 
-        // Thiết lập OnItemClickListener cho ListView
+// Thiết lập OnItemClickListener cho ListView
         listView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 // Lấy dữ liệu của mục được chọn từ Adapter
@@ -77,15 +77,15 @@ class ActivityHome : AppCompatActivity() {
 
                 // Truyền dữ liệu cần thiết qua Intent
                 intent.putExtra("SONG_TITLE", selectedSong.trackTitle)
-                intent.putExtra("SINGER_NAME", selectedSong.artistId)
+                intent.putExtra("SINGER_NAME", selectedSong.artist)
                 intent.putExtra("SONG_NAME", selectedSong.trackTitle)
                 intent.putExtra("track_image", selectedSong.trackImage)
-
-
+                intent.putExtra("DURATION", selectedSong.duration) // Truyền thời lượng bài hát
 
                 // Bắt đầu ActivityPlaylist
                 startActivity(intent)
             }
+
 
         // Cấu hình BottomNavigationView
         bottomNavigationView = findViewById(R.id.bottom_navigation)
