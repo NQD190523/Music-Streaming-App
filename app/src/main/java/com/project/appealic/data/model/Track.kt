@@ -1,12 +1,14 @@
 package com.project.appealic.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.project.appealic.data.model.Album
 import com.project.appealic.data.model.Artist
 import com.project.appealic.data.model.ExternalIds
 import com.project.appealic.data.model.ExternalUrlsXXX
-
+@Entity
 data class Track(
-    val albumId: String? =null,
+    @PrimaryKey val albumId: String? = null,
     val artistId: String? =null,
     val artist : String? = null,
     val duration: Int? =null,

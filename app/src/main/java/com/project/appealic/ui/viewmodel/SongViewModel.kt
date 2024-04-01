@@ -31,8 +31,6 @@ class SongViewModel(private val songRepository: SongRepository) : ViewModel() {
             }
     }
 
-
-
     fun getAllArtists(){
         songRepository.getAllArtist()
             .addOnSuccessListener { artists ->

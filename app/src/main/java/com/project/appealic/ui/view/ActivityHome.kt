@@ -75,6 +75,7 @@ class ActivityHome : AppCompatActivity() {
                 // Tạo Intent để chuyển sang ActivityPlaylist
                 val intent = Intent(this, ActivityPlaylist::class.java)
 
+
                 // Truyền dữ liệu cần thiết qua Intent
                 intent.putExtra("SONG_TITLE", selectedSong.trackTitle)
                 intent.putExtra("SINGER_NAME", selectedSong.artistId)
