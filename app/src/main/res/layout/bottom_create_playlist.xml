@@ -43,8 +43,6 @@
                 android:background="@drawable/btn_rounded_gray"
                 >
 
-
-
             </FrameLayout>
 
             <TextView
@@ -137,8 +135,7 @@
                     android:text="Playlist 1"
                     android:textSize="19sp"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/inter_bold"
+                    style="@style/Body1Bold"
                     />
 
                 <TextView
