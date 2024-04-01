@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
@@ -134,12 +135,37 @@ class ActivityPlaylist : AppCompatActivity() {
         // Xử lý khi nhấn nút Download
     }
 
+
     private fun handleMoreButtonClick() {
         // Tạo BottomSheetDialog
         val bottomSheetDialog = BottomSheetDialog(this)
 
         // Inflate layout cho dialog
         val view = layoutInflater.inflate(R.layout.botton_more_action, null)
+
+
+        // Lấy dữ liệu từ Intent và hiển thị trên giao diện playlist
+        val songTitle = intent.getStringExtra("SONG_TITLE")
+        val artistName = intent.getStringExtra("SINGER_NAME")
+        val trackImage = intent.getStringExtra("track_image")
+
+        // Sử dụng view để tìm các thành phần UI trong playlist layout
+        val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
+        txtSongName.text = songTitle
+
+        val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
+        txtSinger.text = artistName
+
+        val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
+
+        // Load hình ảnh sử dụng Glide
+        trackImage?.let { imageUrl ->
+            val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
+
+            Glide.with(this)
+                .load(storageReference)
+                .into(songImageView)
+        }
 
         // Đặt hình nền có đường viền bo tròn cho dialog
         val window = bottomSheetDialog.window
