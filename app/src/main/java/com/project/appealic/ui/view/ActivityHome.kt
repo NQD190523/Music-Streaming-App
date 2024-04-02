@@ -3,6 +3,7 @@ package com.project.appealic.ui.view
 import SongAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.AdapterView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
@@ -12,9 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
+import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.SongRepository
+import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
@@ -32,7 +37,7 @@ class ActivityHome : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         // Khởi tạo SongViewModel
-        val factory = SongViewModelFactory(SongRepository())
+        val factory = SongViewModelFactory(SongRepository(application), UserRepository(application))
         songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
 
         // Khởi tạo và cấu hình RecyclerView cho banner
@@ -71,6 +76,22 @@ class ActivityHome : AppCompatActivity() {
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 // Lấy dữ liệu của mục được chọn từ Adapter
                 val selectedSong = parent.getItemAtPosition(position) as Track
+
+                //lưu bài hát vừa mở vào database của thiết bị
+                val user = FirebaseAuth.getInstance().currentUser?.uid
+                val song =
+                    selectedSong.trackId?.let { SongEntity(it,selectedSong.trackImage,selectedSong.trackTitle,selectedSong.artist,user,null,System.currentTimeMillis()) }
+                if (song != null) {
+                    songViewModel.insertSong(song)
+                    Log.d(" test status", "success")
+                }
+
+                //lấy dữ liệu vài hát vừa nghẻ được lưu ra
+                if (user != null) {
+                    val info = songViewModel.getRecentSongs(user).observe(this,Observer{ song ->
+                        Log.d("info", song.toString())
+                    })
+                }
 
                 // Tạo Intent để chuyển sang ActivityPlaylist
                 val intent = Intent(this, ActivityPlaylist::class.java)

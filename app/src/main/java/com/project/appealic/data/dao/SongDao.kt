@@ -6,15 +6,11 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.project.appealic.data.model.SongEntity
-import com.project.appealic.data.model.UserEntity
-
 @Dao
-interface UserDao {
-    @Query("SELECT * FROM userentity WHERE uid = :uid ")
-    fun getUserData(uid : String) : LiveData<UserEntity>
+interface SongDao {
+    @Query("SELECT * FROM songentity WHERE userId = :userId ORDER BY listenedAt DESC")
+    fun getRecentSongs(userId: String): LiveData<List<SongEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(user : UserEntity )
-
-
+    fun insertSong(song: SongEntity)
 }

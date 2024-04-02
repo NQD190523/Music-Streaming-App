@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.data.dao.UserDao
 import com.project.appealic.data.database.AppDatabase
+import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.UserEntity
 
 class UserRepository(application: Application) {
@@ -25,4 +26,6 @@ class UserRepository(application: Application) {
     suspend fun insert(user : UserEntity){
         userDao.insert(user)
     }
+
+
 }
