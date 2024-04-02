@@ -26,9 +26,6 @@
         </activity>
         <activity android:name=".ui.view.GoogleLoginActivity" />
         <activity android:name=".ui.view.Activity_welcome"/>
-        <activity android:name=".ui.view.ActivitySearch"/>
-        <activity android:name=".ui.view.ActivityLibrary"/>
-        <activity android:name=".ui.view.ActivityProfile"/>
         <activity android:name=".ui.view.MediaActivity"/>
         <activity android:name=".ui.view.ActivityPlaylist" />
     </application>
