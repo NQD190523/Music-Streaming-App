@@ -11,6 +11,9 @@ interface SongDao {
     @Query("SELECT * FROM songentity WHERE userId = :userId ORDER BY listenedAt DESC")
     fun getRecentSongs(userId: String): LiveData<List<SongEntity>>
 
+    @Query("SELECT * FROM songentity WHERE userId = :userId AND liked == true")
+    fun getLikedSongs(userId: String) : LiveData<List<SongEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSong(song: SongEntity)
 }
