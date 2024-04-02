@@ -20,17 +20,17 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log in to your account"
+            android:text="@string/login_title"
             android:textColor="@color/white"
             style="@style/Heading2"
             android:gravity="center"
             android:layout_marginBottom="53dp"/>
 
         <EditText
-            android:id="@+id/loginEmail"
+            android:id="@+id/txtLoginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="@string/email_hint"
             android:textColorHint="@color/subText"
             android:textColor="@color/subText"
             style="@style/Placeholder"
@@ -41,10 +41,10 @@
             android:layout_marginTop="8dp"/>
 
         <EditText
-            android:id="@+id/loginPassword"
+            android:id="@+id/txtLoginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="@string/password_hint"
             android:textColorHint="@color/subText"
             android:textColor="@color/subText"
             style="@style/Placeholder"
@@ -75,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="Remember me"
+                    android:text="@string/remember_me"
                     android:textColor="@color/text"
                     style="@style/Label"/>
             </LinearLayout>
@@ -88,7 +88,7 @@
                 android:layout_alignParentEnd="true"
                 android:textColor="@color/text"
                 style="@style/Label"
-                android:text="Forgot password?"
+                android:text="@string/forgot_password"
                 android:onClick="toForgetPassword"
                 android:background="@drawable/noncolor_button"/>
 
@@ -102,7 +102,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_button"
             android:onClick="toHome"
-            android:text="Login"
+            android:text="@string/btnLogin"
             android:layout_gravity="center"
             android:textAllCaps="false"
             android:textColor="@color/white"
@@ -125,7 +125,7 @@
                 android:textColor="@color/text"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="or continue with"
+                android:text="@string/or_continue_with"
                 style="@style/Label" />
 
             <View
@@ -170,7 +170,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't have an account?"
+                android:text="@string/dont_have_account"
                 style="@style/Body2"
                 android:textColor="@color/subText"
                 android:textSize="16sp" />
@@ -179,7 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/noncolor_button"
-                android:text="Sign up"
+                android:text="@string/sign_up"
                 android:textColor="@color/text"
                 style="@style/Body2"
                 android:onClick="toRegister"/>

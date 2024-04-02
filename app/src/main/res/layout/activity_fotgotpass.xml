@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="Forgot Password"
+                android:text="@string/forgotPassword"
                 android:textColor="@color/white"
                 android:gravity="center"/>
 
@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="275dp"
             android:layout_height="wrap_content"
-            android:text="@string/forget_password"
+            android:text="@string/forgetPassword"
             android:textColor="@color/white"
             style="@style/Body1Bold"
             android:gravity="center"
@@ -59,7 +59,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_email"
+            android:text="@string/labelEmail"
             android:textColor="@color/subText"
             style="@style/Label"
             android:layout_marginTop="60dp"
@@ -81,7 +81,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="30dp"
             android:layout_gravity="center"
-            android:text="Send"
+            android:text="@string/send"
             android:textColor="@color/white"
             style="@style/CTAsMedium"
             android:background="@drawable/rounded_button"

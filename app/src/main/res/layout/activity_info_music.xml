@@ -18,20 +18,20 @@
             android:layout_marginEnd="5dp"
             android:orientation="horizontal">
             <ImageView
-                android:id="@+id/imvdropdown"
+                android:id="@+id/imv_dropdown"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="16dp"
                 android:src="@drawable/ic_down"/>
 
             <TextView
-                android:id="@+id/txttittle"
+                android:id="@+id/txt_tittle"
                 style="@style/LabelBold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_centerVertical="true"
-                android:text="Info"
+                android:text="@string/info"
                 android:textColor="@color/white" />
         </RelativeLayout>
         <LinearLayout
@@ -61,7 +61,7 @@
                         android:id="@+id/txtSongName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Blank Space"
+                        android:text="@string/txtSongName"
                         android:textColor="@color/white"
                         style="@style/Heading7"
                         android:textStyle="bold" />
@@ -71,7 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:text="Taylor Swift"
+                        android:text="@string/txtNameArtist"
                         android:textColor="@color/subText"
                         style="@style/Subtile3" />
 
@@ -93,7 +93,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="3dp"
-                            android:text="Like"
+                            android:text="@string/like"
                             android:textColor="@color/subText"
                             style="@style/Subtile3" />
 
@@ -110,7 +110,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="3dp"
-                            android:text="Music"
+                            android:text="@string/music"
                             android:textColor="@color/subText"
                             style="@style/Subtile3" />
                     </LinearLayout>
@@ -138,14 +138,14 @@
                     <TextView
                         android:layout_width="60dp"
                         android:layout_height="wrap_content"
-                        android:text="Album"
+                        android:text="@string/album"
                         android:textColor="@color/subText"
                         style="@style/Subtile3"/>
                     <TextView
                         android:id="@+id/txtAlbum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1989"
+                        android:text="@string/album_year"
                         android:textColor="@color/white"
                         style="@style/Subtile3"
                         android:layout_marginLeft="@dimen/dp_20"/>
@@ -159,14 +159,14 @@
                     <TextView
                         android:layout_width="60dp"
                         android:layout_height="wrap_content"
-                        android:text="Musican"
+                        android:text="@string/musican"
                         android:textColor="@color/subText"
                         style="@style/Subtile3"/>
                     <TextView
                         android:id="@+id/txtMusician"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Taylor Swift"
+                        android:text="@string/txtNameArtist"
                         android:textColor="@color/white"
                         android:layout_marginLeft="@dimen/dp_20"
                         style="@style/Subtile3"/>
@@ -180,14 +180,14 @@
                     <TextView
                         android:layout_width="60dp"
                         android:layout_height="wrap_content"
-                        android:text="Genre"
+                        android:text="@string/genre"
                         android:textColor="@color/subText"
                         style="@style/Subtile3"/>
                     <TextView
                         android:id="@+id/txtGenre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Pop"
+                        android:text="@string/genreName"
                         android:layout_marginLeft="@dimen/dp_20"
                         android:textColor="@color/white"
                         style="@style/Subtile3"/>
@@ -208,7 +208,7 @@
                         android:id="@+id/txtReleased"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="2017"
+                        android:text="@string/yearSong"
                         android:layout_marginLeft="@dimen/dp_20"
                         android:textColor="@color/white"
                         style="@style/Subtile3"/>
@@ -224,13 +224,13 @@
                         style="@style/Subtile3"
                         android:layout_width="60dp"
                         android:layout_height="wrap_content"
-                        android:text="Producer"
+                        android:text="@string/producer"
                         android:textColor="@color/subText" />
                     <TextView
-                        android:id="@+id/txtDuration"
+                        android:id="@+id/txtProducer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Teddy, Tommy Brown, R. Tee, Steven Franks and 24"
+                        android:text="@string/producerName"
                         android:textColor="@color/white"
                         android:layout_marginLeft="@dimen/dp_20"
                         style="@style/Subtile3"/>
@@ -246,7 +246,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recommended playlists"
+                android:text="@string/recommended_playlists"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 style="@style/Heading6"
@@ -266,7 +266,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recommended songs"
+                android:text="@string/recommended_songs"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 style="@style/Heading6"

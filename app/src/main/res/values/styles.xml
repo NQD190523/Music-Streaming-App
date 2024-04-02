@@ -145,5 +145,12 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+<!--    Card-->
+    <style name="card_playlist">
+        <item name="android:textSize">8sp</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
 
 </resources>

@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="Library"
+                android:text="@string/library"
                 style="@style/Heading2"
                 android:textStyle="bold"
                 android:layout_weight="1" />
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         style="@style/Heading4"
-        android:text="Recently Played" />
+        android:text="@string/recentlyPlayed" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

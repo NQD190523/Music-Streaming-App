@@ -5,16 +5,78 @@
 
     <!-- Intro -->
 
+<!--    Artist_profile-->
+    <string name="txtNameArtist">Taylor Swift</string>
+    <string name="txtFollowed">255K followeds</string>
+    <string name="btnFollow">Follow</string>
+    <string name="btnPlay">Play</string>
+    <string name="featuredSong">Featured Song</string>
+
+<!--    Download-->
+    <string name="downloaded">Downloaded</string>
+    <string name="numberOfDownloadedSongs">Number of Downloaded songs</string>
+    <string name="playRandomly">Play randomly</string>
+    <string name="recentlyAdded">Recently Added</string>
+
+
+<!--    Forgot_pass_opt-->
+    <string name="verifyYourEmail">Verify Your Email</string>
+    <string name="verifyEmail">Please verify your email to continue.</string>
+    <string name="resendCode">Resend Code</string>
+    <string name="verify">Verify</string>
+
+    <!--    Forgot_pass-->
+    <string name="forgotPassword">Forgot Password</string>
+    <string name="forgetPassword">Please enter your email address to reset your password.</string>
+    <string name="labelEmail">Email</string>
+    <string name="send">Send</string>
+
+<!--    Home-->
+    <string name="home">Home</string>
+    <string name="newRelease">New Release</string>
+    <string name="viewAll">View All</string>
+    <string name="vietNam">Viet Nam</string>
+    <string name="international">International</string>
+    <string name="topSong">Top Song</string>
+    <string name="recentlyPlayed">Recently Played</string>
+    <string name="yourFavouriteArtists">Your Favourite Artists</string>
+
+<!--    Info_music-->
+    <string name="info">Info</string>
+    <string name="txtSongName">Blank Space</string>
+    <string name="like">Like</string>
+    <string name="music">Music</string>
+    <string name="album">Album</string>
+    <string name="musican">Musican</string>
+    <string name="genre">Genre</string>
+    <string name="released">Released</string>
+    <string name="producer">Producer</string>
+    <string name="recommended_playlists">Recommended playlists</string>
+    <string name="recommended_songs">Recommended songs</string>
+    <string name="album_year">1989</string>
+    <string name="genreName">Pop</string>
+    <string name="yearSong">2017</string>
+    <string name="producerName">Teddy, Tommy Brown, R. Tee, Steven Franks and 24</string>
+
+<!--    Liked song-->
+    <string name="liked_songs">Liked songs</string>
+    <string name="number_of_liked_songs">Number of liked songs</string>
+    <string name="add_liked_songs">Add Liked Songs</string>
+    <string name="click_here">Click here!</string>
+
+    <!--Library-->
+    <string name="library">Library</string>
 
     <!-- Login -->
-    <string name="login_enter_phone">Số điện thoại</string>
-    <string name="login_enter_password">Mật khẩu</string>
-    <string name="login_remember">Ghi nhớ</string>
-    <string name="login_forget_password">Quên mật khẩu?</string>
-    <string name="login_login">Đăng nhập</string>
-    <string name="login_register">Đăng ký</string>
-    <string name="login_continue">hoặc tiếp tục với</string>
-    <string name="login_no_account">Chưa có tài khoản?</string>
+    <string name="login_title">Log in to your account</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="btnLogin">Login</string>
+    <string name="or_continue_with">or continue with</string>
+    <string name="dont_have_account">Don't have an account?</string>
+    <string name="sign_up">Sign up</string>
 
     <!-- Register -->
     <string name="register_register">ĐĂNG KÝ\nTÀI KHOẢN</string>
@@ -27,7 +89,6 @@
     <string name="register_redirect">Bạn sẽ được chuyển hướng về trang chủ trong chốc lát</string>
 
     <!-- Forget Password -->
-    <string name="forget_password">Please Enter Your Email Address To Receive a Verification Card</string>
     <string name="label_email">Email Address</string>
     <string name="forger_forget">QUÊN\nMẬT KHẨU</string>
     <string name="new_pass">Your New Password Must Be Different from Previously Used Password</string>
@@ -39,7 +100,6 @@
     <string name="forget_confirm">Xác nhận</string>
 
     <!-- Phone OTP -->
-    <string name="verify_email">Please Enter The 4 Digit Code Sent To nlgiakhanh2525@gmail.com</string>
     <string name="phoneotp_confirm">Xác nhận</string>
     <string name="phoneotp_guide">Nhập mã OTP vừa được gửi đến số điện thoại của bạn</string>
     <string name="phoneotp_no_otp">Không nhận được mã OTP?</string>

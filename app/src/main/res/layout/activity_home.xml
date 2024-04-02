@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="Home"
+                android:text="@string/home"
                 style="@style/Heading2"
                 android:layout_weight="1" />
 
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     style="@style/Heading4"
-                    android:text="New Release" />
+                    android:text="@string/newRelease" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:text="View All"
+                            android:text="@string/viewAll"
                             style="@style/Caption"
                             android:textColor="@color/white"
                             android:background="@drawable/rounded_button" />
@@ -94,7 +94,7 @@
                             android:layout_height="40dp"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1"
-                            android:text="Viet Nam"
+                            android:text="@string/vietNam"
                             style="@style/Caption"
                             android:textColor="@color/white"
                             android:background="@drawable/button_color_white" />
@@ -105,7 +105,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_color_white"
-                            android:text="International"
+                            android:text="@string/international"
                             android:textColor="@color/white"
                             style="@style/Caption"/>
 
@@ -138,7 +138,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         style="@style/Heading4"
-                        android:text="Recently Played" />
+                        android:text="@string/recentlyPlayed" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewSong"
                         android:layout_width="match_parent"
@@ -156,7 +156,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         style="@style/Heading4"
-                        android:text="Your Favourite Artists" />
+                        android:text="@string/yourFavouriteArtists" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewArtist"
                         android:layout_width="match_parent"

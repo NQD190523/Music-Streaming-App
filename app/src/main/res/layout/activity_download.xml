@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Downloaded"
+                android:text="@string/downloaded"
                 android:textColor="@color/white" />
 
             <TextView
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Number of Downloaded songs"
+                android:text="@string/numberOfDownloadedSongs"
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -62,7 +62,7 @@
         android:layout_marginEnd="40dp"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/gray_200"
-        android:text="Play randomly" />
+        android:text="@string/playRandomly" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -84,7 +84,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Recently Added"
+            android:text="@string/recentlyAdded"
             style="@style/Body1Bold"
             android:textColor="@color/white"
             android:layout_marginLeft="10dp"/>
