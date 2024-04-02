@@ -1,35 +1,21 @@
 package com.project.appealic.ui.view
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerView
-import com.google.firebase.storage.FirebaseStorage
-import com.google.gson.Gson
-import com.project.appealic.R
-import com.project.appealic.data.model.AccessTokenRespone
-import com.project.appealic.data.model.ExternalUrlsXXX
-import com.project.appealic.data.model.Track
 import com.project.appealic.data.network.RetrofitClient
 import com.project.appealic.data.repository.SongRepository
+import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.databinding.ActivityPlaysongBinding
 import com.project.appealic.ui.viewmodel.PlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.ui.viewmodel.SongViewModelFactory
 import com.project.appealic.ui.viewmodel.SpotifyAuthViewModel
 import com.project.appealic.ui.viewmodel.SpotifyViewModel
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
 
 class MediaActivity: AppCompatActivity() {
 
@@ -42,7 +28,8 @@ class MediaActivity: AppCompatActivity() {
 
     private lateinit var  songViewModel : SongViewModel
 
-    private var songRepository: SongRepository = SongRepository()
+    private var songRepository: SongRepository = SongRepository(application)
+    private var userRepository : UserRepository = UserRepository(application)
 
     val apiService = RetrofitClient.createSpotifyApiService()
 
@@ -51,7 +38,7 @@ class MediaActivity: AppCompatActivity() {
         binding = ActivityPlaysongBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val factory = SongViewModelFactory(songRepository )
+        val factory = SongViewModelFactory(songRepository, userRepository)
         songViewModel = ViewModelProvider(this,factory).get(SongViewModel::class.java)
         songViewModel.getAllTracks()
         songViewModel.tracks.observe(this, Observer { tracks ->
