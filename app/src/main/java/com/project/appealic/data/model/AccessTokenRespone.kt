@@ -2,7 +2,7 @@ package com.project.appealic.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class AccessTokenResponse(
+data class AccessTokenRespone(
     @SerializedName("access_token")
     val accessToken: String,
     @SerializedName("token_type")
