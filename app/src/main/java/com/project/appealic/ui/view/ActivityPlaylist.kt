@@ -84,7 +84,6 @@ class ActivityPlaylist : AppCompatActivity() {
         val duration = intent.getIntExtra("DURATION", 0)
         val trackUrl = intent.getStringExtra("TRACK_URL")
 
-        findViewById<TextView>(R.id.song_title).text = songTitle
         findViewById<TextView>(R.id.song_name).text = songTitle
         findViewById<TextView>(R.id.singer_name).text = artistName
         findViewById<TextView>(R.id.durationTv).text = formatDuration(duration)
