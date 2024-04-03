@@ -2,6 +2,8 @@ package com.project.appealic.ui.view
 
 import android.media.browse.MediaBrowser
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore.Audio.Media
 import android.view.Gravity
 import android.widget.Button
@@ -123,20 +125,26 @@ class ActivityPlaylist : AppCompatActivity() {
 
         // Thiết lập SeekBarChangeListener cho progressSb
         player.addListener(object : Player.Listener{
-            override fun onTracksChanged(tracks: Tracks) {
-                progressSb.max = player.duration.toInt()
+            override fun onIsLoadingChanged(isLoading: Boolean) {
+                val duration = player.duration.toInt()/1000
+                progressSb.max = duration
             }
         })
         player.addListener(object : Player.Listener{
-            override fun onPositionDiscontinuity(reason: Int) {
-                progressSb.progress = player.currentPosition.toInt()
+            override fun onPositionDiscontinuity(
+                oldPosition: Player.PositionInfo,
+                newPosition: Player.PositionInfo,
+                reason: Int
+            ) {
+                progressSb.progress = (player.currentPosition.toInt()/1000)
             }
         })
 
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Xử lý sự kiện thay đổi tiến trình
-
+                if(fromUser)
+                    player.seekTo(progress.toLong())
                 // Cập nhật tiến trình vào TextView progressTv
                 progressTv.text = progress.toString()
             }
@@ -148,6 +156,15 @@ class ActivityPlaylist : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 // Xử lý khi kết thúc chạm vào SeekBar
             }
+        })
+        var handler = Handler(Looper.getMainLooper())
+        handler.post(object : Runnable{
+            override fun run() {
+                var currentposition = player.currentPosition.toInt()/1000
+                progressSb.progress = currentposition
+                handler.postDelayed(this,1000)
+            }
+
         })
     }
 
@@ -242,4 +259,6 @@ class ActivityPlaylist : AppCompatActivity() {
     private fun handleMultiplyButtonClick() {
         // Xử lý khi nhấn nút Multiply
     }
+
+
 }
