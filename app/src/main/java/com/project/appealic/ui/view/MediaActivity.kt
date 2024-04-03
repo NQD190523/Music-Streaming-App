@@ -31,8 +31,6 @@ class MediaActivity: AppCompatActivity() {
     private var songRepository: SongRepository = SongRepository(application)
     private var userRepository : UserRepository = UserRepository(application)
 
-    val apiService = RetrofitClient.createSpotifyApiService()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlaysongBinding.inflate(layoutInflater)

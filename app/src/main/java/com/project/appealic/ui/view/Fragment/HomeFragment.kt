@@ -109,8 +109,9 @@ class HomeFragment : Fragment() {
                 intent.putExtra("SONG_TITLE", selectedSong.trackTitle)
                 intent.putExtra("SINGER_NAME", selectedSong.artist)
                 intent.putExtra("SONG_NAME", selectedSong.trackTitle)
-                intent.putExtra("track_image", selectedSong.trackImage)
+                intent.putExtra("TRACK_IMAGE", selectedSong.trackImage)
                 intent.putExtra("DURATION", selectedSong.duration) // Truyền thời lượng bài hát
+                intent.putExtra("TRACK_URL", selectedSong.trackUrl)
 
                 // Bắt đầu ActivityPlaylist
                 startActivity(intent)
