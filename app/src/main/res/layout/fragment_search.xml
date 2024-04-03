@@ -30,7 +30,7 @@
                 android:drawableLeft="@drawable/ic_search_16_outlined"
                 android:drawablePadding="8dp"
                 android:fontFamily="@font/inter_medium"
-                android:hint="Tap here to write your comment"
+                android:hint="What do you want to listen to?"
                 android:paddingHorizontal="20dp"
                 android:textColorHint="@color/white"
                 android:textSize="12dp" />

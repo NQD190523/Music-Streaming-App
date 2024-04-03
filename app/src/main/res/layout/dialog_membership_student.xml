@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1b4262"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="26dp"
+            android:paddingHorizontal="13dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BECOME"
+                android:textColor="@color/white"
+                style="@style/Heading3"
+                android:layout_gravity="center_horizontal"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="9dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="APPEALIC PLUS"
+                    android:textColor="#3CDCFF"
+                    style="@style/Heading3" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="5dp"
+                    android:text="STUDENT"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/inter_bold"
+                    android:textSize="13sp"
+                    android:background="@drawable/membership_rounded"
+                    android:backgroundTint="#3CDCFF"
+                    android:layout_marginStart="7dp"/>
+
+            </LinearLayout>
+            <ImageView
+                android:layout_width="106dp"
+                android:layout_height="106dp"
+                android:src="@drawable/membership_student"
+                android:layout_marginTop="18dp"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maximize every experience"
+                android:textColor="@color/white"
+                android:layout_marginTop="18dp"
+                style="@style/Body1Bold"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:text="Mini members can use all functions of Appealic"
+                android:textColor="@color/white"
+                android:layout_marginTop= "9dp"
+                style="@style/Body2"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="108dp"
+                android:src="@drawable/membership_student_info"
+                android:layout_marginTop="18dp"
+                />
+
+            <Button
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/rounded_button"
+                android:textColor="@color/text"
+                android:text="BUY NOW"
+                android:layout_gravity="center"
+                android:textAllCaps="false"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="About Subscription"
+                style="@style/Body2Bold"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginTop="18dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Offline Mode: Allows users to download their favorite songs and albums for offline listening without an internet connection."
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_regular"
+                android:justificationMode="inter_word"
+                android:layout_marginTop="18dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. Better Sound Quality: Provides higher quality sound for users to have the best music listening experience. Adds sound quality options (for example: 320kbps) and allows users to switch between sound qualities on the user interface. Integrated only after the user upgrades to the Premium Plus package."
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_regular"
+                android:justificationMode="inter_word"
+                android:layout_marginTop="9dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. Remove Ads: Completely removes ads on the app, making the user’s music listening experience uninterrupted."
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_regular"
+                android:justificationMode="inter_word"
+                android:layout_marginTop="9dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4. Sleep Timer: Allows users to set a timer to automatically turn off the app after a certain period of time to help them get a good night’s sleep."
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_regular"
+                android:justificationMode="inter_word"
+                android:layout_marginTop="9dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5. Exclusive Access: Provides access to exclusive songs, albums, or playlists that only users who upgrade to the Premium Plus package can access."
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_regular"
+                android:justificationMode="inter_word"
+                android:layout_marginTop="9dp"/>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_16_left"
+        android:layout_marginTop="26dp"
+        android:paddingHorizontal="13dp"
+        />
+
+</RelativeLayout>
