@@ -2,18 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/background"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp">
-
-    <androidx.fragment.app.FragmentContainerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragmenthome"
-        android:name="com.project.appealic.ui.view.Fragment.HomeFragment"
-        tools:layout="@layout/fragment_home" />
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:layout_alignParentBottom="true"
+        android:background="@color/dark"
         android:layout_marginBottom="0dp"
-        app:menu="@menu/nav_menu" />
-
+        app:itemIconSize="@dimen/dp_24"
+        app:menu="@menu/nav_menu"
+        app:itemTextAppearanceActive="@style/btn_nav"/>
 </RelativeLayout>

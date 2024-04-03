@@ -40,6 +40,15 @@
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/prompt_bold</item>
     </style>
+    <style name="Heading7">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/prompt_bold</item>
+    </style>
+
+    <style name="HeadingLogin">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/opensans_bold</item>
+    </style>
 
     <!--    Subtile-->
 
@@ -52,33 +61,47 @@
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/prompt_regular</item>
     </style>
+    <style name="Subtile3">
+        <item name="android:textSize">8sp</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
 
     <!--    Body-->
 
     <style name="Body1">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="Body2">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="Body1Bold">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="Body2Bold">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <!--    Input-->
     <style name="Label">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+    <style name="LabelBold">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/inter_bold</item>
     </style>
     <style name="Placeholder">
         <item name="android:textSize">14sp</item>
@@ -93,15 +116,38 @@
     <style name="CTAsLarge">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="CTAsMedium">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="CTAsSmall">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="btn_nav">
+        <item name="android:textSize">17sp</item>
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+<!--    Card-->
+    <style name="card_playlist">
+        <item name="android:textSize">8sp</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
 </resources>
