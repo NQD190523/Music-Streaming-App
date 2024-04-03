@@ -34,7 +34,7 @@
                     android:layout_gravity="center"
                     android:background="#B3FFFFFF"
                     android:gravity="center"
-                    android:text="Taylor Swift"
+                    android:text="@string/txtNameArtist"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -45,7 +45,7 @@
                     android:layout_gravity="center"
                     android:background="#99000000"
                     android:gravity="center"
-                    android:text="255K followeds"
+                    android:text="txtFollowed"
                     android:textColor="@color/white" />
             </LinearLayout>
 
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Follow"
+                android:text="@string/btnFollow"
                 android:textColor="@color/white"
                 android:background="@drawable/btn_rounded_border"
                 android:layout_marginEnd="4dp"/>
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Play"
+                android:text="@string/btnPlay"
                 android:background="@drawable/rounded_button"/>
         </LinearLayout>
         
@@ -98,9 +98,9 @@
                 style="@style/Heading6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Featured Song"
+                android:text="@string/featuredSong"
                 android:textColor="@color/white"
-                android:paddingLeft="@dimen/dp_20"/>
+                android:paddingStart="@dimen/dp_20"/>
             <ImageView
                 android:layout_width="@dimen/dp_16"
                 android:layout_height="@dimen/dp_16"

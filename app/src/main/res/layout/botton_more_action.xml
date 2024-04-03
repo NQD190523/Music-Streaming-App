@@ -32,8 +32,7 @@
             android:layout_height="wrap_content"
             android:text="Blank Space"
             android:textColor="@color/white"
-            style="@style/Body1Bold"
-            />
+            style="@style/Body1Bold"/>
 
         <TextView
             android:id="@+id/txtSinger"
@@ -69,7 +68,7 @@
                 android:layout_marginStart="10dp"
                 android:textColor="@color/white"
                 android:text="Add to playlist"
-                android:textSize="16sp"
+                style="@style/Body1"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -89,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="Add to favourite"
-                android:textSize="16sp"
+                style="@style/Body1"
                 android:layout_marginStart="10dp"
 
                 android:layout_weight="1" />
@@ -110,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                style="@style/Body1"
                 android:layout_marginStart="10dp"
                 android:text="Download"
                 android:layout_weight="1" />
@@ -131,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                style="@style/Body1"
                 android:layout_marginStart="10dp"
 android:text="Comment"
                 android:layout_weight="1" />
@@ -152,7 +151,7 @@ android:text="Comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                style="@style/Body1"
                 android:layout_marginStart="10dp"
 
                 android:text="Ablum Details"
@@ -174,7 +173,7 @@ android:text="Comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                style="@style/Body1"
                 android:layout_marginStart="10dp"
                 android:text="Artist Details"
                 android:layout_weight="1" />
@@ -195,7 +194,7 @@ android:text="Comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                style="@style/Body1"
                 android:layout_marginStart="10dp"
                 android:text="Share"
                 android:layout_weight="1" />
@@ -216,7 +215,7 @@ android:text="Comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                style="@style/Body1"
                 android:layout_marginStart="10dp"
                 android:text="Sheep Time"
                 android:layout_weight="1" />

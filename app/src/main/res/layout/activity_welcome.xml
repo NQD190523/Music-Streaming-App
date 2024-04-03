@@ -19,8 +19,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/startscreen"
-            android:scaleType="fitXY"
-            />
+            android:scaleType="fitXY" />
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -41,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_marginTop="90dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
@@ -60,17 +60,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:text="Ger your groceries in as fast as one hour"
-                    android:textColor="#FCFCFC"
-                    android:textSize="15sp" />
+                    android:textColor="@color/subText"
+                    style="@style/Body2" />
 
                 <Button
                     android:id="@+id/btnContinue"
                     android:layout_width="match_parent"
-                    android:layout_height="65dp"
+                    android:layout_height="50dp"
                     android:layout_margin="18dp"
                     android:background="@drawable/rounded_button"
                     android:text="Continue"
-                    android:textSize="20sp"
+                    style="@style/CTAsMedium"
                     android:textColor="#F6F9FB"
                     android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
                     android:paddingStart="20dp"
