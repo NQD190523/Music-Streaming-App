@@ -36,7 +36,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Create new playlist"
+                    android:text="Add your favorite albums"
                     style="@style/Body1Bold"
                     android:textColor="@color/text"
                     />
@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Create your own Playlist"
+                    android:text="Create your own albums"
                     style="@style/Body2"
                     android:textColor="@color/subtitleText"
                     />
@@ -129,7 +129,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Playlist 1"
+                    android:text="Album 1"
                     style="@style/Body1Bold"
                     android:textColor="@color/text"
                     />
@@ -221,7 +221,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Playlist 2"
+                    android:text="Album 2"
                     style="@style/Body1Bold"
                     android:textColor="@color/text"
                     />

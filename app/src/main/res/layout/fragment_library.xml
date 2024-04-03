@@ -95,31 +95,74 @@
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="16dp"
+                        style="@style/Body1"
+                        android:textColor="@color/text"
                         android:text="Playlists" />
+<!--                    fragment_add_song_to_playlist-->
+
+
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="16dp"
-                        android:text="Artists" />
+                        style="@style/Body1"
+                        android:textColor="@color/text"
+                        android:text="Artists"
+                        android:layout_marginStart="16dp"/>
+<!--                    fragment_add_favorite_artists-->
+
+
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Body1"
+                        android:textColor="@color/text"
+                        android:text="Albums"
+
+                        android:layout_marginStart="16dp"/>
+<!--                    fragment_add_favorite_albums-->
+
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="16dp"
-                        android:text="Albums" />
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Seleted"
-                        android:textColor="@color/white"
-                        android:background="@drawable/button_color_white"/>
+                        android:gravity="end"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnSelect"
+                            android:layout_width="62dp"
+                            android:layout_height="19dp"
+                            android:text="Select"
+                            android:textColor="@color/text"
+                            android:background="@drawable/button_color_white"
+                            style="@style/Body2"
+                            android:textAllCaps="false"/>
+
+                        <ImageView
+                            android:id="@+id/btnMore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_more_20_outlined"/>
+
+                    </LinearLayout>
+
+
 
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/addplaylist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="9"/>
+
+
+
+
 
             </LinearLayout>
         </ScrollView>
