@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/llArtistItem"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imvPhoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/artist1"  />
+
+        <LinearLayout
+            android:layout_width="126dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtArtistName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Taylor Swift"
+                style="@style/Body1Bold"
+                android:textColor="@color/white"
+                />
+
+            <TextView
+                android:id="@+id/txtFollowed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="52K followers"
+                style="@style/Body2"
+                android:textColor="@color/subText"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSearchResultFollow"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/inter_regular"
+            android:textSize="14sp"
+            android:layout_height="28dp"
+            android:textColorHint="@color/white"
+            android:hint="Follow"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_not_follow"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

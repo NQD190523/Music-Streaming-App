@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/radius_dialog"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,26 +10,6 @@
         android:orientation="vertical"
         android:padding="@dimen/dp_16"
         >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:fontFamily="@font/prompt_medium"
-                android:textSize="25sp"
-                android:text="Add song to playlist"
-                />
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/subtitleText"
-            android:layout_marginVertical="@dimen/dp_16"
-            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,99 +23,115 @@
                 android:background="@drawable/btn_rounded_gray"
                 >
 
-            </FrameLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Create new playlist"
-                android:textSize="19sp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/inter_bold"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="16dp"
-            >
-            <FrameLayout
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                >
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:stretchColumns="*"
-                    >
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        >
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/song1"
-                            />
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/song2"
-                            />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        >
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/song4"
-                            />
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/song3"
-                            />
-                    </TableRow>
-
-                </TableLayout>
 
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:orientation="vertical"
-                >
+                android:layout_marginStart="16dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Playlist 1"
-                    android:textSize="19sp"
-                    android:textColor="@color/white"
+                    android:text="Add your favorite albums"
                     style="@style/Body1Bold"
+                    android:textColor="@color/text"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Create your own albums"
+                    style="@style/Body2"
+                    android:textColor="@color/subtitleText"
+                    />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp"
+            >
+            <FrameLayout
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                >
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:stretchColumns="*"
+                    >
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        >
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/song1"
+                            />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/song2"
+                            />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        >
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/song4"
+                            />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/song3"
+                            />
+                    </TableRow>
+
+                </TableLayout>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Album 1"
+                    style="@style/Body1Bold"
+                    android:textColor="@color/text"
                     />
 
                 <TextView
@@ -143,9 +139,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="Jienne"
-                    android:textSize="17sp"
+                    style="@style/Body2"
                     android:textColor="@color/subtitleText"
-                    android:fontFamily="@font/inter_regular"
                     />
             </LinearLayout>
 
@@ -226,11 +221,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Playlist 2"
-                    android:textSize="19sp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/inter_bold"
+                    android:text="Album 2"
+                    style="@style/Body1Bold"
+                    android:textColor="@color/text"
                     />
 
                 <TextView
@@ -238,13 +231,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="Jienne"
-                    android:textSize="17sp"
+                    style="@style/Body2"
                     android:textColor="@color/subtitleText"
-                    android:fontFamily="@font/inter_regular"
                     />
             </LinearLayout>
-
-
 
 
         </LinearLayout>
