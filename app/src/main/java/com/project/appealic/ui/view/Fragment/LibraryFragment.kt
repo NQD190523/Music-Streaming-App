@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,36 @@ class LibraryFragment : Fragment() {
         recyclerViewBanner.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerViewBanner.adapter = bannerAdapter
+
+// Tìm kiếm các TextView tương ứng
+        val tvAddArtists = view.findViewById<TextView>(R.id.tvAddArtists)
+        val tvAddAlbums = view.findViewById<TextView>(R.id.tvAddAlbums)
+        val tvAddSongs = view.findViewById<TextView>(R.id.tvAddPlaylists)
+
+        // Thiết lập onClickListener cho TextViews
+        tvAddSongs.setOnClickListener {
+            // Thay thế fragment hiện tại bằng AddSongToPlaylistFragment
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentAddPlaylistLibrary, AddPlaylistLibraryFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        tvAddArtists.setOnClickListener {
+            // Replace the current fragment with AddArtistFragment
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentAddPlaylistLibrary, AddArtistFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        tvAddAlbums.setOnClickListener {
+            // Replace the current fragment with AddAlbumFragment
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentAddPlaylistLibrary, AddAlbumFragment())
+                .addToBackStack(null)
+                .commit()
+        }
 
         return view
     }

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.appcompat.widget.Toolbar
@@ -95,33 +96,66 @@
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/tvAddPlaylists"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="16dp"
+                        style="@style/Body1"
+                        android:textColor="@color/text"
                         android:text="Playlists" />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="16dp"
-                        android:text="Artists" />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="16dp"
-                        android:text="Albums" />
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Seleted"
-                        android:textColor="@color/white"
-                        android:background="@drawable/button_color_white"/>
 
+                    <TextView
+                        android:id="@+id/tvAddArtists"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Body1"
+                        android:textColor="@color/text"
+                        android:text="Artists"
+                        android:layout_marginStart="16dp"/>
+
+                    <TextView
+                        android:id="@+id/tvAddAlbums"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Body1"
+                        android:textColor="@color/text"
+                        android:text="Albums"
+                        android:layout_marginStart="16dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnSelect"
+                            android:layout_width="62dp"
+                            android:layout_height="19dp"
+                            android:text="Select"
+                            android:textColor="@color/text"
+                            android:background="@drawable/btn_rounded_gray"
+                            style="@style/Body2"
+                            android:textAllCaps="false"/>
+
+                        <ImageView
+                            android:id="@+id/btnMore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_more_20_outlined"/>
+
+                    </LinearLayout>
                 </LinearLayout>
+                <androidx.fragment.app.FragmentContainerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:name="com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment"
+                    android:id="@+id/fragmentAddPlaylistLibrary"
+                    android:layout_marginTop="10dp"
+                    tools:layout="@layout/fragment_add_song" />
 
             </LinearLayout>
+
         </ScrollView>
     </LinearLayout>
 </RelativeLayout>
