@@ -20,11 +20,17 @@
             <FrameLayout
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                android:background="@drawable/btn_round"
-                android:backgroundTint="@color/codGray900">
+                android:background="@drawable/thumbnailsinglist"
+                android:backgroundTint="@color/codGray900"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/thumbnailsinglist"/>
             </FrameLayout>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
@@ -48,6 +54,59 @@
             </LinearLayout>
 
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp"
+            >
+            <FrameLayout
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/artist1"
+                    />
+
+
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taylor Swift"
+                    android:textSize="19sp"
+                    style="@style/Body1Bold"
+                    android:textColor="@color/text"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="123 songs"
+                    style="@style/Body2"
+                    android:textColor="@color/subtitleText"
+                    />
+            </LinearLayout>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/ic_more_20_outlined" />
 
         </LinearLayout>
 
@@ -73,7 +132,8 @@
             </FrameLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:orientation="vertical"
@@ -96,54 +156,11 @@
                     android:textColor="@color/subtitleText"
                     />
             </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="16dp"
-            >
-            <FrameLayout
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/artist1"
-                    />
-
-
-
-            </FrameLayout>
-
-            <LinearLayout
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:orientation="vertical"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Taylor Swift"
-                    android:textSize="19sp"
-                    style="@style/Body1Bold"
-                    android:textColor="@color/text"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="123 songs"
-                    style="@style/Body2"
-                    android:textColor="@color/subtitleText"
-                    />
-            </LinearLayout>
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/ic_more_20_outlined" />
 
         </LinearLayout>
         <LinearLayout
@@ -168,7 +185,8 @@
             </FrameLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:orientation="vertical"
@@ -191,6 +209,11 @@
                     android:textColor="@color/subtitleText"
                     />
             </LinearLayout>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/ic_more_20_outlined" />
 
         </LinearLayout>
 
