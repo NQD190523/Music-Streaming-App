@@ -21,7 +21,7 @@
             android:src="@drawable/ic_down"/>
 
         <TextView
-            android:id="@+id/txttittle"
+            android:id="@+id/song_title"
             style="@style/LabelBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
