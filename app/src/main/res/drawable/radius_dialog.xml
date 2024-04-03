@@ -1,7 +1,0 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <gradient
-        android:startColor="#0E0526"
-        android:endColor="#3F51B5"
-        android:angle="45"/> <!-- Đặt angle thành giá trị bội số của 45 -->
-    <corners android:radius="16dp" />
-</shape>
