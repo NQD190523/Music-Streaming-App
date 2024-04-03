@@ -6,7 +6,7 @@
         <item name="windowNoTitle">true</item>   <!-- Đặt giá trị này thành true để ẩn tiêu đề của cửa sổ -->
 
         <item name="windowActionBar">false</item> <!-- Đặt giá trị này thành false để ẩn Action Bar -->
-        <item name="windowNoTitle">true</item>   <!-- Đặt giá trị này thành true để ẩn tiêu đề của cửa sổ -->
+   <!-- Đặt giá trị này thành true để ẩn tiêu đề của cửa sổ -->
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>

@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginTop="60dp"
-            android:src="@drawable/logoNotext"/>
+            android:src="@drawable/logonotext"/>
         <EditText
             android:id="@+id/txtxRegisterEmail"
             android:layout_width="match_parent"
