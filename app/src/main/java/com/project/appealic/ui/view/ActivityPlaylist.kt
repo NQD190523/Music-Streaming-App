@@ -1,6 +1,8 @@
 package com.project.appealic.ui.view
 
+import android.media.browse.MediaBrowser
 import android.os.Bundle
+import android.provider.MediaStore.Audio.Media
 import android.view.Gravity
 import android.widget.Button
 import android.widget.FrameLayout
@@ -10,9 +12,15 @@ import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackParameters
+import androidx.media3.exoplayer.DefaultLoadControl
+import androidx.media3.exoplayer.ExoPlayer
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.storage
 import com.project.appealic.R
 import com.squareup.picasso.Picasso
 import okhttp3.internal.concurrent.formatDuration
@@ -33,10 +41,17 @@ class ActivityPlaylist : AppCompatActivity() {
     private lateinit var moreBtn: Button
     private lateinit var shareBtn: ImageView
     private lateinit var multiplyBtn: ImageView
+    private lateinit var mediaItem : MediaItem
+    private lateinit var player : ExoPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playsong)
+
+        //Cấu hình exoplayer
+
+        player = ExoPlayer.Builder(this)
+            .build()
 
         // Khởi tạo tất cả các thành phần UI
         progressTv = findViewById(R.id.progressTv)
@@ -52,13 +67,15 @@ class ActivityPlaylist : AppCompatActivity() {
         moreBtn = findViewById(R.id.more)
         shareBtn = findViewById(R.id.share)
         multiplyBtn = findViewById(R.id.multiply)
+        playBtn = findViewById(R.id.playPauseIcon)
 
 
         // Lấy dữ liệu từ Intent và hiển thị trên giao diện
         val songTitle = intent.getStringExtra("SONG_TITLE")
         val artistName = intent.getStringExtra("SINGER_NAME")
-        val trackImage = intent.getStringExtra("track_image")
+        val trackImage = intent.getStringExtra("TRACK_IMAGE")
         val duration = intent.getIntExtra("DURATION", 0)
+        val trackUrl = intent.getStringExtra("TRACK_URL")
 
         findViewById<TextView>(R.id.song_title).text = songTitle
         findViewById<TextView>(R.id.song_name).text = songTitle
@@ -75,6 +92,21 @@ class ActivityPlaylist : AppCompatActivity() {
                 .into(songImageView)
         }
 
+        //Khởi tạo exoplayer
+        val storage = Firebase.storage
+        val storageRef = storage.reference
+        val trackPath = trackUrl?.substring(trackUrl.indexOf("/",5)+1)
+        val audioRef = trackPath?.let { storageRef.child(it) }
+        println(audioRef)
+        if (audioRef != null) {
+            audioRef.downloadUrl.addOnSuccessListener { url ->
+                mediaItem = MediaItem.fromUri(url)
+                player.setMediaItem(mediaItem)
+                player.setPlaybackParameters(PlaybackParameters(1f))
+                player.prepare()
+            }
+        }
+
         // Gắn các hàm xử lý sự kiện cho các thành phần UI
         previousBtn.setOnClickListener { handlePreviousButtonClick() }
         mixBtn.setOnClickListener { handlePlayButtonClick() }
@@ -85,11 +117,13 @@ class ActivityPlaylist : AppCompatActivity() {
         moreBtn.setOnClickListener { handleMoreButtonClick() }
         shareBtn.setOnClickListener { handleShareButtonClick() }
         multiplyBtn.setOnClickListener { handleMultiplyButtonClick() }
+        playBtn.setOnClickListener { handelPlayButtonClick() }
 
         // Thiết lập SeekBarChangeListener cho progressSb
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Xử lý sự kiện thay đổi tiến trình
+
                 // Cập nhật tiến trình vào TextView progressTv
                 progressTv.text = progress.toString()
             }
@@ -104,9 +138,14 @@ class ActivityPlaylist : AppCompatActivity() {
         })
     }
 
+    private fun handelPlayButtonClick() {
+        if(player.isPlaying) player.pause()
+        else player.play()
+    }
+
     private fun formatDuration(durationInSeconds: Int): String {
         val minutes = durationInSeconds / 60
-        val seconds = durationInSeconds % 60
+        val seconds = durationInSeconds % 6000
         return "$minutes'${String.format("%02d", seconds)}''"
     }
 
@@ -147,7 +186,7 @@ class ActivityPlaylist : AppCompatActivity() {
         // Lấy dữ liệu từ Intent và hiển thị trên giao diện playlist
         val songTitle = intent.getStringExtra("SONG_TITLE")
         val artistName = intent.getStringExtra("SINGER_NAME")
-        val trackImage = intent.getStringExtra("track_image")
+        val trackImage = intent.getStringExtra("TRACK_IMAGE")
 
         // Sử dụng view để tìm các thành phần UI trong playlist layout
         val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
