@@ -14,6 +14,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackParameters
+import androidx.media3.common.Player
+import androidx.media3.common.Tracks
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
 import com.bumptech.glide.Glide
@@ -120,6 +122,17 @@ class ActivityPlaylist : AppCompatActivity() {
         playBtn.setOnClickListener { handelPlayButtonClick() }
 
         // Thiết lập SeekBarChangeListener cho progressSb
+        player.addListener(object : Player.Listener{
+            override fun onTracksChanged(tracks: Tracks) {
+                progressSb.max = player.duration.toInt()
+            }
+        })
+        player.addListener(object : Player.Listener{
+            override fun onPositionDiscontinuity(reason: Int) {
+                progressSb.progress = player.currentPosition.toInt()
+            }
+        })
+
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Xử lý sự kiện thay đổi tiến trình
@@ -144,14 +157,15 @@ class ActivityPlaylist : AppCompatActivity() {
     }
 
     private fun formatDuration(durationInSeconds: Int): String {
-        val minutes = durationInSeconds / 60
-        val seconds = durationInSeconds % 6000
+        val seconds = (durationInSeconds / 1000) % 60
+        val minutes = durationInSeconds / 60000
         return "$minutes'${String.format("%02d", seconds)}''"
     }
 
     // Các hàm xử lý sự kiện khi nhấn các nút
     private fun handlePreviousButtonClick() {
         // Xử lý khi nhấn nút Previous
+
     }
 
     private fun handlePlayButtonClick() {
