@@ -1,9 +1,13 @@
 package com.project.appealic.ui.view
 
+import android.app.Dialog
+import android.graphics.drawable.GradientDrawable
 import android.media.browse.MediaBrowser
 import android.os.Bundle
 import android.provider.MediaStore.Audio.Media
 import android.view.Gravity
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -11,7 +15,9 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.Color
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackParameters
 import androidx.media3.exoplayer.DefaultLoadControl
@@ -22,6 +28,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import com.project.appealic.R
+import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
 import com.squareup.picasso.Picasso
 import okhttp3.internal.concurrent.formatDuration
 
@@ -41,8 +48,8 @@ class ActivityPlaylist : AppCompatActivity() {
     private lateinit var moreBtn: Button
     private lateinit var shareBtn: ImageView
     private lateinit var multiplyBtn: ImageView
-    private lateinit var mediaItem : MediaItem
-    private lateinit var player : ExoPlayer
+    private lateinit var mediaItem: MediaItem
+    private lateinit var player: ExoPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +102,7 @@ class ActivityPlaylist : AppCompatActivity() {
         //Khởi tạo exoplayer
         val storage = Firebase.storage
         val storageRef = storage.reference
-        val trackPath = trackUrl?.substring(trackUrl.indexOf("/",5)+1)
+        val trackPath = trackUrl?.substring(trackUrl.indexOf("/", 5) + 1)
         val audioRef = trackPath?.let { storageRef.child(it) }
         println(audioRef)
         if (audioRef != null) {
@@ -139,7 +146,7 @@ class ActivityPlaylist : AppCompatActivity() {
     }
 
     private fun handelPlayButtonClick() {
-        if(player.isPlaying) player.pause()
+        if (player.isPlaying) player.pause()
         else player.play()
     }
 
@@ -176,28 +183,24 @@ class ActivityPlaylist : AppCompatActivity() {
 
 
     private fun handleMoreButtonClick() {
-        // Tạo BottomSheetDialog
-        val bottomSheetDialog = BottomSheetDialog(this)
+        // Tạo Dialog mới
+        val dialog = Dialog(this)
 
         // Inflate layout cho dialog
         val view = layoutInflater.inflate(R.layout.botton_more_action, null)
 
+        // Lưu tham chiếu đến dialog để có thể dismiss sau này
+        val bottonMoreActionDialog = dialog
 
         // Lấy dữ liệu từ Intent và hiển thị trên giao diện playlist
         val songTitle = intent.getStringExtra("SONG_TITLE")
         val artistName = intent.getStringExtra("SINGER_NAME")
         val trackImage = intent.getStringExtra("TRACK_IMAGE")
-
-        // Sử dụng view để tìm các thành phần UI trong playlist layout
         val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
         txtSongName.text = songTitle
-
         val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
         txtSinger.text = artistName
-
         val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
-
-        // Load hình ảnh sử dụng Glide
         trackImage?.let { imageUrl ->
             val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
 
@@ -206,19 +209,72 @@ class ActivityPlaylist : AppCompatActivity() {
                 .into(songImageView)
         }
 
-        // Đặt hình nền có đường viền bo tròn cho dialog
-        val window = bottomSheetDialog.window
+        // Thêm sự kiện click vào các LinearLayout
+        val llAddPlay = view.findViewById<LinearLayout>(R.id.llAddPlay)
+        llAddPlay.setOnClickListener {
+            bottonMoreActionDialog.dismiss()
+            showDialogForAddPlay()
+        }
+
+        val llAddFav = view.findViewById<LinearLayout>(R.id.llAddFav)
+        llAddFav.setOnClickListener {
+            bottonMoreActionDialog.dismiss()
+            showDialogForAddFav()
+        }
+
+        val llComment = view.findViewById<LinearLayout>(R.id.llComment)
+        llComment.setOnClickListener {
+            bottonMoreActionDialog.dismiss()
+            showDialogForComment()
+        }
+
+        dialog.setContentView(view)
+
+        // Tùy chỉnh Window của dialog
+        val window = dialog.window
         window?.setBackgroundDrawableResource(R.drawable.radius_background)
         val layoutParams = window?.attributes
-        layoutParams?.gravity = Gravity.TOP or Gravity.START or Gravity.END
-        // layoutParams?.gravity = Gravity.TOP or Gravity.END
-
+        layoutParams?.gravity = Gravity.BOTTOM or Gravity.START or Gravity.END
+        layoutParams?.width =
+            WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
         window?.attributes = layoutParams
 
-        // Đặt nội dung cho dialog và hiển thị
+        // Hiển thị dialog
+        dialog.show()
+    }
+
+    private fun showDialogForComment() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+
+        // Inflate layout cho dialog
+        val view = layoutInflater.inflate(R.layout.bottom_comment, null)
+
+        // Tùy chỉnh Window của dialog
+        val window = bottomSheetDialog.window
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
+        window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        window?.setGravity(Gravity.BOTTOM) // Hiển thị ở dưới cùng
+
+        // Thiết lập nội dung cho dialog và hiển thị
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()
     }
+    private fun showDialogForAddPlay() {
+        val addPlaylistFragment = AddPlaylistFragment()
+        addPlaylistFragment.show(supportFragmentManager, "AddPlaylistFragment")
+    }
+}
+
+    private fun showDialogForAddFav() {
+        // Tạo và hiển thị dialog cho Add to favourite
+        // Bạn có thể tạo một dialog khác nhau tại đây
+    }
+
+
 
 
     private fun handleShareButtonClick() {
@@ -228,4 +284,5 @@ class ActivityPlaylist : AppCompatActivity() {
     private fun handleMultiplyButtonClick() {
         // Xử lý khi nhấn nút Multiply
     }
-}
+
+
