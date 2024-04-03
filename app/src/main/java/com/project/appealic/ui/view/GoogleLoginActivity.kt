@@ -2,18 +2,26 @@ package com.project.appealic.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
+import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.databinding.ActivityLoginBinding
 import com.project.appealic.ui.viewmodel.AuthViewModel
+import com.project.appealic.ui.viewmodel.SongViewModel
+import com.project.appealic.ui.viewmodel.SongViewModelFactory
+import com.project.appealic.ui.viewmodel.SpotifyViewModel
 
 class GoogleLoginActivity : AppCompatActivity() {
 
@@ -24,6 +32,12 @@ class GoogleLoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
 
     private lateinit var viewModel: AuthViewModel
+
+
+
+
+    private val spotifyViewModel: SpotifyViewModel by viewModels()
+
 
     private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         result ->
@@ -45,6 +59,12 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         // Khởi tạo ViewModel
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+
+
+
+
+
+
         auth = FirebaseAuth.getInstance()
 
         // Khởi tạo GoogleSignInOptions
@@ -58,6 +78,7 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         binding.btnGoogle.setOnClickListener(){
             launcher.launch(googleSignInClient.signInIntent)
+//            spotifyViewModel.connectToSpotify(this)
         }
 
         viewModel.signInSuccess.observe(this) { signInSuccess ->
@@ -75,7 +96,7 @@ class GoogleLoginActivity : AppCompatActivity() {
     }
     private fun navigateToMainScreen() {
         // Chuyển hướng đến màn hình chính hoặc màn hình tiếp theo sau khi đăng nhập thành công
-        intent = Intent(this, Activity_welcome::class.java)
+        intent = Intent(this, MediaActivity::class.java)
         startActivity(intent)
     }
 }

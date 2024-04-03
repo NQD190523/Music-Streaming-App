@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_120"
+    android:orientation="vertical"
+    android:layout_marginEnd="@dimen/sp_12"
+    android:layout_height="150dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imvPhotoArtist"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:src="@drawable/artist1" />
+
+    <TextView
+        android:id="@+id/txtArtistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:text="Artist Name"
+        android:textColor="@color/subText"
+        style="@style/Body2"/>
+
+</LinearLayout>

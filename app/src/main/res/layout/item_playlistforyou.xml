@@ -1,0 +1,40 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="140dp"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="#CCFFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/imvPlaylist"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:src="@drawable/song1"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/txtPlaylistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Acoustic Love"
+            android:textColor="@color/white"
+            style="@style/Body1Bold"/>
+
+
+        <TextView
+            android:id="@+id/txtPlaylistSigner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kina Grannis, KaJot, Justin Bieber, ..."
+            android:textColor="@color/subText"
+            style="@style/Body2"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

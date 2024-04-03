@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/radius_dialog"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,8 +16,8 @@
         android:orientation="horizontal">
     <ImageView
         android:id="@+id/imvPhoto"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="74dp"
+        android:layout_height="54dp"
         android:src="@drawable/song1"  />
 
     <LinearLayout
@@ -55,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/llAddPlay"
             android:padding="8dp">
             <ImageView
                 android:layout_width="wrap_content"
@@ -75,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/llAddFav"
             android:padding="8dp">
             <ImageView
                 android:layout_width="wrap_content"
@@ -96,6 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/llDownload"
             android:padding="8dp">
             <ImageView
                 android:layout_width="wrap_content"
@@ -116,6 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/llComment"
             android:padding="8dp">
             <ImageView
                 android:layout_width="wrap_content"
@@ -136,6 +140,7 @@ android:text="Comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/llAblum"
             android:padding="8dp">
             <ImageView
                 android:layout_width="wrap_content"
@@ -157,6 +162,7 @@ android:text="Comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/llArtist"
             android:padding="8dp">
             <ImageView
                 android:layout_width="wrap_content"
@@ -177,6 +183,7 @@ android:text="Comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/llShare"
             android:padding="8dp">
             <ImageView
                 android:layout_width="wrap_content"
@@ -197,6 +204,7 @@ android:text="Comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/llSheep"
             android:padding="8dp">
             <ImageView
                 android:layout_width="wrap_content"

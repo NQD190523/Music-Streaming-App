@@ -1,5 +1,6 @@
 package com.project.appealic.ui.view.Adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.project.appealic.R
 
 class BannerAdapter(private val bannerImages: List<Int>) : RecyclerView.Adapter<BannerAdapter.BannerViewHolder>() {
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BannerViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cart, parent, false)

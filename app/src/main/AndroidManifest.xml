@@ -7,25 +7,27 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Appealic"
-        tools:targetApi="31">
+        tools:targetApi="tiramisu">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.view.ActivityHome"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Appealic">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.view.GoogleLoginActivity" />
         <activity android:name=".ui.view.Activity_welcome"/>
+        <activity android:name=".ui.view.MediaActivity"/>
+        <activity android:name=".ui.view.ActivityPlaylist" />
     </application>
 
 </manifest>

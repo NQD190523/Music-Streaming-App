@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Appealic" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.Appealic" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="windowNoTitle">true</item>   <!-- Đặt giá trị này thành true để ẩn tiêu đề của cửa sổ -->
+
+        <item name="windowActionBar">false</item> <!-- Đặt giá trị này thành false để ẩn Action Bar -->
+        <item name="windowNoTitle">true</item>   <!-- Đặt giá trị này thành true để ẩn tiêu đề của cửa sổ -->
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>
@@ -40,7 +45,8 @@
     </style>
     <style name="DialogAnimation">
 
-<!--        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>-->
-<!--        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>-->
+    </style>
+    <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="background">@color/dark</item>
     </style>
 </resources>

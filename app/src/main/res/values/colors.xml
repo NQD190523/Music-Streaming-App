@@ -10,4 +10,6 @@
       <color name="black">#000000</color>
       <color name="white">#FFFFFF</color>
     <color name="startcolor">#310071</color>
+    <color name="subtitleText">#949292</color>
+    <color name="codGray900">#3D3D3D</color>
 </resources>
