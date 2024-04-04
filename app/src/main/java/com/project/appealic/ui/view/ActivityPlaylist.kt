@@ -4,6 +4,8 @@ import android.app.Dialog
 import android.graphics.drawable.GradientDrawable
 import android.media.browse.MediaBrowser
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore.Audio.Media
 import android.view.Gravity
 import android.view.ViewGroup
@@ -20,6 +22,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.Color
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackParameters
+import androidx.media3.common.Player
+import androidx.media3.common.Timeline
+import androidx.media3.common.Tracks
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
 import com.bumptech.glide.Glide
@@ -86,7 +91,7 @@ class ActivityPlaylist : AppCompatActivity() {
 
         findViewById<TextView>(R.id.song_name).text = songTitle
         findViewById<TextView>(R.id.singer_name).text = artistName
-        findViewById<TextView>(R.id.durationTv).text = formatDuration(duration)
+//        findViewById<TextView>(R.id.durationTv).text = formatDuration(duration)
 
         // Load hình ảnh sử dụng Glide
         trackImage?.let { imageUrl ->
@@ -126,10 +131,26 @@ class ActivityPlaylist : AppCompatActivity() {
         playBtn.setOnClickListener { handelPlayButtonClick() }
 
         // Thiết lập SeekBarChangeListener cho progressSb
+        player.addListener(object : Player.Listener{
+            override fun onTimelineChanged(timeline: Timeline, reason: Int) {
+                val duration = player.duration.toInt()/1000
+                progressSb.max = duration
+            }
+            override fun onPositionDiscontinuity(
+                oldPosition: Player.PositionInfo,
+                newPosition: Player.PositionInfo,
+                reason: Int
+            ) {
+                progressSb.progress = (player.currentPosition.toInt()/1000)
+                val remainingDuration = (player.duration - player.currentPosition)
+                findViewById<TextView>(R.id.durationTv).text = formatDuration(remainingDuration)
+            }
+        })
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Xử lý sự kiện thay đổi tiến trình
-
+                if(fromUser)
+                    player.seekTo(progress.toLong())
                 // Cập nhật tiến trình vào TextView progressTv
                 progressTv.text = progress.toString()
             }
@@ -142,6 +163,18 @@ class ActivityPlaylist : AppCompatActivity() {
                 // Xử lý khi kết thúc chạm vào SeekBar
             }
         })
+        var handler = Handler(Looper.getMainLooper())
+        handler.post(object : Runnable{
+            override fun run() {
+                var currentposition = player.currentPosition
+                progressSb.progress = currentposition.toInt()/1000
+                progressTv.text = formatDuration(currentposition)
+                val remainingDuration = (player.duration - player.currentPosition)
+                durationTv.text = formatDuration(remainingDuration)
+                handler.postDelayed(this,1000)
+            }
+
+        })
     }
 
     private fun handelPlayButtonClick() {
@@ -149,15 +182,16 @@ class ActivityPlaylist : AppCompatActivity() {
         else player.play()
     }
 
-    private fun formatDuration(durationInSeconds: Int): String {
-        val minutes = durationInSeconds / 60
-        val seconds = durationInSeconds % 6000
-        return "$minutes'${String.format("%02d", seconds)}''"
+    private fun formatDuration(durationInSeconds: Long): String {
+        val seconds = (durationInSeconds / 1000) % 60
+        val minutes = durationInSeconds / 60000
+        return "$minutes:${String.format("%02d", seconds)}"
     }
 
     // Các hàm xử lý sự kiện khi nhấn các nút
     private fun handlePreviousButtonClick() {
         // Xử lý khi nhấn nút Previous
+
     }
 
     private fun handlePlayButtonClick() {
