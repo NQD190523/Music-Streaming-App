@@ -309,7 +309,6 @@ class ActivityPlaylist : AppCompatActivity() {
 
 
 
-
     private fun handleShareButtonClick() {
         // Xử lý khi nhấn nút Share
     }
