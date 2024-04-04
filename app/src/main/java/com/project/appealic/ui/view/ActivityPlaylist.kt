@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.Player
+import androidx.media3.common.Timeline
 import androidx.media3.common.Tracks
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
@@ -84,7 +85,7 @@ class ActivityPlaylist : AppCompatActivity() {
         findViewById<TextView>(R.id.song_title).text = songTitle
         findViewById<TextView>(R.id.song_name).text = songTitle
         findViewById<TextView>(R.id.singer_name).text = artistName
-        findViewById<TextView>(R.id.durationTv).text = formatDuration(duration)
+//        findViewById<TextView>(R.id.durationTv).text = formatDuration(duration)
 
         // Load hình ảnh sử dụng Glide
         trackImage?.let { imageUrl ->
@@ -125,21 +126,20 @@ class ActivityPlaylist : AppCompatActivity() {
 
         // Thiết lập SeekBarChangeListener cho progressSb
         player.addListener(object : Player.Listener{
-            override fun onIsLoadingChanged(isLoading: Boolean) {
+            override fun onTimelineChanged(timeline: Timeline, reason: Int) {
                 val duration = player.duration.toInt()/1000
                 progressSb.max = duration
             }
-        })
-        player.addListener(object : Player.Listener{
             override fun onPositionDiscontinuity(
                 oldPosition: Player.PositionInfo,
                 newPosition: Player.PositionInfo,
                 reason: Int
             ) {
                 progressSb.progress = (player.currentPosition.toInt()/1000)
+                val remainingDuration = (player.duration - player.currentPosition)
+                findViewById<TextView>(R.id.durationTv).text = formatDuration(remainingDuration)
             }
         })
-
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Xử lý sự kiện thay đổi tiến trình
@@ -160,8 +160,11 @@ class ActivityPlaylist : AppCompatActivity() {
         var handler = Handler(Looper.getMainLooper())
         handler.post(object : Runnable{
             override fun run() {
-                var currentposition = player.currentPosition.toInt()/1000
-                progressSb.progress = currentposition
+                var currentposition = player.currentPosition
+                progressSb.progress = currentposition.toInt()/1000
+                progressTv.text = formatDuration(currentposition)
+                val remainingDuration = (player.duration - player.currentPosition)
+                durationTv.text = formatDuration(remainingDuration)
                 handler.postDelayed(this,1000)
             }
 
@@ -173,10 +176,10 @@ class ActivityPlaylist : AppCompatActivity() {
         else player.play()
     }
 
-    private fun formatDuration(durationInSeconds: Int): String {
+    private fun formatDuration(durationInSeconds: Long): String {
         val seconds = (durationInSeconds / 1000) % 60
         val minutes = durationInSeconds / 60000
-        return "$minutes'${String.format("%02d", seconds)}''"
+        return "$minutes:${String.format("%02d", seconds)}"
     }
 
     // Các hàm xử lý sự kiện khi nhấn các nút
