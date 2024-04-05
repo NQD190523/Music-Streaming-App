@@ -141,18 +141,17 @@ class ActivityPlaylist : AppCompatActivity() {
                 newPosition: Player.PositionInfo,
                 reason: Int
             ) {
-                progressSb.progress = (player.currentPosition.toInt()/1000)
-                val remainingDuration = (player.duration - player.currentPosition)
-                findViewById<TextView>(R.id.durationTv).text = formatDuration(remainingDuration)
+
             }
         })
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Xử lý sự kiện thay đổi tiến trình
-                if(fromUser)
-                    player.seekTo(progress.toLong())
+                if(fromUser) {
+                    player.seekTo((progress * 1000.0).toLong())
+                }
                 // Cập nhật tiến trình vào TextView progressTv
-                progressTv.text = progress.toString()
+                progressTv.text = formatDuration(progress.toLong())
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
