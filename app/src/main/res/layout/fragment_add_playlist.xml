@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/radius_background"
-
+    android:layout_height="wrap_content"
+    android:background="@drawable/more_background"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,8 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:fontFamily="@font/prompt_medium"
-                android:textSize="25sp"
+                style="@style/Heading3"
                 android:text="Add song to playlist"
                 />
         </LinearLayout>
@@ -33,28 +31,31 @@
             />
 
         <LinearLayout
+            android:id="@+id/llCreatePlaylist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             >
             <FrameLayout
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:background="@drawable/btn_rounded_gray"
-                >
-
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_rounded_gray">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_plus_24_outlined"
+                    android:layout_gravity="center"/>
             </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Create new playlist"
-                android:textSize="19sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_marginStart="16dp"
-                android:fontFamily="@font/inter_bold"
+                style="@style/Body1Bold"
                 />
         </LinearLayout>
 
@@ -66,8 +67,8 @@
             android:layout_marginTop="16dp"
             >
             <FrameLayout
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 >
                 <TableLayout
                     android:layout_width="match_parent"
@@ -134,7 +135,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Playlist 1"
-                    android:textSize="19sp"
                     android:textColor="@color/white"
                     style="@style/Body1Bold"
                     />
@@ -142,11 +142,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="4dp"
                     android:text="Jienne"
-                    android:textSize="17sp"
                     android:textColor="@color/subtitleText"
-                    android:fontFamily="@font/inter_regular"
+                    style="@style/Body2"
                     />
             </LinearLayout>
 
@@ -160,8 +159,8 @@
             android:layout_marginTop="16dp"
             >
             <FrameLayout
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 >
                 <TableLayout
                     android:layout_width="match_parent"
@@ -228,22 +227,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Playlist 2"
-                    android:textSize="19sp"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/inter_bold"
+                    style="@style/Body1Bold"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="4dp"
                     android:text="Jienne"
-                    android:textSize="17sp"
                     android:textColor="@color/subtitleText"
-                    android:fontFamily="@font/inter_regular"
+                    style="@style/Body2"
                     />
             </LinearLayout>
+
+
 
 
         </LinearLayout>

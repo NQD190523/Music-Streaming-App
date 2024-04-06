@@ -8,6 +8,7 @@
         android:width="@dimen/dp_1"
         android:color="#20FFFFFF" />
     <corners
-        android:radius="@dimen/dp_32"/>
+        android:topRightRadius="@dimen/dp_32"
+        android:topLeftRadius="@dimen/dp_32"/>
 
 </shape>
