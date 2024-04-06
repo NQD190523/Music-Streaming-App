@@ -35,7 +35,7 @@ class AddPlaylistFragment : DialogFragment() {
 
             // Tùy chỉnh cài đặt của Window
             val window = dialog.window
-            window?.setBackgroundDrawableResource(R.drawable.radius_background)
+            window?.setBackgroundDrawableResource(R.drawable.more_background)
             val layoutParams = window?.attributes
             layoutParams?.gravity = Gravity.BOTTOM or Gravity.START or Gravity.END
             layoutParams?.width = WindowManager.LayoutParams.MATCH_PARENT
@@ -45,3 +45,5 @@ class AddPlaylistFragment : DialogFragment() {
             return dialog
         }
     }
+
+

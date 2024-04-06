@@ -1,5 +1,6 @@
 package com.project.appealic.ui.view
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 
 import android.os.Bundle
@@ -286,11 +287,23 @@ class ActivityPlaylist : AppCompatActivity() {
             showDialogForComment()
         }
 
+        val llArtist = view.findViewById<LinearLayout>(R.id.llArtist)
+        llArtist.setOnClickListener {
+            bottonMoreActionDialog.dismiss()
+            showDialogForArtist()
+        }
+
+        val llSleep = view.findViewById<LinearLayout>(R.id.llSleep)
+        llSleep.setOnClickListener {
+            bottonMoreActionDialog.dismiss()
+            showDialogForSleep()
+        }
+
         dialog.setContentView(view)
 
         // Tùy chỉnh Window của dialog
         val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.radius_background)
+        window?.setBackgroundDrawableResource(R.drawable.more_background)
         val layoutParams = window?.attributes
         layoutParams?.gravity = Gravity.BOTTOM or Gravity.START or Gravity.END
         layoutParams?.width =
@@ -302,12 +315,19 @@ class ActivityPlaylist : AppCompatActivity() {
         dialog.show()
     }
 
+    @SuppressLint("MissingInflatedId")
+    private fun showDialogForAddPlay() {
+        val addPlaylistFragment = AddPlaylistFragment()
+        addPlaylistFragment.show(supportFragmentManager, "AddPlaylistFragment")
+
+    }
+
     private fun showDialogForComment() {
         val dialog = Dialog(this)
         val view = layoutInflater.inflate(R.layout.bottom_comment, null)
 
         val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.radius_background)
+        window?.setBackgroundDrawableResource(R.drawable.more_background)
         window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -318,16 +338,41 @@ class ActivityPlaylist : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun showDialogForAddPlay() {
-        val addPlaylistFragment = AddPlaylistFragment()
-        addPlaylistFragment.show(supportFragmentManager, "AddPlaylistFragment")
+    private fun showDialogForArtist(){
+        val dialog = Dialog(this)
+        val view = layoutInflater.inflate(R.layout.bottom_artist, null)
+
+        val window = dialog.window
+        window?.setBackgroundDrawableResource(R.drawable.more_background)
+        window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
+
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
+    private fun showDialogForSleep(){
+        val dialog = Dialog(this)
+        val view = layoutInflater.inflate(R.layout.bottom_sleep, null)
+
+        val window = dialog.window
+        window?.setBackgroundDrawableResource(R.drawable.more_background)
+        window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
+
+        dialog.setContentView(view)
+        dialog.show()
     }
 }
 
 private fun showDialogForAddFav() {
 }
-
-
 
 
 private fun handleShareButtonClick() {

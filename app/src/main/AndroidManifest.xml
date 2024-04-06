@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Appealic"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ui.view.GoogleLoginActivity"
+            android:name=".ui.view.ActivityHome"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Appealic">
@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.ActivityHome" />
+        <activity android:name=".ui.view.GoogleLoginActivity" />
         <activity android:name=".ui.view.Activity_welcome"/>
         <activity android:name=".ui.view.MediaActivity"/>
         <activity android:name=".ui.view.ActivityPlaylist" />

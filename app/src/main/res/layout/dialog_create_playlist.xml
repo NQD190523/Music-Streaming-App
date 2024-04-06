@@ -2,54 +2,59 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:fontFamily="@font/prompt_medium"
-        android:textSize="25sp"
-        android:text="Create Playlist"
-        />
-
-    <EditText
+    android:layout_height="wrap_content"
+    android:background="@drawable/radius_background">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter playlist's name"
-        android:textColor="@color/white"
-        android:textColorHint="#45ffffff"
-        android:textSize="15sp"
-        android:layout_marginTop="21dp"
-        android:paddingVertical="20dp"
-        android:paddingHorizontal="19dp"
-        android:backgroundTint="#80F6F6F6"/>
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/dp_32"
+        android:paddingTop="@dimen/dp_32">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            style="@style/Heading3"
+            android:text="Create Playlist"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter playlist's name"
+            android:textColor="@color/white"
+            android:textColorHint="@color/subText"
+            android:layout_marginTop="@dimen/dp_16"
+            android:paddingVertical="20dp"
+            android:paddingHorizontal="19dp"
+            style="@style/Placeholder"/>
+    </LinearLayout>
+
+
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
         android:orientation="horizontal"
-        android:layout_gravity="end">
+        android:layout_gravity="end"
+        android:layout_marginVertical="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_32">
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:fontFamily="@font/inter_bold"
-            android:textSize="19sp"
+            android:layout_height="50dp"
+            style="@style/Body1Bold"
             android:background="@null"
-            android:hint="Cancel"
-            android:textColorHint="@color/white"
-            android:padding="2dp"
+            android:text="Cancel"
+            android:textColor="@color/subText"
             />
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:fontFamily="@font/inter_bold"
-            android:textSize="19sp"
+            android:layout_height="50dp"
+            style="@style/Body1Bold"
             android:background="@null"
-            android:hint="Confirm"
-            android:textColorHint="@color/white"
-            android:padding="2dp"
+            android:text="Confirm"
+            android:textColor="@color/white"
             />
     </LinearLayout>
 

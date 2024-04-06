@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/radius_background"
+    android:layout_height="wrap_content"
+    android:background="@drawable/more_background"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -204,7 +204,7 @@ android:text="Comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@+id/llSheep"
+            android:id="@+id/llSleep"
             android:padding="8dp">
             <ImageView
                 android:layout_width="wrap_content"
@@ -217,7 +217,7 @@ android:text="Comment"
                 android:textColor="@color/white"
                 style="@style/Body1"
                 android:layout_marginStart="10dp"
-                android:text="Sheep Time"
+                android:text="Sleep Time"
                 android:layout_weight="1" />
 
         </LinearLayout>
