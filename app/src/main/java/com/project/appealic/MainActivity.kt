@@ -1,5 +1,6 @@
 package com.project.appealic
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,14 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.project.appealic.ui.theme.AppealicTheme
 import com.project.appealic.ui.view.ActivityHome
+import com.project.appealic.ui.view.GoogleLoginActivity
 
-class MainActivity : ComponentActivity() {
+class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            val  intent = Intent(this, ActivityHome::class.java)
-            startActivity(intent)
-        }
+        val  intent = Intent(this, GoogleLoginActivity::class.java)
+        startActivity(intent)
     }
 }
 

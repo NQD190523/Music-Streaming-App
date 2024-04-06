@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Appealic"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ui.view.GoogleLoginActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Appealic">
@@ -28,6 +28,7 @@
         <activity android:name=".ui.view.Activity_welcome"/>
         <activity android:name=".ui.view.MediaActivity"/>
         <activity android:name=".ui.view.ActivityPlaylist" />
+        <activity android:name=".ui.view.GoogleLoginActivity" />
     </application>
 
 </manifest>
