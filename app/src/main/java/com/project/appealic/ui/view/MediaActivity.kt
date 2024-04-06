@@ -8,11 +8,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.exoplayer.ExoPlayer
 import com.project.appealic.R
-import com.project.appealic.data.network.RetrofitClient
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.databinding.ActivityPlaysongBinding
-import com.project.appealic.ui.viewmodel.PlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.ui.viewmodel.SongViewModelFactory
 import com.project.appealic.ui.viewmodel.SpotifyAuthViewModel
@@ -23,7 +21,6 @@ class MediaActivity: AppCompatActivity() {
     private lateinit var binding : ActivityPlaysongBinding
     private var isPlaying = false
     private lateinit var player : ExoPlayer
-    private  val viewModel: PlayerViewModel by viewModels()
     private lateinit var spotifyAuthViewModel: SpotifyAuthViewModel
     private lateinit var spotifyViewModel: SpotifyViewModel
 

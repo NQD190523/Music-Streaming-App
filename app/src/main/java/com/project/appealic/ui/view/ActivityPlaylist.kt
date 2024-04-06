@@ -35,6 +35,7 @@ import com.project.appealic.R
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
+import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.ui.viewmodel.SongViewModelFactory
 import com.squareup.picasso.Picasso
@@ -61,15 +62,16 @@ class ActivityPlaylist : AppCompatActivity() {
     private lateinit var multiplyBtn: ImageView
     private lateinit var mediaItem: MediaItem
     private lateinit var player: ExoPlayer
+    private lateinit var musicPlayerViewModel: MusicPlayerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playsong)
 
         //Cấu hình exoplayer
+        musicPlayerViewModel = ViewModelProvider(this).get(MusicPlayerViewModel::class.java)
 
-        player = ExoPlayer.Builder(this)
-            .build()
+        player = musicPlayerViewModel.exoPlayer
 
         // Khởi tạo tất cả các thành phần UI
         progressTv = findViewById(R.id.progressTv)
@@ -97,7 +99,6 @@ class ActivityPlaylist : AppCompatActivity() {
 
         findViewById<TextView>(R.id.song_name).text = songTitle
         findViewById<TextView>(R.id.singer_name).text = artistName
-//        findViewById<TextView>(R.id.durationTv).text = formatDuration(duration)
 
         // Load hình ảnh sử dụng Glide
         trackImage?.let { imageUrl ->
@@ -124,8 +125,6 @@ class ActivityPlaylist : AppCompatActivity() {
             }
         }
 
-
-
         // Gắn các hàm xử lý sự kiện cho các thành phần UI
         previousBtn.setOnClickListener { handlePreviousButtonClick() }
         mixBtn.setOnClickListener { handleMixButtonClick() }
@@ -149,17 +148,16 @@ class ActivityPlaylist : AppCompatActivity() {
                 newPosition: Player.PositionInfo,
                 reason: Int
             ) {
-                progressSb.progress = (player.currentPosition.toInt()/1000)
-                val remainingDuration = (player.duration - player.currentPosition)
-                findViewById<TextView>(R.id.durationTv).text = formatDuration(remainingDuration)
+
             }
         })
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Xử lý sự kiện thay đổi tiến trình
-                if(fromUser)
-                    player.seekTo(progress.toLong())
-                progressTv.text = progress.toString()
+                if(fromUser) {
+                    player.seekTo((progress *1000).toLong())
+                    progressTv.text = formatDuration(progress.toLong())
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -180,14 +178,16 @@ class ActivityPlaylist : AppCompatActivity() {
                 durationTv.text = formatDuration(remainingDuration)
                 handler.postDelayed(this,1000)
             }
-
         })
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        player.release()
     }
 
     private fun handleMixButtonClick() {
 
     }
-
 
     private fun formatDuration(durationInSeconds: Long): String {
         val seconds = (durationInSeconds / 1000) % 60
@@ -326,9 +326,6 @@ class ActivityPlaylist : AppCompatActivity() {
 
 private fun showDialogForAddFav() {
 }
-
-
-
 
 private fun handleShareButtonClick() {
 }
