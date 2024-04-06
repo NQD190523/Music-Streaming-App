@@ -1,12 +1,10 @@
 package com.project.appealic.ui.view
 
 import android.app.Dialog
-import android.graphics.drawable.GradientDrawable
-import android.media.browse.MediaBrowser
+
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.MediaStore.Audio.Media
 import android.view.Gravity
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -20,6 +18,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.Player
@@ -33,12 +32,19 @@ import com.google.firebase.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import com.project.appealic.R
+import com.project.appealic.data.repository.SongRepository
+import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
+import com.project.appealic.ui.viewmodel.SongViewModel
+import com.project.appealic.ui.viewmodel.SongViewModelFactory
 import com.squareup.picasso.Picasso
 import okhttp3.internal.concurrent.formatDuration
 
 class ActivityPlaylist : AppCompatActivity() {
 
+    private var isRepeating = false
+    private var playlist: ArrayList<MediaItem> = ArrayList()
+    private var currentTrackIndex: Int = 0
     private lateinit var progressTv: TextView
     private lateinit var progressSb: SeekBar
     private lateinit var durationTv: TextView
@@ -118,9 +124,11 @@ class ActivityPlaylist : AppCompatActivity() {
             }
         }
 
+
+
         // Gắn các hàm xử lý sự kiện cho các thành phần UI
         previousBtn.setOnClickListener { handlePreviousButtonClick() }
-        mixBtn.setOnClickListener { handlePlayButtonClick() }
+        mixBtn.setOnClickListener { handleMixButtonClick() }
         nextBtn.setOnClickListener { handleNextButtonClick() }
         repeatBtn.setOnClickListener { handleRepeatButtonClick() }
         commentBtn.setOnClickListener { handleCommentButtonClick() }
@@ -141,17 +149,17 @@ class ActivityPlaylist : AppCompatActivity() {
                 newPosition: Player.PositionInfo,
                 reason: Int
             ) {
-
+                progressSb.progress = (player.currentPosition.toInt()/1000)
+                val remainingDuration = (player.duration - player.currentPosition)
+                findViewById<TextView>(R.id.durationTv).text = formatDuration(remainingDuration)
             }
         })
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Xử lý sự kiện thay đổi tiến trình
-                if(fromUser) {
-                    player.seekTo((progress * 1000.0).toLong())
-                }
-                // Cập nhật tiến trình vào TextView progressTv
-                progressTv.text = formatDuration(progress.toLong())
+                if(fromUser)
+                    player.seekTo(progress.toLong())
+                progressTv.text = progress.toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -176,10 +184,10 @@ class ActivityPlaylist : AppCompatActivity() {
         })
     }
 
-    private fun handelPlayButtonClick() {
-        if (player.isPlaying) player.pause()
-        else player.play()
+    private fun handleMixButtonClick() {
+
     }
+
 
     private fun formatDuration(durationInSeconds: Long): String {
         val seconds = (durationInSeconds / 1000) % 60
@@ -189,24 +197,42 @@ class ActivityPlaylist : AppCompatActivity() {
 
     // Các hàm xử lý sự kiện khi nhấn các nút
     private fun handlePreviousButtonClick() {
-        // Xử lý khi nhấn nút Previous
-
+        if (currentTrackIndex > 0) {
+            currentTrackIndex--
+            player.setMediaItem(playlist[currentTrackIndex])
+            player.prepare()
+            player.play()
+        }
     }
 
-    private fun handlePlayButtonClick() {
-        // Xử lý khi nhấn nút Play
+    private fun handelPlayButtonClick() {
+        if (player.isPlaying) {
+            player.pause()
+            playBtn.setImageResource(R.drawable.ic_play_20_filled)
+        } else {
+            player.play()
+            playBtn.setImageResource(R.drawable.ic_pause_20_filled)
+        }
     }
 
     private fun handleNextButtonClick() {
-        // Xử lý khi nhấn nút Next
+        if (currentTrackIndex < playlist.size - 1) {
+            currentTrackIndex++
+            player.setMediaItem(playlist[currentTrackIndex])
+            player.prepare()
+            player.play()
+        }
     }
 
     private fun handleRepeatButtonClick() {
-        // Xử lý khi nhấn nút Repeat
+        if (player.isPlaying) {
+            isRepeating = !isRepeating
+            player.repeatMode = if (isRepeating) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+        }
     }
-
     private fun handleCommentButtonClick() {
         // Xử lý khi nhấn nút Comment
+        showDialogForComment()
     }
 
     private fun handleDownloadButtonClick() {
@@ -277,43 +303,36 @@ class ActivityPlaylist : AppCompatActivity() {
     }
 
     private fun showDialogForComment() {
-        val bottomSheetDialog = BottomSheetDialog(this)
-
-        // Inflate layout cho dialog
+        val dialog = Dialog(this)
         val view = layoutInflater.inflate(R.layout.bottom_comment, null)
 
-        // Tùy chỉnh Window của dialog
-        val window = bottomSheetDialog.window
-        window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val window = dialog.window
+        window?.setBackgroundDrawableResource(R.drawable.radius_background)
         window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        window?.setGravity(Gravity.BOTTOM) // Hiển thị ở dưới cùng
+        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
 
-        // Thiết lập nội dung cho dialog và hiển thị
-        bottomSheetDialog.setContentView(view)
-        bottomSheetDialog.show()
+        dialog.setContentView(view)
+        dialog.show()
     }
+
     private fun showDialogForAddPlay() {
         val addPlaylistFragment = AddPlaylistFragment()
         addPlaylistFragment.show(supportFragmentManager, "AddPlaylistFragment")
     }
 }
 
-    private fun showDialogForAddFav() {
-        // Tạo và hiển thị dialog cho Add to favourite
-        // Bạn có thể tạo một dialog khác nhau tại đây
-    }
+private fun showDialogForAddFav() {
+}
 
 
 
-    private fun handleShareButtonClick() {
-        // Xử lý khi nhấn nút Share
-    }
 
-    private fun handleMultiplyButtonClick() {
-        // Xử lý khi nhấn nút Multiply
-    }
+private fun handleShareButtonClick() {
+}
 
+private fun handleMultiplyButtonClick() {
+}
 

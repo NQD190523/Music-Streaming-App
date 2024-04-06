@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.exoplayer.ExoPlayer
+import com.project.appealic.R
 import com.project.appealic.data.network.RetrofitClient
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
@@ -20,7 +21,7 @@ import com.project.appealic.ui.viewmodel.SpotifyViewModel
 class MediaActivity: AppCompatActivity() {
 
     private lateinit var binding : ActivityPlaysongBinding
-
+    private var isPlaying = false
     private lateinit var player : ExoPlayer
     private  val viewModel: PlayerViewModel by viewModels()
     private lateinit var spotifyAuthViewModel: SpotifyAuthViewModel
@@ -35,6 +36,8 @@ class MediaActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPlaysongBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupPlayPauseButton()
 
         val factory = SongViewModelFactory(songRepository, userRepository)
         songViewModel = ViewModelProvider(this,factory).get(SongViewModel::class.java)
@@ -103,5 +106,18 @@ class MediaActivity: AppCompatActivity() {
 //        })
 
 
+    }
+
+    private fun setupPlayPauseButton() {
+        binding.playPauseIcon.setOnClickListener {
+            if (isPlaying) {
+                player.pause()
+                binding.playPauseIcon.setImageResource(R.drawable.ic_play_20_filled)
+            } else {
+                player.play()
+                binding.playPauseIcon.setImageResource(R.drawable.ic_pause_20_filled)
+            }
+            isPlaying = !isPlaying
+        }
     }
 }
