@@ -285,6 +285,11 @@ class ActivityPlaylist : AppCompatActivity() {
             bottonMoreActionDialog.dismiss()
             showDialogForComment()
         }
+        val llArtist = view.findViewById<LinearLayout>(R.id.llArtist)
+        llArtist.setOnClickListener {
+            bottonMoreActionDialog.dismiss()
+            showDialogForArtist()
+        }
 
         dialog.setContentView(view)
 
@@ -301,6 +306,23 @@ class ActivityPlaylist : AppCompatActivity() {
         // Hiển thị dialog
         dialog.show()
     }
+
+    private fun showDialogForArtist() {
+        val dialog = Dialog(this)
+        val view = layoutInflater.inflate(R.layout.bottom_artist, null)
+
+        val window = dialog.window
+        window?.setBackgroundDrawableResource(R.drawable.radius_background)
+        window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
+
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
 
     private fun showDialogForComment() {
         val dialog = Dialog(this)

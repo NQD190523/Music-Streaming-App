@@ -17,11 +17,15 @@ import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class SongViewModel(private val songRepository: SongRepository, private val userRepository: UserRepository) : ViewModel() {
 
     private val _tracks = MutableLiveData<List<Track>>()
+    private val _likedSongs = MutableLiveData<List<SongEntity>>()
+    val likedSongs: LiveData<List<SongEntity>> get() = _likedSongs
+
     val tracks: LiveData<List<Track>> get() = _tracks
 
     private val _artists = MutableLiveData<List<Artist>>()
@@ -70,5 +74,13 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     }
 
 
-
+    fun getLikedSongs(userId: String) = viewModelScope.launch {
+        try {
+            val songs = songRepository.getLikedSongs(userId).await()
+            val likedSongsList = songs.documents.map { it.toObject<SongEntity>()!! }
+            _likedSongs.postValue(likedSongsList)
+        } catch (exception: Exception) {
+            Log.e("error", exception.toString())
+        }
+    }
 }

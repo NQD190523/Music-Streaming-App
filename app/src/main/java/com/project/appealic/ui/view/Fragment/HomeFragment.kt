@@ -32,7 +32,6 @@ class HomeFragment : Fragment() {
     private lateinit var songViewModel: SongViewModel
     private lateinit var listView: ListView
     private lateinit var recyclerViewArtists: RecyclerView
-    private lateinit var RecentlySongAdapter: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

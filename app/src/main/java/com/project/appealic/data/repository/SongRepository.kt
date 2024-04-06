@@ -42,6 +42,13 @@ class SongRepository(application: Application) {
     fun getRecentSongs(userId: String): LiveData<List<SongEntity>> {
         return songDao.getRecentSongs(userId)
     }
+    fun getLikedSongs(userId: String): Task<QuerySnapshot> {
+        return firebaseDB.collection("songs")
+            .whereEqualTo("userId", userId)
+            .whereEqualTo("liked", true)
+            .get()
+    }
+
 
     suspend fun insertSong(song: SongEntity) {
         songDao.insertSong(song)
