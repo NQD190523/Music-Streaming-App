@@ -1,85 +1,64 @@
-
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FFFFFFFF"
-    android:orientation="vertical"
+    android:background="@drawable/startscreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:id="@+id/rvWelcome"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+
+    <ImageView
+        android:id="@+id/rvImageWelcome"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/startscreen"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/rvWelcome3"
+        android:layout_width="381dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="116dp"
         android:gravity="center_horizontal"
-        >
-        <ImageView
-            android:id="@+id/rvImageWelcome"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/txtWelcome"
+            style="@style/Heading2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Welcome"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/txtWelcome2"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Ger your groceries in as fast as one hour"
+            android:textColor="@color/subText" />
+
+        <Button
+            android:id="@+id/btnContinue"
+            style="@style/CTAsMedium"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/startscreen"
-            android:scaleType="fitXY" />
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="50dp"
+            android:layout_margin="18dp"
+            android:background="@drawable/rounded_button"
+            android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="Continue"
+            android:textColor="#F6F9FB" />
 
-            <LinearLayout
-                android:id="@+id/rvWelcome2"
-                android:layout_width="match_parent"
-                android:layout_height="375dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+    </LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/rvWelcome3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginTop="90dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:id="@+id/txtWelcome"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="Welcome"
-                    android:textColor="#ffffff"
-                    style="@style/Heading2" />
-
-                <TextView
-                    android:id="@+id/txtWelcome2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:text="Ger your groceries in as fast as one hour"
-                    android:textColor="@color/subText"
-                    style="@style/Body2" />
-
-                <Button
-                    android:id="@+id/btnContinue"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_margin="18dp"
-                    android:background="@drawable/rounded_button"
-                    android:text="Continue"
-                    style="@style/CTAsMedium"
-                    android:textColor="#F6F9FB"
-                    android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:gravity="center"/>
-
-
-
-            </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

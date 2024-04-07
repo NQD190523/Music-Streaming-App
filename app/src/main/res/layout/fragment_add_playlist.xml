@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/radius_background"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background">
 
-    >
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/dp_16"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,28 +27,24 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/prompt_medium"
                 android:textSize="25sp"
-                android:text="Add song to playlist"
-                />
+                android:text="Add song to playlist" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/subtitleText"
-            android:layout_marginVertical="@dimen/dp_16"
-            />
+            android:layout_marginVertical="@dimen/dp_16" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            >
+            android:gravity="center_vertical">
             <FrameLayout
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                android:background="@drawable/btn_rounded_gray"
-                >
-
+                android:background="@drawable/btn_rounded_gray">
             </FrameLayout>
 
             <TextView
@@ -54,17 +55,14 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_marginStart="16dp"
-                android:fontFamily="@font/inter_bold"
-                />
+                android:fontFamily="@font/inter_bold" />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="16dp"
-            >
+            android:layout_marginTop="16dp">
             <FrameLayout
                 android:layout_width="65dp"
                 android:layout_height="65dp"
@@ -125,18 +123,17 @@
             </FrameLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Playlist 1"
-                    android:textSize="19sp"
-                    android:textColor="@color/white"
+                    android:text="Album 1"
                     style="@style/Body1Bold"
+                    android:textColor="@color/text"
                     />
 
                 <TextView
@@ -144,11 +141,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="Jienne"
-                    android:textSize="17sp"
+                    style="@style/Body2"
                     android:textColor="@color/subtitleText"
-                    android:fontFamily="@font/inter_regular"
                     />
             </LinearLayout>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/ic_more_20_outlined" />
 
         </LinearLayout>
 
@@ -219,7 +221,8 @@
             </FrameLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:orientation="vertical"
@@ -227,11 +230,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Playlist 2"
-                    android:textSize="19sp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/inter_bold"
+                    android:text="Album 2"
+                    style="@style/Body1Bold"
+                    android:textColor="@color/text"
                     />
 
                 <TextView
@@ -239,15 +240,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="Jienne"
-                    android:textSize="17sp"
+                    style="@style/Body2"
                     android:textColor="@color/subtitleText"
-                    android:fontFamily="@font/inter_regular"
                     />
             </LinearLayout>
-
-
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/ic_more_20_outlined" />
         </LinearLayout>
-
     </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
