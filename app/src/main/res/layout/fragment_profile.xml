@@ -105,35 +105,69 @@
             android:focusable="true"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="190dp"
-                android:layout_height="22dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Update Account "
-                android:textColor="#FBFAFA" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp">
 
-                <ImageView
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="151dp"
-                    android:layout_marginStart="@dimen/sp_12"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/update_account" />
-
+                    android:text="Update Account "
+                    style="@style/Heading4"
+                    android:textColor="@color/text"/>
+                <Space
+                    android:layout_width="16dp"
+                    android:layout_height="wrap_content" />
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="151dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/update_standard" />
-
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_16_right"
+                    android:layout_gravity="center"/>
             </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="16dp">
+
+                    <ImageView
+                        android:id="@+id/solo_card"
+                        android:layout_width="253dp"
+                        android:layout_height="152dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/plus_solo_card">
+                    </ImageView>
+
+                    <ImageView
+                        android:id="@+id/student_card"
+                        android:layout_width="253dp"
+                        android:layout_height="152dp"
+                        android:src="@drawable/plus_student_card"
+                        android:layout_marginEnd="8dp">
+                    </ImageView>
+                    <ImageView
+                        android:id="@+id/mini_card"
+                        android:layout_width="253dp"
+                        android:layout_height="152dp"
+                        android:src="@drawable/plus_mini_card"
+                        android:layout_marginEnd="40dp">
+                    </ImageView>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+
 
             <TextView
                 android:layout_width="75dp"
@@ -141,34 +175,37 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Personal"
-                android:textColor="#FBFAFA" />
+                android:textColor="#FBFAFA"
+                style="@style/Heading4"/>
 
             <LinearLayout
                 android:id="@+id/ll_Profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="@dimen/sp_16"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/sp_12"
-                    android:src="@drawable/ic_info_20_outlined" />
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_person_20_outlined" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="@dimen/sp_16"
                     android:layout_weight="10"
                     android:text="Profile"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    style="@style/Body1"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/ic_arrow_16_right" />
+                    android:src="@drawable/ic_arrow_16_right"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
             <!-- Divider View -->
@@ -176,54 +213,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="#4DFFFFFF" />
+                android:background="#30FFFFFF" />
 
-            <LinearLayout
-                android:id="@+id/ll_Account"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/sp_12"
-                    android:src="@drawable/ic_person_20_outlined" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="10"
-                    android:text="Account"
-                    android:textColor="@color/white" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:src="@drawable/ic_arrow_16_right" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:background="#4DFFFFFF" />
 
             <LinearLayout
                 android:id="@+id/ll_Theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/sp_16"
+                android:layout_marginHorizontal="@dimen/sp_16"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/sp_12"
-                    android:src="@drawable/ic_person_20_outlined" />
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_theme_16_outlined" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -231,33 +235,35 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="10"
                     android:text="Theme"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    style="@style/Body1"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/ic_arrow_16_right" />
+                    android:src="@drawable/ic_arrow_16_right"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="#4DFFFFFF" />
+                android:background="#30FFFFFF" />
 
             <LinearLayout
                 android:id="@+id/ll_Contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/sp_16"
+                android:layout_marginHorizontal="@dimen/sp_16"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/sp_12"
-                    android:src="@drawable/ic_person_20_outlined" />
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_16_outlined_phone" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -265,33 +271,35 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="10"
                     android:text="Contact"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    style="@style/Body1"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/ic_arrow_16_right" />
+                    android:src="@drawable/ic_arrow_16_right"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="#4DFFFFFF" />
+                android:background="#30FFFFFF" />
 
             <LinearLayout
                 android:id="@+id/ll_Legal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/sp_16"
+                android:layout_marginHorizontal="@dimen/sp_16"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/sp_12"
-                    android:src="@drawable/ic_person_20_outlined" />
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_policy_16_outlined" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -299,21 +307,99 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="10"
                     android:text="Legal"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    style="@style/Body1"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/ic_arrow_16_right" />
+                    android:src="@drawable/ic_arrow_16_right"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="#30FFFFFF" />
+            <LinearLayout
+                android:id="@+id/ll_ChangePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp_16"
+                android:layout_marginHorizontal="@dimen/sp_16"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+
+                    android:src="@drawable/ic_16_outlined_lock" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="10"
+                    android:text="Change Password"
+                    android:textColor="@color/text"
+                    style="@style/Body1"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/ic_arrow_16_right"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="#30FFFFFF" />
+
+            <LinearLayout
+                android:id="@+id/ll_Account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp_16"
+                android:layout_marginHorizontal="@dimen/sp_16"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+
+                    android:src="@drawable/ic_alert_16_outlined" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="10"
+                    android:text="Notify"
+                    android:textColor="@color/text"
+                    style="@style/Body1"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/ic_arrow_16_right"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Log Out" />
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="32dp"
+                android:text="Sign Out"
+                android:textAllCaps="false"
+                android:background="@drawable/btn_rounded_border"
+                android:textColor="@color/text"
+                style="@style/CTAsSmall"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

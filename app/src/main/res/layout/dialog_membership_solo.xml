@@ -140,7 +140,8 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/inter_regular"
                 android:justificationMode="inter_word"
-                android:layout_marginTop="9dp"/>
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="40dp"/>
 
 
 
@@ -150,7 +151,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_arrow_16_left"
-        android:layout_marginTop="26dp"
+        android:layout_marginVertical="26dp"
         android:paddingHorizontal="13dp"
         />
 
