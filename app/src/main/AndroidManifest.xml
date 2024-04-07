@@ -28,6 +28,7 @@
         <activity android:name=".ui.view.Activity_welcome"/>
         <activity android:name=".ui.view.MediaActivity"/>
         <activity android:name=".ui.view.ActivityPlaylist" />
+        <activity android:name=".ui.view.GoogleLoginActivity" />
     </application>
 
 </manifest>
