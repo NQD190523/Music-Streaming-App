@@ -44,7 +44,8 @@
 <!--        <item name="android:background">@drawable/custom_bottom_sheet</item>-->
     </style>
     <style name="DialogAnimation">
-
+        <item name="android:windowEnterAnimation">@anim/activity_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/activity_fade_out</item>
     </style>
     <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="background">@color/dark</item>

@@ -1,61 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/radius_background">
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_32"
+        android:layout_marginTop="@dimen/dp_32"
+        android:layout_marginBottom="@dimen/dp_16"
         android:orientation="vertical"
-        android:paddingHorizontal="@dimen/dp_32"
-        android:paddingTop="@dimen/dp_32">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
             style="@style/Heading3"
-            android:text="Create Playlist"/>
-
-        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter playlist's name"
-            android:textColor="@color/white"
-            android:textColorHint="@color/subText"
+            android:text="Create Playlist"
+            android:textColor="@color/white" />
+
+        <EditText
+            android:id="@+id/edtPlaylistName"
+            style="@style/Placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
-            android:paddingVertical="20dp"
+            android:hint="Enter playlist's name"
             android:paddingHorizontal="19dp"
-            style="@style/Placeholder"/>
-    </LinearLayout>
-
-
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="end"
-        android:layout_marginVertical="@dimen/dp_16"
-        android:layout_marginEnd="@dimen/dp_32">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            style="@style/Body1Bold"
-            android:background="@null"
-            android:text="Cancel"
-            android:textColor="@color/subText"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            style="@style/Body1Bold"
-            android:background="@null"
-            android:text="Confirm"
+            android:paddingVertical="20dp"
             android:textColor="@color/white"
-            />
+            android:textColorHint="@color/subText" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/dp_16"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="@style/Body1Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:text="Cancel"
+                android:textColor="@color/subText" />
+
+            <Button
+                android:id="@+id/btnConfirm"
+                style="@style/Body1Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:text="Confirm"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
