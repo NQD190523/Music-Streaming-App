@@ -2,7 +2,6 @@ package com.project.appealic.ui.view
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +11,7 @@ import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.databinding.ActivityPlaysongBinding
 import com.project.appealic.ui.viewmodel.SongViewModel
-import com.project.appealic.ui.viewmodel.SongViewModelFactory
+import com.project.appealic.utils.SongViewModelFactory
 import com.project.appealic.ui.viewmodel.SpotifyAuthViewModel
 import com.project.appealic.ui.viewmodel.SpotifyViewModel
 

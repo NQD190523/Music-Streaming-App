@@ -2,10 +2,12 @@ package com.project.appealic.ui.view
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.net.Uri
 
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -13,34 +15,23 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
-import androidx.media3.common.Tracks
-import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import com.project.appealic.R
-import com.project.appealic.data.repository.SongRepository
-import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
-import com.project.appealic.ui.viewmodel.SongViewModel
-import com.project.appealic.ui.viewmodel.SongViewModelFactory
-import com.squareup.picasso.Picasso
-import okhttp3.internal.concurrent.formatDuration
 
 class ActivityPlaylist : AppCompatActivity() {
 
@@ -61,18 +52,26 @@ class ActivityPlaylist : AppCompatActivity() {
     private lateinit var moreBtn: Button
     private lateinit var shareBtn: ImageView
     private lateinit var multiplyBtn: ImageView
-    private lateinit var mediaItem: MediaItem
     private lateinit var player: ExoPlayer
     private lateinit var musicPlayerViewModel: MusicPlayerViewModel
+    private lateinit var trackId : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playsong)
 
-        //Cấu hình exoplayer
-        musicPlayerViewModel = ViewModelProvider(this).get(MusicPlayerViewModel::class.java)
 
-        player = musicPlayerViewModel.exoPlayer
+        //Khởi tạo exoplayer
+        musicPlayerViewModel = ViewModelProvider(this).get(MusicPlayerViewModel::class.java)
+        player = musicPlayerViewModel.getPlayerInstance()
+
+        //Lấy trạng thái trc khi thoát của audio
+        if (savedInstanceState != null) {
+            val savedPosition = musicPlayerViewModel.getAudioPosition(trackId)
+            savedPosition?.let {
+                player.seekTo(savedPosition)
+            }
+        }
 
         // Khởi tạo tất cả các thành phần UI
         progressTv = findViewById(R.id.progressTv)
@@ -97,6 +96,7 @@ class ActivityPlaylist : AppCompatActivity() {
         val trackImage = intent.getStringExtra("TRACK_IMAGE")
         val duration = intent.getIntExtra("DURATION", 0)
         val trackUrl = intent.getStringExtra("TRACK_URL")
+        trackId = intent.getStringExtra("TRACK_ID").toString()
 
         findViewById<TextView>(R.id.song_name).text = songTitle
         findViewById<TextView>(R.id.singer_name).text = artistName
@@ -111,7 +111,7 @@ class ActivityPlaylist : AppCompatActivity() {
                 .into(songImageView)
         }
 
-        //Khởi tạo exoplayer
+        //Load dữ liệu audio
         val storage = Firebase.storage
         val storageRef = storage.reference
         val trackPath = trackUrl?.substring(trackUrl.indexOf("/", 5) + 1)
@@ -119,10 +119,8 @@ class ActivityPlaylist : AppCompatActivity() {
         println(audioRef)
         if (audioRef != null) {
             audioRef.downloadUrl.addOnSuccessListener { url ->
-                mediaItem = MediaItem.fromUri(url)
-                player.setMediaItem(mediaItem)
-                player.setPlaybackParameters(PlaybackParameters(1f))
-                player.prepare()
+                val songUri = Uri.parse(url.toString())
+                musicPlayerViewModel.startPlaying(songUri)
             }
         }
 
@@ -138,20 +136,7 @@ class ActivityPlaylist : AppCompatActivity() {
         multiplyBtn.setOnClickListener { handleMultiplyButtonClick() }
         playBtn.setOnClickListener { handelPlayButtonClick() }
 
-        // Thiết lập SeekBarChangeListener cho progressSb
-        player.addListener(object : Player.Listener{
-            override fun onTimelineChanged(timeline: Timeline, reason: Int) {
-                val duration = player.duration.toInt()/1000
-                progressSb.max = duration
-            }
-            override fun onPositionDiscontinuity(
-                oldPosition: Player.PositionInfo,
-                newPosition: Player.PositionInfo,
-                reason: Int
-            ) {
-
-            }
-        })
+        //Cập nhật trang thái khi thay đổi progresBar
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Xử lý sự kiện thay đổi tiến trình
@@ -169,22 +154,30 @@ class ActivityPlaylist : AppCompatActivity() {
                 // Xử lý khi kết thúc chạm vào SeekBar
             }
         })
-        var handler = Handler(Looper.getMainLooper())
-        handler.post(object : Runnable{
-            override fun run() {
-                var currentposition = player.currentPosition
-                progressSb.progress = currentposition.toInt()/1000
-                progressTv.text = formatDuration(currentposition)
-                val remainingDuration = (player.duration - player.currentPosition)
-                durationTv.text = formatDuration(remainingDuration)
-                handler.postDelayed(this,1000)
-            }
-
+        //ProgressBar cập nật theo tiến độ của bài hát
+        progressSb.max = duration / 1000
+        musicPlayerViewModel.observeCurrentPosition( Observer {curentPosition ->
+            progressSb.progress = (curentPosition /1000).toInt()
+            progressTv.text = formatDuration(curentPosition)
+            val remainingDuration = (duration - curentPosition)
+            durationTv.text = formatDuration(remainingDuration)
         })
     }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Lưu trạng thái của ViewModel khi Activity bị hủy
+        outState.putAll(musicPlayerViewModel.onSaveInstanceState())
+        Log.d("load info" ," success")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        musicPlayerViewModel.saveAudioPosition(trackId,player.currentPosition)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        player.release()
+        musicPlayerViewModel.stopPlaying()
     }
 
     private fun handleMixButtonClick() {
