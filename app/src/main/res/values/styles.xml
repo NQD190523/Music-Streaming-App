@@ -42,6 +42,7 @@
     <style name="Heading4">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/prompt_medium</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="Heading5">

@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="12dp"
+            android:padding="10dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -65,25 +65,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp" />
 
-                <GridView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/card_gird"
                     android:layout_width="match_parent"
-                    android:layout_height="288dp"
-                    android:horizontalSpacing="6dp"
-                    android:numColumns="3"
-                    android:verticalSpacing="6dp" />
+                    android:layout_height="154dp" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:text="Recently Played" />
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            style="@style/Heading4"
+                            android:text="Recently Played"
+                            android:gravity="left|center_vertical"
+                            android:paddingEnd="100dp"
+                            android:drawableEnd="@drawable/ic_arrow_16_right"
+                            android:background="@android:color/transparent"/>
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
@@ -99,7 +100,7 @@
                         android:id="@+id/tvAddPlaylists"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Body1"
+                        style="@style/Body1Bold"
                         android:textColor="@color/text"
                         android:text="Playlists" />
 
@@ -107,7 +108,7 @@
                         android:id="@+id/tvAddArtists"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Body1"
+                        style="@style/Body1Bold"
                         android:textColor="@color/text"
                         android:text="Artists"
                         android:layout_marginStart="16dp"/>
@@ -116,7 +117,7 @@
                         android:id="@+id/tvAddAlbums"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Body1"
+                        style="@style/Body1Bold"
                         android:textColor="@color/text"
                         android:text="Albums"
                         android:layout_marginStart="16dp"/>
@@ -130,12 +131,12 @@
 
                         <Button
                             android:id="@+id/btnSelect"
-                            android:layout_width="62dp"
+                            android:layout_width="43dp"
                             android:layout_height="19dp"
                             android:text="Select"
                             android:textColor="@color/text"
                             android:background="@drawable/btn_rounded_gray"
-                            style="@style/Body2"
+                            style="@style/Subtile3"
                             android:textAllCaps="false"/>
 
                         <ImageView
