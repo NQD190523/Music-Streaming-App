@@ -1,8 +1,13 @@
+import android.animation.ObjectAnimator
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.AnimationSet
+import android.view.animation.TranslateAnimation
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +15,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.project.appealic.R
 import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistCardAdapter
+import com.project.appealic.ui.view.Fragment.AddAlbumFragment
+import com.project.appealic.ui.view.Fragment.AddArtistFragment
+import com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment
 
 class LibraryFragment : Fragment() {
 
@@ -33,6 +41,49 @@ class LibraryFragment : Fragment() {
         recyclerViewBanner.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerViewBanner.adapter = bannerAdapter
+
+        // Tìm kiếm các TextView tương ứng
+        val tvAddArtists = view.findViewById<TextView>(R.id.tvAddArtists)
+        val tvAddAlbums = view.findViewById<TextView>(R.id.tvAddAlbums)
+        val tvAddSongs = view.findViewById<TextView>(R.id.tvAddPlaylists)
+
+        val underline = view.findViewById<View>(R.id.underline)
+
+// Lưu trữ vị trí ban đầu của underline
+        val initialX = 203f
+
+// Tính toán deltaX dựa trên vị trí của từng TextView
+        val deltaXSongs =  tvAddSongs.x - initialX*2
+        val deltaXArtists = tvAddArtists.x - initialX*5/4
+        val deltaXAlbums = tvAddAlbums.x - initialX * 1/2
+
+// Thiết lập onClickListener cho TextViews
+        tvAddSongs.setOnClickListener {
+            // Thay thế fragment hiện tại bằng AddSongToPlaylistFragment
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentAddPlaylistLibrary, AddPlaylistLibraryFragment())
+                .addToBackStack(null)
+                .commit()
+            underline.animate().translationX(deltaXSongs).setDuration(300).start()
+        }
+
+        tvAddArtists.setOnClickListener {
+            // Replace the current fragment with AddArtistFragment
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentAddPlaylistLibrary, AddArtistFragment())
+                .addToBackStack(null)
+                .commit()
+            underline.animate().translationX(deltaXArtists).setDuration(300).start()
+        }
+
+        tvAddAlbums.setOnClickListener {
+            // Replace the current fragment with AddAlbumFragment
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentAddPlaylistLibrary, AddAlbumFragment())
+                .addToBackStack(null)
+                .commit()
+            underline.animate().translationX(deltaXAlbums).setDuration(300).start()
+        }
 
         // Danh sách hình ảnh từ thư mục drawable
         val imageList = listOf(

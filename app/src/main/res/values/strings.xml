@@ -112,6 +112,29 @@
     <!--AutocompleteText-->
     <!--GoogleSignIn-->
     <string name="default_web_client_id">572466641139-m3cvm352ijd95cth3ed9ml0j7pibgkjh.apps.googleusercontent.com</string>
+    
+<!--    Contact-->
+    <string name="helpText"> We value your feedback and want to ensure you have a positive experience with <b>Appealic</b>. If you have any questions or require assistance, feel free to contact us using the following methods: </string>
+    <string name="thankYou"> Thank you for choosing Appealic! </string>
+    <string name="footer1">Appealic Global Company</string>
+    <string name="footer2">Copyright © 2024 Appealic. All rights reserved.</string><string name="helpCenter"><b>Help Center:</b>  For the quickest response, submit a ticket through our Help Center. Our dedicated support team is available to address your inquiries efficiently.</string>
+    <!--    Legal-->
+    <string name="pragraph1">Our Terms of Use, Privacy Policy, Cookie Policy and Community Guidelines form a legally binding agreement between you and Appealic to your use of the platform.</string>
+    <string name="pragraph2">As well as forming the legal basis for your use of Appealic, these important documents will help you to understand how you can uphold the values and expectations we have for the community. This section of the Help Center will explain in more detail our policies on legal issues like trademark infringement, defamation, and processing requests for user information.</string>
+    <string name="pragraph3">Please review the resources below:</string>
+    <string name="title1">Law Enforcement Guidelines</string>
+    <string name="pragraph4">This guide is for law enforcement authorities seeking information about Appealic users and accounts in the course of criminal investigations. It is also intended as a reference for Appealic users who are interested in finding out more about our policies and processes for handling law enforcement requests.</string>
+    <string name="title2">Terms of Use</string>
+    <string name="pragraph5">This is the legal document that you agree to follow when you sign up for an account –think of it as the rules for using Appealic.</string>
+    <string name="title3">Community Guidelines</string>
+    <string name="pragraph6">This is where you can find out more about the expectations we have for everyone who uses Appealic. It is based on our Terms of Use, but uses less legal language, so it is easier to understand.</string>
+    <string name="title4">Privacy Policy</string>
+    <string name="pragraph7">This is where you can find out more about the specific data we collect, how we store it and what we use it for.</string>
+    <string name="title5">Cookies Policy</string>
+    <string name="pragraph8">This is part of our Privacy Policy but focuses more specifically on our use of cookies and related technologies. We also share more information on how you can opt-out of specific services. </string>
+    <string name="title6">Copyright Page</string>
+    <string name="pragraph9">Find out more about copyright and our approach to protecting creators rights. </string>
+
 
 
 </resources>
