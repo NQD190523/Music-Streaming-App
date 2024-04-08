@@ -25,7 +25,7 @@ import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
-import com.project.appealic.ui.viewmodel.SongViewModelFactory
+import com.project.appealic.utils.SongViewModelFactory
 
 class HomeFragment : Fragment() {
 
@@ -117,6 +117,7 @@ class HomeFragment : Fragment() {
                 intent.putExtra("TRACK_IMAGE", selectedSong.trackImage)
                 intent.putExtra("DURATION", selectedSong.duration) // Truyền thời lượng bài hát
                 intent.putExtra("TRACK_URL", selectedSong.trackUrl)
+                intent.putExtra("TRACK_ID",selectedSong.trackId)
 
                 // Bắt đầu ActivityPlaylist
                 startActivity(intent)
