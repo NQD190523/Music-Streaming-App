@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="APPEALIC PLUS"
-                    android:textColor="#E6DD00"
+                    android:textColor="#58FF55"
                     android:gravity="center"
                     style="@style/Heading2" />
 
@@ -79,7 +79,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/solo" />
+                    android:src="@drawable/mini" />
 
             </LinearLayout>
 
@@ -87,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Immerse yourself in your own world of music!"
+                android:text="Boost your study and entertainment experience"
                 android:textColor="@color/accent"
                 style="@style/Body2" />
 
@@ -119,42 +119,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
-                    android:text="$2,5"
-                    android:textColor="@color/white"
-                    android:gravity="end"
-                    style="@style/Heading2" />
-
-            </LinearLayout>
-
-            <!-- Additional Payment Options (Example) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/payment_background"
-                android:orientation="horizontal"
-                android:padding="12dp">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/checkbox" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_8"
-                    android:text="3 months"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    style="@style/Body1Bold" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="$7,5"
+                    android:text="$0,1"
                     android:textColor="@color/white"
                     android:gravity="end"
                     style="@style/Heading2" />
@@ -165,42 +130,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center_vertical"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/payment_background"
-                android:orientation="horizontal"
-                android:padding="12dp">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/checkbox" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_8"
-                    android:text="6 months"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    style="@style/Body1Bold" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="$15"
-                    android:textColor="@color/white"
-                    android:gravity="end"
-                    style="@style/Heading2" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/payment_choose_background"
+                android:background="@drawable/payment_choose_mini_background"
                 android:orientation="horizontal"
                 android:padding="12dp">
 
@@ -209,16 +141,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/save_20"
-                        android:layout_gravity="start" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
                         <CheckBox
@@ -233,8 +158,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_8"
                             android:gravity="center"
-                            android:text="12 months"
-                            android:textColor="#E6DD00" />
+                            android:text="1 week"
+                            android:textColor="#58FF55" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -243,18 +168,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
-                    android:text="$24"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="#E6DD00"
+                    android:text="$0,7"
+                    android:textColor="#58FF55"
                     android:gravity="end"
-                    style="@style/Heading2" />
+                    style="@style/Heading2"
+                    android:layout_gravity="center_vertical"/>
 
             </LinearLayout>
-
-            <DatePicker
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:datePickerMode="spinner"
 
             <TextView
                 android:layout_width="match_parent"
@@ -275,8 +195,8 @@
                 style="@style/Body2" />
             <Button
                 android:id="@+id/btnPaymentMomo"
-                android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/dp_16"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/btn_momo"
                 android:text="Pay with momo wallet"
@@ -289,8 +209,8 @@
 
             <Button
                 android:id="@+id/btnPaymentCard"
-                android:layout_marginTop="@dimen/dp_8"
                 android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dp_8"
                 android:layout_height="50dp"
                 android:background="@drawable/btn_payment"
                 android:text="Pay with credit/debit card"
