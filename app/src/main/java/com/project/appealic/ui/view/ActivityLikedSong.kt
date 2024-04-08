@@ -14,7 +14,7 @@ import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.LikedSongsAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
-import com.project.appealic.ui.viewmodel.SongViewModelFactory
+import com.project.appealic.utils.SongViewModelFactory
 
 class ActivityLikedSong : AppCompatActivity() {
     private lateinit var viewModel: SongViewModel
