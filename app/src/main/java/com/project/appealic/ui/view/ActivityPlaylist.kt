@@ -179,6 +179,7 @@ class ActivityPlaylist : AppCompatActivity() {
                 durationTv.text = formatDuration(remainingDuration)
                 handler.postDelayed(this,1000)
             }
+
         })
     }
     override fun onDestroy() {
@@ -189,6 +190,7 @@ class ActivityPlaylist : AppCompatActivity() {
     private fun handleMixButtonClick() {
 
     }
+
 
     private fun formatDuration(durationInSeconds: Long): String {
         val seconds = (durationInSeconds / 1000) % 60
@@ -286,12 +288,12 @@ class ActivityPlaylist : AppCompatActivity() {
             bottonMoreActionDialog.dismiss()
             showDialogForComment()
         }
-
         val llArtist = view.findViewById<LinearLayout>(R.id.llArtist)
         llArtist.setOnClickListener {
             bottonMoreActionDialog.dismiss()
             showDialogForArtist()
         }
+
 
         val llSleep = view.findViewById<LinearLayout>(R.id.llSleep)
         llSleep.setOnClickListener {
@@ -373,6 +375,8 @@ class ActivityPlaylist : AppCompatActivity() {
 
 private fun showDialogForAddFav() {
 }
+
+
 
 
 private fun handleShareButtonClick() {

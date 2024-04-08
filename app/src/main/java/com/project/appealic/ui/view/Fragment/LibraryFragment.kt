@@ -14,6 +14,7 @@ import com.project.appealic.ui.view.Adapters.BannerAdapter
 class LibraryFragment : Fragment() {
 
     override fun onCreateView(
+
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,12 +22,14 @@ class LibraryFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_library, container, false)
 
+
         val bannerImages = listOf(
             R.drawable.imagecard2,
             R.drawable.imagecard2,
             R.drawable.imagecard2
         )
         val bannerAdapter = BannerAdapter(bannerImages)
+
 
         // Initialize and configure the RecyclerView for banner
         val recyclerViewBanner = view.findViewById<RecyclerView>(R.id.rrBanner)

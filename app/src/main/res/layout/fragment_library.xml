@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/background"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/background">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarCustomerService"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:contentInsetStartWithNavigation="0dp"
         android:layout_marginBottom="0dp"
         android:elevation="5dp"
         android:background="@color/dark"
-        android:layout_gravity="top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,9 +33,9 @@
                 android:layout_weight="1"
                 android:text="Library"
                 android:textColor="@color/white"
-                style="@style/Heading2"
-                />
+                style="@style/Heading2" />
             <ImageView
+                android:id="@+id/imvSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_search_20_filled"
@@ -43,119 +43,121 @@
 
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
-    <LinearLayout
-        android:id="@+id/llLibrary"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="20dp"
-        android:paddingHorizontal="20dp">
 
-        <ScrollView
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarCustomerService"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingHorizontal="20dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rrBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp" />
+
+            <GridView
+                android:id="@+id/card_gird"
+                android:layout_width="match_parent"
+                android:layout_height="288dp"
+                android:horizontalSpacing="6dp"
+                android:numColumns="3"
+                android:verticalSpacing="6dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:text="Recently Played" />
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rrBanner"
+                    android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp" />
-
-                <GridView
-                    android:id="@+id/card_gird"
-                    android:layout_width="match_parent"
-                    android:layout_height="288dp"
-                    android:horizontalSpacing="6dp"
-                    android:numColumns="3"
-                    android:verticalSpacing="6dp" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:text="Recently Played" />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scrollbars="horizontal" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/tvAddPlaylists"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/Body1"
-                        android:textColor="@color/text"
-                        android:text="Playlists" />
-
-                    <TextView
-                        android:id="@+id/tvAddArtists"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/Body1"
-                        android:textColor="@color/text"
-                        android:text="Artists"
-                        android:layout_marginStart="16dp"/>
-
-                    <TextView
-                        android:id="@+id/tvAddAlbums"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/Body1"
-                        android:textColor="@color/text"
-                        android:text="Albums"
-                        android:layout_marginStart="16dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:layout_gravity="center"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btnSelect"
-                            android:layout_width="62dp"
-                            android:layout_height="19dp"
-                            android:text="Select"
-                            android:textColor="@color/text"
-                            android:background="@drawable/btn_rounded_gray"
-                            style="@style/Body2"
-                            android:textAllCaps="false"/>
-
-                        <ImageView
-                            android:id="@+id/btnMore"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_more_20_outlined"/>
-
-                    </LinearLayout>
-                </LinearLayout>
-                <androidx.fragment.app.FragmentContainerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:name="com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment"
-                    android:id="@+id/fragmentAddPlaylistLibrary"
-                    android:layout_marginTop="10dp"
-                    tools:layout="@layout/fragment_add_song" />
-
+                    android:layout_height="match_parent"
+                    android:scrollbars="horizontal" />
             </LinearLayout>
 
-        </ScrollView>
-    </LinearLayout>
-</RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvAddPlaylists"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Body1"
+                    android:textColor="@color/text"
+                    android:text="Playlists" />
+
+                <TextView
+                    android:id="@+id/tvAddArtists"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Body1"
+                    android:textColor="@color/text"
+                    android:text="Artists"
+                    android:layout_marginStart="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvAddAlbums"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Body1"
+                    android:textColor="@color/text"
+                    android:text="Albums"
+                    android:layout_marginStart="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnSelect"
+                        android:layout_width="62dp"
+                        android:layout_height="19dp"
+                        android:text="Select"
+                        android:textColor="@color/text"
+                        android:background="@drawable/btn_rounded_gray"
+                        style="@style/Body2"
+                        android:textAllCaps="false"/>
+
+                    <ImageView
+                        android:id="@+id/btnMore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_more_20_outlined"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentAddPlaylistLibrary"
+                android:name="com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                tools:layout="@layout/fragment_add_song" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

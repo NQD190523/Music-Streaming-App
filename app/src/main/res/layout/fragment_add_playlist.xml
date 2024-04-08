@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/more_background"
-    >
+    android:background="@drawable/background">
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/dp_16"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,44 +25,134 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                style="@style/Heading3"
-                android:text="Add song to playlist"
-                />
+                android:fontFamily="@font/prompt_medium"
+                android:textSize="25sp"
+                android:text="Add song to playlist" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/subtitleText"
-            android:layout_marginVertical="@dimen/dp_16"
-            />
+            android:layout_marginVertical="@dimen/dp_16" />
 
         <LinearLayout
             android:id="@+id/llCreatePlaylist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            >
+            android:gravity="center_vertical">
             <FrameLayout
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:background="@drawable/btn_rounded_gray">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_plus_24_outlined"
-                    android:layout_gravity="center"/>
             </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Create new playlist"
+                android:textSize="19sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_marginStart="16dp"
-                style="@style/Body1Bold"
-                />
+                android:fontFamily="@font/inter_bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp">
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                >
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:stretchColumns="*"
+                    >
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        >
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/song1"
+                            />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/song2"
+                            />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        >
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/song4"
+                            />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/song3"
+                            />
+                    </TableRow>
+
+                </TableLayout>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Album 1"
+                    style="@style/Body1Bold"
+                    android:textColor="@color/text"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Jienne"
+                    style="@style/Body2"
+                    android:textColor="@color/subtitleText"
+                    />
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/ic_more_20_outlined" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -126,7 +222,8 @@
             </FrameLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:orientation="vertical"
@@ -134,9 +231,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Playlist 1"
-                    android:textColor="@color/white"
+                    android:text="Album 2"
                     style="@style/Body1Bold"
+                    android:textColor="@color/text"
                     />
 
                 <TextView
@@ -144,108 +241,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Jienne"
-                    android:textColor="@color/subtitleText"
                     style="@style/Body2"
+                    android:textColor="@color/subtitleText"
                     />
             </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="16dp"
-            >
-            <FrameLayout
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                >
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:stretchColumns="*"
-                    >
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        >
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/song1"
-                            />
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/song2"
-                            />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        >
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/song4"
-                            />
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/song3"
-                            />
-                    </TableRow>
-
-                </TableLayout>
-
-            </FrameLayout>
-
-            <LinearLayout
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:orientation="vertical"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Playlist 2"
-                    android:textColor="@color/white"
-                    style="@style/Body1Bold"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Jienne"
-                    android:textColor="@color/subtitleText"
-                    style="@style/Body2"
-                    />
-            </LinearLayout>
-
-
-
-
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/ic_more_20_outlined" />
         </LinearLayout>
-
     </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
