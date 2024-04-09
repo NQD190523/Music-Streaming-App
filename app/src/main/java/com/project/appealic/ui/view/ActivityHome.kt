@@ -1,17 +1,16 @@
 package com.project.appealic.ui.view
 
-import com.project.appealic.ui.view.Fragment.HomeFragment
-import com.project.appealic.ui.view.Fragment.LibraryFragment
-import com.project.appealic.ui.view.Fragment.ProfileFragment
-import com.project.appealic.ui.view.Fragment.SearchFragment
-
-import android.content.Intent
+import LibraryFragment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.appealic.R
+import com.project.appealic.ui.view.Fragment.HomeFragment
+import com.project.appealic.ui.view.Fragment.ProfileFragment
+import com.project.appealic.ui.view.Fragment.SearchFragment
+
 class ActivityHome : AppCompatActivity() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
