@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Appealic"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ui.view.Activity_confirm_student"
+            android:name=".ui.view.ActivityHome"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Appealic">
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".ui.view.ActivityHome"/>
+        <activity android:name=".ui.view.Activity_confirm_student"/>
         <activity android:name=".ui.view.Activity_welcome"/>
         <activity android:name=".ui.view.MediaActivity"/>
         <activity android:name=".ui.view.ActivityPlaylist" />

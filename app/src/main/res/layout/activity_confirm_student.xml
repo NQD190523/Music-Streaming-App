@@ -246,22 +246,24 @@
         android:id="@+id/linearLayout10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
+        app:layout_constraintVertical_bias="0">
 
         <CheckBox
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal" />
+
         <TextView
-            android:layout_gravity="center_horizontal"
+            style="@style/Label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            style="@style/Label"
-            android:text="I confirm that I am a student and agree to the terms and conditions."/>
+            android:layout_gravity="center_horizontal"
+            android:text="I confirm that I am a student and agree to the terms and conditions."
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <TextView
