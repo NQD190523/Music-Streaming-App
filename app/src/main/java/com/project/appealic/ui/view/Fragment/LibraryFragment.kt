@@ -50,7 +50,7 @@ class LibraryFragment : Fragment() {
         val tvAddAlbums = view.findViewById<TextView>(R.id.tvAddAlbums)
         val tvAddSongs = view.findViewById<TextView>(R.id.tvAddPlaylists)
 
-        val underline = view.findViewById<View>(R.id.underline)
+//        val underline = view.findViewById<View>(R.id.underline)
 
 // Lưu trữ vị trí ban đầu của underline
         val initialX = 203f
@@ -60,33 +60,33 @@ class LibraryFragment : Fragment() {
         val deltaXArtists = tvAddArtists.x - initialX*5/4
         val deltaXAlbums = tvAddAlbums.x - initialX * 1/2
 
-// Thiết lập onClickListener cho TextViews
-        tvAddSongs.setOnClickListener {
-            // Thay thế fragment hiện tại bằng AddSongToPlaylistFragment
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentAddPlaylistLibrary, AddPlaylistLibraryFragment())
-                .addToBackStack(null)
-                .commit()
-            underline.animate().translationX(deltaXSongs).setDuration(300).start()
-        }
-
-        tvAddArtists.setOnClickListener {
-            // Replace the current fragment with AddArtistFragment
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentAddPlaylistLibrary, AddArtistFragment())
-                .addToBackStack(null)
-                .commit()
-            underline.animate().translationX(deltaXArtists).setDuration(300).start()
-        }
-
-        tvAddAlbums.setOnClickListener {
-            // Replace the current fragment with AddAlbumFragment
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentAddPlaylistLibrary, AddAlbumFragment())
-                .addToBackStack(null)
-                .commit()
-            underline.animate().translationX(deltaXAlbums).setDuration(300).start()
-        }
+//// Thiết lập onClickListener cho TextViews
+//        tvAddSongs.setOnClickListener {
+//            // Thay thế fragment hiện tại bằng AddSongToPlaylistFragment
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .replace(R.id.fragmentAddPlaylistLibrary, AddPlaylistLibraryFragment())
+//                .addToBackStack(null)
+//                .commit()
+//            underline.animate().translationX(deltaXSongs).setDuration(300).start()
+//        }
+//
+//        tvAddArtists.setOnClickListener {
+//            // Replace the current fragment with AddArtistFragment
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .replace(R.id.fragmentAddPlaylistLibrary, AddArtistFragment())
+//                .addToBackStack(null)
+//                .commit()
+//            underline.animate().translationX(deltaXArtists).setDuration(300).start()
+//        }
+//
+//        tvAddAlbums.setOnClickListener {
+//            // Replace the current fragment with AddAlbumFragment
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .replace(R.id.fragmentAddPlaylistLibrary, AddAlbumFragment())
+//                .addToBackStack(null)
+//                .commit()
+//            underline.animate().translationX(deltaXAlbums).setDuration(300).start()
+//        }
 
         // Danh sách hình ảnh từ thư mục drawable
         val imageList = listOf(
