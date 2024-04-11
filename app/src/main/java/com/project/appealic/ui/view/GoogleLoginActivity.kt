@@ -27,9 +27,6 @@ class GoogleLoginActivity : AppCompatActivity() {
 
     private lateinit var viewModel: AuthViewModel
 
-
-
-
     private val spotifyViewModel: SpotifyViewModel by viewModels()
 
 

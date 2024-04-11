@@ -1,5 +1,6 @@
 package com.project.appealic.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,6 +28,8 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
             repository.firebaseAuthWithGoogle(account)
                 .addOnCompleteListener { task ->
                     _signInSuccess.value = task.isSuccessful
+                    if(task.isSuccessful) Log.d("loginStatus", " Success")
+                    else Log.e("LoginStatus", task.exception.toString())
                 }
 
     }
