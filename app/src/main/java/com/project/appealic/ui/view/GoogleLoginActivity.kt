@@ -2,6 +2,7 @@ package com.project.appealic.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -74,6 +75,8 @@ class GoogleLoginActivity : AppCompatActivity() {
         viewModel.signInSuccess.observe(this) { signInSuccess ->
             if (signInSuccess) {
                 navigateToMainScreen()
+            } else {
+                Log.e("error", "incompleted")
             }
         }
         viewModel.logoutSuccess.observe(this) { logoutSuccess ->
