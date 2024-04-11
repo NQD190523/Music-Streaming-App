@@ -31,6 +31,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import com.project.appealic.R
 import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
+import com.project.appealic.ui.view.Fragment.MoreActionFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 
 class ActivityPlaylist : AppCompatActivity() {
@@ -237,86 +238,93 @@ class ActivityPlaylist : AppCompatActivity() {
 
 
     private fun handleMoreButtonClick() {
-        // Tạo Dialog mới
-        val dialog = Dialog(this)
+        val moreActionFragment = MoreActionFragment()
+        val bundle = Bundle()
+        bundle.putString("SONG_TITLE", intent.getStringExtra("SONG_TITLE"))
+        bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
+        bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
+        moreActionFragment.arguments = bundle
+        moreActionFragment.show(supportFragmentManager, "MoreActionsFragment")
 
-        // Inflate layout cho dialog
-        val view = layoutInflater.inflate(R.layout.botton_more_action, null)
-
-        // Lưu tham chiếu đến dialog để có thể dismiss sau này
-        val bottonMoreActionDialog = dialog
-
-        // Lấy dữ liệu từ Intent và hiển thị trên giao diện playlist
-        val songTitle = intent.getStringExtra("SONG_TITLE")
-        val artistName = intent.getStringExtra("SINGER_NAME")
-        val trackImage = intent.getStringExtra("TRACK_IMAGE")
-        val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
-        txtSongName.text = songTitle
-        val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
-        txtSinger.text = artistName
-        val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
-        trackImage?.let { imageUrl ->
-            val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
-
-            Glide.with(this)
-                .load(storageReference)
-                .into(songImageView)
-        }
-
-        // Thêm sự kiện click vào các LinearLayout
-        val llAddPlay = view.findViewById<LinearLayout>(R.id.llAddPlay)
-        llAddPlay.setOnClickListener {
-            bottonMoreActionDialog.dismiss()
-            showDialogForAddPlay()
-        }
-
-        val llAddFav = view.findViewById<LinearLayout>(R.id.llAddFav)
-        llAddFav.setOnClickListener {
-            bottonMoreActionDialog.dismiss()
-            showDialogForAddFav()
-        }
-
-        val llComment = view.findViewById<LinearLayout>(R.id.llComment)
-        llComment.setOnClickListener {
-            bottonMoreActionDialog.dismiss()
-            showDialogForComment()
-        }
-        val llArtist = view.findViewById<LinearLayout>(R.id.llArtist)
-        llArtist.setOnClickListener {
-            bottonMoreActionDialog.dismiss()
-            showDialogForArtist()
-        }
-
-
-        val llSleep = view.findViewById<LinearLayout>(R.id.llSleep)
-        llSleep.setOnClickListener {
-            bottonMoreActionDialog.dismiss()
-            showDialogForSleep()
-        }
-
-        dialog.setContentView(view)
-
-        // Tùy chỉnh Window của dialog
-        val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.more_background)
-        val layoutParams = window?.attributes
-        layoutParams?.gravity = Gravity.BOTTOM or Gravity.START or Gravity.END
-        layoutParams?.width =
-            WindowManager.LayoutParams.MATCH_PARENT
-        layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
-        window?.attributes = layoutParams
-
-        // Hiển thị dialog
-        dialog.show()
+//        // Tạo Dialog mới
+//        val dialog = Dialog(this)
+//
+//        // Inflate layout cho dialog
+//        val view = layoutInflater.inflate(R.layout.botton_more_action, null)
+//
+//        // Lưu tham chiếu đến dialog để có thể dismiss sau này
+//        val bottonMoreActionDialog = dialog
+//
+//        // Lấy dữ liệu từ Intent và hiển thị trên giao diện playlist
+//        val songTitle = intent.getStringExtra("SONG_TITLE")
+//        val artistName = intent.getStringExtra("SINGER_NAME")
+//        val trackImage = intent.getStringExtra("TRACK_IMAGE")
+//        val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
+//        txtSongName.text = songTitle
+//        val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
+//        txtSinger.text = artistName
+//        val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
+//        trackImage?.let { imageUrl ->
+//            val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
+//
+//            Glide.with(this)
+//                .load(storageReference)
+//                .into(songImageView)
+//        }
+//
+//        // Thêm sự kiện click vào các LinearLayout
+//        val llAddPlay = view.findViewById<LinearLayout>(R.id.llAddPlay)
+//        llAddPlay.setOnClickListener {
+//            bottonMoreActionDialog.dismiss()
+//            showDialogForAddPlay()
+//        }
+//
+//        val llAddFav = view.findViewById<LinearLayout>(R.id.llAddFav)
+//        llAddFav.setOnClickListener {
+//            bottonMoreActionDialog.dismiss()
+//            showDialogForAddFav()
+//        }
+//
+//        val llComment = view.findViewById<LinearLayout>(R.id.llComment)
+//        llComment.setOnClickListener {
+//            bottonMoreActionDialog.dismiss()
+//            showDialogForComment()
+//        }
+//        val llArtist = view.findViewById<LinearLayout>(R.id.llArtist)
+//        llArtist.setOnClickListener {
+//            bottonMoreActionDialog.dismiss()
+//            showDialogForArtist()
+//        }
+//
+//
+//        val llSleep = view.findViewById<LinearLayout>(R.id.llSleep)
+//        llSleep.setOnClickListener {
+//            bottonMoreActionDialog.dismiss()
+//            showDialogForSleep()
+//        }
+//
+//        dialog.setContentView(view)
+//
+//        // Tùy chỉnh Window của dialog
+//        val window = dialog.window
+//        window?.setBackgroundDrawableResource(R.drawable.more_background)
+//        val layoutParams = window?.attributes
+//        layoutParams?.gravity = Gravity.BOTTOM or Gravity.START or Gravity.END
+//        layoutParams?.width =
+//            WindowManager.LayoutParams.MATCH_PARENT
+//        layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
+//        window?.attributes = layoutParams
+//
+//        // Hiển thị dialog
+//        dialog.show()
     }
 
-    @SuppressLint("MissingInflatedId")
+
     private fun showDialogForAddPlay() {
         val addPlaylistFragment = AddPlaylistFragment()
         addPlaylistFragment.show(supportFragmentManager, "AddPlaylistFragment")
 
     }
-
     private fun showDialogForComment() {
         val dialog = Dialog(this)
         val view = layoutInflater.inflate(R.layout.bottom_comment, null)

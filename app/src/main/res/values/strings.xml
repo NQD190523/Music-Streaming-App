@@ -5,21 +5,21 @@
 
     <!-- Intro -->
 
-<!--    Artist_profile-->
+    <!--    Artist_profile-->
     <string name="txtNameArtist">Taylor Swift</string>
     <string name="txtFollowed">255K followeds</string>
     <string name="btnFollow">Follow</string>
     <string name="btnPlay">Play</string>
     <string name="featuredSong">Featured Song</string>
 
-<!--    Download-->
+    <!--    Download-->
     <string name="downloaded">Downloaded</string>
     <string name="numberOfDownloadedSongs">Number of Downloaded songs</string>
     <string name="playRandomly">Play randomly</string>
     <string name="recentlyAdded">Recently Added</string>
 
 
-<!--    Forgot_pass_opt-->
+    <!--    Forgot_pass_opt-->
     <string name="verifyYourEmail">Verify Your Email</string>
     <string name="verifyEmail">Please verify your email to continue.</string>
     <string name="resendCode">Resend Code</string>
@@ -31,7 +31,7 @@
     <string name="labelEmail">Email</string>
     <string name="send">Send</string>
 
-<!--    Home-->
+    <!--    Home-->
     <string name="home">Home</string>
     <string name="newRelease">New Release</string>
     <string name="viewAll">View All</string>
@@ -41,7 +41,7 @@
     <string name="recentlyPlayed">Recently Played</string>
     <string name="yourFavouriteArtists">Your Favourite Artists</string>
 
-<!--    Info_music-->
+    <!--    Info_music-->
     <string name="info">Info</string>
     <string name="txtSongName">Blank Space</string>
     <string name="like">Like</string>
@@ -58,7 +58,7 @@
     <string name="yearSong">2017</string>
     <string name="producerName">Teddy, Tommy Brown, R. Tee, Steven Franks and 24</string>
 
-<!--    Liked song-->
+    <!--    Liked song-->
     <string name="liked_songs">Liked songs</string>
     <string name="number_of_liked_songs">Number of liked songs</string>
     <string name="add_liked_songs">Add Liked Songs</string>
@@ -112,12 +112,13 @@
     <!--AutocompleteText-->
     <!--GoogleSignIn-->
     <string name="default_web_client_id">572466641139-m3cvm352ijd95cth3ed9ml0j7pibgkjh.apps.googleusercontent.com</string>
-    
-<!--    Contact-->
+
+    <!--    Contact-->
     <string name="helpText"> We value your feedback and want to ensure you have a positive experience with <b>Appealic</b>. If you have any questions or require assistance, feel free to contact us using the following methods: </string>
     <string name="thankYou"> Thank you for choosing Appealic! </string>
     <string name="footer1">Appealic Global Company</string>
-    <string name="footer2">Copyright © 2024 Appealic. All rights reserved.</string><string name="helpCenter"><b>Help Center:</b>  For the quickest response, submit a ticket through our Help Center. Our dedicated support team is available to address your inquiries efficiently.</string>
+    <string name="footer2">Copyright © 2024 Appealic. All rights reserved.</string>
+    <string name="helpCenter"><b>Help Center:</b>  For the quickest response, submit a ticket through our Help Center. Our dedicated support team is available to address your inquiries efficiently.</string>
     <!--    Legal-->
     <string name="pragraph1">Our Terms of Use, Privacy Policy, Cookie Policy and Community Guidelines form a legally binding agreement between you and Appealic to your use of the platform.</string>
     <string name="pragraph2">As well as forming the legal basis for your use of Appealic, these important documents will help you to understand how you can uphold the values and expectations we have for the community. This section of the Help Center will explain in more detail our policies on legal issues like trademark infringement, defamation, and processing requests for user information.</string>
@@ -134,7 +135,6 @@
     <string name="pragraph8">This is part of our Privacy Policy but focuses more specifically on our use of cookies and related technologies. We also share more information on how you can opt-out of specific services. </string>
     <string name="title6">Copyright Page</string>
     <string name="pragraph9">Find out more about copyright and our approach to protecting creators rights. </string>
-
 
 
 </resources>
