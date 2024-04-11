@@ -2,6 +2,9 @@ package com.project.appealic.ui.view
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Context
 import android.net.Uri
 
 import android.os.Bundle
@@ -102,6 +105,10 @@ class ActivityPlaylist : AppCompatActivity() {
         findViewById<TextView>(R.id.song_name).text = songTitle
         findViewById<TextView>(R.id.singer_name).text = artistName
 
+        val backButton = findViewById<ImageView>(R.id.imv_dropdown)
+        backButton.setOnClickListener {
+            Back()
+        }
         // Load hình ảnh sử dụng Glide
         trackImage?.let { imageUrl ->
             val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
@@ -164,6 +171,28 @@ class ActivityPlaylist : AppCompatActivity() {
             durationTv.text = formatDuration(remainingDuration)
         })
     }
+
+    private fun Back() {
+        val sharedPreferences = this.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val songTitle = intent.getStringExtra("SONG_TITLE")
+        val artistName = intent.getStringExtra("SINGER_NAME")
+        val trackImage = intent.getStringExtra("TRACK_IMAGE")
+        editor.putString("SONG_TITLE", songTitle)
+        editor.putString("SINGER_NAME", artistName)
+        editor.putString("TRACK_IMAGE", trackImage)
+        // Save other song info to SharedPreferences if needed
+        editor.apply()
+
+        // Update the widget after song info is saved
+        val appWidgetManager = AppWidgetManager.getInstance(this)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this, WidgetView::class.java))
+        if (appWidgetIds != null && appWidgetIds.isNotEmpty()) {
+            WidgetView().onUpdate(this, appWidgetManager, appWidgetIds)
+        }
+
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         // Lưu trạng thái của ViewModel khi Activity bị hủy
