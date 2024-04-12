@@ -20,8 +20,8 @@ class MusicPlayerViewModel :ViewModel() {
 
     fun setMusicService(service: MusicPlayerService) {
         musicPlayerService = service
-        musicPlayerService.getCurrentPositionLiveData().observeForever { currentPosition ->
-            currentPositionLiveData.value = currentPosition
+        musicPlayerService?.getCurrentPositionLiveData()?.observeForever { current ->
+            currentPosition.value = current
         }
     }
     fun setMediaUri(uri: Uri) {
@@ -37,8 +37,9 @@ class MusicPlayerViewModel :ViewModel() {
         return musicPlayerService?.getExoPlayerInstance()
     }
     fun getCurrentPositionLiveData(): LiveData<Long> {
-        return currentPositionLiveData
+        return currentPosition
     }
+
 
 
 //    fun saveAudioPosition(trackId: String, position: Long) {

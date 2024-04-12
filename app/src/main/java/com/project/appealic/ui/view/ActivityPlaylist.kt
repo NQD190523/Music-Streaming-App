@@ -81,6 +81,14 @@ class ActivityPlaylist : AppCompatActivity() {
                 // Thiết lập MusicService cho MusicPlayerViewModel
                 musicPlayerViewModel.setMusicService(musicService)
                 player = musicPlayerViewModel.getPlayerInstance()!!
+                //        ProgressBar cập nật theo tiến độ của bài hát
+                progressSb.max = player.duration.toInt() / 1000
+                musicPlayerViewModel.getCurrentPositionLiveData().observe(this@ActivityPlaylist, Observer {curentPosition ->
+                    progressSb.progress = (curentPosition /1000).toInt()
+                    progressTv.text = formatDuration(curentPosition)
+                    val remainingDuration = (player.duration - curentPosition)
+                    durationTv.text = formatDuration(remainingDuration)
+                })
             }
             override fun onServiceDisconnected(className: ComponentName) {
                 // Do nothing
@@ -180,14 +188,7 @@ class ActivityPlaylist : AppCompatActivity() {
                 // Xử lý khi kết thúc chạm vào SeekBar
             }
         })
-//        ProgressBar cập nật theo tiến độ của bài hát
-        progressSb.max = duration / 1000
-        musicPlayerViewModel.currentPosition.observe(this, Observer {curentPosition ->
-            progressSb.progress = (curentPosition /1000).toInt()
-            progressTv.text = formatDuration(curentPosition)
-            val remainingDuration = (duration - curentPosition)
-            durationTv.text = formatDuration(remainingDuration)
-        })
+
     }
 
     private fun Back() {

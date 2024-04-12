@@ -69,10 +69,15 @@ class MusicPlayerService : Service() {
     private fun trackCurrentPosition() {
         player.addListener(object : Player.Listener {
             override fun onTimelineChanged(timeline: Timeline, reason: Int) {
+                super.onTimelineChanged(timeline, reason)
                 val currentPosition = player.currentPosition
                 currentPositionLiveData.postValue(currentPosition)
             }
+
         })
+    }
+    fun getCurrentPositionLiveData(): LiveData<Long> {
+        return currentPositionLiveData
     }
     inner class MusicBinder : Binder() {
         fun getService(): MusicPlayerService = this@MusicPlayerService
