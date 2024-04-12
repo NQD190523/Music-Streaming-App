@@ -80,7 +80,7 @@ class ActivityPlaylist : AppCompatActivity() {
         durationTv = findViewById(R.id.durationTv)
         previousBtn = findViewById(R.id.previous)
         mixBtn = findViewById(R.id.mix)
-        playFrameLayout = findViewById(R.id.playPause)
+//        playFrameLayout = findViewById(R.id.playPause)
         nextBtn = findViewById(R.id.next)
         repeatBtn = findViewById(R.id.repeat)
         commentBtn = findViewById(R.id.comment)
