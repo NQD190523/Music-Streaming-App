@@ -56,26 +56,28 @@ class HomeFragment : Fragment() {
             val adapter = NewReleaseAdapter(requireContext(), tracks)
             listView.adapter = adapter
         })
-// Khởi tạo RecyclerView
+
+// Khởi tạo RecyclerView cho danh sách các bài hát đã xem gần đây
         val recentlyViewSong: RecyclerView = rootView.findViewById(R.id.RecentlyViewSong)
-        val layoutManager = LinearLayoutManager(context)
-        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        recentlyViewSong.layoutManager = layoutManager
+        recentlyViewSong.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val recentlySongAdapter = RecentlySongAdapter(requireContext(), emptyList())
         recentlyViewSong.adapter = recentlySongAdapter
         songViewModel.getRecentSongs(FirebaseAuth.getInstance().currentUser?.uid.toString()).observe(viewLifecycleOwner, Observer { songs ->
             recentlySongAdapter.updateData(songs)
         })
 
-        // Khởi tạo và cấu hình RecyclerView cho danh sách nghệ sĩ
-        recyclerViewArtists = rootView.findViewById(R.id.recyclerViewArtist)
+
+
+
+// Khởi tạo và cấu hình RecyclerView cho danh sách nghệ sĩ
+        val recyclerViewArtists: RecyclerView = rootView.findViewById(R.id.recyclerViewArtist)
         recyclerViewArtists.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         songViewModel.artists.observe(viewLifecycleOwner, Observer { artists ->
             val artistAdapter = ArtistAdapter(requireContext(), artists)
             recyclerViewArtists.adapter = artistAdapter
         })
 
-        // Lấy danh sách tracks và artists  từ repository
+// Lấy danh sách tracks và artists từ repository
         songViewModel.getAllTracks()
         songViewModel.getAllArtists()
 

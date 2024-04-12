@@ -34,7 +34,7 @@ class MusicPlayerService : Service() {
         }
     }
     override fun onBind(p0: Intent?): IBinder {
-        return  binder
+        return  MusicBinder()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

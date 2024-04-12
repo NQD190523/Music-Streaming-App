@@ -1,6 +1,8 @@
 package com.project.appealic.ui.view
 
+import android.annotation.SuppressLint
 import android.app.Dialog
+import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -12,16 +14,20 @@ import android.os.IBinder
 import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.Player
+import androidx.media3.common.Timeline
 import androidx.media3.exoplayer.ExoPlayer
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
@@ -54,42 +60,16 @@ class ActivityPlaylist : AppCompatActivity() {
     private lateinit var shareBtn: ImageView
     private lateinit var multiplyBtn: ImageView
     private lateinit var player: ExoPlayer
-    private lateinit var trackId : String
+    private lateinit var trackId: String
     private lateinit var musicPlayerViewModel: MusicPlayerViewModel
-    private var musicPlayerService: MusicPlayerService? = null
-    private var serviceBound = false
-    private var isServiceConnected = false
 
-    private val serviceConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val binder = service as MusicPlayerService.MusicBinder
-            musicPlayerService = binder.getService()
-            player = musicPlayerService!!.getExoPlayerInstance()
-
-
-            isServiceConnected = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            serviceBound = false
-        }
-    }
-    override fun onStart() {
-        super.onStart()
-        Intent(this, MusicPlayerService::class.java).also { intent ->
-            bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playsong)
-        if (isServiceConnected) {
-            val factory = MusicPlayerViewModelFactory(musicPlayerService!!)
-            musicPlayerViewModel = ViewModelProvider(this@ActivityPlaylist, factory)[MusicPlayerViewModel::class.java]
-            // Tiếp tục thực hiện các hoạt động khác liên quan đến musicPlayerViewModel ở đây
-        }
 
+        musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
+        musicPlayerViewModel.bindService(this)
 
         //Lấy trạng thái trc khi thoát của audio
 //        if (savedInstanceState != null) {
@@ -105,7 +85,7 @@ class ActivityPlaylist : AppCompatActivity() {
         durationTv = findViewById(R.id.durationTv)
         previousBtn = findViewById(R.id.previous)
         mixBtn = findViewById(R.id.mix)
-        playFrameLayout = findViewById(R.id.playPause)
+//        playFrameLayout = findViewById(R.id.playPause)
         nextBtn = findViewById(R.id.next)
         repeatBtn = findViewById(R.id.repeat)
         commentBtn = findViewById(R.id.comment)
@@ -127,6 +107,10 @@ class ActivityPlaylist : AppCompatActivity() {
         findViewById<TextView>(R.id.song_name).text = songTitle
         findViewById<TextView>(R.id.singer_name).text = artistName
 
+        val backButton = findViewById<ImageView>(R.id.imv_dropdown)
+        backButton.setOnClickListener {
+            Back()
+        }
         // Load hình ảnh sử dụng Glide
         trackImage?.let { imageUrl ->
             val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
@@ -136,7 +120,6 @@ class ActivityPlaylist : AppCompatActivity() {
                 .load(storageReference)
                 .into(songImageView)
         }
-
 
         //Load dữ liệu audio
         val storage = Firebase.storage
@@ -166,8 +149,8 @@ class ActivityPlaylist : AppCompatActivity() {
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Xử lý sự kiện thay đổi tiến trình
-                if(fromUser) {
-                    player.seekTo((progress *1000).toLong())
+                if (fromUser) {
+                    player.seekTo((progress * 1000).toLong())
                     progressTv.text = formatDuration(progress.toLong())
                 }
             }
@@ -180,15 +163,49 @@ class ActivityPlaylist : AppCompatActivity() {
                 // Xử lý khi kết thúc chạm vào SeekBar
             }
         })
-        //ProgressBar cập nật theo tiến độ của bài hát
-//        progressSb.max = duration / 1000
-//        musicPlayerViewModel.currentPosition.observe(this, Observer {curentPosition ->
-//            progressSb.progress = (curentPosition /1000).toInt()
-//            progressTv.text = formatDuration(curentPosition)
-//            val remainingDuration = (duration - curentPosition)
-//            durationTv.text = formatDuration(remainingDuration)
-//        })
+//        ProgressBar cập nật theo tiến độ của bài hát
+        progressSb.max = duration / 1000
+        musicPlayerViewModel.currentPosition.observe(this, Observer {curentPosition ->
+            progressSb.progress = (curentPosition /1000).toInt()
+            progressTv.text = formatDuration(curentPosition)
+            val remainingDuration = (duration - curentPosition)
+            durationTv.text = formatDuration(remainingDuration)
+        })
     }
+
+    private fun Back() {
+        val sharedPreferences = this.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val songTitle = intent.getStringExtra("SONG_TITLE")
+        val artistName = intent.getStringExtra("SINGER_NAME")
+        val trackImage = intent.getStringExtra("TRACK_IMAGE")
+        editor.putString("SONG_TITLE", songTitle)
+        editor.putString("SINGER_NAME", artistName)
+        editor.putString("TRACK_IMAGE", trackImage)
+        // Save other song info to SharedPreferences if needed
+        editor.apply()
+
+        // Update the widget after song info is saved
+        val appWidgetManager = AppWidgetManager.getInstance(this)
+        val appWidgetIds =
+            appWidgetManager.getAppWidgetIds(ComponentName(this, WidgetView::class.java))
+        if (appWidgetIds != null && appWidgetIds.isNotEmpty()) {
+            WidgetView().onUpdate(this, appWidgetManager, appWidgetIds)
+        }
+
+    }
+
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        // Lưu trạng thái của ViewModel khi Activity bị hủy
+//        outState.putAll(musicPlayerViewModel.onSaveInstanceState())
+//        Log.d("load info", " success")
+//    }
+
+//    override fun onPause() {
+//        super.onPause()
+//        musicPlayerViewModel.saveAudioPosition(trackId, player.currentPosition)
+//    }
 //    override fun onSaveInstanceState(outState: Bundle) {
 //        super.onSaveInstanceState(outState)
 //        // Lưu trạng thái của ViewModel khi Activity bị hủy
@@ -203,10 +220,6 @@ class ActivityPlaylist : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        if(serviceBound){
-            unbindService(serviceConnection)
-            serviceBound=false
-        }
     }
 
     override fun onDestroy() {
@@ -214,68 +227,71 @@ class ActivityPlaylist : AppCompatActivity() {
         musicPlayerViewModel.stopMusic()
     }
 
-    private fun handleMixButtonClick() {
+        private fun handleMixButtonClick() {
 
-    }
-    private fun formatDuration(durationInSeconds: Long): String {
-        val seconds = (durationInSeconds / 1000) % 60
-        val minutes = durationInSeconds / 60000
-        return "$minutes:${String.format("%02d", seconds)}"
-    }
-
-    // Các hàm xử lý sự kiện khi nhấn các nút
-    private fun handlePreviousButtonClick() {
-        if (currentTrackIndex > 0) {
-            currentTrackIndex--
-            player.setMediaItem(playlist[currentTrackIndex])
-            player.prepare()
-            player.play()
         }
-    }
 
-    private fun handelPlayButtonClick() {
-        if (player.isPlaying) {
-            player.pause()
-            playBtn.setImageResource(R.drawable.ic_play_20_filled)
-        } else {
-            player.play()
-            playBtn.setImageResource(R.drawable.ic_pause_20_filled)
+        private fun formatDuration(durationInSeconds: Long): String {
+            val seconds = (durationInSeconds / 1000) % 60
+            val minutes = durationInSeconds / 60000
+            return "$minutes:${String.format("%02d", seconds)}"
         }
-    }
 
-    private fun handleNextButtonClick() {
-        if (currentTrackIndex < playlist.size - 1) {
-            currentTrackIndex++
-            player.setMediaItem(playlist[currentTrackIndex])
-            player.prepare()
-            player.play()
+        // Các hàm xử lý sự kiện khi nhấn các nút
+        fun handlePreviousButtonClick() {
+            if (currentTrackIndex > 0) {
+                currentTrackIndex--
+                player.setMediaItem(playlist[currentTrackIndex])
+                player.prepare()
+                player.play()
+            }
         }
-    }
 
-    private fun handleRepeatButtonClick() {
-        if (player.isPlaying) {
-            isRepeating = !isRepeating
-            player.repeatMode = if (isRepeating) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+        private fun handelPlayButtonClick() {
+            if (player.isPlaying) {
+                player.pause()
+                playBtn.setImageResource(R.drawable.ic_pause_20_filled)
+            } else {
+                player.play()
+                playBtn.setImageResource(R.drawable.ic_play_20_filled)
+            }
         }
-    }
-    private fun handleCommentButtonClick() {
-        // Xử lý khi nhấn nút Comment
-        showDialogForComment()
-    }
 
-    private fun handleDownloadButtonClick() {
-        // Xử lý khi nhấn nút Download
-    }
+        private fun handleNextButtonClick() {
+            if (currentTrackIndex < playlist.size - 1) {
+                currentTrackIndex++
+                player.setMediaItem(playlist[currentTrackIndex])
+                player.prepare()
+                player.play()
+            }
+        }
+
+        private fun handleRepeatButtonClick() {
+            if (player.isPlaying) {
+                isRepeating = !isRepeating
+                player.repeatMode =
+                    if (isRepeating) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+            }
+        }
+
+        private fun handleCommentButtonClick() {
+            // Xử lý khi nhấn nút Comment
+            showDialogForComment()
+        }
+
+        private fun handleDownloadButtonClick() {
+            // Xử lý khi nhấn nút Download
+        }
 
 
-    private fun handleMoreButtonClick() {
-        val moreActionFragment = MoreActionFragment()
-        val bundle = Bundle()
-        bundle.putString("SONG_TITLE", intent.getStringExtra("SONG_TITLE"))
-        bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
-        bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
-        moreActionFragment.arguments = bundle
-        moreActionFragment.show(supportFragmentManager, "MoreActionsFragment")
+        private fun handleMoreButtonClick() {
+            val moreActionFragment = MoreActionFragment()
+            val bundle = Bundle()
+            bundle.putString("SONG_TITLE", intent.getStringExtra("SONG_TITLE"))
+            bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
+            bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
+            moreActionFragment.arguments = bundle
+            moreActionFragment.show(supportFragmentManager, "MoreActionsFragment")
 
 //        // Tạo Dialog mới
 //        val dialog = Dialog(this)
@@ -348,72 +364,70 @@ class ActivityPlaylist : AppCompatActivity() {
 //
 //        // Hiển thị dialog
 //        dialog.show()
+        }
+
+
+        private fun showDialogForAddPlay() {
+            val addPlaylistFragment = AddPlaylistFragment()
+            addPlaylistFragment.show(supportFragmentManager, "AddPlaylistFragment")
+
+        }
+
+        private fun showDialogForComment() {
+            val dialog = Dialog(this)
+            val view = layoutInflater.inflate(R.layout.bottom_comment, null)
+
+            val window = dialog.window
+            window?.setBackgroundDrawableResource(R.drawable.more_background)
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
+
+            dialog.setContentView(view)
+            dialog.show()
+        }
+
+        private fun showDialogForArtist() {
+            val dialog = Dialog(this)
+            val view = layoutInflater.inflate(R.layout.bottom_artist, null)
+
+            val window = dialog.window
+            window?.setBackgroundDrawableResource(R.drawable.more_background)
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
+
+            dialog.setContentView(view)
+            dialog.show()
+        }
+
+        private fun showDialogForSleep() {
+            val dialog = Dialog(this)
+            val view = layoutInflater.inflate(R.layout.bottom_sleep, null)
+
+            val window = dialog.window
+            window?.setBackgroundDrawableResource(R.drawable.more_background)
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
+
+            dialog.setContentView(view)
+            dialog.show()
+        }
     }
 
-
-    private fun showDialogForAddPlay() {
-        val addPlaylistFragment = AddPlaylistFragment()
-        addPlaylistFragment.show(supportFragmentManager, "AddPlaylistFragment")
-
-    }
-    private fun showDialogForComment() {
-        val dialog = Dialog(this)
-        val view = layoutInflater.inflate(R.layout.bottom_comment, null)
-
-        val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.more_background)
-        window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
-
-        dialog.setContentView(view)
-        dialog.show()
+    private fun showDialogForAddFav() {
     }
 
-    private fun showDialogForArtist(){
-        val dialog = Dialog(this)
-        val view = layoutInflater.inflate(R.layout.bottom_artist, null)
-
-        val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.more_background)
-        window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
-
-        dialog.setContentView(view)
-        dialog.show()
+    private fun handleShareButtonClick() {
     }
 
-    private fun showDialogForSleep(){
-        val dialog = Dialog(this)
-        val view = layoutInflater.inflate(R.layout.bottom_sleep, null)
-
-        val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.more_background)
-        window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
-
-        dialog.setContentView(view)
-        dialog.show()
+    private fun handleMultiplyButtonClick() {
     }
-}
-
-private fun showDialogForAddFav() {
-}
-
-
-
-
-private fun handleShareButtonClick() {
-}
-
-private fun handleMultiplyButtonClick() {
-}
 
