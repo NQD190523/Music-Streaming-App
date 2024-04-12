@@ -90,7 +90,7 @@
                 app:layout_constraintTop_toTopOf="@+id/more" />
 
             <ImageView
-                android:id="@+id/multiply"
+                android:id="@+id/share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -99,11 +99,11 @@
                 app:layout_constraintBottom_toBottomOf="@+id/more"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/share"
+                app:layout_constraintStart_toEndOf="@+id/addPlaylist"
                 app:layout_constraintTop_toTopOf="@+id/more" />
 
             <ImageView
-                android:id="@+id/share"
+                android:id="@+id/addPlaylist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -111,7 +111,7 @@
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_add_24_outlined"
                 app:layout_constraintBottom_toBottomOf="@+id/more"
-                app:layout_constraintEnd_toStartOf="@+id/multiply"
+                app:layout_constraintEnd_toStartOf="@+id/share"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/more"
                 app:layout_constraintTop_toTopOf="@+id/more" />
@@ -133,7 +133,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_12"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/share"
+                app:layout_constraintEnd_toStartOf="@+id/addPlaylist"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/dowmload" />
 
@@ -216,7 +216,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/btn_cricle_blue"
-                android:src="@drawable/ic_play_24_filled"
+                android:src="@drawable/ic_pause_24_filled"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/next"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -286,6 +286,8 @@
                 android:maxHeight="2dp"
                 android:progress="30"
                 android:secondaryProgress="0"
+                android:progressTint="@color/secondaryColor"
+                android:thumbTint="@color/secondaryColor"
                 android:tag="tint_accent_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

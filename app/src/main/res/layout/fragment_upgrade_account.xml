@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dark">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_arrow_16_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTitle"
+        style="@style/Heading4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="UPGRADE ACCOUNT"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    
+    <LinearLayout
+        android:id="@+id/llUpgrade"
+        android:paddingHorizontal="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="18dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clipToOutline="true"
+            android:background="@drawable/upgrade_solo_left_background"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="15dp"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Appealic Plus Solo"
+                    android:textColor="#E6DD00"
+                    style="@style/Body1Bold"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:textColor="@color/white"
+                    android:text="Only $2 for the first 2 months member and can cancel anytime"
+                    style="@style/Label"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@drawable/upgrade_solo_right_background"
+                android:paddingVertical="@dimen/dp_16"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Only $2"
+                    style="@style/Body2Bold"
+                    android:textColor="#E6DD00"
+                    />
+                <ImageView
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_width="85dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/upgrade_solo_btn" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clipToOutline="true"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@drawable/upgrade_student_left_background"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="15dp"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Appealic Plus Student"
+                    android:textColor="#5FD3EA"
+                    style="@style/Body1Bold"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:textColor="@color/white"
+                    android:text="Only $1 for the first 2 months member and can cancel anytime"
+                    style="@style/Label"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@drawable/upgrade_student_right_background"
+                android:paddingVertical="@dimen/dp_16"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Only $1"
+                    style="@style/Body2Bold"
+                    android:textColor="#5FD3EA"
+                    />
+                <ImageView
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_width="85dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/upgrade_student_btn" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clipToOutline="true"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@drawable/upgrade_mini_left_background"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="15dp"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Appealic Plus Mini"
+                    android:textColor="#58FF55"
+                    style="@style/Body1Bold"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:textColor="@color/white"
+                    android:text="Only $0.1/ 1 day for trial package and can cancel anytime"
+                    style="@style/Label"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@drawable/upgrade_mini_right_background"
+                android:paddingVertical="@dimen/dp_16"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Only $2"
+                    style="@style/Body2Bold"
+                    android:textColor="#58FF55"
+                    />
+                <ImageView
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_width="85dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/upgrade_mini_btn" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/txtHeading"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/dp_36"
+        app:layout_constraintTop_toBottomOf="@+id/llUpgrade"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Why go PLUS?"
+            android:textColor="#5FD3EA"
+            style="@style/Body1Bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go Plus and enjoy full control of your listening. Canel anytime."
+            android:textColor="@color/white"
+            android:gravity="center"
+            style="@style/Body2"
+            android:layout_marginTop="@dimen/dp_8"/>
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="@dimen/dp_20"
+        app:layout_constraintTop_toBottomOf="@+id/txtHeading"
+        >
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="What you’ll get"
+                android:textColor="@color/white"
+                style="@style/Body2Bold"
+                android:layout_weight="1"
+                android:paddingVertical="@dimen/dp_8"
+                />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:paddingVertical="8dp"
+                android:text="Free account"
+                android:textColor="@color/white"
+                style="@style/Body2Bold"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_16"
+                android:layout_weight="1.5"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logonotext"/>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Plus"
+                    android:textColor="@color/white"
+                    style="@style/Body2Bold"/>
+            </LinearLayout>
+        </TableRow>
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_36"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/inter_regular"
+                android:text="Download to listen offline"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                style="@style/Body2Bold"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_16"
+                android:layout_weight="1.5"
+
+                >
+                <ImageView
+                    android:layout_width="51dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/upgrade_line"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/upgrade_check" />
+            </LinearLayout>
+        </TableRow>
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_36"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/inter_regular"
+                android:text="Ad-free music listening"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                style="@style/Body2Bold"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_16"
+                android:layout_weight="1.5"
+
+                >
+                <ImageView
+                    android:layout_width="51dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/upgrade_line"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/upgrade_check" />
+            </LinearLayout>
+        </TableRow>
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_height="@dimen/dp_36"
+                android:gravity="center_vertical"
+                android:layout_width="0dp"
+                android:text="Sleep timer"
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="12sp"
+                android:layout_weight="1"
+                />
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                style="@style/Body2Bold"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_16"
+                android:layout_weight="1.5"
+
+                >
+                <ImageView
+                    android:layout_width="51dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/upgrade_line"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/upgrade_check" />
+            </LinearLayout>
+        </TableRow>
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_height="@dimen/dp_36"
+                android:gravity="center_vertical"
+                android:layout_width="0dp"
+                android:text="Exclusive Access"
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="12sp"
+                android:layout_weight="1"
+                />
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                style="@style/Body2Bold"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_16"
+                android:layout_weight="1.5"
+
+                >
+                <ImageView
+                    android:layout_width="51dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/upgrade_line"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/upgrade_check" />
+            </LinearLayout>
+        </TableRow>
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_height="@dimen/dp_36"
+                android:gravity="center_vertical"
+                android:layout_width="0dp"
+                android:text="Customize sound quality"
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="12sp"
+                android:layout_weight="1"
+                />
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                style="@style/Body2Bold"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_16"
+                android:layout_weight="1.5"
+
+                >
+                <ImageView
+                    android:layout_width="51dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/upgrade_line"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/upgrade_check" />
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

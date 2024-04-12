@@ -5,156 +5,200 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark">
+    android:background="@drawable/background"
+    android:paddingHorizontal="@dimen/dp_16">
 
-    <LinearLayout
-        android:id="@+id/searchLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp"
+        android:layout_height="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="21dp"
-            android:paddingVertical="10dp"
-            android:gravity="center_vertical">
-
-            <EditText
-                android:id="@+id/editText"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:background="@drawable/comment_edt"
-                android:drawableLeft="@drawable/ic_search_16_outlined"
-                android:drawablePadding="8dp"
-                android:fontFamily="@font/inter_medium"
-                android:hint="What do you want to listen to?"
-                android:paddingHorizontal="20dp"
-                android:textColorHint="@color/white"
-                android:textSize="12dp" />
-
-            <TextView
-                android:id="@+id/txtCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Cancel"
-                android:textColor="@color/white"/>
-        </LinearLayout>
+        <EditText
+            android:id="@+id/editText"
+            style="@style/Placeholder"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/comment_edt"
+            android:drawableLeft="@drawable/ic_search_16_outlined"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/inter_medium"
+            android:hint="What do you want to listen to?"
+            android:paddingHorizontal="16dp"
+            android:textColorHint="@color/subText"
+            android:textColor="@color/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txtCancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/txtCancel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="History"
+            android:text="Cancel"
             android:textColor="@color/white"
-            style="@style/Heading4"
-            android:layout_marginTop="32dp"
-            android:paddingHorizontal="21dp"/>
+            app:layout_constraintBottom_toBottomOf="@+id/editText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/editText" />
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="21dp"
-            android:paddingVertical="10dp"
-            app:alignItems="center"
-            app:flexWrap="wrap"
-            app:justifyContent="flex_start"
-            tools:ignore="MissingClass">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_color_white"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Search history"
-                android:textColor="@color/white"
-                android:textSize="15dp"
-                app:layout_flexBasisPercent="30%"
-                android:singleLine="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/sp_12"
-                android:background="@drawable/button_color_white"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Pop"
-                android:textColor="@color/white"
-                android:textSize="15dp"
-                app:layout_flexBasisPercent="20%" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/sp_12"
-                android:background="@drawable/button_color_white"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Artist"
-                android:textColor="@color/white"
-                android:textSize="15dp"
-                app:layout_flexBasisPercent="20%" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/sp_12"
-                android:background="@drawable/button_color_white"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Sleeptime"
-                android:textColor="@color/white"
-                android:textSize="15dp"
-                app:layout_flexBasisPercent="30%" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/sp_12"
-                android:background="@drawable/button_color_white"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="New TextView"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/white"
-                android:textSize="15dp"
-                app:layout_flexBasisPercent="30%"
-                android:singleLine="true" />
-
-        </com.google.android.flexbox.FlexboxLayout>
-
-        <TextView
-            style="@style/Heading4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:paddingHorizontal="21dp"
-            android:text="Popular"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
-
-    <GridView
-        android:id="@+id/gridviewSearch"
-        android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:columnWidth="90dp"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="2"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/topBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView17"
+                style="@style/Heading4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="History"
+                android:layout_marginTop="@dimen/dp_16"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/flexboxLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                app:alignItems="center"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView17"
+                tools:ignore="MissingClass">
+
+                <TextView
+                    style="@style/Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/button_color_white"
+                    android:gravity="center"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:singleLine="true"
+                    android:text="Taylor Swift"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    style="@style/Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/button_color_white"
+                    android:gravity="center"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="Acoustic"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    style="@style/Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/button_color_white"
+                    android:gravity="center"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="Pop"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    style="@style/Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/button_color_white"
+                    android:gravity="center"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="Lofi chill"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    style="@style/Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/button_color_white"
+                    android:gravity="center"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:singleLine="true"
+                    android:text="Love Story"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    style="@style/Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/button_color_white"
+                    android:gravity="center"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:singleLine="true"
+                    android:text="Sleep sound"
+                    android:textColor="@color/white" />
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <TextView
+                android:id="@+id/textView18"
+                style="@style/Heading4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_32"
+                android:text="Genres"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flexboxLayout" />
+
+            <GridView
+                android:id="@+id/gridviewSearch"
+                android:layout_width="match_parent"
+                android:layout_height="550dp"
+                android:layout_marginTop="@dimen/dp_16"
+                android:columnWidth="90dp"
+                android:gravity="center"
+                android:horizontalSpacing="10dp"
+                android:numColumns="2"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

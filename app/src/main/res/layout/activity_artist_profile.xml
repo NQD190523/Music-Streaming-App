@@ -1,30 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
-    <RelativeLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:id="@+id/layoutTop"
-            android:layout_width="450dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="455dp"
-                android:layout_height="365dp"
-                android:src="@drawable/taylor_pic" />
-
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="224dp"
-                android:orientation="vertical">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="318dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/taylor_pic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
                 <TextView
                     android:id="@+id/txtNameArtist"
@@ -32,10 +43,15 @@
                     android:layout_width="184dp"
                     android:layout_height="34dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="224dp"
                     android:background="#B3FFFFFF"
                     android:gravity="center"
                     android:text="@string/txtNameArtist"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/imageView" />
 
                 <TextView
                     android:id="@+id/txtFollowed"
@@ -43,75 +59,241 @@
                     android:layout_width="165dp"
                     android:layout_height="28dp"
                     android:layout_gravity="center"
-                    android:background="#99000000"
+                    android:background="#990E0526"
                     android:gravity="center"
                     android:text="txtFollowed"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="@+id/txtNameArtist"
+                    app:layout_constraintStart_toStartOf="@+id/txtNameArtist"
+                    app:layout_constraintTop_toBottomOf="@+id/txtNameArtist" />
 
-        </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/layoutButton"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/layoutTop"
-            android:layout_marginTop="14dp"
-            android:paddingLeft="@dimen/dp_24"
-            android:paddingRight="@dimen/dp_24">
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Button
-                android:id="@+id/btnFollow"
-                style="@style/CTAsSmall"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:text="@string/btnFollow"
-                android:textColor="@color/white"
-                android:background="@drawable/btn_rounded_border"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutTop">
 
-            <Button
-                android:id="@+id/btnPlay"
-                style="@style/CTAsSmall"
-                android:textColor="@color/white"
+                <Button
+                    android:id="@+id/btnPlay"
+                    style="@style/CTAsSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="5"
+                    android:background="@drawable/rounded_button"
+                    android:text="@string/btnPlay"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnFollow"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/btnFollow"
+                    app:layout_constraintTop_toTopOf="@+id/btnFollow"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <Button
+                    android:id="@+id/btnFollow"
+                    style="@style/CTAsSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="5"
+                    android:background="@drawable/btn_rounded_border"
+                    android:text="@string/btnFollow"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/btnPlay"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="2dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutbottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:text="@string/btnPlay"
-                android:background="@drawable/rounded_button"/>
-        </LinearLayout>
-        
-        <LinearLayout
-            android:id="@+id/layoutHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/dp_20"
-            android:paddingRight="@dimen/dp_20"
-            android:paddingTop="14dp"
-            android:paddingBottom="13dp"
-            android:layout_below="@+id/layoutButton"
-            android:gravity="right">
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutButton">
 
-            <TextView
-                style="@style/Heading6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/featuredSong"
-                android:textColor="@color/white"
-                android:paddingStart="@dimen/dp_20"/>
-            <ImageView
-                android:layout_width="@dimen/dp_16"
-                android:layout_height="@dimen/dp_16"
-                android:src="@drawable/ic_search_16_filled"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-        <ListView
-            android:id="@+id/listViewArists"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layoutHeader"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-    </RelativeLayout>
-</ScrollView>
+                    <TextView
+                        android:id="@+id/textView14"
+                        style="@style/Heading6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/featuredSong"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_search_20_filled"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView14" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ListView
+                    android:id="@+id/listViewArists"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="@+id/layoutHeader"
+                    app:layout_constraintStart_toStartOf="@+id/layoutHeader"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutHeader" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    style="@style/Heading6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/listViewArists"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Recommended songs"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/listViewArists"
+                    app:layout_constraintTop_toBottomOf="@+id/listViewArists" />
+
+                <ListView
+                    android:id="@+id/listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView15"
+                    app:layout_constraintStart_toStartOf="@+id/textView15"
+                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+    <!--    <RelativeLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content">-->
+
+    <!--        <RelativeLayout-->
+    <!--            android:id="@+id/layoutTop"-->
+    <!--            android:layout_width="450dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="vertical">-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/imageView"-->
+    <!--                android:layout_width="455dp"-->
+    <!--                android:layout_height="365dp"-->
+    <!--                android:src="@drawable/taylor_pic" />-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_alignParentTop="true"-->
+    <!--                android:layout_marginTop="224dp"-->
+    <!--                android:orientation="vertical">-->
+
+    <!--                >-->
+    <!--            </LinearLayout>-->
+
+    <!--        </RelativeLayout>-->
+
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/layoutButton"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="40dp"-->
+    <!--            android:layout_below="@+id/layoutTop"-->
+    <!--            android:layout_marginTop="14dp"-->
+    <!--            android:paddingLeft="@dimen/dp_24"-->
+    <!--            android:paddingRight="@dimen/dp_24">-->
+
+    <!--            <Button-->
+    <!--                android:id="@+id/btnFollow"-->
+    <!--                style="@style/CTAsSmall"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_weight="5"-->
+    <!--                android:text="@string/btnFollow"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:background="@drawable/btn_rounded_border"-->
+    <!--                android:layout_marginEnd="4dp"/>-->
+
+    <!--            <Button-->
+    <!--                android:id="@+id/btnPlay"-->
+    <!--                style="@style/CTAsSmall"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_weight="5"-->
+    <!--                android:text="@string/btnPlay"-->
+    <!--                android:background="@drawable/rounded_button"/>-->
+    <!--        </LinearLayout>-->
+    <!--        -->
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/layoutHeader"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="horizontal"-->
+    <!--            android:paddingLeft="@dimen/dp_20"-->
+    <!--            android:paddingRight="@dimen/dp_20"-->
+    <!--            android:paddingTop="14dp"-->
+    <!--            android:paddingBottom="13dp"-->
+    <!--            android:layout_below="@+id/layoutButton"-->
+    <!--            android:gravity="right">-->
+
+    <!--            <TextView-->
+    <!--                style="@style/Heading6"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="@string/featuredSong"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:paddingStart="@dimen/dp_20"/>-->
+    <!--            <ImageView-->
+    <!--                android:layout_width="@dimen/dp_16"-->
+    <!--                android:layout_height="@dimen/dp_16"-->
+    <!--                android:src="@drawable/ic_search_16_filled"-->
+    <!--                android:layout_gravity="center"/>-->
+    <!--        </LinearLayout>-->
+    <!--        <ListView-->
+    <!--            android:id="@+id/listViewArists"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/layoutHeader"/>-->
+
+    <!--        <TextView-->
+    <!--            style="@style/Heading6"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:paddingStart="@dimen/dp_20"-->
+    <!--            android:text="Recommended songs"-->
+    <!--            android:textColor="@color/white"-->
+    <!--            android:layout_below="@+id/listViewArists"/>-->
+
+    <!--        <ListView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/layoutHeader" />-->
+    <!--    </RelativeLayout>-->
+</androidx.constraintlayout.widget.ConstraintLayout>
