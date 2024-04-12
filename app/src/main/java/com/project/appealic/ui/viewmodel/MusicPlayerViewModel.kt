@@ -16,9 +16,13 @@ import com.project.appealic.utils.MusicPlayerFactory
 
 class MusicPlayerViewModel :ViewModel() {
     private var musicPlayerService: MusicPlayerService? = null
+    val currentPosition = MutableLiveData<Long>()
 
     fun setMusicService(service: MusicPlayerService) {
         musicPlayerService = service
+        musicPlayerService.getCurrentPositionLiveData().observeForever { currentPosition ->
+            currentPositionLiveData.value = currentPosition
+        }
     }
     fun setMediaUri(uri: Uri) {
         musicPlayerService?.setMediaUri(uri)
@@ -28,6 +32,12 @@ class MusicPlayerViewModel :ViewModel() {
     }
     fun pause() {
         musicPlayerService?.pause()
+    }
+    fun getPlayerInstance(): ExoPlayer? {
+        return musicPlayerService?.getExoPlayerInstance()
+    }
+    fun getCurrentPositionLiveData(): LiveData<Long> {
+        return currentPositionLiveData
     }
 
 

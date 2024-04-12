@@ -25,6 +25,7 @@ import javax.sql.DataSource
 class MusicPlayerService : Service() {
     private lateinit var player: ExoPlayer
     private val binder = MusicBinder()
+    val currentPositionLiveData = MutableLiveData<Long>()
 
     override fun onBind(p0: Intent?): IBinder {
         return binder
@@ -32,6 +33,7 @@ class MusicPlayerService : Service() {
     override fun onCreate() {
         super.onCreate()
         player = ExoPlayer.Builder(this).build()
+        trackCurrentPosition()
     }
     fun setMediaUri(uri: Uri) {
         val mediaItem = MediaItem.fromUri(uri)
@@ -63,6 +65,14 @@ class MusicPlayerService : Service() {
     // Phương thức để chuyển bài hát tiếp theo
     fun skipToNext() {
         // Logic để chuyển bài hát tiếp theo
+    }
+    private fun trackCurrentPosition() {
+        player.addListener(object : Player.Listener {
+            override fun onTimelineChanged(timeline: Timeline, reason: Int) {
+                val currentPosition = player.currentPosition
+                currentPositionLiveData.postValue(currentPosition)
+            }
+        })
     }
     inner class MusicBinder : Binder() {
         fun getService(): MusicPlayerService = this@MusicPlayerService
