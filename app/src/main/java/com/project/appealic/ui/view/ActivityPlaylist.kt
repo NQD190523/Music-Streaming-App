@@ -54,38 +54,43 @@ class ActivityPlaylist : AppCompatActivity() {
     private lateinit var shareBtn: ImageView
     private lateinit var multiplyBtn: ImageView
     private lateinit var player: ExoPlayer
-    private lateinit var musicPlayerViewModel: MusicPlayerViewModel
     private lateinit var trackId : String
-    private lateinit var musicPlayerService: MusicPlayerService
+    private lateinit var musicPlayerViewModel: MusicPlayerViewModel
+    private var musicPlayerService: MusicPlayerService? = null
     private var serviceBound = false
+    private var isServiceConnected = false
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as MusicPlayerService.MusicBinder
             musicPlayerService = binder.getService()
-            player = musicPlayerService.getExoPlayerInstance()
-            initViewModel()
+            player = musicPlayerService!!.getExoPlayerInstance()
+
+
+            isServiceConnected = true
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
             serviceBound = false
         }
     }
-    private fun initViewModel() {
-        // Khởi tạo MusicPlayerViewModel sau khi kết nối thành công với MusicPlayerService
-        musicPlayerViewModel = ViewModelProvider(this, MusicPlayerViewModelFactory(musicPlayerService))[MusicPlayerViewModel::class.java]
+    override fun onStart() {
+        super.onStart()
+        Intent(this, MusicPlayerService::class.java).also { intent ->
+            bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playsong)
-
-        if (!serviceBound) {
-            val serviceIntent = Intent(this, MusicPlayerService::class.java)
-            bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
-        }else{
-            initViewModel()
+        if (isServiceConnected) {
+            val factory = MusicPlayerViewModelFactory(musicPlayerService!!)
+            musicPlayerViewModel = ViewModelProvider(this@ActivityPlaylist, factory)[MusicPlayerViewModel::class.java]
+            // Tiếp tục thực hiện các hoạt động khác liên quan đến musicPlayerViewModel ở đây
         }
+
+
         //Lấy trạng thái trc khi thoát của audio
 //        if (savedInstanceState != null) {
 //            val savedPosition = musicPlayerViewModel.getAudioPosition(trackId)
@@ -132,6 +137,7 @@ class ActivityPlaylist : AppCompatActivity() {
                 .into(songImageView)
         }
 
+
         //Load dữ liệu audio
         val storage = Firebase.storage
         val storageRef = storage.reference
@@ -175,13 +181,13 @@ class ActivityPlaylist : AppCompatActivity() {
             }
         })
         //ProgressBar cập nật theo tiến độ của bài hát
-        progressSb.max = duration / 1000
-        musicPlayerViewModel.currentPosition.observe(this, Observer {curentPosition ->
-            progressSb.progress = (curentPosition /1000).toInt()
-            progressTv.text = formatDuration(curentPosition)
-            val remainingDuration = (duration - curentPosition)
-            durationTv.text = formatDuration(remainingDuration)
-        })
+//        progressSb.max = duration / 1000
+//        musicPlayerViewModel.currentPosition.observe(this, Observer {curentPosition ->
+//            progressSb.progress = (curentPosition /1000).toInt()
+//            progressTv.text = formatDuration(curentPosition)
+//            val remainingDuration = (duration - curentPosition)
+//            durationTv.text = formatDuration(remainingDuration)
+//        })
     }
 //    override fun onSaveInstanceState(outState: Bundle) {
 //        super.onSaveInstanceState(outState)
@@ -195,6 +201,14 @@ class ActivityPlaylist : AppCompatActivity() {
 //        musicPlayerViewModel.saveAudioPosition(trackId,player.currentPosition)
 //    }
 
+    override fun onStop() {
+        super.onStop()
+        if(serviceBound){
+            unbindService(serviceConnection)
+            serviceBound=false
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         musicPlayerViewModel.stopMusic()
@@ -203,8 +217,6 @@ class ActivityPlaylist : AppCompatActivity() {
     private fun handleMixButtonClick() {
 
     }
-
-
     private fun formatDuration(durationInSeconds: Long): String {
         val seconds = (durationInSeconds / 1000) % 60
         val minutes = durationInSeconds / 60000
