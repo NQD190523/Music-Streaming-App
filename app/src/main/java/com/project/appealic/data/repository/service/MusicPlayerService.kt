@@ -36,14 +36,6 @@ class MusicPlayerService : Service() {
     override fun onBind(p0: Intent?): IBinder {
         return  MusicBinder()
     }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val audioUrl  = intent?.getStringExtra("TRACK_URL")
-        audioUrl?.let {
-            initializePlayer(Uri.parse(it))
-        }
-        return START_NOT_STICKY
-    }
     override fun onCreate() {
         super.onCreate()
         player = ExoPlayer.Builder(this).build()
@@ -59,7 +51,7 @@ class MusicPlayerService : Service() {
         })
     }
 
-    fun initializePlayer(audioUrl: Uri) {
+    fun playSong(audioUrl: Uri) {
         val mediaItem = MediaItem.fromUri(audioUrl)
         player.setMediaItem(mediaItem)
         player.prepare()

@@ -51,9 +51,9 @@ class MusicPlayerViewModel :ViewModel() {
 //    fun getExoPlayerInstance(): ExoPlayer {
 //        return musicPlayerService?.getExoPlayerInstance() ?:
 //    }
-    fun startPlaying(songUri: Uri) {
+    fun playSong(songUri: Uri) {
         // Sử dụng MusicPlayerService để bắt đầu phát nhạc từ Uri
-        musicPlayerService?.initializePlayer(songUri)
+        musicPlayerService?.playSong(songUri)
     }
     fun playMusic() {
         musicPlayerService?.playMusic()

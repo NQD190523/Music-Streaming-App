@@ -130,7 +130,7 @@ class ActivityPlaylist : AppCompatActivity() {
         if (audioRef != null) {
             audioRef.downloadUrl.addOnSuccessListener { url ->
                 val songUri = Uri.parse(url.toString())
-                musicPlayerViewModel.startPlaying(songUri)
+                musicPlayerViewModel.playSong(songUri)
             }
         }
         // Gắn các hàm xử lý sự kiện cho các thành phần UI
@@ -225,6 +225,7 @@ class ActivityPlaylist : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         musicPlayerViewModel.stopMusic()
+        musicPlayerViewModel.unbindService(this)
     }
 
         private fun handleMixButtonClick() {
