@@ -73,6 +73,21 @@ class ActivityPlaylist : AppCompatActivity() {
 
         musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
 
+        val serviceConnection = object : ServiceConnection {
+            override fun onServiceConnected(className: ComponentName, service: IBinder) {
+                val binder = service as MusicPlayerService.MusicBinder
+                val musicService = binder.getService()
+
+                // Thiết lập MusicService cho MusicPlayerViewModel
+                musicPlayerViewModel.setMusicService(musicService)
+            }
+
+            override fun onServiceDisconnected(className: ComponentName) {
+                // Do nothing
+            }
+        }
+        bindService(musicPlayerServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+
         //Lấy trạng thái trc khi thoát của audio
 //        if (savedInstanceState != null) {
 //            val savedPosition = musicPlayerViewModel.getAudioPosition(trackId)
