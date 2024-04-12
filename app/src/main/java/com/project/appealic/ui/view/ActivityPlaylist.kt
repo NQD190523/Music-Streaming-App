@@ -1,38 +1,38 @@
 package com.project.appealic.ui.view
 
-import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.net.Uri
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.IBinder
 import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
-import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.Player
-import androidx.media3.common.Timeline
 import androidx.media3.exoplayer.ExoPlayer
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import com.project.appealic.R
+import com.project.appealic.data.repository.service.MusicPlayerService
 import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
 import com.project.appealic.ui.view.Fragment.MoreActionFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
+import com.project.appealic.utils.MusicPlayerViewModelFactory
 
 class ActivityPlaylist : AppCompatActivity() {
 
@@ -56,23 +56,43 @@ class ActivityPlaylist : AppCompatActivity() {
     private lateinit var player: ExoPlayer
     private lateinit var musicPlayerViewModel: MusicPlayerViewModel
     private lateinit var trackId : String
+    private lateinit var musicPlayerService: MusicPlayerService
+    private var serviceBound = false
+
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as MusicPlayerService.MusicBinder
+            musicPlayerService = binder.getService()
+            player = musicPlayerService.getExoPlayerInstance()
+            initViewModel()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            serviceBound = false
+        }
+    }
+    private fun initViewModel() {
+        // Khởi tạo MusicPlayerViewModel sau khi kết nối thành công với MusicPlayerService
+        musicPlayerViewModel = ViewModelProvider(this, MusicPlayerViewModelFactory(musicPlayerService))[MusicPlayerViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playsong)
 
-
-        //Khởi tạo exoplayer
-        musicPlayerViewModel = ViewModelProvider(this).get(MusicPlayerViewModel::class.java)
-        player = musicPlayerViewModel.getPlayerInstance()
-
-        //Lấy trạng thái trc khi thoát của audio
-        if (savedInstanceState != null) {
-            val savedPosition = musicPlayerViewModel.getAudioPosition(trackId)
-            savedPosition?.let {
-                player.seekTo(savedPosition)
-            }
+        if (!serviceBound) {
+            val serviceIntent = Intent(this, MusicPlayerService::class.java)
+            bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+        }else{
+            initViewModel()
         }
+        //Lấy trạng thái trc khi thoát của audio
+//        if (savedInstanceState != null) {
+//            val savedPosition = musicPlayerViewModel.getAudioPosition(trackId)
+//            savedPosition?.let {
+//                player.seekTo(savedPosition)
+//            }
+//        }
 
         // Khởi tạo tất cả các thành phần UI
         progressTv = findViewById(R.id.progressTv)
@@ -124,7 +144,6 @@ class ActivityPlaylist : AppCompatActivity() {
                 musicPlayerViewModel.startPlaying(songUri)
             }
         }
-
         // Gắn các hàm xử lý sự kiện cho các thành phần UI
         previousBtn.setOnClickListener { handlePreviousButtonClick() }
         mixBtn.setOnClickListener { handleMixButtonClick() }
@@ -157,28 +176,28 @@ class ActivityPlaylist : AppCompatActivity() {
         })
         //ProgressBar cập nật theo tiến độ của bài hát
         progressSb.max = duration / 1000
-        musicPlayerViewModel.observeCurrentPosition( Observer {curentPosition ->
+        musicPlayerViewModel.currentPosition.observe(this, Observer {curentPosition ->
             progressSb.progress = (curentPosition /1000).toInt()
             progressTv.text = formatDuration(curentPosition)
             val remainingDuration = (duration - curentPosition)
             durationTv.text = formatDuration(remainingDuration)
         })
     }
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        // Lưu trạng thái của ViewModel khi Activity bị hủy
-        outState.putAll(musicPlayerViewModel.onSaveInstanceState())
-        Log.d("load info" ," success")
-    }
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        // Lưu trạng thái của ViewModel khi Activity bị hủy
+//        outState.putAll(musicPlayerViewModel.onSaveInstanceState())
+//        Log.d("load info" ," success")
+//    }
 
-    override fun onPause() {
-        super.onPause()
-        musicPlayerViewModel.saveAudioPosition(trackId,player.currentPosition)
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        musicPlayerViewModel.saveAudioPosition(trackId,player.currentPosition)
+//    }
 
     override fun onDestroy() {
         super.onDestroy()
-        musicPlayerViewModel.stopPlaying()
+        musicPlayerViewModel.stopMusic()
     }
 
     private fun handleMixButtonClick() {

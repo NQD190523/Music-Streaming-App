@@ -11,6 +11,7 @@ data class SongEntity (
     val singer: String?,
     val userId : String?,
     val liked : Boolean?,
-    val listenedAt : Long?
+    val listenedAt : Long?,
+    val audioPosition: Long?
 )
 

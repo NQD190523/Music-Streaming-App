@@ -93,7 +93,7 @@ class HomeFragment : Fragment() {
                 //lưu bài hát vừa mở vào database của thiết bị
                 val user = FirebaseAuth.getInstance().currentUser?.uid
                 val song =
-                    selectedSong.trackId?.let { SongEntity(it,selectedSong.trackImage,selectedSong.trackTitle,selectedSong.artist,user,null,System.currentTimeMillis()) }
+                    selectedSong.trackId?.let { SongEntity(it,selectedSong.trackImage,selectedSong.trackTitle,selectedSong.artist,user,null,System.currentTimeMillis(), null) }
                 if (song != null) {
                     songViewModel.insertSong(song)
                     Log.d(" test status", "success")

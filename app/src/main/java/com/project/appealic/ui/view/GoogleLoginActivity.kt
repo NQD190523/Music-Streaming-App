@@ -17,6 +17,9 @@ import com.project.appealic.R
 import com.project.appealic.databinding.ActivityLoginBinding
 import com.project.appealic.ui.viewmodel.AuthViewModel
 import com.project.appealic.ui.viewmodel.SpotifyViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GoogleLoginActivity : AppCompatActivity() {
 
@@ -65,8 +68,10 @@ class GoogleLoginActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this,gso)
 
         binding.btnGoogle.setOnClickListener(){
-            launcher.launch(googleSignInClient.signInIntent)
+            CoroutineScope(Dispatchers.IO).launch {
+                launcher.launch(googleSignInClient.signInIntent)
 //            spotifyViewModel.connectToSpotify(this)
+            }
         }
 
         viewModel.signInSuccess.observe(this) { signInSuccess ->

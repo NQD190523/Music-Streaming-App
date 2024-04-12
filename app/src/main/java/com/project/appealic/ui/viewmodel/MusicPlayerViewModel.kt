@@ -1,96 +1,56 @@
 package com.project.appealic.ui.viewmodel
 
-import android.app.Application
 import android.net.Uri
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.SavedStateHandle
-import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
-import androidx.media3.common.Timeline
+import androidx.lifecycle.ViewModel
 import androidx.media3.exoplayer.ExoPlayer
+import com.project.appealic.data.repository.service.MusicPlayerService
 import com.project.appealic.utils.MusicPlayerFactory
 
-class MusicPlayerViewModel(application: Application, private val savedStateHandle: SavedStateHandle) : AndroidViewModel(application) {
-    private val currentPositionLiveData = MutableLiveData<Long>()
-    private val player: ExoPlayer = MusicPlayerFactory.createSimpleExoPlayer(getApplication<Application>().applicationContext)
-    private val handler = Handler(Looper.getMainLooper())
+class MusicPlayerViewModel(private val musicPlayerService: MusicPlayerService) :ViewModel() {
 
-    private val AUDIO_POSITIONS_KEY = "audio_positions"
-    private val audioPositionsLiveData: MutableLiveData<MutableMap<String, Long>> by lazy {
-        savedStateHandle.getLiveData(AUDIO_POSITIONS_KEY, mutableMapOf())
-    }
-    private val audioPositionsMap: MutableMap<String, Long>
-        get() = audioPositionsLiveData.value ?: mutableMapOf()
+    private val _currentPosition = MutableLiveData<Long>()
+    val currentPosition: LiveData<Long> = _currentPosition
 
     init {
-        player.addListener(object : Player.Listener {
-            override fun onTimelineChanged(timeline: Timeline, reason: Int) {
-                super.onTimelineChanged(timeline, reason)
-                // Cập nhật trạng thái phát nhạc vào LiveData
-                currentPositionLiveData.postValue(player.currentPosition)
+        musicPlayerService.observeCurrentPosition().observeForever {
+            _currentPosition.value = it
+        }
+    }
+    // Phương thức để bắt đầu phát nhạc từ ViewModel
 
-            }
-        })
-    }
-    fun saveAudioPosition(audioId: String, position: Long) {
-        audioPositionsMap[audioId] = position
-        audioPositionsLiveData.value = audioPositionsMap
-    }
-    fun getAudioPosition(audioId: String): Long? {
-        return audioPositionsMap[audioId]
-    }
-    fun getPlayerInstance(): ExoPlayer {
-        return player
+    fun getExoPlayerInstance(): ExoPlayer {
+        return musicPlayerService.getExoPlayerInstance()
     }
     fun startPlaying(songUri: Uri) {
-        val mediaItem = MediaItem.fromUri(songUri)
-        player.setMediaItem(mediaItem)
-        player.prepare()
-        player.play()
+        // Sử dụng MusicPlayerService để bắt đầu phát nhạc từ Uri
+        musicPlayerService.initializePlayer(songUri)
+    }
+    fun playMusic() {
+        musicPlayerService.playMusic()
     }
 
-    fun stopPlaying() {
-        player.stop()
-        handler.removeCallbacksAndMessages(null)
-
+    // Phương thức để tạm dừng phát nhạc từ ViewModel
+    fun pauseMusic() {
+        musicPlayerService.pauseMusic()
+    }
+    fun stopMusic(){
+        musicPlayerService.stopPlayer()
     }
 
-    fun getCurrentPositionLiveData(): LiveData<Long> {
-        return currentPositionLiveData
+    // Phương thức để chuyển bài hát tiếp theo từ ViewModel
+    fun skipToNext() {
+        musicPlayerService.skipToNext()
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        player.release()
-    }
-
-    fun onSaveInstanceState(): Bundle {
-        val bundle = Bundle()
-        // Lưu trạng thái của ExoPlayer
-        bundle.putLong("currentPosition", player.currentPosition)
-        return bundle
-    }
-
-    fun onRestoreInstanceState(bundle: Bundle) {
-        // Khôi phục trạng thái của ExoPlayer
-        val currentPosition = bundle.getLong("currentPosition", 0)
-        currentPositionLiveData.postValue(currentPosition)
-        player.seekTo(currentPosition)
-    }
-    fun observeCurrentPosition(observer: Observer<Long>) {
-        handler.post(object : Runnable {
-            override fun run() {
-                observer.onChanged(player.currentPosition)
-                handler.postDelayed(this, 1000) // Cập nhật mỗi giây
-            }
-        })
-    }
+//    fun saveAudioPosition(trackId: String, position: Long) {
+//        GlobalScope.launch(Dispatchers.IO) {
+//            val song = Song(trackId, position)
+//            songDao.insertSong(song)
+//        }
+//    }
 
 
 }

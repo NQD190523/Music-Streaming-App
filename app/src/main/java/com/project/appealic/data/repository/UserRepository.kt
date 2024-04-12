@@ -14,7 +14,9 @@ class UserRepository(application: Application) {
     private val db: AppDatabase = Room.databaseBuilder(
         application.applicationContext,
         AppDatabase::class.java,"appealic"
-    ).build()
+    )
+        .fallbackToDestructiveMigration()
+        .build()
     private val userDao : UserDao = db.userDao()
 
 
