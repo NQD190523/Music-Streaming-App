@@ -4,251 +4,149 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:paddingHorizontal="@dimen/dp_16">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarCustomerService"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/dark"
-        app:contentInsetStartWithNavigation="0dp"
+        android:layout_height="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearLayout8"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/editText"
+            style="@style/Placeholder"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/comment_edt"
+            android:drawableLeft="@drawable/ic_search_16_outlined"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/inter_medium"
+            android:hint="Songs, artists, playlists, albums, ..."
+            android:paddingHorizontal="16dp"
+            android:textColorHint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txtCancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtCancel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:text="Cancel"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/editText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/editText" />
 
-            <TextView
-                android:id="@+id/tvTitle"
-                style="@style/Heading2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Home"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imvMicro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_mic_20_filled"
-                app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
-                app:layout_constraintEnd_toStartOf="@+id/imvSearch"
-                app:layout_constraintTop_toTopOf="@+id/tvTitle" />
-
-            <ImageView
-                android:id="@+id/imvSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_search_20_filled"
-                app:layout_constraintBottom_toBottomOf="@+id/imvMicro"
-                app:layout_constraintEnd_toStartOf="@+id/imvAlert"
-                app:layout_constraintTop_toTopOf="@+id/imvMicro" />
-
-            <ImageView
-                android:id="@+id/imvAlert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_alert_20_filled"
-                app:layout_constraintBottom_toBottomOf="@+id/imvSearch"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imvSearch" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.appcompat.widget.Toolbar>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarCustomerService"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/topBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearLayout9"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/dp_16">
+            android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rrBanner"
+            <TextView
+                android:id="@+id/textView19"
+                style="@style/Heading4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_32"
+                android:text="Songs"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/newRelease"
+            <ListView
+                android:id="@+id/lvSearchResultSongs"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+            <TextView
+                android:id="@+id/textView20"
+                style="@style/Heading4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_32"
-                app:layout_constraintTop_toBottomOf="@+id/rrBanner"
-                tools:layout_editor_absoluteX="16dp">
+                android:text="Artists"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/lvSearchResultSongs" />
 
-                <TextView
-                    android:id="@+id/textView22"
-                    style="@style/Heading4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="New Release"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <ListView
+                android:id="@+id/lvSearchResultArtists"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
-                <Button
-                    android:id="@+id/btnViewAll"
-                    style="@style/Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_button"
-                    android:paddingVertical="4dp"
-                    android:text="View All"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView22" />
-
-                <Button
-                    android:id="@+id/btnVietnam"
-                    style="@style/Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="@dimen/dp_8"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_color_white"
-                    android:text="Viet Nam"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/btnViewAll"
-                    app:layout_constraintTop_toBottomOf="@+id/textView22" />
-
-                <Button
-                    android:id="@+id/btnInternational"
-                    style="@style/Caption"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_color_white"
-                    android:text="International"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/btnVietnam"
-                    app:layout_constraintTop_toBottomOf="@+id/textView22" />
-
-                <ListView
-                    android:id="@+id/lvNewRelease"
-                    android:layout_width="match_parent"
-                    android:layout_height="328dp"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btnViewAll" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/recentlyPlayed"
+            <TextView
+                android:id="@+id/textView21"
+                style="@style/Heading4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_32"
-                app:layout_constraintTop_toBottomOf="@+id/newRelease"
-                tools:layout_editor_absoluteX="16dp">
+                android:layout_marginTop="32dp"
+                android:text="Playlists"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lvSearchResultArtists" />
 
-                <TextView
-                    android:id="@+id/textView14"
-                    style="@style/Heading4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Recently Played"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <ListView
+                android:id="@+id/lvSearchResultPlaylists"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecentlyViewSong"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scrollbars="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/yourFavArtist"
+            <TextView
+                android:id="@+id/textView22"
+                style="@style/Heading4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_32"
-                app:layout_constraintTop_toBottomOf="@+id/recentlyPlayed"
-                tools:layout_editor_absoluteX="16dp">
+                android:layout_marginTop="32dp"
+                android:text="Albums"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lvSearchResultPlaylists" />
 
-                <TextView
-                    android:id="@+id/textView15"
-                    style="@style/Heading4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Your Favourite Artists"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewArtist"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:scrollbars="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ListView
+                android:id="@+id/lvSearchResultAlbums"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_32"
-                app:layout_constraintTop_toBottomOf="@+id/yourFavArtist"
-                tools:layout_editor_absoluteX="16dp">
-
-                <TextView
-                    android:id="@+id/textView16"
-                    style="@style/Heading4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Playlists For You"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/PlaylistforYouRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
+
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -234,10 +234,10 @@ class ActivityPlaylist : AppCompatActivity() {
     private fun handelPlayButtonClick() {
         if (player.isPlaying) {
             player.pause()
-            playBtn.setImageResource(R.drawable.ic_pause_20_filled)
+            playBtn.setImageResource(R.drawable.ic_play_24_filled)
         } else {
             player.play()
-            playBtn.setImageResource(R.drawable.ic_play_20_filled)
+            playBtn.setImageResource(R.drawable.ic_pause_24_filled)
         }
     }
 
