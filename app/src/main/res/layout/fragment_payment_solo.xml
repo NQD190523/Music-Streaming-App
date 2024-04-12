@@ -251,10 +251,10 @@
 
             </LinearLayout>
 
-            <DatePicker
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:datePickerMode="spinner"/>
+<!--            <DatePicker-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:datePickerMode="spinner"/>-->
 
             <TextView
                 android:layout_width="match_parent"
