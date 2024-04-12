@@ -4,149 +4,96 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:paddingHorizontal="@dimen/dp_16">
+    android:background="@color/dark">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topBar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:id="@+id/widgetContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#10FFFFFF"
+        android:padding="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/editText"
-            style="@style/Placeholder"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/comment_edt"
-            android:drawableLeft="@drawable/ic_search_16_outlined"
-            android:drawablePadding="8dp"
-            android:fontFamily="@font/inter_medium"
-            android:hint="Songs, artists, playlists, albums, ..."
-            android:paddingHorizontal="16dp"
-            android:textColorHint="@color/white"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imvSongPhoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/artist1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/txtCancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txtCancel"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/songInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/editText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/editText" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_marginStart="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="@+id/imvSongPhoto"
+            app:layout_constraintStart_toEndOf="@+id/imvSongPhoto"
+            app:layout_constraintTop_toTopOf="@+id/imvSongPhoto">
 
             <TextView
-                android:id="@+id/textView19"
-                style="@style/Heading4"
-                android:layout_width="match_parent"
+                android:id="@+id/txtSongName"
+                style="@style/Body1Bold"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_32"
-                android:text="Songs"
+                android:text="Song Name"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ListView
-                android:id="@+id/lvSearchResultSongs"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/txtArtistName"/>
 
             <TextView
-                android:id="@+id/textView20"
-                style="@style/Heading4"
-                android:layout_width="match_parent"
+                android:id="@+id/txtArtistName"
+                style="@style/Body2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_32"
-                android:text="Artists"
-                android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@+id/lvSearchResultSongs" />
-
-            <ListView
-                android:id="@+id/lvSearchResultArtists"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                android:text="Artist Name"
+                android:textColor="@color/subText"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView20" />
-
-            <TextView
-                android:id="@+id/textView21"
-                style="@style/Heading4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="Playlists"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lvSearchResultArtists" />
-
-            <ListView
-                android:id="@+id/lvSearchResultPlaylists"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21" />
-
-            <TextView
-                android:id="@+id/textView22"
-                style="@style/Heading4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="Albums"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lvSearchResultPlaylists" />
-
-            <ListView
-                android:id="@+id/lvSearchResultAlbums"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSongName" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_heart_20_outlined"
+            app:layout_constraintBottom_toBottomOf="@+id/songInfo"
+            app:layout_constraintEnd_toStartOf="@+id/imageView7"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/songInfo"
+            app:layout_constraintTop_toTopOf="@+id/songInfo" />
 
-    </ScrollView>
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_pause_20_filled"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+            app:layout_constraintEnd_toStartOf="@+id/imageView8"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView6"
+            app:layout_constraintTop_toTopOf="@+id/imageView6" />
 
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_next_20_filled"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView7"
+            app:layout_constraintTop_toTopOf="@+id/imageView7" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
