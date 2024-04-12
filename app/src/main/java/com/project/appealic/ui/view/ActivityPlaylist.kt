@@ -59,42 +59,33 @@ class ActivityPlaylist : AppCompatActivity() {
     private lateinit var moreBtn: Button
     private lateinit var addPlaylistBtn: ImageView
     private lateinit var shareBtn: ImageView
-    private lateinit var player: ExoPlayer
+    private  var player: ExoPlayer? = null
     private lateinit var trackId: String
     private lateinit var musicPlayerViewModel: MusicPlayerViewModel
 
+    val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            val binder = service as MusicPlayerService.MusicBinder
+            val musicService = binder.getService()
 
+            // Thiết lập MusicService cho MusicPlayerViewModel
+            musicPlayerViewModel.setMusicService(musicService)
+            player = musicPlayerViewModel.getPlayerInstance()!!
+            //        ProgressBar cập nật theo tiến độ của bài hát
+        }
+        override fun onServiceDisconnected(className: ComponentName) {
+            // Do nothing
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playsong)
 
         val musicPlayerServiceIntent = Intent(this,MusicPlayerService::class.java)
         startService(musicPlayerServiceIntent)
+        bindService(musicPlayerServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
 
         musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
-
-        val serviceConnection = object : ServiceConnection {
-            override fun onServiceConnected(className: ComponentName, service: IBinder) {
-                val binder = service as MusicPlayerService.MusicBinder
-                val musicService = binder.getService()
-
-                // Thiết lập MusicService cho MusicPlayerViewModel
-                musicPlayerViewModel.setMusicService(musicService)
-                player = musicPlayerViewModel.getPlayerInstance()!!
-                //        ProgressBar cập nật theo tiến độ của bài hát
-                progressSb.max = player.duration.toInt() / 1000
-                musicPlayerViewModel.getCurrentPositionLiveData().observe(this@ActivityPlaylist, Observer {curentPosition ->
-                    progressSb.progress = (curentPosition /1000).toInt()
-                    progressTv.text = formatDuration(curentPosition)
-                    val remainingDuration = (player.duration - curentPosition)
-                    durationTv.text = formatDuration(remainingDuration)
-                })
-            }
-            override fun onServiceDisconnected(className: ComponentName) {
-                // Do nothing
-            }
-        }
-        bindService(musicPlayerServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
 
         //Lấy trạng thái trc khi thoát của audio
 //        if (savedInstanceState != null) {
@@ -175,7 +166,7 @@ class ActivityPlaylist : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Xử lý sự kiện thay đổi tiến trình
                 if (fromUser) {
-                    player.seekTo((progress * 1000).toLong())
+                    player?.seekTo((progress * 1000).toLong())
                     progressTv.text = formatDuration(progress.toLong())
                 }
             }
@@ -188,6 +179,13 @@ class ActivityPlaylist : AppCompatActivity() {
                 // Xử lý khi kết thúc chạm vào SeekBar
             }
         })
+        progressSb.max = duration / 1000
+        musicPlayerViewModel.getCurrentPositionLiveData().observe(this) { curentPosition ->
+            progressSb.progress = (curentPosition / 1000).toInt()
+            progressTv.text = formatDuration(curentPosition)
+            val remainingDuration = (duration - curentPosition)
+            durationTv.text = formatDuration(remainingDuration)
+        }
 
     }
 
@@ -213,29 +211,6 @@ class ActivityPlaylist : AppCompatActivity() {
 
     }
 
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//        // Lưu trạng thái của ViewModel khi Activity bị hủy
-//        outState.putAll(musicPlayerViewModel.onSaveInstanceState())
-//        Log.d("load info", " success")
-//    }
-
-//    override fun onPause() {
-//        super.onPause()
-//        musicPlayerViewModel.saveAudioPosition(trackId, player.currentPosition)
-//    }
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//        // Lưu trạng thái của ViewModel khi Activity bị hủy
-//        outState.putAll(musicPlayerViewModel.onSaveInstanceState())
-//        Log.d("load info" ," success")
-//    }
-
-//    override fun onPause() {
-//        super.onPause()
-//        musicPlayerViewModel.saveAudioPosition(trackId,player.currentPosition)
-//    }
-
     override fun onStop() {
         super.onStop()
     }
@@ -245,49 +220,49 @@ class ActivityPlaylist : AppCompatActivity() {
 //        musicPlayerViewModel.pause()
     }
 
-        private fun handleMixButtonClick() {
+    private fun handleMixButtonClick() {
 
-        }
+    }
 
-        private fun formatDuration(durationInSeconds: Long): String {
-            val seconds = (durationInSeconds / 1000) % 60
-            val minutes = durationInSeconds / 60000
-            return "$minutes:${String.format("%02d", seconds)}"
-        }
+    private fun formatDuration(durationInSeconds: Long): String {
+        val seconds = (durationInSeconds / 1000) % 60
+        val minutes = durationInSeconds / 60000
+        return "$minutes:${String.format("%02d", seconds)}"
+    }
 
-        // Các hàm xử lý sự kiện khi nhấn các nút
-        fun handlePreviousButtonClick() {
-            if (currentTrackIndex > 0) {
-                currentTrackIndex--
-                player.setMediaItem(playlist[currentTrackIndex])
-                player.prepare()
-                player.play()
-            }
+    // Các hàm xử lý sự kiện khi nhấn các nút
+    fun handlePreviousButtonClick() {
+        if (currentTrackIndex > 0) {
+            currentTrackIndex--
+            player?.setMediaItem(playlist[currentTrackIndex])
+            player?.prepare()
+            player?.play()
         }
+    }
 
     private fun handelPlayButtonClick() {
-        if (player.isPlaying) {
-            player.pause()
+        if (player?.isPlaying == true) {
+            player?.pause()
             playBtn.setImageResource(R.drawable.ic_play_24_filled)
         } else {
-            player.play()
+            player?.play()
             playBtn.setImageResource(R.drawable.ic_pause_24_filled)
         }
     }
 
-        private fun handleNextButtonClick() {
-            if (currentTrackIndex < playlist.size - 1) {
-                currentTrackIndex++
-                player.setMediaItem(playlist[currentTrackIndex])
-                player.prepare()
-                player.play()
-            }
+    private fun handleNextButtonClick() {
+        if (currentTrackIndex < playlist.size - 1) {
+            currentTrackIndex++
+            player?.setMediaItem(playlist[currentTrackIndex])
+            player?.prepare()
+            player?.play()
         }
+    }
 
     private fun handleRepeatButtonClick() {
-        if (player.isPlaying) {
+        if (player?.isPlaying == true) {
             isRepeating = !isRepeating
-            player.repeatMode = if (isRepeating) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+            player?.repeatMode = if (isRepeating) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
         }
     }
     private fun handleCommentButtonClick() {

@@ -26,6 +26,10 @@ class MusicPlayerService : Service() {
     private lateinit var player: ExoPlayer
     private val binder = MusicBinder()
     val currentPositionLiveData = MutableLiveData<Long>()
+    private val handler = Handler(Looper.getMainLooper())
+    private val updateCurrentPositionRunnable = Runnable {
+        updateCurrentPosition()
+    }
 
     override fun onBind(p0: Intent?): IBinder {
         return binder
@@ -66,14 +70,26 @@ class MusicPlayerService : Service() {
     fun skipToNext() {
         // Logic để chuyển bài hát tiếp theo
     }
+    // Hàm để cập nhật vị trí hiện tại của bài hát
+    private fun updateCurrentPosition() {
+        val currentPosition = player.currentPosition
+        currentPositionLiveData.postValue(currentPosition)
+        // Gửi lại một Runnable sau mỗi 1 giây
+        handler.postDelayed(updateCurrentPositionRunnable, 1000)
+    }
+    // Hàm để theo dõi vị trí hiện tại của ExoPlayer và cập nhật LiveData
     private fun trackCurrentPosition() {
         player.addListener(object : Player.Listener {
-            override fun onTimelineChanged(timeline: Timeline, reason: Int) {
-                super.onTimelineChanged(timeline, reason)
-                val currentPosition = player.currentPosition
-                currentPositionLiveData.postValue(currentPosition)
+            override fun onPlaybackStateChanged(state: Int) {
+                super.onPlaybackStateChanged(state)
+                // Nếu trạng thái là PLAYING, bắt đầu cập nhật vị trí
+                if (state == Player.STATE_READY && player.playWhenReady) {
+                    updateCurrentPosition()
+                } else {
+                    // Nếu không phát hoặc đã dừng, dừng cập nhật
+                    handler.removeCallbacks(updateCurrentPositionRunnable)
+                }
             }
-
         })
     }
     fun getCurrentPositionLiveData(): LiveData<Long> {
