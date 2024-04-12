@@ -1,65 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout11"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#00FFFFFF">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/dp_16">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/llSongItem"
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        app:cardCornerRadius="@dimen/dp_8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
         <ImageView
             android:id="@+id/imvPhoto"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/song1"/>
+            android:src="@drawable/song1" />
+    </androidx.cardview.widget.CardView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardView"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toTopOf="@+id/cardView">
+
+        <TextView
+            android:id="@+id/txtSongName"
+            style="@style/Body1Bold"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="2"
-            android:orientation="vertical">
+            android:text="@string/txtSongName"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/txtSongName"
-                style="@style/Body1Bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/txtSongName"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtSinger"
-                style="@style/Body2Bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Taylor Swift"
-                android:textColor="@color/subText" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/txtSinger"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:layout_gravity="center_vertical">
-            <ImageView
-                android:id="@+id/btnAddPlaylist"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_add_24_outlined"
-                android:layout_marginRight="@dimen/dp_16"/>
-            <ImageView
-                android:id="@+id/btnMoreAction"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_more"/>
-        </LinearLayout>
-    </LinearLayout>
+            android:text="Taylor Swift"
+            android:textColor="@color/subText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtSongName" />
 
-</LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ImageView
+        android:id="@+id/btnAddPlaylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_add_24_outlined"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toStartOf="@+id/btnMoreAction"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout" />
+
+    <ImageView
+        android:id="@+id/btnMoreAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_more_24_filled"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAddPlaylist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnAddPlaylist"
+        app:layout_constraintTop_toTopOf="@+id/btnAddPlaylist" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

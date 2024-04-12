@@ -1,4 +1,5 @@
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment
 
 class LibraryFragment : Fragment() {
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
 
         inflater: LayoutInflater,

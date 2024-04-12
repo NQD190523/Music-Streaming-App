@@ -1,20 +1,17 @@
 package com.project.appealic.ui.view.Fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import com.project.appealic.R
-import com.project.appealic.databinding.ActivityEditAccountBinding
 import com.project.appealic.databinding.DialogMembershipMiniBinding
 import com.project.appealic.databinding.DialogMembershipSoloBinding
 import com.project.appealic.databinding.DialogMembershipStudentBinding
 import com.project.appealic.databinding.FragmentProfileBinding
 
-class ProfileFragment : Fragment(){
+class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -34,20 +31,20 @@ class ProfileFragment : Fragment(){
         setOnClickListeners()
 
     }
-        private fun setOnClickListeners() {
-            binding.soloCard.setOnClickListener {
-                showDialog(MembershipSoloDialog())
-            }
-
-            binding.miniCard.setOnClickListener {
-                showDialog(MembershipMiniDialog())
-            }
-
-            binding.studentCard.setOnClickListener {
-                showDialog(MembershipStudentDialog())
-            }
-
+    private fun setOnClickListeners() {
+        binding.soloCard.setOnClickListener {
+            showDialog(MembershipSoloDialog())
         }
+
+        binding.miniCard.setOnClickListener {
+            showDialog(MembershipMiniDialog())
+        }
+
+        binding.studentCard.setOnClickListener {
+            showDialog(MembershipStudentDialog())
+        }
+
+    }
     private fun showDialog(dialog: DialogFragment) {
         dialog.show(parentFragmentManager, dialog::class.simpleName)
     }

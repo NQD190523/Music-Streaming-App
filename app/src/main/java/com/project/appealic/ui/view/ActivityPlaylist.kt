@@ -2,6 +2,9 @@ package com.project.appealic.ui.view
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Context
 import android.net.Uri
 
 import android.os.Bundle
@@ -51,8 +54,8 @@ class ActivityPlaylist : AppCompatActivity() {
     private lateinit var commentBtn: ImageView
     private lateinit var downloadBtn: ImageView
     private lateinit var moreBtn: Button
+    private lateinit var addPlaylistBtn: ImageView
     private lateinit var shareBtn: ImageView
-    private lateinit var multiplyBtn: ImageView
     private lateinit var player: ExoPlayer
     private lateinit var musicPlayerViewModel: MusicPlayerViewModel
     private lateinit var trackId : String
@@ -86,8 +89,8 @@ class ActivityPlaylist : AppCompatActivity() {
         commentBtn = findViewById(R.id.comment)
         downloadBtn = findViewById(R.id.dowmload)
         moreBtn = findViewById(R.id.more)
+        addPlaylistBtn = findViewById(R.id.addPlaylist)
         shareBtn = findViewById(R.id.share)
-        multiplyBtn = findViewById(R.id.multiply)
         playBtn = findViewById(R.id.playPauseIcon)
 
 
@@ -102,6 +105,10 @@ class ActivityPlaylist : AppCompatActivity() {
         findViewById<TextView>(R.id.song_name).text = songTitle
         findViewById<TextView>(R.id.singer_name).text = artistName
 
+        val backButton = findViewById<ImageView>(R.id.imv_dropdown)
+        backButton.setOnClickListener {
+            Back()
+        }
         // Load hình ảnh sử dụng Glide
         trackImage?.let { imageUrl ->
             val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
@@ -133,8 +140,8 @@ class ActivityPlaylist : AppCompatActivity() {
         commentBtn.setOnClickListener { handleCommentButtonClick() }
         downloadBtn.setOnClickListener { handleDownloadButtonClick() }
         moreBtn.setOnClickListener { handleMoreButtonClick() }
+        addPlaylistBtn.setOnClickListener { handleAddPlaylistButtonClick() }
         shareBtn.setOnClickListener { handleShareButtonClick() }
-        multiplyBtn.setOnClickListener { handleMultiplyButtonClick() }
         playBtn.setOnClickListener { handelPlayButtonClick() }
 
         //Cập nhật trang thái khi thay đổi progresBar
@@ -164,6 +171,28 @@ class ActivityPlaylist : AppCompatActivity() {
             durationTv.text = formatDuration(remainingDuration)
         })
     }
+
+    private fun Back() {
+        val sharedPreferences = this.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val songTitle = intent.getStringExtra("SONG_TITLE")
+        val artistName = intent.getStringExtra("SINGER_NAME")
+        val trackImage = intent.getStringExtra("TRACK_IMAGE")
+        editor.putString("SONG_TITLE", songTitle)
+        editor.putString("SINGER_NAME", artistName)
+        editor.putString("TRACK_IMAGE", trackImage)
+        // Save other song info to SharedPreferences if needed
+        editor.apply()
+
+        // Update the widget after song info is saved
+        val appWidgetManager = AppWidgetManager.getInstance(this)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this, WidgetView::class.java))
+        if (appWidgetIds != null && appWidgetIds.isNotEmpty()) {
+            WidgetView().onUpdate(this, appWidgetManager, appWidgetIds)
+        }
+
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         // Lưu trạng thái của ViewModel khi Activity bị hủy
@@ -205,10 +234,10 @@ class ActivityPlaylist : AppCompatActivity() {
     private fun handelPlayButtonClick() {
         if (player.isPlaying) {
             player.pause()
-            playBtn.setImageResource(R.drawable.ic_play_20_filled)
+            playBtn.setImageResource(R.drawable.ic_play_24_filled)
         } else {
             player.play()
-            playBtn.setImageResource(R.drawable.ic_pause_20_filled)
+            playBtn.setImageResource(R.drawable.ic_pause_24_filled)
         }
     }
 
@@ -229,103 +258,6 @@ class ActivityPlaylist : AppCompatActivity() {
     }
     private fun handleCommentButtonClick() {
         // Xử lý khi nhấn nút Comment
-        showDialogForComment()
-    }
-
-    private fun handleDownloadButtonClick() {
-        // Xử lý khi nhấn nút Download
-    }
-
-
-    private fun handleMoreButtonClick() {
-        val moreActionFragment = MoreActionFragment()
-        val bundle = Bundle()
-        bundle.putString("SONG_TITLE", intent.getStringExtra("SONG_TITLE"))
-        bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
-        bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
-        moreActionFragment.arguments = bundle
-        moreActionFragment.show(supportFragmentManager, "MoreActionsFragment")
-
-//        // Tạo Dialog mới
-//        val dialog = Dialog(this)
-//
-//        // Inflate layout cho dialog
-//        val view = layoutInflater.inflate(R.layout.botton_more_action, null)
-//
-//        // Lưu tham chiếu đến dialog để có thể dismiss sau này
-//        val bottonMoreActionDialog = dialog
-//
-//        // Lấy dữ liệu từ Intent và hiển thị trên giao diện playlist
-//        val songTitle = intent.getStringExtra("SONG_TITLE")
-//        val artistName = intent.getStringExtra("SINGER_NAME")
-//        val trackImage = intent.getStringExtra("TRACK_IMAGE")
-//        val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
-//        txtSongName.text = songTitle
-//        val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
-//        txtSinger.text = artistName
-//        val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
-//        trackImage?.let { imageUrl ->
-//            val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
-//
-//            Glide.with(this)
-//                .load(storageReference)
-//                .into(songImageView)
-//        }
-//
-//        // Thêm sự kiện click vào các LinearLayout
-//        val llAddPlay = view.findViewById<LinearLayout>(R.id.llAddPlay)
-//        llAddPlay.setOnClickListener {
-//            bottonMoreActionDialog.dismiss()
-//            showDialogForAddPlay()
-//        }
-//
-//        val llAddFav = view.findViewById<LinearLayout>(R.id.llAddFav)
-//        llAddFav.setOnClickListener {
-//            bottonMoreActionDialog.dismiss()
-//            showDialogForAddFav()
-//        }
-//
-//        val llComment = view.findViewById<LinearLayout>(R.id.llComment)
-//        llComment.setOnClickListener {
-//            bottonMoreActionDialog.dismiss()
-//            showDialogForComment()
-//        }
-//        val llArtist = view.findViewById<LinearLayout>(R.id.llArtist)
-//        llArtist.setOnClickListener {
-//            bottonMoreActionDialog.dismiss()
-//            showDialogForArtist()
-//        }
-//
-//
-//        val llSleep = view.findViewById<LinearLayout>(R.id.llSleep)
-//        llSleep.setOnClickListener {
-//            bottonMoreActionDialog.dismiss()
-//            showDialogForSleep()
-//        }
-//
-//        dialog.setContentView(view)
-//
-//        // Tùy chỉnh Window của dialog
-//        val window = dialog.window
-//        window?.setBackgroundDrawableResource(R.drawable.more_background)
-//        val layoutParams = window?.attributes
-//        layoutParams?.gravity = Gravity.BOTTOM or Gravity.START or Gravity.END
-//        layoutParams?.width =
-//            WindowManager.LayoutParams.MATCH_PARENT
-//        layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
-//        window?.attributes = layoutParams
-//
-//        // Hiển thị dialog
-//        dialog.show()
-    }
-
-
-    private fun showDialogForAddPlay() {
-        val addPlaylistFragment = AddPlaylistFragment()
-        addPlaylistFragment.show(supportFragmentManager, "AddPlaylistFragment")
-
-    }
-    private fun showDialogForComment() {
         val dialog = Dialog(this)
         val view = layoutInflater.inflate(R.layout.bottom_comment, null)
 
@@ -341,48 +273,28 @@ class ActivityPlaylist : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun showDialogForArtist(){
-        val dialog = Dialog(this)
-        val view = layoutInflater.inflate(R.layout.bottom_artist, null)
-
-        val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.more_background)
-        window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
-
-        dialog.setContentView(view)
-        dialog.show()
+    private fun handleDownloadButtonClick() {
+        // Xử lý khi nhấn nút Download
     }
 
-    private fun showDialogForSleep(){
-        val dialog = Dialog(this)
-        val view = layoutInflater.inflate(R.layout.bottom_sleep, null)
 
-        val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.more_background)
-        window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
-
-        dialog.setContentView(view)
-        dialog.show()
+    private fun handleMoreButtonClick() {
+        val moreActionFragment = MoreActionFragment()
+        val bundle = Bundle()
+        bundle.putString("SONG_TITLE", intent.getStringExtra("SONG_TITLE"))
+        bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
+        bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
+        moreActionFragment.arguments = bundle
+        moreActionFragment.show(supportFragmentManager, "MoreActionsFragment")
     }
-}
 
-private fun showDialogForAddFav() {
-}
+    private fun handleAddPlaylistButtonClick() {
+        val addPlaylistFragment = AddPlaylistFragment()
+        addPlaylistFragment.show(supportFragmentManager, "AddPlaylistFragment")
+    }
 
+    private fun handleShareButtonClick() {
+    }
 
-
-
-private fun handleShareButtonClick() {
-}
-
-private fun handleMultiplyButtonClick() {
 }
 

@@ -12,4 +12,5 @@
     <color name="startcolor">#310071</color>
     <color name="subtitleText">#949292</color>
     <color name="codGray900">#3D3D3D</color>
+    <color name="underline_color">#FFFFFF</color>
 </resources>
