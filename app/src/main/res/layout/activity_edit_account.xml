@@ -1,283 +1,634 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/gradient_background_playlist">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toplayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_linear"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_arrow_20_left"
+            app:layout_constraintStart_toStartOf="@id/toplayout"
+            app:layout_constraintTop_toTopOf="@id/toplayout" />
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageView2"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/img" />
+            android:layout_marginTop="65dp"
+            android:src="@drawable/img"
+            app:layout_constraintEnd_toEndOf="@id/toplayout"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/toplayout" />
 
         <Button
+            android:id="@+id/button2"
+            style="@style/CTAsSmall"
             android:layout_width="140dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/button_color_white"
             android:text="Change Image"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            style="@style/CTAsSmall" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:background="@drawable/radius_background">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Personal - Account Information"
-                android:textColor="@color/white"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/background_song">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="15dp"
-                    android:id="@+id/ll_name">
+            app:layout_constraintEnd_toEndOf="@+id/circleImageView2"
+            app:layout_constraintStart_toStartOf="@+id/circleImageView2"
+            app:layout_constraintTop_toBottomOf="@+id/circleImageView2" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/sp_12"
-                        android:text="Name"
-                        android:textColor="@color/white" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Nguyen Van A"
-                            android:layout_marginStart="5dp"
-                            android:textColor="@color/white" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_arrow_16_right"
-                            android:layout_marginStart="5dp"
-                            android:layout_gravity="center"
-                            android:backgroundTint="@color/white" />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="15dp"
-                    android:id="@+id/ll_dob">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/sp_12"
-                        android:text="D.O.B"
-                        android:textColor="@color/white" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="..........."
-                            android:layout_marginStart="5dp"
-                            android:textColor="@color/white" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_arrow_16_right"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:backgroundTint="@color/white" />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="15dp"
-                    android:id="@+id/ll_gender">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/sp_12"
-                        android:text="Gender"
-                        android:textColor="@color/white" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="..........."
-                            android:layout_marginStart="5dp"
-                            android:textColor="@color/white" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_arrow_16_right"
-                            android:layout_marginStart="5dp"
-                            android:layout_gravity="center"
-                            android:backgroundTint="@color/white" />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="15dp"
-                    android:id="@+id/ll_Phone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/sp_12"
-                        android:text="Phone"
-                        android:textColor="@color/white" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="..........."
-                            android:layout_marginStart="5dp"
-                            android:textColor="@color/white" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_arrow_16_right"
-                            android:layout_marginStart="5dp"
-                            android:layout_gravity="center"
-                            android:backgroundTint="@color/white" />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="15dp"
-                    android:id="@+id/Email">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/sp_12"
-                        android:text="Email"
-                        android:textColor="@color/white" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="..........."
-                            android:layout_marginStart="5dp"
-                            android:textColor="@color/white" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_arrow_16_right"
-                            android:layout_marginStart="5dp"
-                            android:layout_gravity="center"
-                            android:backgroundTint="@color/white" />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="15dp"
-                    android:id="@+id/Password">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/sp_12"
-                        android:text="Password"
-                        android:textColor="@color/white" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="***********"
-                            android:layout_marginStart="5dp"
-                            android:textColor="@color/white" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_arrow_16_right"
-                            android:layout_marginStart="5dp"
-                            android:layout_gravity="center"
-                            android:backgroundTint="@color/white" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/newContent"
         android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/radius_background"
-        android:layout_marginBottom="0dp"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:menu="@menu/nav_menu" />
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/more_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/toplayout"
+        app:layout_constraintStart_toStartOf="@id/toplayout"
+        app:layout_constraintTop_toBottomOf="@id/toplayout">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/textView19"
+                    style="@style/Heading4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Personal &amp; Account information "
+                    android:textColor="@color/text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/edt_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/background_song"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="@id/textView19"
+                    app:layout_constraintStart_toStartOf="@id/textView19"
+                    app:layout_constraintTop_toBottomOf="@id/textView19">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@id/edt_bg"
+                        app:layout_constraintStart_toStartOf="@id/edt_bg"
+                        app:layout_constraintTop_toTopOf="@id/edt_bg">
+
+                        <TextView
+                            android:id="@+id/txtName"
+                            style="@style/Body2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Name"
+                            android:textColor="#B0B0B0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            style="@style/Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="Nguyen Van A"
+                            android:textColor="@color/text"
+                            app:layout_constraintBottom_toBottomOf="@id/txtName"
+                            app:layout_constraintEnd_toStartOf="@+id/imageViewname"
+                            app:layout_constraintTop_toTopOf="@id/txtName" />
+
+                        <ImageView
+                            android:id="@+id/imageViewname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@id/txtName"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/txtName" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_dob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="@id/ll_name"
+                        app:layout_constraintStart_toStartOf="@id/ll_name"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_name">
+
+                        <TextView
+                            android:id="@+id/txtdob"
+                            style="@style/Body2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="D.O.B"
+                            android:textColor="#B0B0B0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            style="@style/Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="12/08/2003"
+                            android:textColor="@color/text"
+                            app:layout_constraintBottom_toBottomOf="@id/txtdob"
+                            app:layout_constraintEnd_toStartOf="@+id/imageViewdob"
+                            app:layout_constraintTop_toTopOf="@id/txtdob" />
+
+                        <ImageView
+                            android:id="@+id/imageViewdob"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@id/txtdob"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/txtdob" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="@id/ll_dob"
+                        app:layout_constraintStart_toStartOf="@id/ll_dob"
+                        app:layout_constraintTop_toBottomOf="@id/ll_dob">
+
+                        <TextView
+                            android:id="@+id/txtgender"
+                            style="@style/Body2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Gender"
+                            android:textColor="#B0B0B0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            style="@style/Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="Male"
+                            android:textColor="@color/text"
+                            app:layout_constraintBottom_toBottomOf="@id/txtgender"
+                            app:layout_constraintEnd_toStartOf="@+id/imageViewgender"
+                            app:layout_constraintTop_toTopOf="@id/txtgender" />
+
+                        <ImageView
+                            android:id="@+id/imageViewgender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@id/txtgender"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/txtgender" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="@id/ll_gender"
+                        app:layout_constraintStart_toStartOf="@id/ll_gender"
+                        app:layout_constraintTop_toBottomOf="@id/ll_gender">
+
+                        <TextView
+                            android:id="@+id/txtphone"
+                            style="@style/Body2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Phone"
+                            android:textColor="#B0B0B0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            style="@style/Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="0987654321"
+                            android:textColor="@color/text"
+                            app:layout_constraintBottom_toBottomOf="@id/txtphone"
+                            app:layout_constraintEnd_toStartOf="@+id/imageViewphone"
+                            app:layout_constraintTop_toTopOf="@id/txtphone" />
+
+                        <ImageView
+                            android:id="@+id/imageViewphone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@id/txtphone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/txtphone" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="@id/ll_phone"
+                        app:layout_constraintStart_toStartOf="@id/ll_phone"
+                        app:layout_constraintTop_toBottomOf="@id/ll_phone">
+
+                        <TextView
+                            android:id="@+id/txtemail"
+                            style="@style/Body2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Email"
+                            android:textColor="#B0B0B0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            style="@style/Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="khanhnlg21411@st.uel.edu.vn"
+                            android:textColor="@color/text"
+                            app:layout_constraintBottom_toBottomOf="@id/txtemail"
+                            app:layout_constraintEnd_toStartOf="@+id/imageViewemail"
+                            app:layout_constraintTop_toTopOf="@id/txtemail" />
+
+                        <ImageView
+                            android:id="@+id/imageViewemail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@id/txtemail"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/txtemail" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="@id/ll_email"
+                        app:layout_constraintStart_toStartOf="@id/ll_email"
+                        app:layout_constraintTop_toBottomOf="@id/ll_email">
+
+                        <TextView
+                            android:id="@+id/txtpassword"
+                            style="@style/Body2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Password"
+                            android:textColor="#B0B0B0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            style="@style/Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="*********"
+                            android:textColor="@color/text"
+                            app:layout_constraintBottom_toBottomOf="@id/txtpassword"
+                            app:layout_constraintEnd_toStartOf="@+id/imageViewpassword"
+                            app:layout_constraintTop_toTopOf="@id/txtpassword" />
+
+                        <ImageView
+                            android:id="@+id/imageViewpassword"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@id/txtpassword"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/txtpassword" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+                    <!--    <LinearLayout-->
+                    <!--        android:layout_width="match_parent"-->
+                    <!--        android:layout_height="match_parent"-->
+                    <!--        android:orientation="vertical">-->
+
+                    <!--        <de.hdodenhof.circleimageview.CircleImageView-->
+                    <!--            android:layout_width="120dp"-->
+                    <!--            android:layout_height="120dp"-->
+                    <!--            android:layout_gravity="center"-->
+                    <!--            android:layout_marginTop="20dp"-->
+                    <!--            android:src="@drawable/img" />-->
+
+                    <!--        <Button-->
+                    <!--            android:layout_width="140dp"-->
+                    <!--            android:layout_height="40dp"-->
+                    <!--            android:layout_gravity="center"-->
+                    <!--            android:layout_marginTop="20dp"-->
+                    <!--            android:background="@drawable/button_color_white"-->
+                    <!--            android:text="Change Image"-->
+                    <!--            android:textAllCaps="false"-->
+                    <!--            android:textColor="@color/white"-->
+                    <!--            style="@style/CTAsSmall" />-->
+                    <!--        <LinearLayout-->
+                    <!--            android:layout_width="match_parent"-->
+                    <!--            android:layout_height="match_parent"-->
+                    <!--            android:layout_marginTop="20dp"-->
+                    <!--            android:orientation="vertical"-->
+                    <!--            android:background="@drawable/more_background">-->
+                    <!--            <TextView-->
+                    <!--                android:layout_width="match_parent"-->
+                    <!--                android:layout_height="wrap_content"-->
+                    <!--                android:layout_margin="10dp"-->
+                    <!--                android:text="Personal - Account Information"-->
+                    <!--                android:textColor="@color/white"/>-->
+                    <!--            <LinearLayout-->
+                    <!--                android:layout_width="match_parent"-->
+                    <!--                android:layout_height="wrap_content"-->
+                    <!--                android:layout_margin="10dp"-->
+                    <!--                android:orientation="vertical"-->
+                    <!--                android:background="@drawable/background_song">-->
+                    <!--                <LinearLayout-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:orientation="horizontal"-->
+                    <!--                    android:layout_marginTop="15dp"-->
+                    <!--                    android:id="@+id/ll_name">-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="@dimen/sp_12"-->
+                    <!--                        android:text="Name"-->
+                    <!--                        android:textColor="@color/white" />-->
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:gravity="end"-->
+                    <!--                        android:orientation="horizontal">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:text="Nguyen Van A"-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:textColor="@color/white" />-->
+
+                    <!--                        <ImageView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:src="@drawable/ic_arrow_16_right"-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:layout_gravity="center"-->
+                    <!--                            android:backgroundTint="@color/white" />-->
+                    <!--                    </LinearLayout>-->
+                    <!--                </LinearLayout>-->
+                    <!--                <LinearLayout-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:orientation="horizontal"-->
+                    <!--                    android:layout_marginTop="15dp"-->
+                    <!--                    android:id="@+id/ll_dob">-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="@dimen/sp_12"-->
+                    <!--                        android:text="D.O.B"-->
+                    <!--                        android:textColor="@color/white" />-->
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:gravity="end"-->
+                    <!--                        android:orientation="horizontal">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:text="..........."-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:textColor="@color/white" />-->
+
+                    <!--                        <ImageView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:src="@drawable/ic_arrow_16_right"-->
+                    <!--                            android:layout_gravity="center"-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:backgroundTint="@color/white" />-->
+                    <!--                    </LinearLayout>-->
+                    <!--                </LinearLayout>-->
+                    <!--                <LinearLayout-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:orientation="horizontal"-->
+                    <!--                    android:layout_marginTop="15dp"-->
+                    <!--                    android:id="@+id/ll_gender">-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="@dimen/sp_12"-->
+                    <!--                        android:text="Gender"-->
+                    <!--                        android:textColor="@color/white" />-->
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:gravity="end"-->
+                    <!--                        android:orientation="horizontal">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:text="..........."-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:textColor="@color/white" />-->
+
+                    <!--                        <ImageView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:src="@drawable/ic_arrow_16_right"-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:layout_gravity="center"-->
+                    <!--                            android:backgroundTint="@color/white" />-->
+                    <!--                    </LinearLayout>-->
+                    <!--                </LinearLayout>-->
+                    <!--                <LinearLayout-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:orientation="horizontal"-->
+                    <!--                    android:layout_marginTop="15dp"-->
+                    <!--                    android:id="@+id/ll_Phone">-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="@dimen/sp_12"-->
+                    <!--                        android:text="Phone"-->
+                    <!--                        android:textColor="@color/white" />-->
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:gravity="end"-->
+                    <!--                        android:orientation="horizontal">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:text="..........."-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:textColor="@color/white" />-->
+
+                    <!--                        <ImageView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:src="@drawable/ic_arrow_16_right"-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:layout_gravity="center"-->
+                    <!--                            android:backgroundTint="@color/white" />-->
+                    <!--                    </LinearLayout>-->
+                    <!--                </LinearLayout>-->
+                    <!--                <LinearLayout-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:orientation="horizontal"-->
+                    <!--                    android:layout_marginTop="15dp"-->
+                    <!--                    android:id="@+id/Email">-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="@dimen/sp_12"-->
+                    <!--                        android:text="Email"-->
+                    <!--                        android:textColor="@color/white" />-->
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:gravity="end"-->
+                    <!--                        android:orientation="horizontal">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:text="..........."-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:textColor="@color/white" />-->
+
+                    <!--                        <ImageView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:src="@drawable/ic_arrow_16_right"-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:layout_gravity="center"-->
+                    <!--                            android:backgroundTint="@color/white" />-->
+                    <!--                    </LinearLayout>-->
+                    <!--                </LinearLayout>-->
+                    <!--                <LinearLayout-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:orientation="horizontal"-->
+                    <!--                    android:layout_marginTop="15dp"-->
+                    <!--                    android:id="@+id/Password">-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="@dimen/sp_12"-->
+                    <!--                        android:text="Password"-->
+                    <!--                        android:textColor="@color/white" />-->
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:gravity="end"-->
+                    <!--                        android:orientation="horizontal">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:text="***********"-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:textColor="@color/white" />-->
+
+                    <!--                        <ImageView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:src="@drawable/ic_arrow_16_right"-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:layout_gravity="center"-->
+                    <!--                            android:backgroundTint="@color/white" />-->
+                    <!--                    </LinearLayout>-->
+                    <!--                </LinearLayout>-->
+                    <!--            </LinearLayout>-->
+                    <!--        </LinearLayout>-->
+                    <!--    </LinearLayout>-->
