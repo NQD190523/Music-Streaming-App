@@ -68,8 +68,10 @@ class ActivityPlaylist : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playsong)
 
+        val musicPlayerServiceIntent = Intent(this,MusicPlayerService::class.java)
+        startService(musicPlayerServiceIntent)
+
         musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
-        musicPlayerViewModel.bindService(this)
 
         //Lấy trạng thái trc khi thoát của audio
 //        if (savedInstanceState != null) {
@@ -130,7 +132,7 @@ class ActivityPlaylist : AppCompatActivity() {
         if (audioRef != null) {
             audioRef.downloadUrl.addOnSuccessListener { url ->
                 val songUri = Uri.parse(url.toString())
-                musicPlayerViewModel.playSong(songUri)
+                musicPlayerViewModel.setMediaUri(songUri)
             }
         }
         // Gắn các hàm xử lý sự kiện cho các thành phần UI
@@ -164,13 +166,13 @@ class ActivityPlaylist : AppCompatActivity() {
             }
         })
 //        ProgressBar cập nật theo tiến độ của bài hát
-        progressSb.max = duration / 1000
-        musicPlayerViewModel.currentPosition.observe(this, Observer {curentPosition ->
-            progressSb.progress = (curentPosition /1000).toInt()
-            progressTv.text = formatDuration(curentPosition)
-            val remainingDuration = (duration - curentPosition)
-            durationTv.text = formatDuration(remainingDuration)
-        })
+//        progressSb.max = duration / 1000
+//        musicPlayerViewModel.currentPosition.observe(this, Observer {curentPosition ->
+//            progressSb.progress = (curentPosition /1000).toInt()
+//            progressTv.text = formatDuration(curentPosition)
+//            val remainingDuration = (duration - curentPosition)
+//            durationTv.text = formatDuration(remainingDuration)
+//        })
     }
 
     private fun Back() {
@@ -224,8 +226,7 @@ class ActivityPlaylist : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        musicPlayerViewModel.stopMusic()
-        musicPlayerViewModel.unbindService(this)
+        musicPlayerViewModel.pause()
     }
 
         private fun handleMixButtonClick() {

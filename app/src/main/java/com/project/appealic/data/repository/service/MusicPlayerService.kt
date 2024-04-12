@@ -3,12 +3,14 @@ package com.project.appealic.data.repository.service
 import android.app.Application
 import android.app.Service
 import android.content.Intent
+import android.media.session.MediaSession
 import android.net.Uri
 import android.os.Binder
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -18,46 +20,36 @@ import androidx.media3.common.Timeline
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import com.project.appealic.utils.MusicPlayerFactory
+import javax.sql.DataSource
 
 class MusicPlayerService : Service() {
     private lateinit var player: ExoPlayer
     private val binder = MusicBinder()
 
-    private val _currentPosition = MutableLiveData<Long>()
-    val currentPosition: LiveData<Long> = _currentPosition
-
-    private val _exoPlayer = MutableLiveData<ExoPlayer>()
-    val exoPlayer: LiveData<ExoPlayer> = _exoPlayer
-    inner class MusicBinder : Binder() {
-        fun getService(): MusicPlayerService {
-            return this@MusicPlayerService
-        }
-    }
     override fun onBind(p0: Intent?): IBinder {
-        return  MusicBinder()
+        return binder
     }
     override fun onCreate() {
         super.onCreate()
         player = ExoPlayer.Builder(this).build()
-        _exoPlayer.postValue(player)
-        player.addListener(object : Player.Listener {
-            override fun onPositionDiscontinuity(
-                oldPosition: Player.PositionInfo,
-                newPosition: Player.PositionInfo,
-                reason: Int
-            ) {
-                _currentPosition.postValue(player.getCurrentPosition())
-            }
-        })
     }
-
-    fun playSong(audioUrl: Uri) {
-        val mediaItem = MediaItem.fromUri(audioUrl)
+    fun setMediaUri(uri: Uri) {
+        val mediaItem = MediaItem.fromUri(uri)
         player.setMediaItem(mediaItem)
         player.prepare()
         player.play()
     }
 
+    fun play() {
+        if(player.isPlaying){
+            player.playWhenReady = true
+        }
+    }
+    fun pause() {
+        if (player.isPlaying) {
+            player.playWhenReady = false
+        }
+    }
     fun getExoPlayerInstance(): ExoPlayer {
         return player
     }
@@ -68,26 +60,13 @@ class MusicPlayerService : Service() {
         super.onDestroy()
         player.release()
     }
-    // Phương thức để bắt đầu phát nhạc
-    fun playMusic() {
-        player.play()
-        // Logic để phát nhạc
-    }
-
-    // Phương thức để tạm dừng phát nhạc
-    fun pauseMusic() {
-        // Logic để tạm dừng phát nhạc
-        player.pause()
-    }
-
     // Phương thức để chuyển bài hát tiếp theo
     fun skipToNext() {
         // Logic để chuyển bài hát tiếp theo
     }
-    fun observeCurrentPosition(): LiveData<Long> {
-        return currentPosition
+    inner class MusicBinder : Binder() {
+        fun getService(): MusicPlayerService = this@MusicPlayerService
     }
-
     //    private val currentPositionLiveData = MutableLiveData<Long>()
 //    private val player: ExoPlayer = MusicPlayerFactory.createSimpleExoPlayer(getApplication<Application>().applicationContext)
 //    private val handler = Handler(Looper.getMainLooper())

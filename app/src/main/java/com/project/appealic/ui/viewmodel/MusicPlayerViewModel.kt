@@ -15,62 +15,21 @@ import com.project.appealic.data.repository.service.MusicPlayerService
 import com.project.appealic.utils.MusicPlayerFactory
 
 class MusicPlayerViewModel :ViewModel() {
-
-    private val _currentPosition = MutableLiveData<Long>()
-    val currentPosition: LiveData<Long> = _currentPosition
-
     private var musicPlayerService: MusicPlayerService? = null
-    private var isBound = false
 
-    private val serviceConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val binder = service as MusicPlayerService.MusicBinder
-            musicPlayerService = binder.getService()
-            isBound = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isBound = false
-        }
+    fun setMusicService(service: MusicPlayerService) {
+        musicPlayerService = service
+    }
+    fun setMediaUri(uri: Uri) {
+        musicPlayerService?.setMediaUri(uri)
+    }
+    fun play() {
+        musicPlayerService?.play()
+    }
+    fun pause() {
+        musicPlayerService?.pause()
     }
 
-    fun bindService(context: Context) {
-        val intent = Intent(context, MusicPlayerService::class.java)
-        context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
-    }
-
-    fun unbindService(context: Context) {
-        if (isBound) {
-            context.unbindService(serviceConnection)
-            isBound = false
-        }
-    }
-
-    // Phương thức để bắt đầu phát nhạc từ ViewModel
-
-//    fun getExoPlayerInstance(): ExoPlayer {
-//        return musicPlayerService?.getExoPlayerInstance() ?:
-//    }
-    fun playSong(songUri: Uri) {
-        // Sử dụng MusicPlayerService để bắt đầu phát nhạc từ Uri
-        musicPlayerService?.playSong(songUri)
-    }
-    fun playMusic() {
-        musicPlayerService?.playMusic()
-    }
-
-    // Phương thức để tạm dừng phát nhạc từ ViewModel
-    fun pauseMusic() {
-        musicPlayerService?.pauseMusic()
-    }
-    fun stopMusic(){
-        musicPlayerService?.stopPlayer()
-    }
-
-    // Phương thức để chuyển bài hát tiếp theo từ ViewModel
-    fun skipToNext() {
-        musicPlayerService?.skipToNext()
-    }
 
 //    fun saveAudioPosition(trackId: String, position: Long) {
 //        GlobalScope.launch(Dispatchers.IO) {
