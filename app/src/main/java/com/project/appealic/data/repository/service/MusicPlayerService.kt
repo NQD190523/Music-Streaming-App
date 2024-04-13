@@ -55,6 +55,30 @@ class MusicPlayerService : Service() {
             player.playWhenReady = false
         }
     }
+    fun nextButtonClick() {
+        // Kiểm tra xem player có được khởi tạo không
+        if (player.playbackState != Player.STATE_IDLE && player.playbackState != Player.STATE_ENDED) {
+            // Lấy vị trí của mục phương tiện hiện tại trong danh sách phát
+            val currentMediaItemIndex = player.currentMediaItemIndex
+            println(currentMediaItemIndex)
+            println(player.mediaItemCount)
+            // Xác định vị trí của mục phương tiện kế tiếp
+            val nextMediaItemIndex = if (currentMediaItemIndex < player.mediaItemCount - 1) currentMediaItemIndex + 1 else currentMediaItemIndex
+            // Chuyển đến mục phương tiện kế tiếp
+            player.seekToDefaultPosition(nextMediaItemIndex)
+        }
+    }
+    fun previousButtonClick() {
+        // Kiểm tra xem player có được khởi tạo không
+        if (player.playbackState != Player.STATE_IDLE && player.playbackState != Player.STATE_ENDED) {
+            // Lấy vị trí của mục phương tiện hiện tại trong danh sách phát
+            val currentMediaItemIndex = player.currentMediaItemIndex
+            // Xác định vị trí của mục phương tiện trước đó
+            val previousMediaItemIndex = if (currentMediaItemIndex > 0) currentMediaItemIndex - 1 else currentMediaItemIndex
+            // Chuyển đến mục phương tiện trước đó
+            player.seekToDefaultPosition(previousMediaItemIndex)
+        }
+    }
     fun getExoPlayerInstance(): ExoPlayer {
         return player
     }
@@ -65,11 +89,6 @@ class MusicPlayerService : Service() {
         super.onDestroy()
         player.release()
     }
-    // Phương thức để chuyển bài hát tiếp theo
-    fun skipToNext() {
-        // Logic để chuyển bài hát tiếp theo
-    }
-    // Hàm để cập nhật vị trí hiện tại của bài hát
     private fun updateCurrentPosition() {
         val currentPosition = player.currentPosition
         currentPositionLiveData.postValue(currentPosition)

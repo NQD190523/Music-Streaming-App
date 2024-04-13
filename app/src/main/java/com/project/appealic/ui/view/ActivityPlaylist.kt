@@ -9,6 +9,7 @@ import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
@@ -124,6 +125,10 @@ class ActivityPlaylist : AppCompatActivity() {
         //Load dữ liệu audio
         val storage = Firebase.storage
         val storageRef = storage.reference
+        val mediaItems = mutableListOf<MediaItem>()
+        // Số lượng URL download đã hoàn thành
+        var completedDownloads = 0
+
         if (trackList != null) {
             for (i in trackList){
                 val trackPath = i?.substring(i.indexOf("/", 5) + 1)
@@ -132,10 +137,19 @@ class ActivityPlaylist : AppCompatActivity() {
                 if (audioRef != null) {
                     audioRef.downloadUrl.addOnSuccessListener { url ->
                         val songUri = Uri.parse(url.toString())
-                        val mediaItems = mutableListOf<MediaItem>()
                         mediaItems.add(MediaItem.fromUri(songUri))
                         println(mediaItems)
-                        musicPlayerViewModel.setMediaUri(mediaItems)
+                        // Tăng số lượng URL download đã hoàn thành
+                        completedDownloads++
+
+                        // Nếu đã download xong tất cả các URL
+                        if (completedDownloads == trackList.size) {
+                            // Set danh sách media items cho ExoPlayer
+                            musicPlayerViewModel.setMediaUri(mediaItems)
+                        }
+                    }.addOnFailureListener { exception ->
+                        // Xử lý khi có lỗi xảy ra trong quá trình download
+                        Log.e("Error", "Failed to download track: ${exception.message}")
                     }
                 }
             }
@@ -218,28 +232,9 @@ class ActivityPlaylist : AppCompatActivity() {
 
     }
 
-    private fun formatDuration(durationInSeconds: Long): String {
-        val seconds = (durationInSeconds / 1000) % 60
-        val minutes = durationInSeconds / 60000
-        return "$minutes:${String.format("%02d", seconds)}"
-    }
-
     // Các hàm xử lý sự kiện khi nhấn các nút
     fun handlePreviousButtonClick() {
-        // Kiểm tra xem player có được khởi tạo không
-        if (player != null) {
-            // Kiểm tra xem có phát nhạc không
-            if (player!!.playbackState != Player.STATE_IDLE && player!!.playbackState != Player.STATE_ENDED) {
-                // Lấy vị trí của mục phương tiện hiện tại trong danh sách phát
-                val currentMediaItemIndex = player!!.currentMediaItemIndex
-
-                // Xác định vị trí của mục phương tiện trước đó
-                val previousMediaItemIndex = if (currentMediaItemIndex > 0) currentMediaItemIndex - 1 else currentMediaItemIndex
-
-                // Chuyển đến mục phương tiện trước đó
-                player!!.seekToDefaultPosition(previousMediaItemIndex)
-            }
-        }
+       musicPlayerViewModel.previousButtonClick()
     }
 
     private fun handelPlayButtonClick() {
@@ -251,22 +246,8 @@ class ActivityPlaylist : AppCompatActivity() {
             playBtn.setImageResource(R.drawable.ic_pause_24_filled)
         }
     }
-
     private fun handleNextButtonClick() {
-        // Kiểm tra xem player có được khởi tạo không
-        if (player != null) {
-            // Kiểm tra xem có phát nhạc không
-            if (player!!.playbackState != Player.STATE_IDLE && player!!.playbackState != Player.STATE_ENDED) {
-                // Lấy vị trí của mục phương tiện hiện tại trong danh sách phát
-                val currentMediaItemIndex = player!!.currentMediaItemIndex
-
-                // Xác định vị trí của mục phương tiện kế tiếp
-                val nextMediaItemIndex = if (currentMediaItemIndex < player!!.mediaItemCount - 1) currentMediaItemIndex + 1 else currentMediaItemIndex
-
-                // Chuyển đến mục phương tiện kế tiếp
-                player!!.seekToDefaultPosition(nextMediaItemIndex)
-            }
-        }
+        musicPlayerViewModel.nextButtonClick()
     }
 
     private fun handleRepeatButtonClick() {
@@ -275,6 +256,7 @@ class ActivityPlaylist : AppCompatActivity() {
             player?.repeatMode = if (isRepeating) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
         }
     }
+
     private fun handleCommentButtonClick() {
         // Xử lý khi nhấn nút Comment
         val dialog = Dialog(this)
@@ -291,11 +273,9 @@ class ActivityPlaylist : AppCompatActivity() {
         dialog.setContentView(view)
         dialog.show()
     }
-
-        private fun handleDownloadButtonClick() {
-            // Xử lý khi nhấn nút Download
-        }
-
+    private fun handleDownloadButtonClick() {
+        // Xử lý khi nhấn nút Download
+    }
 
     private fun handleMoreButtonClick() {
         val moreActionFragment = MoreActionFragment()
@@ -307,6 +287,7 @@ class ActivityPlaylist : AppCompatActivity() {
         moreActionFragment.show(supportFragmentManager, "MoreActionsFragment")
     }
 
+
     private fun handleAddPlaylistButtonClick() {
         val addPlaylistFragment = AddPlaylistFragment()
         addPlaylistFragment.show(supportFragmentManager, "AddPlaylistFragment")
@@ -315,5 +296,11 @@ class ActivityPlaylist : AppCompatActivity() {
     private fun handleShareButtonClick() {
     }
 
+}
+
+private fun formatDuration(durationInSeconds: Long): String {
+    val seconds = (durationInSeconds / 1000) % 60
+    val minutes = durationInSeconds / 60000
+    return "$minutes:${String.format("%02d", seconds)}"
 }
 

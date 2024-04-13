@@ -40,6 +40,12 @@ class MusicPlayerViewModel :ViewModel() {
     fun getCurrentPositionLiveData(): LiveData<Long> {
         return currentPosition
     }
+    fun nextButtonClick() {
+        musicPlayerService?.nextButtonClick()
+    }
+    fun previousButtonClick() {
+        musicPlayerService?.previousButtonClick()
+    }
 
 
 
