@@ -1,6 +1,7 @@
 package com.project.appealic.ui.view
 
 import android.app.Dialog
+import android.app.NotificationManager
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context

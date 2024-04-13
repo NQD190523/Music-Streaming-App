@@ -30,7 +30,7 @@ import androidx.media3.common.Timeline
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import com.project.appealic.R
-import com.project.appealic.ui.view.ActivityPlaylist
+import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.utils.MusicPlayerFactory
 import javax.sql.DataSource
 
@@ -66,22 +66,22 @@ class MusicPlayerService : Service() {
         // Tạo kênh thông báo
         createNotificationChannel()
         // Bắt đầu dịch vụ
-        startForeground(NOTIFICATION_ID,createNotification())
+        startForeground(MusicPlayerService.NOTIFICATION_ID,createNotification())
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ACTION_PLAY.toString() -> {
+            ACTION_PLAY -> {
                 // Xử lý yêu cầu play
                 player.play()
                 updateNotification()
             }
-            ACTION_PAUSE.toString() -> {
+            ACTION_PAUSE -> {
                 // Xử lý yêu cầu pause
                 player.pause()
                 updateNotification()
             }
-            ACTION_STOP.toString() -> {
+            ACTION_STOP -> {
                 // Xử lý yêu cầu stop
                 stopSelf() // Dừng service khi người dùng nhấn stop
             }
@@ -175,7 +175,7 @@ class MusicPlayerService : Service() {
         val contentIntent = PendingIntent.getActivity(
             this,
             0,
-            Intent(this, ActivityPlaylist::class.java),
+            Intent(this, ActivityMusicControl::class.java),
             PendingIntent.FLAG_MUTABLE
         )
 
@@ -220,7 +220,7 @@ class MusicPlayerService : Service() {
         val notification = createNotification()
         notificationManager.notify(NOTIFICATION_ID, notification)
     }
-    private fun createNotificationChannel() {
+    fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
