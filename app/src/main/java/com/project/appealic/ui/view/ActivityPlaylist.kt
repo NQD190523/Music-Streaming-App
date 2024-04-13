@@ -1,6 +1,5 @@
 package com.project.appealic.ui.view
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
@@ -8,26 +7,20 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
-
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
-import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.Player
-import androidx.media3.common.Timeline
 import androidx.media3.exoplayer.ExoPlayer
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
@@ -38,7 +31,7 @@ import com.project.appealic.data.repository.service.MusicPlayerService
 import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
 import com.project.appealic.ui.view.Fragment.MoreActionFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
-import com.project.appealic.utils.MusicPlayerViewModelFactory
+
 
 class ActivityPlaylist : AppCompatActivity() {
 
@@ -67,7 +60,6 @@ class ActivityPlaylist : AppCompatActivity() {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as MusicPlayerService.MusicBinder
             val musicService = binder.getService()
-
             // Thiết lập MusicService cho MusicPlayerViewModel
             musicPlayerViewModel.setMusicService(musicService)
             player = musicPlayerViewModel.getPlayerInstance()!!
@@ -85,14 +77,6 @@ class ActivityPlaylist : AppCompatActivity() {
         bindService(musicPlayerServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
 
         musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
-
-        //Lấy trạng thái trc khi thoát của audio
-//        if (savedInstanceState != null) {
-//            val savedPosition = musicPlayerViewModel.getAudioPosition(trackId)
-//            savedPosition?.let {
-//                player.seekTo(savedPosition)
-//            }
-//        }
 
         // Khởi tạo tất cả các thành phần UI
         progressTv = findViewById(R.id.progressTv)
@@ -117,6 +101,7 @@ class ActivityPlaylist : AppCompatActivity() {
         val trackImage = intent.getStringExtra("TRACK_IMAGE")
         val duration = intent.getIntExtra("DURATION", 0)
         val trackUrl = intent.getStringExtra("TRACK_URL")
+        val trackList = intent.getStringArrayListExtra("TRACK_LIST")
         trackId = intent.getStringExtra("TRACK_ID").toString()
 
         findViewById<TextView>(R.id.song_name).text = songTitle
@@ -139,15 +124,23 @@ class ActivityPlaylist : AppCompatActivity() {
         //Load dữ liệu audio
         val storage = Firebase.storage
         val storageRef = storage.reference
-        val trackPath = trackUrl?.substring(trackUrl.indexOf("/", 5) + 1)
-        val audioRef = trackPath?.let { storageRef.child(it) }
-        println(audioRef)
-        if (audioRef != null) {
-            audioRef.downloadUrl.addOnSuccessListener { url ->
-                val songUri = Uri.parse(url.toString())
-                musicPlayerViewModel.setMediaUri(songUri)
+        if (trackList != null) {
+            for (i in trackList){
+                val trackPath = i?.substring(i.indexOf("/", 5) + 1)
+                val audioRef = trackPath?.let { storageRef.child(it) }
+                println(audioRef)
+                if (audioRef != null) {
+                    audioRef.downloadUrl.addOnSuccessListener { url ->
+                        val songUri = Uri.parse(url.toString())
+                        val mediaItems = mutableListOf<MediaItem>()
+                        mediaItems.add(MediaItem.fromUri(songUri))
+                        println(mediaItems)
+                        musicPlayerViewModel.setMediaUri(mediaItems)
+                    }
+                }
             }
         }
+
         // Gắn các hàm xử lý sự kiện cho các thành phần UI
         previousBtn.setOnClickListener { handlePreviousButtonClick() }
         mixBtn.setOnClickListener { handleMixButtonClick() }
@@ -233,11 +226,19 @@ class ActivityPlaylist : AppCompatActivity() {
 
     // Các hàm xử lý sự kiện khi nhấn các nút
     fun handlePreviousButtonClick() {
-        if (currentTrackIndex > 0) {
-            currentTrackIndex--
-            player?.setMediaItem(playlist[currentTrackIndex])
-            player?.prepare()
-            player?.play()
+        // Kiểm tra xem player có được khởi tạo không
+        if (player != null) {
+            // Kiểm tra xem có phát nhạc không
+            if (player!!.playbackState != Player.STATE_IDLE && player!!.playbackState != Player.STATE_ENDED) {
+                // Lấy vị trí của mục phương tiện hiện tại trong danh sách phát
+                val currentMediaItemIndex = player!!.currentMediaItemIndex
+
+                // Xác định vị trí của mục phương tiện trước đó
+                val previousMediaItemIndex = if (currentMediaItemIndex > 0) currentMediaItemIndex - 1 else currentMediaItemIndex
+
+                // Chuyển đến mục phương tiện trước đó
+                player!!.seekToDefaultPosition(previousMediaItemIndex)
+            }
         }
     }
 
@@ -252,11 +253,19 @@ class ActivityPlaylist : AppCompatActivity() {
     }
 
     private fun handleNextButtonClick() {
-        if (currentTrackIndex < playlist.size - 1) {
-            currentTrackIndex++
-            player?.setMediaItem(playlist[currentTrackIndex])
-            player?.prepare()
-            player?.play()
+        // Kiểm tra xem player có được khởi tạo không
+        if (player != null) {
+            // Kiểm tra xem có phát nhạc không
+            if (player!!.playbackState != Player.STATE_IDLE && player!!.playbackState != Player.STATE_ENDED) {
+                // Lấy vị trí của mục phương tiện hiện tại trong danh sách phát
+                val currentMediaItemIndex = player!!.currentMediaItemIndex
+
+                // Xác định vị trí của mục phương tiện kế tiếp
+                val nextMediaItemIndex = if (currentMediaItemIndex < player!!.mediaItemCount - 1) currentMediaItemIndex + 1 else currentMediaItemIndex
+
+                // Chuyển đến mục phương tiện kế tiếp
+                player!!.seekToDefaultPosition(nextMediaItemIndex)
+            }
         }
     }
 

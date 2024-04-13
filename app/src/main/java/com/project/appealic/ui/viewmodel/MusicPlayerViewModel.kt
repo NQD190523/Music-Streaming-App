@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.project.appealic.data.repository.service.MusicPlayerService
 import com.project.appealic.utils.MusicPlayerFactory
@@ -24,7 +25,7 @@ class MusicPlayerViewModel :ViewModel() {
             currentPosition.value = current
         }
     }
-    fun setMediaUri(uri: Uri) {
+    fun setMediaUri(uri: MutableList<MediaItem>) {
         musicPlayerService?.setMediaUri(uri)
     }
     fun play() {

@@ -39,9 +39,8 @@ class MusicPlayerService : Service() {
         player = ExoPlayer.Builder(this).build()
         trackCurrentPosition()
     }
-    fun setMediaUri(uri: Uri) {
-        val mediaItem = MediaItem.fromUri(uri)
-        player.setMediaItem(mediaItem)
+    fun setMediaUri(uri: MutableList<MediaItem>) {
+        player.setMediaItems(uri)
         player.prepare()
         player.play()
     }
