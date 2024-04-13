@@ -61,15 +61,15 @@ class MusicControlFragment : Fragment(){
 
         // Initialize ViewModel
         musicPlayerViewModel = ViewModelProvider(requireActivity()).get(MusicPlayerViewModel::class.java)
-        player = musicPlayerViewModel.getPlayerInstance()
+        player = musicPlayerViewModel.getPlayerInstance()!!
 
         //Lấy trạng thái trước khi thoát của audio
-        if (savedInstanceState != null) {
-            val savedPosition = musicPlayerViewModel.getAudioPosition(trackId)
-            savedPosition?.let {
-                player.seekTo(savedPosition)
-            }
-        }
+//        if (savedInstanceState != null) {
+//            val savedPosition = musicPlayerViewModel.getAudioPosition(trackId)
+//            savedPosition?.let {
+//                player.seekTo(savedPosition)
+//            }
+//        }
 
         // Khởi tạo thành phần UI
         progressTv = view.findViewById(R.id.progressTv)
