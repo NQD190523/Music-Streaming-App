@@ -76,7 +76,9 @@ class ActivityPlaylist : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playsong)
 
-        val musicPlayerServiceIntent = Intent(this,MusicPlayerService::class.java)
+        val musicPlayerServiceIntent = Intent(this,MusicPlayerService::class.java).apply {
+            action = MusicPlayerService.ACTION_PLAY
+        }
         startService(musicPlayerServiceIntent)
         bindService(musicPlayerServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
 
