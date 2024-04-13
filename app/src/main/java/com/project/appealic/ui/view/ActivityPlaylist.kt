@@ -23,6 +23,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerNotificationManager
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -56,6 +57,8 @@ class ActivityPlaylist : AppCompatActivity() {
     private  var player: ExoPlayer? = null
     private lateinit var trackId: String
     private lateinit var musicPlayerViewModel: MusicPlayerViewModel
+    private lateinit var playerNotificationManager: PlayerNotificationManager
+
 
     val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
@@ -103,6 +106,7 @@ class ActivityPlaylist : AppCompatActivity() {
         val duration = intent.getIntExtra("DURATION", 0)
         val trackUrl = intent.getStringExtra("TRACK_URL")
         val trackList = intent.getStringArrayListExtra("TRACK_LIST")
+        val trackIndex = intent.getIntExtra("TRACK_INDEX",0)
         trackId = intent.getStringExtra("TRACK_ID").toString()
 
         findViewById<TextView>(R.id.song_name).text = songTitle
@@ -145,7 +149,7 @@ class ActivityPlaylist : AppCompatActivity() {
                         // Nếu đã download xong tất cả các URL
                         if (completedDownloads == trackList.size) {
                             // Set danh sách media items cho ExoPlayer
-                            musicPlayerViewModel.setMediaUri(mediaItems)
+                            musicPlayerViewModel.setMediaUri(mediaItems, trackIndex)
                         }
                     }.addOnFailureListener { exception ->
                         // Xử lý khi có lỗi xảy ra trong quá trình download
@@ -194,7 +198,6 @@ class ActivityPlaylist : AppCompatActivity() {
             val remainingDuration = (duration - curentPosition)
             durationTv.text = formatDuration(remainingDuration)
         }
-
     }
 
     private fun Back() {
@@ -251,10 +254,7 @@ class ActivityPlaylist : AppCompatActivity() {
     }
 
     private fun handleRepeatButtonClick() {
-        if (player?.isPlaying == true) {
-            isRepeating = !isRepeating
-            player?.repeatMode = if (isRepeating) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
-        }
+        musicPlayerViewModel.repeatButtonClick()
     }
 
     private fun handleCommentButtonClick() {
@@ -295,6 +295,7 @@ class ActivityPlaylist : AppCompatActivity() {
 
     private fun handleShareButtonClick() {
     }
+
 
 }
 

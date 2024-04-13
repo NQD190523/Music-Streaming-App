@@ -1,7 +1,11 @@
 package com.project.appealic.data.repository.service
 
 import android.app.Application
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.media.session.MediaSession
 import android.net.Uri
@@ -11,14 +15,19 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.support.v4.media.session.MediaSessionCompat
+import android.support.v4.media.session.PlaybackStateCompat.ACTION_PAUSE
+import android.support.v4.media.session.PlaybackStateCompat.ACTION_PLAY
+import android.support.v4.media.session.PlaybackStateCompat.ACTION_STOP
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.media.app.NotificationCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
+import com.project.appealic.ui.view.ActivityPlaylist
 import com.project.appealic.utils.MusicPlayerFactory
 import javax.sql.DataSource
 
@@ -30,6 +39,9 @@ class MusicPlayerService : Service() {
     private val updateCurrentPositionRunnable = Runnable {
         updateCurrentPosition()
     }
+    private var isRepeating = false
+    private lateinit var notificationManager: NotificationManager
+
 
     override fun onBind(p0: Intent?): IBinder {
         return binder
@@ -38,10 +50,19 @@ class MusicPlayerService : Service() {
         super.onCreate()
         player = ExoPlayer.Builder(this).build()
         trackCurrentPosition()
+        // Khởi tạo NotificationManager
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
-    fun setMediaUri(uri: MutableList<MediaItem>) {
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val notification = createNo
+        return START_NOT_STICKY
+    }
+
+    fun setMediaUri(uri: MutableList<MediaItem>, startIndex : Int) {
         player.setMediaItems(uri)
         player.prepare()
+        player.seekToDefaultPosition(startIndex)
         player.play()
     }
 
@@ -79,6 +100,12 @@ class MusicPlayerService : Service() {
             player.seekToDefaultPosition(previousMediaItemIndex)
         }
     }
+    fun repeatButtonClick() {
+        if (player.isPlaying) {
+            isRepeating = !isRepeating
+            player.repeatMode = if (isRepeating) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+        }
+    }
     fun getExoPlayerInstance(): ExoPlayer {
         return player
     }
@@ -112,6 +139,56 @@ class MusicPlayerService : Service() {
     }
     fun getCurrentPositionLiveData(): LiveData<Long> {
         return currentPositionLiveData
+    }
+    private fun createNotification(): Notification {
+        // Tạo Intent để mở ứng dụng khi nhấp vào thông báo
+        val contentIntent = PendingIntent.getActivity(
+            this,
+            0,
+            Intent(this, ActivityPlaylist::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        // Tạo các action cho thông báo (play, pause, stop)
+        val playIntent = PendingIntent.getService(
+            this,
+            0,
+            Intent(this, MusicPlayerService::class.java).apply { action = ACTION_PLAY.toString() },
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val pauseIntent = PendingIntent.getService(
+            this,
+            0,
+            Intent(this, MusicPlayerService::class.java).apply { action = ACTION_PAUSE.toString() },
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val stopIntent = PendingIntent.getService(
+            this,
+            0,
+            Intent(this, MusicPlayerService::class.java).apply { action = ACTION_STOP.toString() },
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        // Xây dựng thông báo
+        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("Your Audio Player")
+            .setContentText("Now playing...")
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentIntent(contentIntent)
+            .addAction(R.drawable.ic_play, "Play", playIntent)
+            .addAction(R.drawable.ic_pause, "Pause", pauseIntent)
+            .addAction(R.drawable.ic_stop, "Stop", stopIntent)
+
+        // Trả về thông báo đã tạo
+        return notificationBuilder.build()
+    }
+
+    private fun updateNotification() {
+        // Cập nhật nội dung thông báo (ví dụ: trạng thái play/pause)
+        val notification = createNotification()
+        notificationManager.notify(NOTIFICATION_ID, notification)
     }
     inner class MusicBinder : Binder() {
         fun getService(): MusicPlayerService = this@MusicPlayerService

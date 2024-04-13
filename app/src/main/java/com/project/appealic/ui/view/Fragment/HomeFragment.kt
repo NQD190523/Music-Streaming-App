@@ -135,6 +135,7 @@ class HomeFragment : Fragment() {
                 intent.putExtra("DURATION", selectedSong.duration)
                 intent.putExtra("TRACK_URL", selectedSong.trackUrl)
                 intent.putExtra("TRACK_ID", selectedSong.trackId)
+                intent.putExtra("TRACK_INDEX",position)
                 intent.putStringArrayListExtra("TRACK_LIST",trackUrlList)
                 startActivity(intent)
             }

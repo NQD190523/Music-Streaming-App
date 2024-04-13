@@ -25,8 +25,8 @@ class MusicPlayerViewModel :ViewModel() {
             currentPosition.value = current
         }
     }
-    fun setMediaUri(uri: MutableList<MediaItem>) {
-        musicPlayerService?.setMediaUri(uri)
+    fun setMediaUri(uri: MutableList<MediaItem>, startIndex : Int) {
+        musicPlayerService?.setMediaUri(uri, startIndex)
     }
     fun play() {
         musicPlayerService?.play()
@@ -45,6 +45,9 @@ class MusicPlayerViewModel :ViewModel() {
     }
     fun previousButtonClick() {
         musicPlayerService?.previousButtonClick()
+    }
+    fun repeatButtonClick(){
+        musicPlayerService?.repeatButtonClick()
     }
 
 
