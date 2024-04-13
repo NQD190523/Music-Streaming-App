@@ -19,7 +19,7 @@ import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
-import com.project.appealic.ui.view.ActivityPlaylist
+import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
@@ -93,7 +93,7 @@ class HomeFragment : Fragment() {
                 val selectedSong = parent.getItemAtPosition(position) as Track
                 //lưu bài hát vừa mở vào database của thiết bị
                 val user = FirebaseAuth.getInstance().currentUser?.uid
-                val intent = Intent(requireContext(), ActivityPlaylist::class.java)
+                val intent = Intent(requireContext(), ActivityMusicControl::class.java)
                 val trackUrlList = ArrayList<String>()
 
                 val song = selectedSong.trackId?.let {
