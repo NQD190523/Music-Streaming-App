@@ -9,8 +9,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.project.appealic.R
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
-import com.project.appealic.databinding.ActivityPlaysongBinding
-import com.project.appealic.databinding.FragmentMusicControlBinding
+import com.project.appealic.databinding.ActivityMusicControlBinding
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 import com.project.appealic.ui.viewmodel.SpotifyAuthViewModel
@@ -18,7 +17,7 @@ import com.project.appealic.ui.viewmodel.SpotifyViewModel
 
 class MediaActivity: AppCompatActivity() {
 
-    private lateinit var binding : FragmentMusicControlBinding
+    private lateinit var binding : ActivityMusicControlBinding
     private var isPlaying = false
     private lateinit var player : ExoPlayer
     private lateinit var spotifyAuthViewModel: SpotifyAuthViewModel
@@ -31,7 +30,7 @@ class MediaActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = FragmentMusicControlBinding.inflate(layoutInflater)
+        binding = ActivityMusicControlBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupPlayPauseButton()

@@ -29,7 +29,7 @@
         <activity android:name=".ui.view.ActivityLikedSong" />
         <activity android:name=".ui.view.Activity_welcome"/>
         <activity android:name=".ui.view.MediaActivity"/>
-        <activity android:name=".ui.view.ActivityPlaylist" />
+        <activity android:name=".ui.view.ActivityMusicControl" />
         <activity android:name=".ui.view.GoogleLoginActivity" />
         <activity android:name=".MainActivity" />
         <receiver android:name=".ui.view.WidgetView"
