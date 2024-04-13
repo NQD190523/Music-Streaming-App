@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.media.browse.MediaBrowser
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
@@ -19,7 +20,6 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
@@ -32,13 +32,13 @@ import com.project.appealic.R
 import com.project.appealic.data.repository.service.MusicPlayerService
 import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
 import com.project.appealic.ui.view.Fragment.MoreActionFragment
+import com.project.appealic.ui.view.Fragment.PlaySongFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 
-
-class ActivityPlaylist : AppCompatActivity() {
+class ActivityMusicControl : AppCompatActivity(){
 
     private var isRepeating = false
-    private var playlist: ArrayList<MediaItem> = ArrayList()
+    private var playlist: ArrayList<MediaBrowser.MediaItem> = ArrayList()
     private var currentTrackIndex: Int = 0
     private lateinit var progressTv: TextView
     private lateinit var progressSb: SeekBar
@@ -74,7 +74,15 @@ class ActivityPlaylist : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_playsong)
+        setContentView(R.layout.activity_music_control)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.play_fragment_container, PlaySongFragment())
+                .commit()
+        }
+
+
 
         val musicPlayerServiceIntent = Intent(this,MusicPlayerService::class.java).apply {
             action = MusicPlayerService.ACTION_PLAY
@@ -83,6 +91,8 @@ class ActivityPlaylist : AppCompatActivity() {
         bindService(musicPlayerServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
 
         musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
+
+
 
         // Khởi tạo tất cả các thành phần UI
         progressTv = findViewById(R.id.progressTv)
@@ -113,19 +123,16 @@ class ActivityPlaylist : AppCompatActivity() {
 
         findViewById<TextView>(R.id.song_name).text = songTitle
         findViewById<TextView>(R.id.singer_name).text = artistName
-
-        val backButton = findViewById<ImageView>(R.id.imv_dropdown)
-        backButton.setOnClickListener {
-            Back()
-        }
         // Load hình ảnh sử dụng Glide
         trackImage?.let { imageUrl ->
             val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
-            val songImageView = findViewById<ImageView>(R.id.trackImage)
+            storageReference.downloadUrl.addOnSuccessListener { uri ->
+                val songImageView = findViewById<ImageView>(R.id.imvGround)
 
-            Glide.with(this)
-                .load(storageReference)
-                .into(songImageView)
+                Glide.with(this)
+                    .load(uri)
+                    .into(songImageView)
+            }
         }
 
         //Load dữ liệu audio
@@ -275,9 +282,11 @@ class ActivityPlaylist : AppCompatActivity() {
         dialog.setContentView(view)
         dialog.show()
     }
+
     private fun handleDownloadButtonClick() {
         // Xử lý khi nhấn nút Download
     }
+
 
     private fun handleMoreButtonClick() {
         val moreActionFragment = MoreActionFragment()
