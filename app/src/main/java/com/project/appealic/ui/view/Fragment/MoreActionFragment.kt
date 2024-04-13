@@ -73,6 +73,7 @@ class MoreActionFragment : DialogFragment() {
         txtSongName.text = songTitle
         val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
         txtSinger.text = artistName
+
         val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
         trackImage?.let { imageUrl ->
             val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
