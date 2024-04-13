@@ -35,80 +35,24 @@ import com.google.firebase.storage.storage
 import com.project.appealic.R
 import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
 import com.project.appealic.ui.view.Fragment.MoreActionFragment
+import com.project.appealic.ui.view.Fragment.MusicControlFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 
 class ActivityPlaylist : AppCompatActivity() {
-
-    private var isRepeating = false
-    private var playlist: ArrayList<MediaItem> = ArrayList()
-    private var currentTrackIndex: Int = 0
-    private lateinit var progressTv: TextView
-    private lateinit var progressSb: SeekBar
-    private lateinit var durationTv: TextView
-    private lateinit var previousBtn: ImageView
-    private lateinit var playBtn: ImageView
-    private lateinit var mixBtn: ImageView
-    private lateinit var playFrameLayout: FrameLayout
-    private lateinit var nextBtn: ImageView
-    private lateinit var repeatBtn: ImageView
-    private lateinit var commentBtn: ImageView
-    private lateinit var downloadBtn: ImageView
-    private lateinit var moreBtn: Button
-    private lateinit var addPlaylistBtn: ImageView
-    private lateinit var shareBtn: ImageView
-    private lateinit var player: ExoPlayer
-    private lateinit var musicPlayerViewModel: MusicPlayerViewModel
-    private lateinit var trackId : String
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playsong)
 
-
-        //Khởi tạo exoplayer
-        musicPlayerViewModel = ViewModelProvider(this).get(MusicPlayerViewModel::class.java)
-        player = musicPlayerViewModel.getPlayerInstance()
-
-        //Lấy trạng thái trc khi thoát của audio
-        if (savedInstanceState != null) {
-            val savedPosition = musicPlayerViewModel.getAudioPosition(trackId)
-            savedPosition?.let {
-                player.seekTo(savedPosition)
-            }
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.music_control_fragment_container, MusicControlFragment())
+                .commit()
         }
 
-        // Khởi tạo tất cả các thành phần UI
-        progressTv = findViewById(R.id.progressTv)
-        progressSb = findViewById(R.id.progressSb)
-        durationTv = findViewById(R.id.durationTv)
-        previousBtn = findViewById(R.id.previous)
-        mixBtn = findViewById(R.id.mix)
-//        playFrameLayout = findViewById(R.id.playPause)
-        nextBtn = findViewById(R.id.next)
-        repeatBtn = findViewById(R.id.repeat)
-        commentBtn = findViewById(R.id.comment)
-        downloadBtn = findViewById(R.id.dowmload)
-        moreBtn = findViewById(R.id.more)
-        addPlaylistBtn = findViewById(R.id.addPlaylist)
-        shareBtn = findViewById(R.id.share)
-        playBtn = findViewById(R.id.playPauseIcon)
-
-
-        // Lấy dữ liệu từ Intent và hiển thị trên giao diện
-        val songTitle = intent.getStringExtra("SONG_TITLE")
-        val artistName = intent.getStringExtra("SINGER_NAME")
+        // Load các thông tin liên quan đến bài hát từ Intent và hiển thị trên giao diện
         val trackImage = intent.getStringExtra("TRACK_IMAGE")
-        val duration = intent.getIntExtra("DURATION", 0)
-        val trackUrl = intent.getStringExtra("TRACK_URL")
-        trackId = intent.getStringExtra("TRACK_ID").toString()
 
-        findViewById<TextView>(R.id.song_name).text = songTitle
-        findViewById<TextView>(R.id.singer_name).text = artistName
 
-        val backButton = findViewById<ImageView>(R.id.imv_dropdown)
-        backButton.setOnClickListener {
-            Back()
-        }
         // Load hình ảnh sử dụng Glide
         trackImage?.let { imageUrl ->
             val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
@@ -119,57 +63,11 @@ class ActivityPlaylist : AppCompatActivity() {
                 .into(songImageView)
         }
 
-        //Load dữ liệu audio
-        val storage = Firebase.storage
-        val storageRef = storage.reference
-        val trackPath = trackUrl?.substring(trackUrl.indexOf("/", 5) + 1)
-        val audioRef = trackPath?.let { storageRef.child(it) }
-        println(audioRef)
-        if (audioRef != null) {
-            audioRef.downloadUrl.addOnSuccessListener { url ->
-                val songUri = Uri.parse(url.toString())
-                musicPlayerViewModel.startPlaying(songUri)
-            }
+        // Sự kiện khi nhấn nút back
+        val backButton = findViewById<ImageView>(R.id.imv_dropdown)
+        backButton.setOnClickListener {
+            Back()
         }
-
-        // Gắn các hàm xử lý sự kiện cho các thành phần UI
-        previousBtn.setOnClickListener { handlePreviousButtonClick() }
-        mixBtn.setOnClickListener { handleMixButtonClick() }
-        nextBtn.setOnClickListener { handleNextButtonClick() }
-        repeatBtn.setOnClickListener { handleRepeatButtonClick() }
-        commentBtn.setOnClickListener { handleCommentButtonClick() }
-        downloadBtn.setOnClickListener { handleDownloadButtonClick() }
-        moreBtn.setOnClickListener { handleMoreButtonClick() }
-        addPlaylistBtn.setOnClickListener { handleAddPlaylistButtonClick() }
-        shareBtn.setOnClickListener { handleShareButtonClick() }
-        playBtn.setOnClickListener { handelPlayButtonClick() }
-
-        //Cập nhật trang thái khi thay đổi progresBar
-        progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                // Xử lý sự kiện thay đổi tiến trình
-                if(fromUser) {
-                    player.seekTo((progress *1000).toLong())
-                    progressTv.text = formatDuration(progress.toLong())
-                }
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                // Xử lý khi bắt đầu chạm vào SeekBar
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // Xử lý khi kết thúc chạm vào SeekBar
-            }
-        })
-        //ProgressBar cập nật theo tiến độ của bài hát
-        progressSb.max = duration / 1000
-        musicPlayerViewModel.observeCurrentPosition( Observer {curentPosition ->
-            progressSb.progress = (curentPosition /1000).toInt()
-            progressTv.text = formatDuration(curentPosition)
-            val remainingDuration = (duration - curentPosition)
-            durationTv.text = formatDuration(remainingDuration)
-        })
     }
 
     private fun Back() {
@@ -181,120 +79,29 @@ class ActivityPlaylist : AppCompatActivity() {
         editor.putString("SONG_TITLE", songTitle)
         editor.putString("SINGER_NAME", artistName)
         editor.putString("TRACK_IMAGE", trackImage)
-        // Save other song info to SharedPreferences if needed
+
         editor.apply()
 
-        // Update the widget after song info is saved
+        // Cập nhật widget sau khi thông tin bài hát được lưu
         val appWidgetManager = AppWidgetManager.getInstance(this)
         val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this, WidgetView::class.java))
         if (appWidgetIds != null && appWidgetIds.isNotEmpty()) {
             WidgetView().onUpdate(this, appWidgetManager, appWidgetIds)
         }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        // Lưu trạng thái của ViewModel khi Activity bị hủy
-        outState.putAll(musicPlayerViewModel.onSaveInstanceState())
-        Log.d("load info" ," success")
+        // Lưu trạng thái của hoạt động nếu cần thiết
     }
 
     override fun onPause() {
         super.onPause()
-        musicPlayerViewModel.saveAudioPosition(trackId,player.currentPosition)
+        // Lưu trạng thái nếu cần thiết khi hoạt động bị pause
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        musicPlayerViewModel.stopPlaying()
+        // Dừng các hoạt động hoặc giải phóng tài nguyên khi hoạt động bị hủy
     }
-
-    private fun handleMixButtonClick() {
-
-    }
-
-
-    private fun formatDuration(durationInSeconds: Long): String {
-        val seconds = (durationInSeconds / 1000) % 60
-        val minutes = durationInSeconds / 60000
-        return "$minutes:${String.format("%02d", seconds)}"
-    }
-
-    // Các hàm xử lý sự kiện khi nhấn các nút
-    private fun handlePreviousButtonClick() {
-        if (currentTrackIndex > 0) {
-            currentTrackIndex--
-            player.setMediaItem(playlist[currentTrackIndex])
-            player.prepare()
-            player.play()
-        }
-    }
-
-    private fun handelPlayButtonClick() {
-        if (player.isPlaying) {
-            player.pause()
-            playBtn.setImageResource(R.drawable.ic_play_24_filled)
-        } else {
-            player.play()
-            playBtn.setImageResource(R.drawable.ic_pause_24_filled)
-        }
-    }
-
-    private fun handleNextButtonClick() {
-        if (currentTrackIndex < playlist.size - 1) {
-            currentTrackIndex++
-            player.setMediaItem(playlist[currentTrackIndex])
-            player.prepare()
-            player.play()
-        }
-    }
-
-    private fun handleRepeatButtonClick() {
-        if (player.isPlaying) {
-            isRepeating = !isRepeating
-            player.repeatMode = if (isRepeating) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
-        }
-    }
-    private fun handleCommentButtonClick() {
-        // Xử lý khi nhấn nút Comment
-        val dialog = Dialog(this)
-        val view = layoutInflater.inflate(R.layout.bottom_comment, null)
-
-        val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.more_background)
-        window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
-
-        dialog.setContentView(view)
-        dialog.show()
-    }
-
-    private fun handleDownloadButtonClick() {
-        // Xử lý khi nhấn nút Download
-    }
-
-
-    private fun handleMoreButtonClick() {
-        val moreActionFragment = MoreActionFragment()
-        val bundle = Bundle()
-        bundle.putString("SONG_TITLE", intent.getStringExtra("SONG_TITLE"))
-        bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
-        bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
-        moreActionFragment.arguments = bundle
-        moreActionFragment.show(supportFragmentManager, "MoreActionsFragment")
-    }
-
-    private fun handleAddPlaylistButtonClick() {
-        val addPlaylistFragment = AddPlaylistFragment()
-        addPlaylistFragment.show(supportFragmentManager, "AddPlaylistFragment")
-    }
-
-    private fun handleShareButtonClick() {
-    }
-
 }
-
