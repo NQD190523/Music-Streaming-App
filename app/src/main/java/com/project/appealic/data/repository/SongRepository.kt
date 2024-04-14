@@ -52,7 +52,7 @@ class SongRepository(application: Application) {
     }
 
 
-    suspend fun insertSong(song: SongEntity) {
+    fun insertSong(song: SongEntity) {
         songDao.insertSong(song)
     }
 }
