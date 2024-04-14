@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -34,6 +36,8 @@
         <activity android:name=".ui.view.ActivityMusicControl" />
         <activity android:name=".ui.view.GoogleLoginActivity" />
         <activity android:name=".ui.view.ActivityHome" />
+        <activity android:name=".ui.view.Fragment.MiniPaymentFragment" />
+        <activity android:name=".MainActivity" />
         <receiver android:name=".ui.view.WidgetView"
             android:exported="true">
             <intent-filter>

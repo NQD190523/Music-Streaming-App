@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/fragmeprofile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toplayout"
@@ -13,8 +17,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-
 
         <ImageView
             android:id="@+id/imageView"
@@ -56,20 +58,452 @@
             android:background="@drawable/more_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragment_info_account"
-                android:name="com.project.appealic.ui.view.Fragment.InfoAccountFragment"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:ignore="MissingConstraints"
-                tools:layout="@layout/fragment_info_account" />
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/textView19"
+                            style="@style/Heading4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="Update Account "
+                            android:textColor="@color/text"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textView19" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <HorizontalScrollView
+                        android:id="@+id/horizontalScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
+                        android:scrollbars="none"
+                        app:layout_constraintEnd_toEndOf="@id/title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/title">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/solo_card"
+                                android:layout_width="253dp"
+                                android:layout_height="152dp"
+                                android:layout_marginStart="16dp"
+                                android:src="@drawable/plus_solo_card"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/student_card"
+                                android:layout_width="253dp"
+                                android:layout_height="152dp"
+                                android:layout_marginStart="8dp"
+                                android:src="@drawable/plus_student_card"
+                                app:layout_constraintStart_toEndOf="@+id/solo_card"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/mini_card"
+                                android:layout_width="253dp"
+                                android:layout_height="152dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="16dp"
+                                android:src="@drawable/plus_mini_card"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/student_card"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </HorizontalScrollView>
+
+                    <TextView
+                        android:id="@+id/textView20"
+                        style="@style/Heading4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="Personal"
+                        android:textColor="#FBFAFA"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/horizontalScrollView"
+                        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_Profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="59dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/textView20"
+                        app:layout_constraintStart_toStartOf="@+id/textView20"
+                        app:layout_constraintTop_toBottomOf="@+id/textView20">
+
+                        <ImageView
+                            android:id="@+id/imageView6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_person_24_outlined"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            style="@style/Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="10"
+                            android:text="Profile"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                            app:layout_constraintStart_toEndOf="@+id/imageView6"
+                            app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#30FFFFFF"
+                            app:layout_constraintBottom_toBottomOf="@id/ll_Profile" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_Theme"
+                        android:layout_width="match_parent"
+                        android:layout_height="59dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/ll_Profile"
+                        app:layout_constraintStart_toStartOf="@+id/ll_Profile"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_Profile">
+
+                        <ImageView
+                            android:id="@+id/imageViewTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_theme_24_outlined"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textViewTheme"
+                            style="@style/Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="10"
+                            android:text="Theme"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewTheme"
+                            app:layout_constraintStart_toEndOf="@+id/imageViewTheme"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewTheme" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewTheme"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewTheme" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#30FFFFFF"
+                            app:layout_constraintBottom_toBottomOf="@id/ll_Theme" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_Contact"
+                        android:layout_width="match_parent"
+                        android:layout_height="59dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/ll_Theme"
+                        app:layout_constraintStart_toStartOf="@+id/ll_Theme"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_Theme">
+
+                        <ImageView
+                            android:id="@+id/imageViewContact"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_phone_24_outlined"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textViewContact"
+                            style="@style/Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="10"
+                            android:text="Contact"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewContact"
+                            app:layout_constraintStart_toEndOf="@+id/imageViewContact"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewContact" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewContact"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewContact" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#30FFFFFF"
+                            app:layout_constraintBottom_toBottomOf="@id/ll_Contact" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_Legal"
+                        android:layout_width="match_parent"
+                        android:layout_height="59dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/ll_Contact"
+                        app:layout_constraintStart_toStartOf="@+id/ll_Contact"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_Contact">
+
+                        <ImageView
+                            android:id="@+id/imageViewLegal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_policy_24_outlined"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textViewLegal"
+                            style="@style/Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="10"
+                            android:text="Legal"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewLegal"
+                            app:layout_constraintStart_toEndOf="@+id/imageViewLegal"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewLegal" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewLegal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewLegal" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#30FFFFFF"
+                            app:layout_constraintBottom_toBottomOf="@id/ll_Legal" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_ChangePassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="59dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/ll_Legal"
+                        app:layout_constraintStart_toStartOf="@+id/ll_Legal"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_Legal">
+
+                        <ImageView
+                            android:id="@+id/imageViewChangePassword"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_lock_24_outlined"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textViewChangePassword"
+                            style="@style/Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="10"
+                            android:text="Change Password"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewChangePassword"
+                            app:layout_constraintStart_toEndOf="@+id/imageViewChangePassword"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewChangePassword" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewChangePassword"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewChangePassword" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#30FFFFFF"
+                            app:layout_constraintBottom_toBottomOf="@id/ll_ChangePassword" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_Notify"
+                        android:layout_width="match_parent"
+                        android:layout_height="59dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/ll_ChangePassword"
+                        app:layout_constraintStart_toStartOf="@+id/ll_ChangePassword"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_ChangePassword">
+
+                        <ImageView
+                            android:id="@+id/imageViewNotify"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_alert_24_outlined"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textViewNotify"
+                            style="@style/Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="10"
+                            android:text="Notify"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewNotify"
+                            app:layout_constraintStart_toEndOf="@+id/imageViewNotify"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewNotify" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/ic_arrow_16_right"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewNotify"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewNotify" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#30FFFFFF"
+                            app:layout_constraintBottom_toBottomOf="@id/ll_Notify" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <Button
+                        android:id="@+id/btnSignout"
+                        style="@style/CTAsSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginVertical="32dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/btn_rounded_border"
+                        android:text="Sign Out"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text"
+                        app:layout_constraintEnd_toEndOf="@id/ll_Notify"
+                        app:layout_constraintStart_toStartOf="@id/ll_Notify"
+                        app:layout_constraintTop_toBottomOf="@id/ll_Notify" />
+
+                    <TextView
+                        android:id="@+id/headingQR"
+                        style="@style/Heading4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="Your QR Profile"
+                        android:textColor="@color/text"
+                        app:layout_constraintEnd_toEndOf="@id/btnSignout"
+                        app:layout_constraintStart_toStartOf="@id/btnSignout"
+                        app:layout_constraintTop_toBottomOf="@id/btnSignout" />
+
+                    <ImageView
+                        android:id="@+id/imvQR"
+                        android:layout_width="280dp"
+                        android:layout_height="221dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/qr_profile"
+                        app:layout_constraintStart_toStartOf="@id/headingQR"
+                        app:layout_constraintTop_toBottomOf="@id/headingQR" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.core.widget.NestedScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
