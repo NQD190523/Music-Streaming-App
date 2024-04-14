@@ -1,304 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark"
-    android:orientation="vertical"
-    android:padding="12dp">
+    android:background="@drawable/background"
+    android:paddingHorizontal="@dimen/dp_16">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarCustomerService"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="top"
-        android:background="@color/dark"
-        android:elevation="5dp"
-        app:contentInsetStartWithNavigation="0dp"
+        android:layout_height="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/Heading3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="12dp">
+            android:text="View your plan"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="View your plan"
-                android:textColor="@color/white"
-                style="@style/Heading3" />
+        <TextView
+            android:id="@+id/subTitle"
+            style="@style/CTALinks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="Change plan"
+            android:textColor="@color/subtitleText"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/tvTitle"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle" />
 
-            <TextView
-                android:id="@+id/subTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:text="Change plan"
-                android:textColor="@color/subtitleText"
-                style="@style/CTALinks" />
-
-        </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbarCustomerService">
+        android:layout_below="@id/topBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBar">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/dp_16">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/planName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    android:id="@+id/textView23"
+                    style="@style/Heading2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="APPEALIC PLUS"
                     android:textColor="#E6DD00"
-                    android:gravity="center"
-                    style="@style/Heading2" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_marginStart="@dimen/dp_4"
-                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/solo" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="6dp"
+                    android:src="@drawable/solo"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView23"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView23"
+                    app:layout_constraintTop_toTopOf="@+id/textView23" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/planDes"
+                style="@style/Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginTop="@dimen/dp_8"
                 android:text="Immerse yourself in your own world of music!"
-                android:textColor="@color/accent"
-                style="@style/Body2" />
+                android:textColor="@color/text"
+                app:layout_constraintTop_toBottomOf="@id/planName" />
 
             <!-- Payment Options -->
-            <LinearLayout
+            <RadioGroup
+                android:id="@+id/plans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/payment_background"
-                android:orientation="horizontal"
-                android:padding="12dp">
+                android:layout_marginTop="@dimen/dp_32"
+                android:orientation="vertical"
+                android:checkedButton="@id/twelveMonths"
+                app:layout_constraintTop_toBottomOf="@+id/planDes"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-                <CheckBox
-                    android:layout_width="wrap_content"
+                <RadioButton
+                    android:id="@+id/oneMonth"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/checkbox" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_8"
+                    android:button="@drawable/solo_radio_btn_bg"
+                    android:background="@drawable/solo_radio_bg"
                     android:text="1 month"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    style="@style/Body1Bold" />
+                    android:textColor="@drawable/solo_text_color"
+                    style="@style/Body1Bold"
+                    android:paddingEnd="@dimen/dp_16"
+                    android:drawableEnd="@drawable/solo_one_month">
+                </RadioButton>
 
-                <TextView
-                    android:layout_width="0dp"
+                <RadioButton
+                    android:id="@+id/threeMonths"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="$2,5"
-                    android:textColor="@color/white"
-                    android:gravity="end"
-                    style="@style/Heading2" />
-
-            </LinearLayout>
-
-            <!-- Additional Payment Options (Example) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/payment_background"
-                android:orientation="horizontal"
-                android:padding="12dp">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/checkbox" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_8"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:button="@drawable/solo_radio_btn_bg"
+                    android:background="@drawable/solo_radio_bg"
                     android:text="3 months"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    style="@style/Body1Bold" />
+                    android:textColor="@drawable/solo_text_color"
+                    style="@style/Body1Bold"
+                    android:paddingEnd="@dimen/dp_16"
+                    android:drawableRight="@drawable/solo_3_months">
+                </RadioButton>
 
-                <TextView
-                    android:layout_width="0dp"
+                <RadioButton
+                    android:id="@+id/sixMonths"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="$7,5"
-                    android:textColor="@color/white"
-                    android:gravity="end"
-                    style="@style/Heading2" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/payment_background"
-                android:orientation="horizontal"
-                android:padding="12dp">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/checkbox" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_8"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:button="@drawable/solo_radio_btn_bg"
+                    android:background="@drawable/solo_radio_bg"
                     android:text="6 months"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    style="@style/Body1Bold" />
+                    android:textColor="@drawable/solo_text_color"
+                    style="@style/Body1Bold"
+                    android:paddingEnd="@dimen/dp_16"
+                    android:drawableRight="@drawable/solo_6_months">
+                </RadioButton>
 
-                <TextView
-                    android:layout_width="0dp"
+                <RadioButton
+                    android:id="@+id/twelveMonths"
+                    style="@style/Body1Bold"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="$15"
-                    android:textColor="@color/white"
-                    android:gravity="end"
-                    style="@style/Heading2" />
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:background="@drawable/solo_radio_save_20"
+                    android:button="@drawable/solo_radio_btn_bg"
+                    android:drawableEnd="@drawable/solo_12_months"
+                    android:paddingTop="40dp"
+                    android:paddingBottom="@dimen/dp_16"
+                    android:paddingRight="@dimen/dp_16"
+                    android:text="12 months"
+                    android:textColor="@drawable/solo_text_color"/>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/payment_choose_background"
-                android:orientation="horizontal"
-                android:padding="12dp">
-
-                <LinearLayout
-                    android:layout_width="205dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/save_20"
-                        android:layout_gravity="start" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:button="@drawable/checkbox"
-                            android:layout_gravity="center" />
-
-                        <TextView
-                            style="@style/Body1Bold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dp_8"
-                            android:gravity="center"
-                            android:text="12 months"
-                            android:textColor="#E6DD00" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="$24"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="#E6DD00"
-                    android:gravity="end"
-                    style="@style/Heading2" />
-
-            </LinearLayout>
-
-<!--            <DatePicker-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:datePickerMode="spinner"/>-->
+            </RadioGroup>
 
             <TextView
+                android:id="@+id/chooseMethod"
+                style="@style/Heading3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="Choose payment method"
                 android:textColor="@color/accent"
-                android:gravity="center"
-                style="@style/Heading3" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plans" />
 
             <TextView
+                android:id="@+id/methodDes"
+                style="@style/Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="We offer two convenient payment methods for your Appealic Plus subscription"
                 android:textColor="@color/white"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                style="@style/Body2" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chooseMethod" />
+
             <Button
                 android:id="@+id/btnPaymentMomo"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/dp_16"
-                android:layout_height="50dp"
-                android:background="@drawable/btn_momo"
-                android:text="Pay with momo wallet"
                 style="@style/CTAsMedium"
-                android:textColor="#F6F9FB"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/dp_16"
+                android:background="@drawable/btn_momo"
                 android:drawableStart="@drawable/momo"
-                android:paddingStart="50dp"
-                android:paddingEnd="50dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:paddingHorizontal="90dp"
+                android:text="Pay with momo wallet"
+                android:textColor="@color/text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/methodDes" />
 
             <Button
                 android:id="@+id/btnPaymentCard"
-                android:layout_marginTop="@dimen/dp_8"
+                style="@style/CTAsMedium"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="@dimen/dp_8"
                 android:background="@drawable/btn_payment"
-                android:text="Pay with credit/debit card"
-                android:textColor="#F6F9FB"
-                android:textSize="16sp"
                 android:gravity="center"
-                style="@style/CTAsMedium" />
+                android:text="Pay with credit/debit card"
+                android:textColor="@color/text"
+                app:layout_constraintEnd_toEndOf="@+id/btnPaymentMomo"
+                app:layout_constraintStart_toStartOf="@+id/btnPaymentMomo"
+                app:layout_constraintTop_toBottomOf="@+id/btnPaymentMomo" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
