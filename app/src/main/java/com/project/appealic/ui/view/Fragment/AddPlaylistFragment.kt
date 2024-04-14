@@ -95,7 +95,7 @@ class AddPlaylistFragment : DialogFragment() {
             val image = getRandomImageDrawable(this)
             // Chức năng tạo playlist mới
             val userId = auth.currentUser!!.uid
-            playListViewModel.createNewPlayList(PlayListEntity("", userId,edtPlaylistName.text.toString(),image,null))
+            playListViewModel.createNewPlayList(PlayListEntity("", userId,edtPlaylistName.text.toString(),null,null))
 
         }
 

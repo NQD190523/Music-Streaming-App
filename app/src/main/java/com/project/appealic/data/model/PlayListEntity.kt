@@ -2,6 +2,7 @@ package com.project.appealic.data.model
 
 import android.graphics.drawable.Drawable
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -14,6 +15,6 @@ data class PlayListEntity(
     ),
     val uid : String,
     val playListName : String,
-    val playListThumb : Drawable?,
+    val playListThumb : ByteArray?,
     val songId : String?
 )
