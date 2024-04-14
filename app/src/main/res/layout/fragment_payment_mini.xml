@@ -173,26 +173,27 @@
                 android:background="@drawable/btn_momo"
                 android:drawableStart="@drawable/momo"
                 android:gravity="center"
-                android:paddingStart="50dp"
-                android:paddingEnd="50dp"
+                android:paddingHorizontal="90dp"
                 android:text="Pay with momo wallet"
-                android:textColor="#F6F9FB"
+                android:textColor="@color/text"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/methodDes" />
 
             <Button
                 android:id="@+id/btnPaymentCard"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/dp_8"
-                android:layout_height="50dp"
-                android:background="@drawable/btn_payment"
-                android:text="Pay with credit/debit card"
-                android:textColor="#F6F9FB"
-                android:textSize="16sp"
-                android:gravity="center"
                 style="@style/CTAsMedium"
-                app:layout_constraintTop_toBottomOf="@+id/btnPaymentMomo"/>
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="@drawable/btn_payment"
+                android:gravity="center"
+                android:text="Pay with credit/debit card"
+                android:textColor="@color/text"
+                app:layout_constraintEnd_toEndOf="@+id/btnPaymentMomo"
+                app:layout_constraintStart_toStartOf="@+id/btnPaymentMomo"
+                app:layout_constraintTop_toBottomOf="@+id/btnPaymentMomo" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
