@@ -19,13 +19,14 @@ import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
-import com.project.appealic.ui.view.ActivityPlaylist
+import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
+import java.util.ArrayList
 
 class HomeFragment : Fragment() {
 
@@ -82,7 +83,6 @@ class HomeFragment : Fragment() {
         songViewModel.getAllArtists()
 
 
-
         // Xác định ListView
         listView = rootView.findViewById(R.id.lvNewRelease)
 
@@ -91,39 +91,54 @@ class HomeFragment : Fragment() {
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 // Lấy dữ liệu của mục được chọn từ Adapter
                 val selectedSong = parent.getItemAtPosition(position) as Track
-
                 //lưu bài hát vừa mở vào database của thiết bị
                 val user = FirebaseAuth.getInstance().currentUser?.uid
-                val song =
-                    selectedSong.trackId?.let { SongEntity(it,selectedSong.trackImage,selectedSong.trackTitle,selectedSong.artist,user,null,System.currentTimeMillis()) }
+                val intent = Intent(requireContext(), ActivityMusicControl::class.java)
+                val trackUrlList = ArrayList<String>()
+
+                val song = selectedSong.trackId?.let {
+                    SongEntity(
+                        it,
+                        selectedSong.trackImage,
+                        selectedSong.trackTitle,
+                        selectedSong.artist,
+                        user,
+                        null,
+                        System.currentTimeMillis(),
+                        null
+                    )
+                }
+
                 if (song != null) {
                     songViewModel.insertSong(song)
                     Log.d(" test status", "success")
                 }
-
                 //lấy dữ liệu vài hát vừa nghẻ được lưu ra
                 if (user != null) {
-                    val info = songViewModel.getRecentSongs(user).observe(viewLifecycleOwner,Observer{ song ->
-                        Log.d("info", song.toString())
-                    })
+                    val info = songViewModel.getRecentSongs(user)
+                        .observe(viewLifecycleOwner, Observer { song ->
+                            Log.d("info", song.toString())
+                        })
                 }
-
-                // Tạo Intent để chuyển sang ActivityPlaylist
-                val intent = Intent(requireContext(), ActivityPlaylist::class.java)
-
+//              Lấy dữ liệu các url trogn playlist
+                for (i in 0 until parent.count){
+                    val item = parent.getItemAtPosition(i) as Track
+                    item.trackUrl?.let { trackUrl ->
+                        trackUrlList.add(trackUrl)
+                    }
+                }
                 // Truyền dữ liệu cần thiết qua Intent
                 intent.putExtra("SONG_TITLE", selectedSong.trackTitle)
                 intent.putExtra("SINGER_NAME", selectedSong.artist)
                 intent.putExtra("SONG_NAME", selectedSong.trackTitle)
                 intent.putExtra("TRACK_IMAGE", selectedSong.trackImage)
-                intent.putExtra("DURATION", selectedSong.duration) // Truyền thời lượng bài hát
+                intent.putExtra("DURATION", selectedSong.duration)
                 intent.putExtra("TRACK_URL", selectedSong.trackUrl)
-                intent.putExtra("TRACK_ID",selectedSong.trackId)
-
-                // Bắt đầu ActivityPlaylist
+                intent.putExtra("TRACK_ID", selectedSong.trackId)
+                intent.putExtra("TRACK_INDEX",position)
+                intent.putStringArrayListExtra("TRACK_LIST",trackUrlList)
                 startActivity(intent)
             }
-
         return rootView
     }
 }

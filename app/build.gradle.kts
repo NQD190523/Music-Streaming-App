@@ -59,6 +59,14 @@ android {
 
 dependencies {
 
+    implementation("androidx.test:runner:1.5.2")
+    implementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+
+
+    implementation ("androidx.media:media:1.7.0")
+
     implementation("androidx.room:room-common:2.6.1")
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
@@ -110,7 +118,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
 
-    implementation("androidx.core:core:1.12.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
