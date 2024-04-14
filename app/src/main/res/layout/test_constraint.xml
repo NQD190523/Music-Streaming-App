@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="APPEALIC PLUS"
-                    android:textColor="#E6DD00"
+                    android:textColor="#3CDCFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="6dp"
-                    android:src="@drawable/solo"
+                    android:src="@drawable/student"
                     app:layout_constraintBottom_toBottomOf="@+id/textView23"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView23"
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/dp_8"
-                android:text="Immerse yourself in your own world of music!"
+                android:text="Boost your study and entertainment experience"
                 android:textColor="@color/text"
                 app:layout_constraintTop_toBottomOf="@id/planName" />
 
@@ -115,13 +115,13 @@
                     android:id="@+id/oneMonth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/solo_radio_btn_bg"
-                    android:background="@drawable/solo_radio_bg"
+                    android:button="@drawable/student_radio_btn_bg"
+                    android:background="@drawable/student_radio_bg"
                     android:text="1 month"
-                    android:textColor="@drawable/solo_text_color"
+                    android:textColor="@drawable/student_text_color"
                     style="@style/Body1Bold"
                     android:paddingEnd="@dimen/dp_16"
-                    android:drawableEnd="@drawable/solo_one_month">
+                    android:drawableEnd="@drawable/student_1_month">
                 </RadioButton>
 
                 <RadioButton
@@ -129,10 +129,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:button="@drawable/solo_radio_btn_bg"
-                    android:background="@drawable/solo_radio_bg"
+                    android:button="@drawable/student_radio_btn_bg"
+                    android:background="@drawable/student_radio_bg"
                     android:text="3 months"
-                    android:textColor="@drawable/solo_text_color"
+                    android:textColor="@drawable/student_text_color"
                     style="@style/Body1Bold"
                     android:paddingEnd="@dimen/dp_16"
                     android:drawableRight="@drawable/solo_3_months">
@@ -143,13 +143,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:button="@drawable/solo_radio_btn_bg"
-                    android:background="@drawable/solo_radio_bg"
+                    android:button="@drawable/student_radio_btn_bg"
+                    android:background="@drawable/student_radio_bg"
                     android:text="6 months"
-                    android:textColor="@drawable/solo_text_color"
+                    android:textColor="@drawable/student_text_color"
                     style="@style/Body1Bold"
                     android:paddingEnd="@dimen/dp_16"
-                    android:drawableRight="@drawable/solo_6_months">
+                    android:drawableRight="@drawable/student_6_months">
                 </RadioButton>
 
                 <RadioButton
@@ -158,14 +158,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:background="@drawable/solo_radio_save_20"
-                    android:button="@drawable/solo_radio_btn_bg"
-                    android:drawableEnd="@drawable/solo_12_months"
+                    android:background="@drawable/student_radio_save_20"
+                    android:button="@drawable/student_radio_btn_bg"
+                    android:drawableEnd="@drawable/student_12_months"
                     android:paddingTop="40dp"
                     android:paddingBottom="@dimen/dp_16"
                     android:paddingRight="@dimen/dp_16"
                     android:text="12 months"
-                    android:textColor="@drawable/solo_text_color"/>
+                    android:textColor="@drawable/student_text_color"/>
 
             </RadioGroup>
 
