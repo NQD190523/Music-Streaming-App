@@ -33,6 +33,22 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
                 }
 
     }
+    fun signInWithEmailAndPassword(email : String, password : String){
+        auth.createUserWithEmailAndPassword(email,password)
+            .addOnCompleteListener { task ->
+                _signInSuccess.value = task.isSuccessful
+                if (task.isSuccessful) Log.d("loginStatus", " Success")
+                else Log.e("LoginStatus", task.exception.toString())
+            }
+    }
+    fun loginWithEmailAndPassword(email: String, password: String){
+        auth.signInWithEmailAndPassword(email,password)
+            .addOnCompleteListener { task ->
+                _signInSuccess.value = task.isSuccessful
+                if (task.isSuccessful) Log.d("loginStatus", " Success")
+                else Log.e("LoginStatus", task.exception.toString())
+            }
+    }
     fun signOut(googleSignInClient: GoogleSignInClient){
         _logoutSuccess.value = false
         repository.signOut(googleSignInClient).observeForever { isSuccess ->

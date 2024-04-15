@@ -84,8 +84,6 @@ class ActivityMusicControl : AppCompatActivity(){
                 .commit()
         }
 
-
-
         val musicPlayerServiceIntent = Intent(this,MusicPlayerService::class.java).apply {
             action = MusicPlayerService.ACTION_PLAY
         }
