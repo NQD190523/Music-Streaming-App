@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="315dp"
+    android:layout_height="285dp"
+    android:background="@drawable/bg_update_profile">
+
+    <TextView
+        android:id="@+id/title_dialog"
+        style="@style/Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Email"
+        android:textColor="@color/text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#00FFFFFF"
+        android:src="@drawable/ic_cancel_16_outlined"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/edtEmailProfile"
+        style="@style/Placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="30dp"
+        android:hint="locldt21411@gmail.com"
+        android:textColorHint="@color/text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_dialog" />
+
+    <ImageView
+        android:id="@+id/imvCancel1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_cancel_16_filled"
+        app:layout_constraintBottom_toBottomOf="@+id/edtEmailProfile"
+        app:layout_constraintEnd_toEndOf="@+id/edtEmailProfile"
+        app:layout_constraintTop_toTopOf="@+id/edtEmailProfile" />
+
+    <Button
+        android:id="@+id/btnUpdate"
+        style="@style/CTAsSmall"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="@dimen/sp_16"
+        android:layout_marginTop="88dp"
+        android:background="@drawable/rounded_button"
+        android:text="Update"
+        android:textAllCaps="false"
+        android:textColor="@color/text"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmailProfile"
+        tools:layout_editor_absoluteX="16dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
