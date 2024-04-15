@@ -12,8 +12,8 @@
         >
         <ImageView
             android:id="@+id/imvNotiPhoto"
-            android:layout_width="93dp"
-            android:layout_height="93dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/song1"  />
 
         <LinearLayout
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sat, Mar 16 at 7:00 p.m"
-                android:textSize="14sp"
+                style="@style/Caption"
                 android:textColor="@color/subtitleText"
                 android:fontFamily="@font/inter_regular"
                 />
@@ -37,19 +37,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New playlist: “Acoustic Chill”"
-                android:textSize="18sp"
                 android:textColor="@color/white"
-                style="@style/Body1Bold"
-                android:layout_marginTop="5dp"
+                style="@style/Body2Bold"
+                android:layout_marginTop="4dp"
                 />
 
             <TextView
                 android:id="@+id/txtNotiDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
                 android:text="Unwind with the soothing strums and calm melodies for relaxing evenings."
-                android:textSize="15sp"
+                style="@style/Caption"
                 android:textColor="@color/subtitleText"
                 android:fontFamily="@font/inter_regular"
                 />

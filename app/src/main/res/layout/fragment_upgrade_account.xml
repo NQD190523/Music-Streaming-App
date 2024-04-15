@@ -84,6 +84,7 @@
                     android:textColor="#E6DD00"
                     />
                 <ImageView
+                    android:id="@+id/btn_buy_now_solo"
                     android:layout_marginTop="@dimen/dp_8"
                     android:layout_width="85dp"
                     android:layout_height="25dp"
@@ -137,6 +138,7 @@
                     android:textColor="#5FD3EA"
                     />
                 <ImageView
+                    android:id="@+id/btn_buy_now_student"
                     android:layout_marginTop="@dimen/dp_8"
                     android:layout_width="85dp"
                     android:layout_height="25dp"
@@ -190,6 +192,7 @@
                     android:textColor="#58FF55"
                     />
                 <ImageView
+                    android:id="@+id/btn_buy_now_mini"
                     android:layout_marginTop="@dimen/dp_8"
                     android:layout_width="85dp"
                     android:layout_height="25dp"

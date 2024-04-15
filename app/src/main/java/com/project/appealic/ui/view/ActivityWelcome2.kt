@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.project.appealic.databinding.ActivityWelcome2Binding
 
-class Activity_welcome2 : AppCompatActivity() {
+class ActivityWelcome2 : AppCompatActivity() {
 
     private lateinit var binding: ActivityWelcome2Binding
 
