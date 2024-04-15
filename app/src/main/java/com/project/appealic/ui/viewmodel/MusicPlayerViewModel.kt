@@ -10,23 +10,30 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.project.appealic.data.repository.service.MusicPlayerService
 import com.project.appealic.utils.MusicPlayerFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MusicPlayerViewModel :ViewModel() {
     private var musicPlayerService: MusicPlayerService? = null
     val currentPosition = MutableLiveData<Long>()
-
+    private val _serviceReady = MutableLiveData<Boolean>()
+    val serviceReady: LiveData<Boolean> = _serviceReady
     fun setMusicService(service: MusicPlayerService) {
         musicPlayerService = service
+        _serviceReady.value = true
         musicPlayerService?.getCurrentPositionLiveData()?.observeForever { current ->
             currentPosition.value = current
         }
     }
     fun setMediaUri(uri: MutableList<MediaItem>, startIndex : Int) {
-        musicPlayerService?.setMediaUri(uri, startIndex)
+        viewModelScope.launch {
+            musicPlayerService?.setMediaUri(uri, startIndex)
+        }
     }
     fun play() {
         musicPlayerService?.play()

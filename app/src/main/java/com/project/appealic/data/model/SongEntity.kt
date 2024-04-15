@@ -1,6 +1,7 @@
 package com.project.appealic.data.model
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
@@ -13,6 +14,6 @@ data class SongEntity(
     val userId : String?,
     val liked : Boolean?,
     val listenedAt : Long?,
-    val audioPosition: Long?
+    val audioPosition: Long?,
 )
 

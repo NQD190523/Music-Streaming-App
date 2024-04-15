@@ -68,8 +68,6 @@ class HomeFragment : Fragment() {
         })
 
 
-
-
 // Khởi tạo và cấu hình RecyclerView cho danh sách nghệ sĩ
         val recyclerViewArtists: RecyclerView = rootView.findViewById(R.id.recyclerViewArtist)
         recyclerViewArtists.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

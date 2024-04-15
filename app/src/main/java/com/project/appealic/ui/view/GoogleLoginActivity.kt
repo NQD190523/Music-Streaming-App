@@ -67,11 +67,17 @@ class GoogleLoginActivity : AppCompatActivity() {
         // Khởi tạo GoogleSignInClient
         googleSignInClient = GoogleSignIn.getClient(this,gso)
 
+        // Đăng nhập bằng tài khoản google
         binding.btnGoogle.setOnClickListener(){
             CoroutineScope(Dispatchers.IO).launch {
                 launcher.launch(googleSignInClient.signInIntent)
-//            spotifyViewModel.connectToSpotify(this)
             }
+        }
+        //Đăng nhập bằng Email
+        binding.btnLogin.setOnClickListener() {
+            val email = binding.txtLoginEmail.text.toString()
+            val password = binding.txtLoginPassword.text.toString()
+            viewModel.loginWithEmailAndPassword(email, password )
         }
 
         viewModel.signInSuccess.observe(this) { signInSuccess ->
@@ -81,6 +87,7 @@ class GoogleLoginActivity : AppCompatActivity() {
                 Log.e("error", "incompleted")
             }
         }
+
         viewModel.logoutSuccess.observe(this) { logoutSuccess ->
             if (logoutSuccess) {
                 // Xử lý sau khi đăng xuất thành công

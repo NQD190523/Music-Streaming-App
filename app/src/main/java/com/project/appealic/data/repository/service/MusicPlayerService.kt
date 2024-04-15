@@ -44,6 +44,9 @@ class MusicPlayerService : Service() {
     }
     private var isRepeating = false
     private lateinit var notificationManager: NotificationManager
+
+    private val _serviceReady = MutableLiveData<Boolean>()
+    val serviceReady: LiveData<Boolean> = _serviceReady
     companion object {
         private const val NOTIFICATION_ID = 1
         const val ACTION_PLAY = "com.project.appealic.action.PLAY"
@@ -67,6 +70,7 @@ class MusicPlayerService : Service() {
         createNotificationChannel()
         // Bắt đầu dịch vụ
         startForeground(MusicPlayerService.NOTIFICATION_ID,createNotification())
+        _serviceReady.value = true
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

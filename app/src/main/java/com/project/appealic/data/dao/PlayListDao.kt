@@ -5,15 +5,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.project.appealic.data.model.UserEntity
+import com.project.appealic.data.model.PlayListEntity
 import com.project.appealic.data.model.UserWithPlayLists
-
 @Dao
-interface UserDao {
-    @Query("SELECT * FROM userentity WHERE uid = :uid ")
-    fun getUserData(uid : String) : LiveData<UserEntity>
-
+interface PlayListDao {
+    @Query("SELECT * FROM playlistentity WHERE uid = :uid")
+    fun getUserPlayLists(uid : String) : LiveData<List<PlayListEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(user : UserEntity )
+    fun insert(playList: PlayListEntity)
 }
