@@ -10,7 +10,7 @@ import com.project.appealic.data.model.UserWithPlayLists
 @Dao
 interface PlayListDao {
     @Query("SELECT * FROM playlistentity WHERE uid = :uid")
-    fun getUserPlayLists(uid : String) : LiveData<List<UserWithPlayLists>>
+    fun getUserPlayLists(uid : String) : LiveData<List<PlayListEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(playList: PlayListEntity)

@@ -14,6 +14,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
@@ -37,13 +38,14 @@ class AddPlaylistFragment : DialogFragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_add_playlist, container, false)
 
-        val factory = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
-        playListViewModel = ViewModelProvider(this, factory ).get(PlayListViewModel::class.java)
+
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireActivity())
 
+        val factory = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
+        playListViewModel = ViewModelProvider(this, factory ).get(PlayListViewModel::class.java)
         // Khai báo dialog không có tiêu đề
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
@@ -77,6 +79,7 @@ class AddPlaylistFragment : DialogFragment() {
     }
 
     private fun showCreatePlaylistDialog() {
+
         val dialog = Dialog(requireActivity())
         dialog.setContentView(R.layout.dialog_create_playlist)
         dialog.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -92,28 +95,32 @@ class AddPlaylistFragment : DialogFragment() {
         }
 
         btnConfirm.setOnClickListener {
-            val image = getRandomImageDrawable(this)
+//            val image = getRandomImageDrawable(requireContext())
             // Chức năng tạo playlist mới
-            val userId = auth.currentUser!!.uid
-            playListViewModel.createNewPlayList(PlayListEntity("", userId,edtPlaylistName.text.toString(),null,null))
+            val userId = auth.currentUser?.uid
+            userId?.let { it1 ->
+                PlayListEntity("",
+                    it1,edtPlaylistName.text.toString(),null,null)
+            }?.let { it2 -> playListViewModel.createNewPlayList(it2) }
 
         }
 
         dialog.show()
     }
-    fun getRandomImageDrawable(fragment: AddPlaylistFragment): Drawable? {
-        // Danh sách tên của các hình ảnh trong thư mục drawable
-        val imageNames = listOf("song_1", "song_2", "song_3", "song_4")
-
-        // Chọn ngẫu nhiên một tên hình ảnh từ danh sách
-        val randomImageName = imageNames.random()
-
-        // Lấy ID của hình ảnh từ tên hình ảnh
-        val resourceId = fragment.requireContext().resources.getIdentifier(randomImageName, "drawable", fragment.requireContext().packageName)
-
-        // Lấy Drawable từ ID
-        return fragment.requireContext().getDrawable(resourceId)
-    }
+//    fun getRandomImageDrawable(context: Context?): Drawable? {
+//        context ?: return null
+//        // Danh sách tên của các hình ảnh trong thư mục drawable
+//        val imageNames = listOf("song_1", "song_2", "song_3", "song_4")
+//
+//        // Chọn ngẫu nhiên một tên hình ảnh từ danh sách
+//        val randomImageName = imageNames.random()
+//
+//        // Lấy ID của hình ảnh từ tên hình ảnh
+//        val resourceId = context.resources.getIdentifier(randomImageName, "drawable", context.packageName)
+//
+//        // Lấy Drawable từ ID
+//        return context.getDrawable(resourceId)
+//    }
 }
 
 
