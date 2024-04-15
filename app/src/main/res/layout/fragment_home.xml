@@ -150,7 +150,7 @@
                 <ListView
                     android:id="@+id/lvNewRelease"
                     android:layout_width="match_parent"
-                    android:layout_height="328dp"
+                    android:layout_height="248dp"
                     android:layout_marginTop="@dimen/dp_16"
                     android:scrollbars="none"
                     android:textColor="@color/white"
@@ -180,7 +180,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/RecentlyViewSong"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
                     android:scrollbars="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -209,7 +210,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewArtist"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:scrollbars="horizontal"
                     android:layout_marginTop="@dimen/dp_16"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -238,7 +239,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/PlaylistforYouRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
                     android:scrollbars="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
