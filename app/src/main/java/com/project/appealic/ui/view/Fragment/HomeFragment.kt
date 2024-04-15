@@ -7,8 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
+import android.widget.ImageView
 import android.widget.ListView
+import android.widget.SearchView
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +23,7 @@ import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
+import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.BannerAdapter
@@ -26,6 +31,8 @@ import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
+import android.content.Context
+import android.view.ViewTreeObserver
 import java.util.ArrayList
 
 class HomeFragment : Fragment() {
@@ -41,12 +48,16 @@ class HomeFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
 
         // Khởi tạo SongViewModel
-        val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
+        val factory = SongViewModelFactory(
+            SongRepository(requireActivity().application),
+            UserRepository(requireActivity().application)
+        )
         songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
 
         // Khởi tạo và cấu hình RecyclerView cho banner
         val recyclerViewBanner: RecyclerView = rootView.findViewById(R.id.rrBanner)
-        recyclerViewBanner.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewBanner.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val bannerImages = listOf(R.drawable.imagecart, R.drawable.imagecart, R.drawable.imagecart)
         val bannerAdapter = BannerAdapter(bannerImages)
         recyclerViewBanner.adapter = bannerAdapter
@@ -60,19 +71,20 @@ class HomeFragment : Fragment() {
 
 // Khởi tạo RecyclerView cho danh sách các bài hát đã xem gần đây
         val recentlyViewSong: RecyclerView = rootView.findViewById(R.id.RecentlyViewSong)
-        recentlyViewSong.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recentlyViewSong.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val recentlySongAdapter = RecentlySongAdapter(requireContext(), emptyList())
         recentlyViewSong.adapter = recentlySongAdapter
-        songViewModel.getRecentSongs(FirebaseAuth.getInstance().currentUser?.uid.toString()).observe(viewLifecycleOwner, Observer { songs ->
-            recentlySongAdapter.updateData(songs)
-        })
-
-
+        songViewModel.getRecentSongs(FirebaseAuth.getInstance().currentUser?.uid.toString())
+            .observe(viewLifecycleOwner, Observer { songs ->
+                recentlySongAdapter.updateData(songs)
+            })
 
 
 // Khởi tạo và cấu hình RecyclerView cho danh sách nghệ sĩ
         val recyclerViewArtists: RecyclerView = rootView.findViewById(R.id.recyclerViewArtist)
-        recyclerViewArtists.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewArtists.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         songViewModel.artists.observe(viewLifecycleOwner, Observer { artists ->
             val artistAdapter = ArtistAdapter(requireContext(), artists)
             recyclerViewArtists.adapter = artistAdapter
@@ -121,7 +133,7 @@ class HomeFragment : Fragment() {
                         })
                 }
 //              Lấy dữ liệu các url trogn playlist
-                for (i in 0 until parent.count){
+                for (i in 0 until parent.count) {
                     val item = parent.getItemAtPosition(i) as Track
                     item.trackUrl?.let { trackUrl ->
                         trackUrlList.add(trackUrl)
@@ -135,9 +147,35 @@ class HomeFragment : Fragment() {
                 intent.putExtra("DURATION", selectedSong.duration)
                 intent.putExtra("TRACK_URL", selectedSong.trackUrl)
                 intent.putExtra("TRACK_ID", selectedSong.trackId)
-                intent.putStringArrayListExtra("TRACK_LIST",trackUrlList)
+                intent.putStringArrayListExtra("TRACK_LIST", trackUrlList)
                 startActivity(intent)
             }
+        val search = rootView.findViewById<ImageView>(R.id.imvSearch)
+
+        search.setOnClickListener {
+            val fragmentManager = parentFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            val fragmentSearch = SearchFragment()
+            fragmentTransaction.replace(
+                R.id.fragmenthome, fragmentSearch)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+
+            // Cập nhật icon trên BottomNavigationView
+            (activity as ActivityHome).bottomNavigationView.selectedItemId = R.id.navigation_search
+
+            fragmentSearch.view?.viewTreeObserver?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout(){
+                val searchView = fragmentSearch.view?.findViewById<SearchView>(R.id.searchView)
+                searchView?.isIconified = false // Đảm bảo thanh tìm kiếm không được thu nhỏ
+                searchView?.requestFocus()
+                val imm =
+                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT)
+                    fragmentSearch.view?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
+                }
+            })
+        }
         return rootView
     }
 }
