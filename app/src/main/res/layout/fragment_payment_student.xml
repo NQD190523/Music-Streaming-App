@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/subTitle"
-            style="@style/CTALinks"
+            style="@style/CTAsMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
@@ -43,11 +43,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_below="@id/topBar"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar">
+        app:layout_constraintTop_toBottomOf="@+id/topBar"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -60,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
@@ -93,8 +96,8 @@
                 style="@style/Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginTop="@dimen/dp_8"
+                android:gravity="center"
                 android:text="Boost your study and entertainment experience"
                 android:textColor="@color/text"
                 app:layout_constraintTop_toBottomOf="@id/planName" />
@@ -105,52 +108,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_32"
-                android:orientation="vertical"
                 android:checkedButton="@id/twelveMonths"
-                app:layout_constraintTop_toBottomOf="@+id/planDes"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/planDes">
 
                 <RadioButton
                     android:id="@+id/oneMonth"
+                    style="@style/Body1Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/student_radio_btn_bg"
                     android:background="@drawable/student_radio_bg"
-                    android:text="1 month"
-                    android:textColor="@drawable/student_text_color"
-                    style="@style/Body1Bold"
+                    android:button="@drawable/student_radio_btn_bg"
+                    android:drawableEnd="@drawable/student_1_month"
                     android:paddingEnd="@dimen/dp_16"
-                    android:drawableEnd="@drawable/student_1_month">
-                </RadioButton>
+                    android:text="1 month"
+                    android:textColor="@drawable/student_text_color"/>
 
                 <RadioButton
                     android:id="@+id/threeMonths"
+                    style="@style/Body1Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:button="@drawable/student_radio_btn_bg"
                     android:background="@drawable/student_radio_bg"
-                    android:text="3 months"
-                    android:textColor="@drawable/student_text_color"
-                    style="@style/Body1Bold"
+                    android:button="@drawable/student_radio_btn_bg"
+                    android:drawableRight="@drawable/solo_3_months"
                     android:paddingEnd="@dimen/dp_16"
-                    android:drawableRight="@drawable/solo_3_months">
-                </RadioButton>
+                    android:text="3 months"
+                    android:textColor="@drawable/student_text_color"/>
 
                 <RadioButton
                     android:id="@+id/sixMonths"
+                    style="@style/Body1Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:button="@drawable/student_radio_btn_bg"
                     android:background="@drawable/student_radio_bg"
-                    android:text="6 months"
-                    android:textColor="@drawable/student_text_color"
-                    style="@style/Body1Bold"
+                    android:button="@drawable/student_radio_btn_bg"
+                    android:drawableRight="@drawable/student_6_months"
                     android:paddingEnd="@dimen/dp_16"
-                    android:drawableRight="@drawable/student_6_months">
-                </RadioButton>
+                    android:text="6 months"
+                    android:textColor="@drawable/student_text_color"/>
 
                 <RadioButton
                     android:id="@+id/twelveMonths"
@@ -162,10 +162,10 @@
                     android:button="@drawable/student_radio_btn_bg"
                     android:drawableEnd="@drawable/student_12_months"
                     android:paddingTop="40dp"
-                    android:paddingBottom="@dimen/dp_16"
                     android:paddingRight="@dimen/dp_16"
+                    android:paddingBottom="@dimen/dp_16"
                     android:text="12 months"
-                    android:textColor="@drawable/student_text_color"/>
+                    android:textColor="@drawable/student_text_color" />
 
             </RadioGroup>
 
@@ -216,10 +216,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginBottom="32dp"
                 android:background="@drawable/btn_payment"
                 android:gravity="center"
                 android:text="Pay with credit/debit card"
                 android:textColor="@color/text"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/btnPaymentMomo"
                 app:layout_constraintStart_toStartOf="@+id/btnPaymentMomo"
                 app:layout_constraintTop_toBottomOf="@+id/btnPaymentMomo" />
