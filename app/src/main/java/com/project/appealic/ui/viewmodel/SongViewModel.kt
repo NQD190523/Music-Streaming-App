@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.firestore.toObjects
 import com.project.appealic.data.model.Artist
@@ -21,7 +22,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class SongViewModel(private val songRepository: SongRepository, private val userRepository: UserRepository) : ViewModel() {
-
+    private val db = FirebaseFirestore.getInstance()
     private val _tracks = MutableLiveData<List<Track>>()
     private val _likedSongs = MutableLiveData<List<SongEntity>>()
     val likedSongs: LiveData<List<SongEntity>> get() = _likedSongs
@@ -81,6 +82,27 @@ class SongViewModel(private val songRepository: SongRepository, private val user
             _likedSongs.postValue(likedSongsList)
         } catch (exception: Exception) {
             Log.e("error", exception.toString())
+        }
+    }
+
+    fun loadSearchResults(searchQuery: String?) {
+        Log.d("loadSearchResults", "Search query: $searchQuery")
+
+
+
+        if (!searchQuery.isNullOrEmpty()) {
+            db.collection("tracks")
+                .whereEqualTo("trackTitle", searchQuery)
+                .get()
+                .addOnSuccessListener { documents ->
+                    val tracks = documents.mapNotNull { it.toObject(Track::class.java) }
+                    _tracks.postValue(tracks)
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("error", exception.toString())
+                }
+        } else {
+            Log.d("loadSearchResults", "Search query is null or empty")
         }
     }
 }

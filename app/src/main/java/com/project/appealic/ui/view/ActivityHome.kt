@@ -13,7 +13,7 @@ import com.project.appealic.ui.view.Fragment.SearchFragment
 
 class ActivityHome : AppCompatActivity() {
 
-    private lateinit var bottomNavigationView: BottomNavigationView
+    lateinit var bottomNavigationView: BottomNavigationView
 
     private val homeFragment = HomeFragment()
     private val searchFragment = SearchFragment()
@@ -62,7 +62,7 @@ class ActivityHome : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.fragmenthome, fragment).commit()
     }
 }
