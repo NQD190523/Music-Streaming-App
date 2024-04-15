@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/subTitle"
-            style="@style/CTALinks"
+            style="@style/CTAsMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
@@ -43,11 +43,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_below="@id/topBar"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar">
+        app:layout_constraintTop_toBottomOf="@+id/topBar"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -60,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
@@ -93,8 +96,8 @@
                 style="@style/Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginTop="@dimen/dp_8"
+                android:gravity="center"
                 android:text="The smart choice for those who love simplicity!"
                 android:textColor="@color/text"
                 app:layout_constraintTop_toBottomOf="@id/planName" />
@@ -105,38 +108,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_32"
-                android:orientation="vertical"
                 android:checkedButton="@id/oneWeek"
-                app:layout_constraintTop_toBottomOf="@+id/planDes"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/planDes">
 
                 <RadioButton
                     android:id="@+id/oneDay"
+                    style="@style/Body1Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/mini_radio_btn_bg"
                     android:background="@drawable/mini_radio_bg"
-                    android:text="1 day"
-                    android:textColor="@drawable/mini_text_color"
-                    style="@style/Body1Bold"
+                    android:button="@drawable/mini_radio_btn_bg"
+                    android:drawableEnd="@drawable/mini_one_day"
                     android:paddingEnd="@dimen/dp_16"
-                    android:drawableEnd="@drawable/mini_one_day">
-                </RadioButton>
+                    android:text="1 day"
+                    android:textColor="@drawable/mini_text_color"></RadioButton>
 
                 <RadioButton
                     android:id="@+id/oneWeek"
+                    style="@style/Body1Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:button="@drawable/mini_radio_btn_bg"
                     android:background="@drawable/mini_radio_bg"
-                    android:text="1 week"
-                    android:textColor="@drawable/mini_text_color"
-                    style="@style/Body1Bold"
+                    android:button="@drawable/mini_radio_btn_bg"
+                    android:drawableRight="@drawable/mini_one_week"
                     android:paddingEnd="@dimen/dp_16"
-                    android:drawableRight="@drawable/mini_one_week">
-                </RadioButton>
+                    android:text="1 week"
+                    android:textColor="@drawable/mini_text_color"></RadioButton>
 
             </RadioGroup>
 
@@ -187,10 +188,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginBottom="32dp"
                 android:background="@drawable/btn_payment"
                 android:gravity="center"
                 android:text="Pay with credit/debit card"
                 android:textColor="@color/text"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/btnPaymentMomo"
                 app:layout_constraintStart_toStartOf="@+id/btnPaymentMomo"
                 app:layout_constraintTop_toBottomOf="@+id/btnPaymentMomo" />
