@@ -137,7 +137,7 @@ class ProfileFragment : Fragment() {
             }
             val imageView = view.findViewById<ImageView>(R.id.imvBack)
             imageView.setOnClickListener {
-                activity?.supportFragmentManager?.popBackStack()
+                dismiss()
             }
             return view
         }
@@ -162,7 +162,7 @@ class ProfileFragment : Fragment() {
             }
             val imageView = view.findViewById<ImageView>(R.id.imvBack)
             imageView.setOnClickListener {
-                activity?.supportFragmentManager?.popBackStack()
+                dismiss()
             }
             return view
         }
@@ -187,7 +187,7 @@ class ProfileFragment : Fragment() {
             }
             val imageView = view.findViewById<ImageView>(R.id.imvBack)
             imageView.setOnClickListener {
-                activity?.supportFragmentManager?.popBackStack()
+                dismiss()
             }
             return view
         }
