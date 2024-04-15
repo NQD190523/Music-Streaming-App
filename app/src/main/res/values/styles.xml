@@ -164,4 +164,12 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="ThemeOverlay.SearchView" parent="">
+        <!-- Text color -->
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:editTextColor">@color/white</item>
+        <!-- Hint text color -->
+        <item name="android:textColorHint">@color/subText</item>
+    </style>
+
 </resources>

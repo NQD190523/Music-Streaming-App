@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="320dp"
-    android:background="#34FFFFFF">
+    android:layout_width="315dp"
+    android:layout_height="285dp"
+    android:background="@drawable/bg_update_profile">
 
     <TextView
         android:id="@+id/title_dialog"
@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Your Pass"
+        android:text="Your Phone"
         android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -21,7 +21,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imvCancel"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginTop="16dp"
@@ -33,13 +32,14 @@
 
 
     <EditText
-        android:id="@+id/edtOldPass"
+        android:id="@+id/edtPhoneProfile"
         style="@style/Placeholder"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="30dp"
-        android:hint="Your Old Pass"
+        android:inputType="number"
+        android:hint="0123456789"
         android:textColorHint="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,33 +53,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/ic_cancel_16_filled"
-        app:layout_constraintBottom_toBottomOf="@+id/edtOldPass"
-        app:layout_constraintEnd_toEndOf="@+id/edtOldPass"
-        app:layout_constraintTop_toTopOf="@+id/edtOldPass" />
-
-    <EditText
-        android:id="@+id/edtNewPass"
-        style="@style/Placeholder"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:hint="Your New Pas"
-        android:textColorHint="@color/text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtOldPass" />
-    <ImageView
-        android:id="@+id/imvCancel2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_cancel_16_filled"
-        app:layout_constraintBottom_toBottomOf="@+id/edtNewPass"
-        app:layout_constraintEnd_toEndOf="@+id/edtNewPass"
-        app:layout_constraintTop_toTopOf="@+id/edtNewPass" />
+        app:layout_constraintBottom_toBottomOf="@+id/edtPhoneProfile"
+        app:layout_constraintEnd_toEndOf="@+id/edtPhoneProfile"
+        app:layout_constraintTop_toTopOf="@+id/edtPhoneProfile" />
 
     <Button
         android:id="@+id/btnUpdate"
@@ -87,14 +63,12 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginHorizontal="@dimen/sp_16"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="88dp"
         android:background="@drawable/rounded_button"
         android:text="Update"
         android:textAllCaps="false"
         android:textColor="@color/text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtNewPass"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/edtPhoneProfile"
         tools:layout_editor_absoluteX="16dp" />
 
 

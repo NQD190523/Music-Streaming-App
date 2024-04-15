@@ -1,9 +1,6 @@
 package com.project.appealic.ui.view.Fragment
 
 import android.app.Dialog
-import android.content.Context
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -14,17 +11,17 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.ListView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.data.model.PlayListEntity
+import com.project.appealic.data.model.UserPlaylist
 import com.project.appealic.data.repository.PlayListRepository
+import com.project.appealic.ui.view.Adapters.UserPlaylistAdapter
 import com.project.appealic.ui.viewmodel.PlayListViewModel
 import com.project.appealic.utils.PlayListViewModelFactory
-import kotlin.random.Random
 
 class AddPlaylistFragment : DialogFragment() {
 
@@ -37,7 +34,6 @@ class AddPlaylistFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_add_playlist, container, false)
-
 
     }
 
@@ -76,6 +72,16 @@ class AddPlaylistFragment : DialogFragment() {
             dismiss()
             showCreatePlaylistDialog()
         }
+
+        val userPlaylists = listOf(
+            UserPlaylist(R.drawable.song1,"Jienne", "Playlist 1"),
+            UserPlaylist(R.drawable.song1,"Jienne", "Playlist 2")
+        )
+
+        val lvUserPlaylist = view.findViewById<ListView>(R.id.lvUserPlaylist)
+        val adapter = UserPlaylistAdapter(requireContext(), userPlaylists)
+        lvUserPlaylist.adapter = adapter
+
     }
 
     private fun showCreatePlaylistDialog() {

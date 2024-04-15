@@ -33,11 +33,12 @@
         <activity android:name=".ui.view.Activity_welcome"/>
         <activity android:name=".ui.view.MediaActivity"/>
         <activity android:name=".ui.view.ActivityMusicControl" />
+        <activity android:name=".ui.view.Fragment.SearchResultsActivity"/>
         <activity android:name=".ui.view.GoogleLoginActivity" />
-        <activity android:name=".MainActivity" />
         <receiver android:name=".ui.view.WidgetView"
             android:exported="true">
             <intent-filter>
+
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.example.app.ACTION_PLAY" />
                 <action android:name="com.example.app.ACTION_PAUSE" />
