@@ -42,20 +42,28 @@ class ProfileFragment : Fragment() {
             transaction?.addToBackStack(null)
             transaction?.commit()
         }
-        view.findViewById<ConstraintLayout>(R.id.ll_Profile).setOnClickListener(View.OnClickListener {
-            // Replace ProfileFragment with UpdateProfileFragment
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.fragmenthome, EditAccountFragment())
-            transaction?.addToBackStack(null)
-            transaction?.commit()
-        })
+        view.findViewById<ConstraintLayout>(R.id.ll_Profile)
+            .setOnClickListener(View.OnClickListener {
+                // Replace ProfileFragment with UpdateProfileFragment
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                transaction?.replace(R.id.fragmenthome, EditAccountFragment())
+                transaction?.addToBackStack(null)
+                transaction?.commit()
+            })
 //        Hiện dialog fragment contact
-        view.findViewById<ConstraintLayout>(R.id.ll_Contact).setOnClickListener(View.OnClickListener {
-            showDialog(ContactFragmentDialog())
-        })
+        view.findViewById<ConstraintLayout>(R.id.ll_Contact)
+            .setOnClickListener(View.OnClickListener {
+                showDialog(ContactFragmentDialog())
+            })
         view.findViewById<ConstraintLayout>(R.id.ll_Legal).setOnClickListener(View.OnClickListener {
             showDialog(LegalFragmentDialog())
         })
+
+//        Dialog change pass word
+        view.findViewById<ConstraintLayout>(R.id.ll_ChangePassword)
+            .setOnClickListener(View.OnClickListener {
+                showDialog(UpdatePassDialogFragment())
+            })
 //        logout
 //        view.findViewById<Button>(R.id.btnSignout).setOnClickListener {
 //            // Replace ProfileFragment with UpdateProfileFragment
@@ -67,8 +75,6 @@ class ProfileFragment : Fragment() {
 
 
     }
-
-
 
 
     private fun showDialog(dialog: DialogFragment) {
@@ -129,9 +135,14 @@ class ProfileFragment : Fragment() {
                 listener?.onBuyNowClicked()
                 dismiss()
             }
+            val imageView = view.findViewById<ImageView>(R.id.imvBack)
+            imageView.setOnClickListener {
+                activity?.supportFragmentManager?.popBackStack()
+            }
             return view
         }
     }
+
     class MembershipStudentDialog : DialogFragment() {
         interface OnBuyNowClickedListener {
             fun onBuyNowClicked()
@@ -148,6 +159,10 @@ class ProfileFragment : Fragment() {
             view.findViewById<Button>(R.id.btn_buy_now_student).setOnClickListener {
                 listener?.onBuyNowClicked()
                 dismiss()
+            }
+            val imageView = view.findViewById<ImageView>(R.id.imvBack)
+            imageView.setOnClickListener {
+                activity?.supportFragmentManager?.popBackStack()
             }
             return view
         }
@@ -169,6 +184,10 @@ class ProfileFragment : Fragment() {
             view.findViewById<Button>(R.id.btn_buy_now_solo).setOnClickListener {
                 listener?.onBuyNowClicked()
                 dismiss()
+            }
+            val imageView = view.findViewById<ImageView>(R.id.imvBack)
+            imageView.setOnClickListener {
+                activity?.supportFragmentManager?.popBackStack()
             }
             return view
         }

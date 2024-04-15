@@ -150,6 +150,7 @@
         </LinearLayout>
     </ScrollView>
     <ImageView
+        android:id="@+id/imvBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_arrow_16_left"
