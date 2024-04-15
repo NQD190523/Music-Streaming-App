@@ -5,17 +5,21 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
 import android.widget.RemoteViews
 import com.project.appealic.R
+import com.project.appealic.data.repository.service.MusicPlayerService
 import java.net.URL
 import java.util.concurrent.Executors
 
 class WidgetView: AppWidgetProvider() {
     @SuppressLint("RemoteViewLayout")
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        val musicPlayerServiceIntent = Intent(context, MusicPlayerService::class.java)
+        context.startService(musicPlayerServiceIntent)
         val sharedPreferences = context.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
         val songTitle = sharedPreferences.getString("SONG_TITLE", "")
         val singerName = sharedPreferences.getString("SINGER_NAME", "")

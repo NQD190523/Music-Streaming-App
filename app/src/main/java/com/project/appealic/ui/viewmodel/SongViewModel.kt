@@ -51,6 +51,9 @@ class SongViewModel(private val songRepository: SongRepository, private val user
                 Log.e("error" , exception.toString())
             }
     }
+    fun getPlayList(){
+
+    }
 
     fun getTrackFromGenres(genre :String){
         songRepository.getAllTrack()
