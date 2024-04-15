@@ -26,6 +26,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/txtMusiccontrol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="52dp"
+        android:text="Music Control"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transitionbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="@id/txtMusiccontrol"
+        app:layout_constraintStart_toStartOf="@id/txtMusiccontrol"
+        app:layout_constraintTop_toBottomOf="@id/txtMusiccontrol">
+        <View
+            android:id="@+id/view1"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_2"
+            android:layout_marginEnd="4dp"
+            android:background="#50FFFFFF"
+            app:layout_constraintBottom_toBottomOf="@id/view2"
+            app:layout_constraintEnd_toStartOf="@id/view2"
+            app:layout_constraintTop_toTopOf="@id/view2" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_2"
+            android:background="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_2"
+            android:layout_marginStart="4dp"
+            android:background="#50FFFFFF"
+            app:layout_constraintBottom_toBottomOf="@id/view2"
+            app:layout_constraintStart_toEndOf="@id/view2"
+            app:layout_constraintTop_toTopOf="@id/view2" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/controls"
         android:layout_width="match_parent"

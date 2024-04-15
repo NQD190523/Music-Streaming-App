@@ -10,162 +10,383 @@
         android:id="@+id/toolbarCustomerService"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:contentInsetStartWithNavigation="0dp"
         android:layout_marginBottom="0dp"
-        android:elevation="5dp"
         android:background="@color/dark"
+        android:elevation="5dp"
+        app:contentInsetStartWithNavigation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:gravity="center_vertical">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tvTitle"
+                style="@style/Heading2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Library"
                 android:textColor="@color/white"
-                style="@style/Heading2" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/imvSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_search_20_filled"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarCustomerService"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/toolbarCustomerService">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingHorizontal="20dp">
+            android:layout_height="wrap_content">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rrBanner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp" />
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/card_gird"
                 android:layout_width="match_parent"
-                android:layout_height="154dp" />
-            <LinearLayout
+                android:layout_height="154dp"
+                android:layout_marginTop="16dp"
+                android:paddingStart="@dimen/dp_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rrBanner" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_gird">
 
                 <Button
+                    android:id="@+id/button4"
+                    style="@style/Heading4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    style="@style/Heading4"
-                    android:text="Recently Played"
-                    android:gravity="left|center_vertical"
-                    android:paddingEnd="120dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@android:color/transparent"
                     android:drawableEnd="@drawable/ic_arrow_16_right"
-                    android:background="@android:color/transparent"/>
+                    android:gravity="left|center_vertical"
+                    android:text="Recently Played"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scrollbars="horizontal" />
+                    android:scrollbars="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button4" />
 
-            </LinearLayout>
 
-            <LinearLayout
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout11">
 
                 <TextView
                     android:id="@+id/tvAddPlaylists"
+                    style="@style/Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Body1"
+                    android:text="Playlists"
                     android:textColor="@color/text"
-                    android:text="Playlists" />
+                    app:layout_constraintEnd_toStartOf="@+id/tvAddArtists"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvAddArtists"
+                    style="@style/Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Body1"
-                    android:textColor="@color/text"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:text="Artists"
-                    android:layout_marginStart="16dp"/>
+                    android:textColor="@color/text"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvAddPlaylists"
+                    app:layout_constraintEnd_toStartOf="@+id/tvAddAlbums"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/tvAddPlaylists"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvAddAlbums"
+                    style="@style/Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Body1"
-                    android:textColor="@color/text"
                     android:text="Albums"
-                    android:layout_marginStart="16dp"/>
-                <View
-                    android:id="@+id/underline"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/underline_color"
-                    android:visibility="gone" />
+                    android:textColor="@color/text"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvAddPlaylists"
+                    app:layout_constraintEnd_toStartOf="@+id/tvAddPlaylists"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/tvAddArtists"
+                    app:layout_constraintTop_toTopOf="@+id/tvAddPlaylists" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
+                    app:layout_constraintBottom_toBottomOf="@+id/tvAddPlaylists"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvAddPlaylists">
 
                     <Button
                         android:id="@+id/btnSelect"
+                        style="@style/Body2"
                         android:layout_width="62dp"
                         android:layout_height="19dp"
-                        android:text="Select"
-                        android:textColor="@color/text"
+                        android:layout_marginEnd="4dp"
                         android:background="@drawable/btn_rounded_gray"
-                        style="@style/Body2"
-                        android:textAllCaps="false"/>
+                        android:text="Select"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btnMore"
+                        app:layout_constraintTop_toTopOf="@+id/btnMore" />
 
                     <ImageView
                         android:id="@+id/btnMore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_more_20_outlined"/>
-                </LinearLayout>
-            </LinearLayout>
+                        android:src="@drawable/ic_more_20_outlined"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--            <ListView-->
+<!--                android:id="@+id/fragmentAddPlaylistLibrary"-->
+<!--                android:name="com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/constraintLayout12"-->
+<!--                tools:layout="@layout/fragment_add_song" />-->
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentAddPlaylistLibrary"
                 android:name="com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout12"
                 tools:layout="@layout/fragment_add_song" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+
+    <!--<androidx.appcompat.widget.Toolbar-->
+    <!--    android:id="@+id/toolbarCustomerService"-->
+    <!--    android:layout_width="0dp"-->
+    <!--    android:layout_height="?attr/actionBarSize"-->
+    <!--    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+    <!--    app:contentInsetStartWithNavigation="0dp"-->
+    <!--    android:layout_marginBottom="0dp"-->
+    <!--    android:elevation="5dp"-->
+    <!--    android:background="@color/dark"-->
+    <!--    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--    app:layout_constraintStart_toStartOf="parent"-->
+    <!--    app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:padding="12dp"-->
+    <!--        android:gravity="center_vertical">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/tvTitle"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:text="Library"-->
+    <!--            android:textColor="@color/white"-->
+    <!--            style="@style/Heading2" />-->
+    <!--        <ImageView-->
+    <!--            android:id="@+id/imvSearch"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:src="@drawable/ic_search_20_filled"-->
+    <!--            android:layout_marginEnd="8dp" />-->
+
+    <!--    </LinearLayout>-->
+    <!--</androidx.appcompat.widget.Toolbar>-->
+
+    <!--<ScrollView-->
+    <!--    android:id="@+id/scrollView"-->
+    <!--    android:layout_width="0dp"-->
+    <!--    android:layout_height="0dp"-->
+    <!--    app:layout_constraintTop_toBottomOf="@+id/toolbarCustomerService"-->
+    <!--    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--    app:layout_constraintStart_toStartOf="parent"-->
+    <!--    app:layout_constraintEnd_toEndOf="parent">-->
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="vertical"-->
+    <!--        android:paddingTop="20dp"-->
+    <!--        android:paddingHorizontal="20dp">-->
+
+    <!--        <androidx.recyclerview.widget.RecyclerView-->
+    <!--            android:id="@+id/rrBanner"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="30dp" />-->
+
+
+    <!--        <androidx.recyclerview.widget.RecyclerView-->
+    <!--            android:id="@+id/card_gird"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="154dp" />-->
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:orientation="vertical">-->
+
+    <!--            <Button-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                style="@style/Heading4"-->
+    <!--                android:text="Recently Played"-->
+    <!--                android:gravity="left|center_vertical"-->
+    <!--                android:paddingEnd="120dp"-->
+    <!--                android:drawableEnd="@drawable/ic_arrow_16_right"-->
+    <!--                android:background="@android:color/transparent"/>-->
+    <!--            <androidx.recyclerview.widget.RecyclerView-->
+    <!--                android:id="@+id/recyclerView"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:scrollbars="horizontal" />-->
+
+    <!--        </LinearLayout>-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:orientation="horizontal">-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/tvAddPlaylists"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                style="@style/Body1"-->
+    <!--                android:textColor="@color/text"-->
+    <!--                android:text="Playlists" />-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/tvAddArtists"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                style="@style/Body1"-->
+    <!--                android:textColor="@color/text"-->
+    <!--                android:text="Artists"-->
+    <!--                android:layout_marginStart="16dp"/>-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/tvAddAlbums"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                style="@style/Body1"-->
+    <!--                android:textColor="@color/text"-->
+    <!--                android:text="Albums"-->
+    <!--                android:layout_marginStart="16dp"/>-->
+    <!--            <View-->
+    <!--                android:id="@+id/underline"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="2dp"-->
+    <!--                android:background="@color/underline_color"-->
+    <!--                android:visibility="gone" />-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:gravity="end"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:orientation="horizontal">-->
+
+    <!--                <Button-->
+    <!--                    android:id="@+id/btnSelect"-->
+    <!--                    android:layout_width="62dp"-->
+    <!--                    android:layout_height="19dp"-->
+    <!--                    android:text="Select"-->
+    <!--                    android:textColor="@color/text"-->
+    <!--                    android:background="@drawable/btn_rounded_gray"-->
+    <!--                    style="@style/Body2"-->
+    <!--                    android:textAllCaps="false"/>-->
+
+    <!--                <ImageView-->
+    <!--                    android:id="@+id/btnMore"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:src="@drawable/ic_more_20_outlined"/>-->
+    <!--            </LinearLayout>-->
+    <!--        </LinearLayout>-->
+
+    <!--        <androidx.fragment.app.FragmentContainerView-->
+    <!--            android:id="@+id/fragmentAddPlaylistLibrary"-->
+    <!--            android:name="com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            tools:layout="@layout/fragment_add_song" />-->
+
+    <!--    </LinearLayout>-->
+    <!--</ScrollView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
