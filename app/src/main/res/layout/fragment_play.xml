@@ -24,17 +24,6 @@
         android:background="#50000000"/>
 
 
-    <ImageView
-        android:id="@+id/imv_dropdown"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        android:padding="16dp"
-        android:src="@drawable/ic_down"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/song_title"
         style="@style/Placeholder"
@@ -44,8 +33,7 @@
         android:gravity="center"
         android:text="Play from"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/imv_dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imv_dropdown" />
+        tools:layout_editor_absoluteY="54dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

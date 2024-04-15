@@ -4,15 +4,18 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.project.appealic.data.dao.PlayListDao
 import com.project.appealic.data.dao.SongDao
 import com.project.appealic.data.dao.UserDao
+import com.project.appealic.data.model.PlayListEntity
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.UserEntity
 
-@Database(entities = [UserEntity::class, SongEntity::class], version = 2)
+@Database(entities = [UserEntity::class, SongEntity::class, PlayListEntity::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao() : UserDao
     abstract fun songDao() : SongDao
+    abstract fun platListDao() : PlayListDao
 
 //    companion object {
 //        val migration1to2 = object : Migration(1, 2) {
