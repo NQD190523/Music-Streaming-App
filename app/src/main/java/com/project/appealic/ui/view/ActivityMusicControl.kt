@@ -284,37 +284,29 @@ class ActivityMusicControl : AppCompatActivity(){
     private fun handleShareButtonClick() {
     }
     private fun loadDataFromFirebase() {
-        try {
-            //Load dữ liệu audio
-            val mediaItems = mutableListOf<MediaItem>()
-            // Số lượng URL download đã hoàn thành
-            var completedDownloads = 0
-            if (trackList != null) {
-                for (i in trackList){
-                    val trackPath = i?.substring(i.indexOf("/", 5) + 1)
-                    val audioRef = trackPath?.let { storageRef.child(it) }
-                    println(audioRef)
-                    if (audioRef != null) {
-                        audioRef.downloadUrl.addOnSuccessListener { url ->
-                            val songUri = Uri.parse(url.toString())
-                            mediaItems.add(MediaItem.fromUri(songUri))
-                            println(mediaItems)
-                            // Tăng số lượng URL download đã hoàn thành
-                            completedDownloads++
-                            // Nếu đã download xong tất cả các URL
-                            if (completedDownloads == trackList.size) {
-                                // Set danh sách media items cho ExoPlayer
-                                musicPlayerViewModel.setMediaUri(mediaItems, trackIndex)
-                            }
-                        }.addOnFailureListener { exception ->
-                            // Xử lý khi có lỗi xảy ra trong quá trình download
-                            Log.e("Error", "Failed to download track: ${exception.message}")
-                        }
-                    }
+        //Load dữ liệu audio
+        val mediaItems = mutableListOf<MediaItem>()
+        // Số lượng URL download đã hoàn thành
+        var completedDownloads = 0
+        for (i in trackList){
+            val trackPath = i.substring(i.indexOf("/", 5) + 1)
+            val audioRef = trackPath.let { storageRef.child(it) }
+            println(audioRef)
+            audioRef.downloadUrl.addOnSuccessListener { url ->
+                val songUri = Uri.parse(url.toString())
+                mediaItems.add(MediaItem.fromUri(songUri))
+                println(mediaItems)
+                // Tăng số lượng URL download đã hoàn thành
+                completedDownloads++
+                // Nếu đã download xong tất cả các URL
+                if (completedDownloads == trackList.size) {
+                    // Set danh sách media items cho ExoPlayer
+                    musicPlayerViewModel.setMediaUri(mediaItems, trackIndex)
                 }
+            }.addOnFailureListener { exception ->
+                // Xử lý khi có lỗi xảy ra trong quá trình download
+                Log.e("Error", "Failed to download track: ${exception.message}")
             }
-        } catch (e : Exception){
-            Log.e("Error", e.message.toString())
         }
     }
 
