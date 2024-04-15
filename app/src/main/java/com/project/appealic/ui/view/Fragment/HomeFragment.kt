@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ImageView
 import android.widget.ListView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,7 +20,9 @@ import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
+import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.ActivityMusicControl
+import com.project.appealic.ui.view.ActivityNotification
 import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
@@ -137,6 +140,18 @@ class HomeFragment : Fragment() {
                 intent.putStringArrayListExtra("TRACK_LIST",trackUrlList)
                 startActivity(intent)
             }
+
+        // Notification intent
+        rootView.findViewById<ImageView>(R.id.imvAlert).setOnClickListener {
+            val intent = Intent(requireContext(), ActivityNotification::class.java)
+            startActivity(intent)
+        }
+
+        // Search fragment intent
+        rootView.findViewById<ImageView>(R.id.imvSearch).setOnClickListener {
+            (activity as ActivityHome).onSeachOpen()
+        }
+
         return rootView
     }
 }

@@ -2,6 +2,7 @@ package com.project.appealic.ui.view
 
 import LibraryFragment
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -64,5 +65,15 @@ class ActivityHome : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.fragmenthome, fragment).commit()
+    }
+
+    internal fun onSeachOpen() {
+        val view: View = bottomNavigationView.findViewById(R.id.navigation_search)
+        view.performClick()
+    }
+
+    internal fun onSearchCancel() {
+        val view: View = bottomNavigationView.findViewById(R.id.navigation_home)
+        view.performClick()
     }
 }

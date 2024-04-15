@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -10,8 +11,8 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:enableOnBackInvokedCallback="true"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo"
@@ -19,22 +20,28 @@
         android:theme="@style/Theme.Appealic"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".ui.view.ActivityNotification"
+            android:exported="false" />
+        <activity
             android:name=".ui.view.ActivityHome"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Appealic">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.view.ActivityLikedSong" />
-        <activity android:name=".ui.view.Activity_welcome"/>
-        <activity android:name=".ui.view.MediaActivity"/>
+        <activity android:name=".ui.view.Activity_welcome" />
+        <activity android:name=".ui.view.MediaActivity" />
         <activity android:name=".ui.view.ActivityMusicControl" />
         <activity android:name=".ui.view.GoogleLoginActivity" />
         <activity android:name=".MainActivity" />
-        <receiver android:name=".ui.view.WidgetView"
+
+        <receiver
+            android:name=".ui.view.WidgetView"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -44,9 +51,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
-        <service android:name=".data.repository.service.MusicPlayerService"
-            android:foregroundServiceType="mediaPlayback"/>
 
+        <service
+            android:name=".data.repository.service.MusicPlayerService"
+            android:foregroundServiceType="mediaPlayback" />
     </application>
 
 </manifest>

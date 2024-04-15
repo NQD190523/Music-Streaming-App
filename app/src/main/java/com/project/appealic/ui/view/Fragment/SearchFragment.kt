@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.project.appealic.R
+import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.Adapters.PlaylistAdapter
 
 class SearchFragment : Fragment() {
@@ -32,6 +34,10 @@ class SearchFragment : Fragment() {
         // Tạo adapter và thiết lập cho GridView
         val adapter = PlaylistAdapter(requireContext(), imageList)
         gridView.adapter = adapter
+
+        view.findViewById<TextView>(R.id.txtCancel).setOnClickListener {
+            (activity as ActivityHome).onSearchCancel()
+        }
 
         return view
     }
