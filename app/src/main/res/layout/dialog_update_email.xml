@@ -21,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:id="@+id/imvCancel"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginTop="16dp"
@@ -32,7 +33,7 @@
 
 
     <EditText
-        android:id="@+id/edtEmailProfile"
+        android:id="@+id/edtNewEmail"
         style="@style/Placeholder"
         android:layout_width="match_parent"
         android:layout_height="48dp"

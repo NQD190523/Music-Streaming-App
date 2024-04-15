@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="@id/toplayout" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnChangeImg"
             style="@style/CTAsSmall"
             android:layout_width="140dp"
             android:layout_height="40dp"
