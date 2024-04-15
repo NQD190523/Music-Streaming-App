@@ -19,6 +19,10 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
             playListRepository.createNewPlayList(playList)
         }
     }
-
+    fun getUserPlaylist(uid: String) = viewModelScope.launch {
+        withContext(Dispatchers.IO){
+            playListRepository.getAllUserPlayList(uid)
+        }
+    }
 
 }
