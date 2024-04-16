@@ -16,5 +16,4 @@ data class PlayListEntity(
     val uid : String,
     val playListName : String,
     val playListThumb : Int,
-    val songId : String?
 )

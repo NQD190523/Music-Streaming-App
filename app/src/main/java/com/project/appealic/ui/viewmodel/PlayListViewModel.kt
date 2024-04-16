@@ -18,21 +18,17 @@ import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 class PlayListViewModel(private val playListRepository: PlayListRepository) :ViewModel() {
-    private val _userPlayLists = MutableLiveData<UserWithPlayLists>()
-    val userPlayLists: LiveData<UserWithPlayLists> get() = _userPlayLists
+    private val _userPlayLists = MutableLiveData<List<PlayListEntity>>()
+    val userPlayLists: LiveData<List<PlayListEntity>> get() = _userPlayLists
     fun createNewPlayList(playList: PlayListEntity) = viewModelScope.launch {
         withContext(Dispatchers.IO){
             playListRepository.createNewPlayList(playList)
         }
     }
     fun getUserPlaylist(uid: String) = viewModelScope.launch {
-        viewModelScope.launch {
-            val playLists =withContext(Dispatchers.IO){
-                playListRepository.getAllUserPlayList(uid)
-            }
-            _userPlayLists.postValue(playLists)
+        val playLists = withContext(Dispatchers.IO) {
+            playListRepository.getAllUserPlayList(uid)
         }
-
+        _userPlayLists.postValue(playLists)
     }
-
 }
