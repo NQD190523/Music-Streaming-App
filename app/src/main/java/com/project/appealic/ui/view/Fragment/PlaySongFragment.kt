@@ -12,25 +12,34 @@ import com.project.appealic.R
 
 class PlaySongFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
+    private var trackImageUrl: String? = null
 
-        ): View? {
-        return inflater.inflate(R.layout.fragment_play, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            trackImageUrl = it.getString(ARG_TRACK_IMAGE)
+        }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_play, container, false)
+        val imageView = view.findViewById<ImageView>(R.id.imvGround)
+        trackImageUrl?.let { imageUrl ->
+            Glide.with(this).load(imageUrl).into(imageView)
+        }
+        return view
+    }
 
-        val trackImage = arguments?.getString("TRACK_IMAGE")
-        val songImageView = view?.findViewById<ImageView>(R.id.imvGround)
-        if (songImageView != null && trackImage != null) {
-            val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(trackImage)
-            Glide.with(this)
-                .load(storageReference)
-                .into(songImageView)
+    companion object {
+        private const val ARG_TRACK_IMAGE = "TRACK_IMAGE"
+
+        fun newInstance(trackImage: String) = PlaySongFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARG_TRACK_IMAGE, trackImage)
+            }
         }
     }
 }
