@@ -1,27 +1,14 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/startscreen"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/startscreen">
 
-    <ImageView
-        android:id="@+id/rvImageWelcome"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/startscreen"
-        android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rvWelcome3"
-        android:layout_width="381dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="116dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.466"
@@ -34,31 +21,39 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:text="Welcome"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txtWelcome2"
             style="@style/Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="8dp"
             android:text="Ger your groceries in as fast as one hour"
-            android:textColor="@color/subText" />
+            android:textColor="@color/subText"
+            app:layout_constraintEnd_toEndOf="@+id/txtWelcome"
+            app:layout_constraintStart_toStartOf="@+id/txtWelcome"
+            app:layout_constraintTop_toBottomOf="@+id/txtWelcome" />
 
         <Button
             android:id="@+id/btnContinue"
             style="@style/CTAsMedium"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_margin="18dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="32dp"
             android:background="@drawable/rounded_button"
-            android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
             android:gravity="center"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
             android:text="Continue"
-            android:textColor="#F6F9FB" />
+            android:textColor="@color/text"
+            app:layout_constraintEnd_toEndOf="@+id/txtWelcome"
+            app:layout_constraintStart_toStartOf="@+id/txtWelcome"
+            app:layout_constraintTop_toBottomOf="@id/txtWelcome2" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
