@@ -1,26 +1,23 @@
 package com.project.appealic.ui.view.Adapters
 
 import android.content.Context
-import android.database.DataSetObserver
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
-import android.widget.ListAdapter
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.project.appealic.R
-import com.project.appealic.data.model.UserPlaylist
+import com.project.appealic.data.model.PlayListEntity
 
-class UserPlaylistAdapter(private val context: Context, private val userPlaylists: List<UserPlaylist>) : BaseAdapter() {
+class UserPlaylistAdapter(private val context: Context, private val playLists: List<PlayListEntity>) : BaseAdapter() {
 
     override fun getCount(): Int {
-        return userPlaylists.size
+        return playLists.size
     }
 
     override fun getItem(position: Int): Any {
-        return userPlaylists[position]
+        return playLists[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -43,10 +40,10 @@ class UserPlaylistAdapter(private val context: Context, private val userPlaylist
             holder = convertView.tag as ViewHolder
         }
 
-        val currentItem = userPlaylists[position]
-        holder.userPlaylistName.text = currentItem.playlistName
-        holder.userName.text = currentItem.userName
-        holder.playlistImage.setImageResource(currentItem.playlistImage)
+        val currentItem = playLists[position]
+        holder.userPlaylistName.text = currentItem.playListName
+//        holder.userName.text = currentItem.name
+         holder.playlistImage.setImageResource(currentItem.playListThumb)
 
         return view
     }

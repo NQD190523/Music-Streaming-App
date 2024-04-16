@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -43,14 +44,18 @@
             <intent-filter>
 
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.app.ACTION_PLAY" />
+                <action android:name="com.example.app.ACTION_PAUSE" />
+                <action android:name="com.example.app.ACTION_NEXT" />
+                <action android:name="com.example.app.ACTION_PREVIOUS" />
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
         <service android:name=".data.repository.service.MusicPlayerService"
-            android:foregroundServiceType="mediaPlayback"/>
+            android:foregroundServiceType="mediaPlayback"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
     </application>
 

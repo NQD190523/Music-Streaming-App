@@ -1,7 +1,11 @@
 package com.project.appealic.ui.view.Fragment
 
 import android.app.Dialog
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +17,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ListView
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
@@ -23,6 +28,7 @@ import com.project.appealic.data.repository.PlayListRepository
 import com.project.appealic.ui.view.Adapters.UserPlaylistAdapter
 import com.project.appealic.ui.viewmodel.PlayListViewModel
 import com.project.appealic.utils.PlayListViewModelFactory
+import java.io.ByteArrayOutputStream
 
 class AddPlaylistFragment : DialogFragment() {
 
@@ -38,7 +44,8 @@ class AddPlaylistFragment : DialogFragment() {
     }
 
     private lateinit var playListViewModel: PlayListViewModel
-    private val auth : FirebaseAuth = FirebaseAuth.getInstance()
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val userId = auth.currentUser?.uid
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,15 +55,12 @@ class AddPlaylistFragment : DialogFragment() {
         val track: Track? = arguments?.getParcelable("TRACK")
         // Sử dụng dữ liệu track nếu cần
         return inflater.inflate(R.layout.fragment_add_playlist, container, false)
-        return inflater.inflate(R.layout.fragment_add_playlist, container, false)
-
     }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireActivity())
 
         val factory = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
-        playListViewModel = ViewModelProvider(this, factory ).get(PlayListViewModel::class.java)
+        playListViewModel = ViewModelProvider(this, factory)[PlayListViewModel::class.java]
         // Khai báo dialog không có tiêu đề
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
@@ -81,29 +85,33 @@ class AddPlaylistFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val llCCreatePlaylist = view.findViewById<LinearLayout>(R.id.llCreatePlaylist)
         llCCreatePlaylist.setOnClickListener {
             dismiss()
             showCreatePlaylistDialog()
         }
-
-        val userPlaylists = listOf(
-            UserPlaylist(R.drawable.song1,"Jienne", "Playlist 1"),
-            UserPlaylist(R.drawable.song1,"Jienne", "Playlist 2")
-        )
-
         val lvUserPlaylist = view.findViewById<ListView>(R.id.lvUserPlaylist)
-        val adapter = UserPlaylistAdapter(requireContext(), userPlaylists)
-        lvUserPlaylist.adapter = adapter
+        if (userId != null) playListViewModel.getUserPlaylist(userId)
+        playListViewModel.userPlayLists.observe(viewLifecycleOwner) { playlists ->
+            playlists?.let { playlist ->
+                val adapter = UserPlaylistAdapter(requireContext(), playlist)
+                lvUserPlaylist.adapter = adapter
+            }
+        }
 
+//        val userPlaylists = listOf(
+//            UserPlaylist(R.drawable.song1, "Jienne", "Playlist 1"),
+//            UserPlaylist(R.drawable.song1, "Jienne", "Playlist 2")
+//        )
     }
-
     private fun showCreatePlaylistDialog() {
 
         val dialog = Dialog(requireActivity())
         dialog.setContentView(R.layout.dialog_create_playlist)
-        dialog.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         dialog.window?.setBackgroundDrawableResource(R.drawable.radius_background)
         dialog.window?.setWindowAnimations(R.style.DialogAnimation)
 
@@ -117,18 +125,19 @@ class AddPlaylistFragment : DialogFragment() {
 
         btnConfirm.setOnClickListener {
 //            val image = getRandomImageDrawable(requireContext())
+//            val imageBytes = drawableToByteArray(requireContext().resources,R.drawable.song1)
             // Chức năng tạo playlist mới
-            val userId = auth.currentUser?.uid
-            userId?.let { it1 ->
-                PlayListEntity("",
-                    it1,edtPlaylistName.text.toString(),null,null)
-            }?.let { it2 -> playListViewModel.createNewPlayList(it2) }
-
+            if(userId != null){
+                val newPlaylist = PlayListEntity("",userId ,edtPlaylistName.text.toString(), R.drawable.song2)
+                if (playListViewModel.createNewPlayList(newPlaylist).isCompleted)
+                    Log.d("create new playlist","success")
+                dialog.dismiss()
+            }
         }
-
         dialog.show()
     }
-//    fun getRandomImageDrawable(context: Context?): Drawable? {
+
+    //    fun getRandomImageDrawable(context: Context?): Drawable? {
 //        context ?: return null
 //        // Danh sách tên của các hình ảnh trong thư mục drawable
 //        val imageNames = listOf("song_1", "song_2", "song_3", "song_4")
@@ -142,6 +151,12 @@ class AddPlaylistFragment : DialogFragment() {
 //        // Lấy Drawable từ ID
 //        return context.getDrawable(resourceId)
 //    }
+    fun drawableToByteArray(resources: Resources, drawableResId: Int): ByteArray {
+        val bitmap = BitmapFactory.decodeResource(resources, drawableResId)
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        return outputStream.toByteArray()
+    }
 }
 
 

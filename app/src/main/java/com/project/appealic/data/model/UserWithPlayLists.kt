@@ -9,5 +9,5 @@ data class UserWithPlayLists(
         parentColumn = "uid",
         entityColumn = "uid"
     )
-    val playLists : List<PlayListEntity>?
+    val playLists : List<PlayListEntity>
 )
