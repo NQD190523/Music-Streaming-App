@@ -2,6 +2,7 @@ package com.project.appealic.ui.viewmodel
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,7 +38,11 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
     }
     fun getAllPlayList(){
         playListRepository.getAllTrack()
-            .addOnCompleteListener { playlist ->
-        }
+            .addOnSuccessListener { playlist ->
+                if(playlist != null) _playLists.postValue(playlist.toObjects(Playlist::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.e("error",exception.toString())
+            }
     }
 }
