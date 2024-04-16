@@ -31,8 +31,6 @@ class EditAccountFragment : Fragment() {
         profileImageView = view.findViewById(R.id.circleImageView2)
 
         setOnClickListeners(view)
-        return view
-    }
 
         view.findViewById<ImageView>(R.id.imv_back).setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
@@ -43,7 +41,7 @@ class EditAccountFragment : Fragment() {
 
         return view
     }
-}
+
     private fun setOnClickListeners(view: View?) {
         view?.findViewById<View>(R.id.btnChangeImg)?.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -74,8 +72,6 @@ class EditAccountFragment : Fragment() {
             showDialog(UpdateGenderDialogFragment())
         }
     }
-
-
 
 
     private fun showDialog(dialogFragment: DialogFragment) {
