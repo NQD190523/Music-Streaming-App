@@ -1,83 +1,69 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="@drawable/background">
 
     <ImageView
-        android:id="@+id/rvImageWelcome"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/background"
+        android:id="@+id/rvLogo"
+        android:layout_width="203dp"
+        android:layout_height="252dp"
+        android:layout_marginTop="163dp"
         android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/rvWelcome2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/rvWelcome2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
+        android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvImageWelcome">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/rvLogo"
-            android:layout_width="203dp"
-            android:layout_height="252dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/logo" />
+    <TextView
+        android:id="@+id/txtWelcome2"
+        style="@style/Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Ger your groceries in as fast as one hour"
+        android:textColor="@color/subText"
+        app:layout_constraintEnd_toEndOf="@+id/rvLogo"
+        app:layout_constraintStart_toStartOf="@+id/rvLogo"
+        app:layout_constraintTop_toBottomOf="@+id/rvLogo" />
 
-        <TextView
-            android:id="@+id/txtWelcome2"
-            style="@style/Body2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="Ger your groceries in as fast as one hour"
-            android:textColor="@color/subText" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtWelcome2"
+        app:layout_constraintStart_toStartOf="@+id/txtWelcome2">
 
-        <LinearLayout
+        <Button
+            android:id="@+id/btnSignin"
+            style="@style/CTAsMedium"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_16"
-            android:layout_marginTop="80dp"
-            android:layout_marginRight="@dimen/dp_16"
-            android:orientation="vertical">
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_button"
+            android:gravity="center"
+            android:text="Sign Up"
+            android:textColor="@color/text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/btnSignin"
-                style="@style/CTAsMedium"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/rounded_button"
-                android:gravity="center"
-                android:text="Sign Up"
-                android:textColor="@color/text" />
+        <Button
+            android:id="@+id/btnSignup"
+            style="@style/CTAsMedium"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/btn_rounded_border"
+            android:gravity="center"
+            android:text="Sign In"
+            android:textColor="@color/text"
+            app:layout_constraintEnd_toEndOf="@+id/btnSignin"
+            app:layout_constraintStart_toStartOf="@+id/btnSignin"
+            app:layout_constraintTop_toBottomOf="@id/btnSignin" />
 
-            <Button
-                android:id="@+id/btnSignup"
-                style="@style/CTAsMedium"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:background="@drawable/btn_rounded_border"
-                android:gravity="center"
-                android:text="Sign In"
-                android:textColor="@color/text" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

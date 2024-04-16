@@ -13,7 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:padding="16dp"
-        android:src="@drawable/ic_down"
+        android:src="@drawable/ic_arrow_24_left"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/verifyYourEmail"
+        android:text="Verify Code"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/imv_dropdown2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,17 +43,31 @@
     <TextView
         android:id="@+id/txtNoti"
         style="@style/Body1Bold"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="16dp"
-        android:gravity="center"
-        android:text="Please Enter The 4 Digit Code Sent To nlgiakhanh2525@gmail.com"
+        android:text="Please Enter The 4 Digit Code Sent To"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/imageView12"
         app:layout_constraintStart_toStartOf="@+id/imageView12"
         app:layout_constraintTop_toBottomOf="@+id/imageView12" />
+
+    <TextView
+        android:id="@+id/txtuserphone"
+        style="@style/Body1Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:text="*******525"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/txtNoti"
+        app:layout_constraintStart_toStartOf="@+id/txtNoti"
+        app:layout_constraintTop_toBottomOf="@+id/txtNoti" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout18"
