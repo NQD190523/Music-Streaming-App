@@ -23,12 +23,16 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerNotificationManager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -37,6 +41,7 @@ import com.project.appealic.R
 import com.project.appealic.data.repository.service.MusicPlayerService
 import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
 import com.project.appealic.ui.view.Fragment.InfoMusicFragment
+import com.project.appealic.ui.view.Fragment.LyrisFragment
 import com.project.appealic.ui.view.Fragment.MoreActionFragment
 import com.project.appealic.ui.view.Fragment.PlaySongFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
@@ -87,12 +92,52 @@ class ActivityMusicControl : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music_control)
 
+        // Lấy dữ liệu từ Intent và hiển thị trên giao diện
+        val songTitle = intent.getStringExtra("SONG_TITLE")?: "N/A"
+        val artistName = intent.getStringExtra("SINGER_NAME")
+        val trackImage = intent.getStringExtra("TRACK_IMAGE")
+        val duration = intent.getIntExtra("DURATION", 0)
+        val trackUrl = intent.getStringExtra("TRACK_URL")
+        trackList = intent.getStringArrayListExtra("TRACK_LIST")!!
+        trackIndex = intent.getIntExtra("TRACK_INDEX",0)
+        trackId = intent.getStringExtra("TRACK_ID").toString()
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.play_fragment_container, PlaySongFragment())
-                .commit()
+        findViewById<TextView>(R.id.song_name).text = songTitle
+        findViewById<TextView>(R.id.singer_name).text = artistName
+        trackImage?.let { imageUrl ->
+            val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
+            storageReference.downloadUrl.addOnSuccessListener { uri ->
+                val songImageView = findViewById<ImageView>(R.id.imvGround)
+
+                Glide.with(this)
+                    .load(uri)
+                    .into(songImageView)
+            }
         }
+        val infoMusicFragment = InfoMusicFragment.newInstance(songTitle ?: "", artistName ?: "")
+        Log.d("MusicControlActivity", "Song title: $songTitle, Artist name: $artistName, Track image: $trackImage")
+        val playSongFragment = PlaySongFragment.newInstance(trackImage ?: "")
+
+        // Thiết lập ViewPager
+        val viewLyrics = findViewById<View>(R.id.viewlyris)
+        val viewInfoMusic = findViewById<View>(R.id.viewinfomusic)
+        val viewSong = findViewById<View>(R.id.viewsong)
+        val viewPager: ViewPager2 = findViewById(R.id.view_pager)
+        val fragments = listOf(InfoMusicFragment(), playSongFragment, LyrisFragment())
+
+        val adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount(): Int = fragments.size
+            override fun createFragment(position: Int): Fragment = fragments[position]
+        }
+
+        viewPager.adapter = adapter
+        viewPager.currentItem = 1
+
+// Thiết lập các sự kiện nhấp vào View
+        viewInfoMusic.setOnClickListener { viewPager.currentItem = 0 }
+        viewSong.setOnClickListener { viewPager.currentItem = 1 }
+        viewLyrics.setOnClickListener { viewPager.currentItem = 2 }
+
 
         val musicPlayerServiceIntent = Intent(this, MusicPlayerService::class.java)
         startService(musicPlayerServiceIntent)
@@ -115,11 +160,6 @@ class ActivityMusicControl : AppCompatActivity(){
             }
         }
 
-        // Đăng ký BroadcastReceiver
-        val filter = IntentFilter("ACTION_TRACK_CHANGED")
-        registerReceiver(trackChangeReceiver, filter)
-
-
 
 
         // Khởi tạo tất cả các thành phần UI
@@ -139,28 +179,7 @@ class ActivityMusicControl : AppCompatActivity(){
         playBtn = findViewById(R.id.playPauseIcon)
 
 
-        // Lấy dữ liệu từ Intent và hiển thị trên giao diện
-        val songTitle = intent.getStringExtra("SONG_TITLE")
-        val artistName = intent.getStringExtra("SINGER_NAME")
-        val trackImage = intent.getStringExtra("TRACK_IMAGE")
-        val duration = intent.getIntExtra("DURATION", 0)
-        val trackUrl = intent.getStringExtra("TRACK_URL")
-        trackList = intent.getStringArrayListExtra("TRACK_LIST")!!
-        trackIndex = intent.getIntExtra("TRACK_INDEX",0)
-        trackId = intent.getStringExtra("TRACK_ID").toString()
 
-        findViewById<TextView>(R.id.song_name).text = songTitle
-        findViewById<TextView>(R.id.singer_name).text = artistName
-        trackImage?.let { imageUrl ->
-            val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
-            storageReference.downloadUrl.addOnSuccessListener { uri ->
-                val songImageView = findViewById<ImageView>(R.id.imvGround)
-
-                Glide.with(this)
-                    .load(uri)
-                    .into(songImageView)
-            }
-        }
 
         // Gắn các hàm xử lý sự kiện cho các thành phần UI
         previousBtn.setOnClickListener { handlePreviousButtonClick() }
@@ -209,22 +228,25 @@ class ActivityMusicControl : AppCompatActivity(){
         loadDataFromFirebase()
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(trackChangeReceiver)
-        Back()
-    }
-
     override fun onStart() {
         super.onStart()
+        // Register the BroadcastReceiver when the Activity becomes visible
         val filter = IntentFilter("ACTION_TRACK_CHANGED")
         registerReceiver(trackChangeReceiver, filter)
     }
 
     override fun onStop() {
-        unregisterReceiver(trackChangeReceiver)
+        // Unregister the BroadcastReceiver when the Activity is no longer visible
+        if (::trackChangeReceiver.isInitialized) {
+            unregisterReceiver(trackChangeReceiver)
+        }
         super.onStop()
+    }
+
+    override fun onDestroy() {
+        // Perform any final cleanup before the Activity is destroyed
+        Back()
+        super.onDestroy()
     }
 
     fun Back() {
