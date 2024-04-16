@@ -3,9 +3,11 @@ package com.project.appealic.ui.view
 import android.app.Dialog
 import android.app.NotificationManager
 import android.appwidget.AppWidgetManager
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.media.browse.MediaBrowser
 import android.net.Uri
@@ -13,6 +15,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
@@ -33,6 +36,7 @@ import com.google.firebase.storage.storage
 import com.project.appealic.R
 import com.project.appealic.data.repository.service.MusicPlayerService
 import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
+import com.project.appealic.ui.view.Fragment.InfoMusicFragment
 import com.project.appealic.ui.view.Fragment.MoreActionFragment
 import com.project.appealic.ui.view.Fragment.PlaySongFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
@@ -64,23 +68,25 @@ class ActivityMusicControl : AppCompatActivity(){
     private  var trackIndex : Int =0
     private val storage = Firebase.storage
     private val storageRef = storage.reference
+    private lateinit var trackChangeReceiver: BroadcastReceiver
 
-
-    val serviceConnection = object : ServiceConnection {
+    private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as MusicPlayerService.MusicBinder
             val musicService = binder.getService()
-            // Thiết lập MusicService cho MusicPlayerViewModel
             musicPlayerViewModel.setMusicService(musicService)
             player = musicPlayerViewModel.getPlayerInstance()!!
         }
+
         override fun onServiceDisconnected(className: ComponentName) {
             // Do nothing
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music_control)
+
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -88,13 +94,31 @@ class ActivityMusicControl : AppCompatActivity(){
                 .commit()
         }
 
-        val musicPlayerServiceIntent = Intent(this,MusicPlayerService::class.java).apply {
-            action = MusicPlayerService.ACTION_PLAY
-        }
+        val musicPlayerServiceIntent = Intent(this, MusicPlayerService::class.java)
         startService(musicPlayerServiceIntent)
         bindService(musicPlayerServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
 
+
         musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
+
+        trackChangeReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val songTitle = intent?.getStringExtra("songTitle") ?: ""
+                val artistName = intent?.getStringExtra("artistName") ?: ""
+                val trackImage = intent?.getStringExtra("trackImage") ?: ""
+
+                findViewById<TextView>(R.id.song_name).text = songTitle
+                findViewById<TextView>(R.id.singer_name).text = artistName
+                if (context != null && trackImage.isNotEmpty()) {
+                    Glide.with(context).load(trackImage).into(findViewById<ImageView>(R.id.imvGround))
+                }
+            }
+        }
+
+        // Đăng ký BroadcastReceiver
+        val filter = IntentFilter("ACTION_TRACK_CHANGED")
+        registerReceiver(trackChangeReceiver, filter)
+
 
 
 
@@ -127,7 +151,6 @@ class ActivityMusicControl : AppCompatActivity(){
 
         findViewById<TextView>(R.id.song_name).text = songTitle
         findViewById<TextView>(R.id.singer_name).text = artistName
-        // Load hình ảnh sử dụng Glide
         trackImage?.let { imageUrl ->
             val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
             storageReference.downloadUrl.addOnSuccessListener { uri ->
@@ -186,13 +209,22 @@ class ActivityMusicControl : AppCompatActivity(){
         loadDataFromFirebase()
     }
 
-    override fun onStop() {
-        super.onStop()
-    }
 
     override fun onDestroy() {
         super.onDestroy()
+        unregisterReceiver(trackChangeReceiver)
         Back()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val filter = IntentFilter("ACTION_TRACK_CHANGED")
+        registerReceiver(trackChangeReceiver, filter)
+    }
+
+    override fun onStop() {
+        unregisterReceiver(trackChangeReceiver)
+        super.onStop()
     }
 
     fun Back() {
@@ -216,6 +248,9 @@ class ActivityMusicControl : AppCompatActivity(){
         }
 
     }
+
+
+
 
     private fun handleMixButtonClick() {
 
@@ -284,27 +319,20 @@ class ActivityMusicControl : AppCompatActivity(){
     private fun handleShareButtonClick() {
     }
     private fun loadDataFromFirebase() {
-        //Load dữ liệu audio
+        // Load audio data from Firebase Storage
         val mediaItems = mutableListOf<MediaItem>()
-        // Số lượng URL download đã hoàn thành
         var completedDownloads = 0
-        for (i in trackList){
+        for (i in trackList) {
             val trackPath = i.substring(i.indexOf("/", 5) + 1)
             val audioRef = trackPath.let { storageRef.child(it) }
-            println(audioRef)
             audioRef.downloadUrl.addOnSuccessListener { url ->
                 val songUri = Uri.parse(url.toString())
                 mediaItems.add(MediaItem.fromUri(songUri))
-                println(mediaItems)
-                // Tăng số lượng URL download đã hoàn thành
                 completedDownloads++
-                // Nếu đã download xong tất cả các URL
                 if (completedDownloads == trackList.size) {
-                    // Set danh sách media items cho ExoPlayer
                     musicPlayerViewModel.setMediaUri(mediaItems, trackIndex)
                 }
             }.addOnFailureListener { exception ->
-                // Xử lý khi có lỗi xảy ra trong quá trình download
                 Log.e("Error", "Failed to download track: ${exception.message}")
             }
         }
@@ -317,4 +345,5 @@ private fun formatDuration(durationInSeconds: Long): String {
     val minutes = durationInSeconds / 60000
     return "$minutes:${String.format("%02d", seconds)}"
 }
+
 
