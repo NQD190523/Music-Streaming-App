@@ -15,6 +15,18 @@ import com.project.appealic.data.model.Track
 class NewReleaseAdapter(context: Context, private val tracks: List<Track>) :
     ArrayAdapter<Track>(context, 0, tracks) {
 
+    lateinit var onAddPlaylistClick: (Track) -> Unit
+
+    fun setOnAddPlaylistClickListener(listener: (Track) -> Unit) {
+        onAddPlaylistClick = listener
+    }
+
+    lateinit var moreActionClickListener: (Track) -> Unit
+
+    fun setOnMoreActionClickListener(listener: (Track) -> Unit) {
+        this.moreActionClickListener = listener
+    }
+
     private val storage = FirebaseStorage.getInstance()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -24,6 +36,8 @@ class NewReleaseAdapter(context: Context, private val tracks: List<Track>) :
         val songNameTextView = view.findViewById<TextView>(R.id.txtSongName)
         val singerTextView = view.findViewById<TextView>(R.id.txtSinger)
         val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
+        val btnAddPlaylist: ImageView  = view.findViewById(R.id.btnAddPlaylist)
+        val btnMoreAction: ImageView  = view.findViewById(R.id.btnMoreAction)
 
         currentTrack?.let { track ->
             songNameTextView.text = track.trackTitle
@@ -34,8 +48,25 @@ class NewReleaseAdapter(context: Context, private val tracks: List<Track>) :
                     .load(gsReference)
                     .into(songImageView)
             }
+
+            btnAddPlaylist.setOnClickListener {
+                onAddPlaylistClick.invoke(track)
+            }
+
+            btnMoreAction.setOnClickListener {
+                moreActionClickListener.invoke(track)
+            }
         }
 
         return view
     }
+
+    interface OnAddPlaylistClickListener {
+        fun onAddPlaylistClick(track: Track)
+    }
+
+    interface OnMoreActionClickListener {
+        fun onMoreActionClick(track: Track)
+    }
+
 }

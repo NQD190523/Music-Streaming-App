@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.data.model.PlayListEntity
+import com.project.appealic.data.model.Track
 import com.project.appealic.data.model.UserPlaylist
 import com.project.appealic.data.repository.PlayListRepository
 import com.project.appealic.ui.view.Adapters.UserPlaylistAdapter
@@ -24,6 +25,17 @@ import com.project.appealic.ui.viewmodel.PlayListViewModel
 import com.project.appealic.utils.PlayListViewModelFactory
 
 class AddPlaylistFragment : DialogFragment() {
+
+    companion object {
+        fun newInstance(track: Track): AddPlaylistFragment {
+            val fragment = AddPlaylistFragment()
+            // Đính kèm dữ liệu track vào fragment bằng cách tạo một Bundle
+            val args = Bundle()
+            args.putParcelable("TRACK", track)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     private lateinit var playListViewModel: PlayListViewModel
     private val auth : FirebaseAuth = FirebaseAuth.getInstance()
@@ -33,6 +45,9 @@ class AddPlaylistFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val track: Track? = arguments?.getParcelable("TRACK")
+        // Sử dụng dữ liệu track nếu cần
+        return inflater.inflate(R.layout.fragment_add_playlist, container, false)
         return inflater.inflate(R.layout.fragment_add_playlist, container, false)
 
     }

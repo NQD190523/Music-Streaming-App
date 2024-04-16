@@ -18,19 +18,19 @@
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
-            android:theme="@style/ThemeOverlay.SearchView"
             android:layout_width="320dp"
             android:layout_height="40dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/comment_edt"
-            app:searchIcon="@drawable/ic_search_16_outlined"
-            app:iconifiedByDefault="false"
-            app:queryBackground="@android:color/transparent"
             android:queryHint="What do you want to listen to?"
+            android:theme="@style/ThemeOverlay.SearchView"
+            app:iconifiedByDefault="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/txtCancel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:queryBackground="@android:color/transparent"
+            app:searchIcon="@drawable/ic_search_16_outlined" />
 
 
         <TextView

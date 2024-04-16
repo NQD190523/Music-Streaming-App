@@ -79,5 +79,4 @@
         app:layout_constraintStart_toEndOf="@+id/btnAddPlaylist"
         app:layout_constraintTop_toTopOf="@+id/btnAddPlaylist" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
