@@ -11,9 +11,11 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.GridView
 import androidx.appcompat.widget.SearchView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.project.appealic.R
 import com.project.appealic.databinding.FragmentSearchResultBinding
+import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.Adapters.PlaylistAdapter
 
 class SearchFragment : Fragment() {
@@ -62,6 +64,10 @@ class SearchFragment : Fragment() {
                 return false
             }
         })
+
+        view.findViewById<TextView>(R.id.txtCancel).setOnClickListener {
+            (activity as ActivityHome).onSearchCancel()
+        }
 
         return view
     }

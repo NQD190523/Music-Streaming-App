@@ -139,6 +139,10 @@ class ProfileFragment : Fragment() {
             imageView.setOnClickListener {
                 dismiss()
             }
+
+            view.findViewById<ImageView>(R.id.imvBack).setOnClickListener {
+                dismiss()
+            }
             return view
         }
     }
@@ -160,8 +164,8 @@ class ProfileFragment : Fragment() {
                 listener?.onBuyNowClicked()
                 dismiss()
             }
-            val imageView = view.findViewById<ImageView>(R.id.imvBack)
-            imageView.setOnClickListener {
+
+            view.findViewById<ImageView>(R.id.imvBack).setOnClickListener {
                 dismiss()
             }
             return view
@@ -189,6 +193,10 @@ class ProfileFragment : Fragment() {
             imageView.setOnClickListener {
                 dismiss()
             }
+
+            view.findViewById<ImageView>(R.id.imvBack).setOnClickListener {
+                dismiss()
+            }
             return view
         }
     }
@@ -200,6 +208,10 @@ class ProfileFragment : Fragment() {
             savedInstanceState: Bundle?
         ): View? {
             val view = inflater.inflate(R.layout.dialog_fragment_contact, container, false)
+
+            view.findViewById<ImageView>(R.id.imageView3).setOnClickListener {
+                dismiss()
+            }
             return view
         }
 
@@ -212,6 +224,10 @@ class ProfileFragment : Fragment() {
             savedInstanceState: Bundle?
         ): View? {
             val view = inflater.inflate(R.layout.dialog_fragment_legal, container, false)
+
+            view.findViewById<ImageView>(R.id.imageView3).setOnClickListener {
+                dismiss()
+            }
             return view
         }
 
