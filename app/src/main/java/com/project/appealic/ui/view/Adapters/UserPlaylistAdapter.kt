@@ -12,15 +12,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.project.appealic.R
 import com.project.appealic.data.model.UserPlaylist
+import com.project.appealic.data.model.UserWithPlayLists
 
-class UserPlaylistAdapter(private val context: Context, private val userPlaylists: List<UserPlaylist>) : BaseAdapter() {
+class UserPlaylistAdapter(private val context: Context, private val userWithPlayLists: UserWithPlayLists) : BaseAdapter() {
 
     override fun getCount(): Int {
-        return userPlaylists.size
+        return userWithPlayLists.playLists.size
     }
 
     override fun getItem(position: Int): Any {
-        return userPlaylists[position]
+        return userWithPlayLists.playLists[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -43,10 +44,11 @@ class UserPlaylistAdapter(private val context: Context, private val userPlaylist
             holder = convertView.tag as ViewHolder
         }
 
-        val currentItem = userPlaylists[position]
-        holder.userPlaylistName.text = currentItem.playlistName
-        holder.userName.text = currentItem.userName
-        holder.playlistImage.setImageResource(currentItem.playlistImage)
+        val currentItem = userWithPlayLists.user
+        val playList = userWithPlayLists.playLists[position]
+        holder.userPlaylistName.text = playList.playListName
+        holder.userName.text = currentItem.name
+         holder.playlistImage.setImageResource(playList.playListThumb)
 
         return view
     }

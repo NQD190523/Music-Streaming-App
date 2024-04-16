@@ -18,7 +18,7 @@ class PlayListRepository(application: Application) {
         .build()
     private val playListDao : PlayListDao = db.platListDao()
 
-    fun getAllUserPlayList(userId : String) : LiveData<List<PlayListEntity>>{
+    fun getAllUserPlayList(userId : String) : UserWithPlayLists{
         return playListDao.getUserPlayLists(userId)
     }
 

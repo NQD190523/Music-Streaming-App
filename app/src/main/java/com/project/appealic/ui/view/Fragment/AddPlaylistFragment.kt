@@ -20,11 +20,14 @@ import android.widget.LinearLayout
 import android.widget.ListView
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.data.model.PlayListEntity
 import com.project.appealic.data.model.UserPlaylist
+import com.project.appealic.data.model.UserWithPlayLists
 import com.project.appealic.data.repository.PlayListRepository
 import com.project.appealic.ui.view.Adapters.UserPlaylistAdapter
 import com.project.appealic.ui.viewmodel.PlayListViewModel
@@ -35,13 +38,14 @@ class AddPlaylistFragment : DialogFragment() {
 
     private lateinit var playListViewModel: PlayListViewModel
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private lateinit var  userPLayList : List<PlayListEntity>
+    private val userId = auth.currentUser?.uid
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.fragment_add_playlist, container, false)
 
     }
@@ -75,7 +79,7 @@ class AddPlaylistFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        var userPLayList : UserWithPlayLists? = null
         val llCCreatePlaylist = view.findViewById<LinearLayout>(R.id.llCreatePlaylist)
         llCCreatePlaylist.setOnClickListener {
             dismiss()
@@ -83,13 +87,18 @@ class AddPlaylistFragment : DialogFragment() {
         }
 
 
-        val userPlaylists = listOf(
-            UserPlaylist(R.drawable.song1, "Jienne", "Playlist 1"),
-            UserPlaylist(R.drawable.song1, "Jienne", "Playlist 2")
-        )
+        if (userId != null) playListViewModel.getUserPlaylist(userId)
+        playListViewModel.userPlayLists.observe(viewLifecycleOwner, Observer { playlists ->
+            userPLayList = playlists
+        })
+
+//        val userPlaylists = listOf(
+//            UserPlaylist(R.drawable.song1, "Jienne", "Playlist 1"),
+//            UserPlaylist(R.drawable.song1, "Jienne", "Playlist 2")
+//        )
 
         val lvUserPlaylist = view.findViewById<ListView>(R.id.lvUserPlaylist)
-        val adapter = UserPlaylistAdapter(requireContext(), userPlaylists)
+        val adapter = userPLayList?.let { UserPlaylistAdapter(requireContext(), it) }
         lvUserPlaylist.adapter = adapter
 
     }
@@ -117,11 +126,10 @@ class AddPlaylistFragment : DialogFragment() {
 //            val image = getRandomImageDrawable(requireContext())
 //            val imageBytes = drawableToByteArray(requireContext().resources,R.drawable.song1)
             // Chức năng tạo playlist mới
-            val userId = auth.currentUser?.uid
             userId?.let { it1 ->
                 PlayListEntity(
                     "",
-                    it1, edtPlaylistName.text.toString(), null, null
+                    it1, edtPlaylistName.text.toString(), R.drawable.song2, null
                 )
             }?.let { it2 -> playListViewModel.createNewPlayList(it2) }
         }
