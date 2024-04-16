@@ -1,5 +1,6 @@
 package com.project.appealic.ui.view.Fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,9 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -156,16 +160,24 @@ class HomeFragment : Fragment() {
                 startActivity(intent)
             }
 
+        val imageView: ImageView = rootView.findViewById(R.id.imvSearch);
+        imageView.setOnClickListener{
+            val fragmentManager = parentFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            val fragmentSearch = SearchFragment()
+            fragmentTransaction.replace(R.id.fragmenthome, fragmentSearch)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+            (activity as ActivityHome).bottomNavigationView.selectedItemId = R.id.navigation_search
+        }
+
+
         // Notification intent
         rootView.findViewById<ImageView>(R.id.imvAlert).setOnClickListener {
             val intent = Intent(requireContext(), ActivityNotification::class.java)
             startActivity(intent)
         }
 
-        // Search fragment intent
-        rootView.findViewById<ImageView>(R.id.imvSearch).setOnClickListener {
-            (activity as ActivityHome).onSeachOpen()
-        }
 
         return rootView
     }

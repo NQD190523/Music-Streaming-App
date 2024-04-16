@@ -2,11 +2,9 @@ package com.project.appealic.ui.view.Fragment
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.DatabaseReference
 import com.project.appealic.R
@@ -16,69 +14,67 @@ import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
-import androidx.lifecycle.Observer
-class SearchResultFragment: Fragment() {
-    private lateinit var listSong: ListView
-    private lateinit var songViewModel: SongViewModel
-    private lateinit var searchtest: androidx.appcompat.widget.SearchView
-    private lateinit var listArtist: ListView
-    private lateinit var listAlbum: ListView
 
-    private lateinit var searchDatabase: DatabaseReference
-    private var originalTracks: List<Track> = emptyList() // Danh sách gốc
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_search_result, container, false)
-
-        listSong = view.findViewById(R.id.lvSearchResultSongs)
-
-        // Khởi tạo SongViewModel
-        val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
-        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
-
-        // Nhận dữ liệu từ Bundle
-        val searchQuery = arguments?.getString("search_query")
-        Log.d("SearchResultsActivity", "Received searchQuery: $searchQuery")
-        if (!searchQuery.isNullOrEmpty()) {
-            // Gọi phương thức trong ViewModel để tải dữ liệu từ Firebase dựa trên searchQuery
-            songViewModel.loadSearchResults(searchQuery)
-
-            // Quan sát LiveData _tracks để cập nhật ListView khi có kết quả tìm kiếm mới
-            songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
-                val adapter = NewReleaseAdapter(requireContext(), tracks)
-                listSong.adapter = adapter
-            })
-        }
-
-        return view
-    }
-}
-
-
-//        // Lấy dữ liệu từ ViewModel và hiển thị trong ListView
-//        songViewModel.tracks.observe(this, Observer { tracks ->
-//            originalTracks = tracks // Lưu danh sách gốc
-//            val adapter = NewReleaseAdapter(this, tracks)
-//            listSong.adapter = adapter
-//        })
-//        songViewModel.getAllTracks()
-
-//        searchtest.setOnQueryTextListener(object :
-//            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                return false
-//            }
+//class SearchResultsActivity : Fragment() {
+//    private lateinit var listSong: ListView
+//    private lateinit var songViewModel: SongViewModel
+//    private lateinit var searchtest: androidx.appcompat.widget.SearchView
+//    private lateinit var listArtist: ListView
+//    private lateinit var listAlbum: ListView
 //
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                filterList(newText)
-//                return true
-//            }
-//        })
+//    private lateinit var searchDatabase: DatabaseReference
+//    private var originalTracks: List<Track> = emptyList() // Danh sách gốc
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.fragment_search_result)
+//
+//        listSong = findViewById(R.id.lvSearchResultSongs)
+//        listArtist = findViewById(R.id.lvSearchResultArtists)
+//        listAlbum = findViewById(R.id.lvSearchResultAlbums)
+//
+//        searchtest = findViewById(R.id.searchtest)
+//
+////        // Khởi tạo SongViewModel
+//        val factory = SongViewModelFactory(SongRepository(application), UserRepository(application))
+//        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
+//
+////        // Lấy dữ liệu từ ViewModel và hiển thị trong ListView
+////        songViewModel.tracks.observe(this, Observer { tracks ->
+////            originalTracks = tracks // Lưu danh sách gốc
+////            val adapter = NewReleaseAdapter(this, tracks)
+////            listSong.adapter = adapter
+////        })
+////        songViewModel.getAllTracks()
+//
+////        searchtest.setOnQueryTextListener(object :
+////            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+////            override fun onQueryTextSubmit(query: String?): Boolean {
+////                return false
+////            }
+////
+////            override fun onQueryTextChange(newText: String?): Boolean {
+////                filterList(newText)
+////                return true
+////            }
+////        })
+////    }
+//        // Nhận dữ liệu từ Intent
+//        val searchQuery = intent.getStringExtra("searchQuery")
+//        Log.d("SearchResultsActivity", "Received searchQuery: $searchQuery")
+//        if (!searchQuery.isNullOrEmpty()) {
+//            // Gọi phương thức trong ViewModel để tải dữ liệu từ Firebase dựa trên searchQuery
+//            songViewModel.loadSearchResults(searchQuery)
+//
+//            // Quan sát LiveData _tracks để cập nhật ListView khi có kết quả tìm kiếm mới
+//            songViewModel.tracks.observe(this, Observer { tracks ->
+//                val adapter = NewReleaseAdapter(this, tracks)
+//                listSong.adapter = adapter
+//            })
+//        }
 //    }
+//}
+
 //    private fun filterList(newText: String?) {
 //        if (newText != null && newText.isNotEmpty()) {
 //            Log.d("SearchResultsActivity", "Filtering tracks with query: $newText")
@@ -123,7 +119,7 @@ class SearchResultFragment: Fragment() {
 //
 //        }    }
 
-// Khởi tạo SongViewModel
+    // Khởi tạo SongViewModel
 //        val factory = SongViewModelFactory(SongRepository(application), UserRepository(application))
 //        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
 //

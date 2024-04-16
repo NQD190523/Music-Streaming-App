@@ -7,44 +7,42 @@
     android:background="@drawable/background"
     android:paddingHorizontal="@dimen/dp_16">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topBar"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/topBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="70dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <EditText
-            android:id="@+id/editText"
-            style="@style/Placeholder"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/comment_edt"
-            android:drawableLeft="@drawable/ic_search_16_outlined"
-            android:drawablePadding="8dp"
-            android:fontFamily="@font/inter_medium"
-            android:hint="Songs, artists, playlists, albums, ..."
-            android:paddingHorizontal="16dp"
-            android:textColorHint="@color/subText"
-            android:textColor="@color/text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/txtCancel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <androidx.appcompat.widget.SearchView-->
+<!--            android:id="@+id/searchtest"-->
+<!--            android:theme="@style/ThemeOverlay.SearchView"-->
+<!--            android:layout_width="320dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:background="@drawable/comment_edt"-->
+<!--            app:searchIcon="@drawable/ic_search_16_outlined"-->
+<!--            app:iconifiedByDefault="false"-->
+<!--            android:focusable="false"-->
+<!--            app:queryBackground="@android:color/transparent"-->
+<!--            android:queryHint="What do you want to listen to?"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/txtCancel"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <TextView
-            android:id="@+id/txtCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/editText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/editText" />
+<!--        <TextView-->
+<!--            android:id="@+id/txtCancel"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Cancel"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/searchtest"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/searchtest" />-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <ScrollView
         android:layout_width="match_parent"
