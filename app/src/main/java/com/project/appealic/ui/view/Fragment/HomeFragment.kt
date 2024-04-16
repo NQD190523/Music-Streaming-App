@@ -55,6 +55,21 @@ class HomeFragment : Fragment() {
         listView = rootView.findViewById(R.id.lvNewRelease)
         songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
             val adapter = NewReleaseAdapter(requireContext(), tracks)
+            adapter.setOnAddPlaylistClickListener { track ->
+                // Mở dialog thêm playlist
+                val addPlaylistFragment = AddPlaylistFragment.newInstance(track)
+                addPlaylistFragment.show(childFragmentManager, "AddPlaylistFragment")
+            }
+
+            adapter.setOnMoreActionClickListener {track ->
+                val moreActionFragment = MoreActionFragment.newInstance(track)
+                val bundle = Bundle()
+                bundle.putString("SONG_TITLE", track.trackTitle)
+                bundle.putString("SINGER_NAME", track.artist)
+                bundle.putString("TRACK_IMAGE", track.trackImage)
+                moreActionFragment.arguments = bundle
+                moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
+            }
             listView.adapter = adapter
         })
 
@@ -139,4 +154,12 @@ class HomeFragment : Fragment() {
             }
         return rootView
     }
+    private fun NewReleaseAdapter.setOnAddPlaylistClickListener(listener: (Track) -> Unit) {
+        this.onAddPlaylistClick = listener
+    }
+
+    private fun NewReleaseAdapter.setOnMoreActionClickListener(listener: (Track) -> Unit) {
+        this.moreActionClickListener = listener
+    }
+
 }

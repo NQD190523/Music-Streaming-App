@@ -32,6 +32,18 @@ private const val ARG_PARAM2 = "param2"
  */
 class MoreActionFragment : DialogFragment() {
 
+    companion object {
+        private const val ARG_TRACK = "arg_track"
+
+        fun newInstance(track: Track): MoreActionFragment {
+            val fragment = MoreActionFragment()
+            val args = Bundle().apply {
+                putParcelable(ARG_TRACK, track)
+            }
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +51,7 @@ class MoreActionFragment : DialogFragment() {
         savedInstanceState: Bundle?,
 
     ): View? {
+        val track: Track? = arguments?.getParcelable("TRACK")
         return inflater.inflate(R.layout.fragment_more_action, container, false)
     }
 
