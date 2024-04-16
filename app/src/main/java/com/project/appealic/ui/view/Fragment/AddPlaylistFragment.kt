@@ -77,12 +77,12 @@ class AddPlaylistFragment : DialogFragment() {
         }
         val lvUserPlaylist = view.findViewById<ListView>(R.id.lvUserPlaylist)
         if (userId != null) playListViewModel.getUserPlaylist(userId)
-        playListViewModel.userPlayLists.observe(viewLifecycleOwner, Observer { playlists ->
+        playListViewModel.userPlayLists.observe(viewLifecycleOwner) { playlists ->
             playlists?.let { playlist ->
                 val adapter = UserPlaylistAdapter(requireContext(), playlist)
                 lvUserPlaylist.adapter = adapter
             }
-        })
+        }
 
 //        val userPlaylists = listOf(
 //            UserPlaylist(R.drawable.song1, "Jienne", "Playlist 1"),
