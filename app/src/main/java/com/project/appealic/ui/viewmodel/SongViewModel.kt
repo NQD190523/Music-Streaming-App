@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.toObject
 import com.google.firebase.firestore.toObjects
 import com.project.appealic.data.model.Artist
@@ -32,38 +33,40 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     private val _artists = MutableLiveData<List<Artist>>()
     val artists: LiveData<List<Artist>> get() = _artists
 
-    fun getAllTracks(){
+    fun getAllTracks() {
         songRepository.getAllTrack()
-            .addOnSuccessListener { tracks ->
-                    if(tracks != null) _tracks.postValue(tracks.toObjects(Track::class.java))
+            .addOnSuccessListener { tracks: QuerySnapshot ->
+                if (tracks != null) _tracks.postValue(tracks.toObjects(Track::class.java))
             }
-            .addOnFailureListener { exception ->
-                Log.e("error",exception.toString())
+            .addOnFailureListener { exception: Exception ->
+                Log.e("error", exception.toString())
             }
     }
 
-    fun getAllArtists(){
+    fun getAllArtists() {
         songRepository.getAllArtist()
             .addOnSuccessListener { artists ->
-                if(artists!= null)
+                if (artists != null)
                     _artists.postValue(artists.toObjects(Artist::class.java))
             }
-            .addOnFailureListener { exception->
-                Log.e("error" , exception.toString())
+            .addOnFailureListener { exception ->
+                Log.e("error", exception.toString())
             }
     }
 
-    fun getTrackFromGenres(genre :String){
+    fun getTrackFromGenres(genre: String) {
         songRepository.getAllTrack()
             .addOnSuccessListener { tracks ->
-                val genreTrack = tracks.documents.filter { it.toObject(Track::class.java)?.genre == genre }
+                val genreTrack =
+                    tracks.documents.filter { it.toObject(Track::class.java)?.genre == genre }
                 _tracks.postValue(genreTrack.map { it.toObject(Track::class.java)!! })
             }
     }
 
-    fun getUserData() : LiveData<UserEntity>? {
+    fun getUserData(): LiveData<UserEntity>? {
         return userRepository.getUserData()
     }
+
     fun getRecentSongs(userId: String): LiveData<List<SongEntity>> {
         return songRepository.getRecentSongs(userId)
     }
@@ -85,24 +88,13 @@ class SongViewModel(private val songRepository: SongRepository, private val user
         }
     }
 
+
     fun loadSearchResults(searchQuery: String?) {
-        Log.d("loadSearchResults", "Search query: $searchQuery")
-
-
-
-        if (!searchQuery.isNullOrEmpty()) {
-            db.collection("tracks")
-                .whereEqualTo("trackTitle", searchQuery)
-                .get()
-                .addOnSuccessListener { documents ->
-                    val tracks = documents.mapNotNull { it.toObject(Track::class.java) }
-                    _tracks.postValue(tracks)
-                }
-                .addOnFailureListener { exception ->
-                    Log.e("error", exception.toString())
-                }
-        } else {
-            Log.d("loadSearchResults", "Search query is null or empty")
-        }
+        // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
+        val tracksLiveData = songRepository.loadSearchResults(searchQuery)
+        // Cập nhật LiveData _tracks với dữ liệu mới
+        tracksLiveData.observeForever { tracks ->
+            _tracks.postValue(tracks)
     }
+}
 }

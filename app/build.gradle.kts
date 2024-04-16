@@ -68,6 +68,9 @@ dependencies {
     implementation ("androidx.media:media:1.7.0")
 
     implementation("androidx.room:room-common:2.6.1")
+    implementation("com.google.firebase:firebase-database-ktx:20.3.1")
+    implementation ("com.firebaseui:firebase-ui-database:8.0.2")
+
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
