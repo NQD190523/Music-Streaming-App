@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
+import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -134,8 +137,14 @@ class LibraryFragment : Fragment() {
         recycleCardPlaylist.addItemDecoration(decoration)
 
         // Select playlists
-
+        view.findViewById<Button>(R.id.btnSelect).setOnClickListener {
+            val dialog = SelectPlaylistFragmentDialog()
+            dialog.show(childFragmentManager, dialog::class.simpleName)
+        }
         return view
+
+        // Create playlist
+
     }
 
     class StaggeredGridSpacingItemDecoration(private val horizontalSpacing: Int, private val verticalSpacing: Int) : RecyclerView.ItemDecoration() {
@@ -148,5 +157,15 @@ class LibraryFragment : Fragment() {
         }
     }
 
+    class SelectPlaylistFragmentDialog : DialogFragment() {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
+            val view = inflater.inflate(R.layout.dialog_select, container, false)
 
+            return view
+        }
+    }
 }

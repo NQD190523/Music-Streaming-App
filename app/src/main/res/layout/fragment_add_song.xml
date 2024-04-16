@@ -21,6 +21,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
             <FrameLayout
+                android:id="@+id/flAddPlaylist"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/btn_rounded_gray">
