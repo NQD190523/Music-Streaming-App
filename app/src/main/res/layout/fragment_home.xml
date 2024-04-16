@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:background="@drawable/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:paddingHorizontal="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -83,6 +82,8 @@
                 android:id="@+id/rrBanner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:paddingHorizontal="@dimen/dp_16"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -101,6 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="New Release"
+                    android:paddingHorizontal="@dimen/dp_16"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -110,6 +112,7 @@
                     style="@style/Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="@dimen/dp_16"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_button"
@@ -150,8 +153,8 @@
                 <ListView
                     android:id="@+id/lvNewRelease"
                     android:layout_width="match_parent"
-                    android:layout_height="248dp"
-                    android:layout_marginTop="@dimen/dp_16"
+                    android:layout_height="264dp"
+                    android:layout_marginTop="@dimen/dp_8"
                     android:scrollbars="none"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -163,7 +166,7 @@
                 android:id="@+id/recentlyPlayed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_32"
+                android:layout_marginTop="@dimen/dp_24"
                 app:layout_constraintTop_toBottomOf="@+id/newRelease"
                 tools:layout_editor_absoluteX="16dp">
 
@@ -172,6 +175,7 @@
                     style="@style/Heading4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/dp_16"
                     android:text="Recently Played"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
@@ -181,9 +185,11 @@
                     android:id="@+id/RecentlyViewSong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:scrollbars="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:paddingHorizontal="@dimen/dp_16"
+                    android:scrollbars="none"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
@@ -202,6 +208,7 @@
                     style="@style/Heading4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/dp_16"
                     android:text="Your Favourite Artists"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
@@ -211,7 +218,8 @@
                     android:id="@+id/recyclerViewArtist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scrollbars="horizontal"
+                    android:paddingHorizontal="@dimen/dp_16"
+                    android:scrollbars="none"
                     android:layout_marginTop="@dimen/dp_16"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -231,6 +239,7 @@
                     style="@style/Heading4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/dp_16"
                     android:text="Playlists For You"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
@@ -240,8 +249,9 @@
                     android:id="@+id/PlaylistforYouRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/dp_16"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:scrollbars="horizontal"
+                    android:scrollbars="none"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -250,7 +260,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-
-
+    
 </androidx.constraintlayout.widget.ConstraintLayout>

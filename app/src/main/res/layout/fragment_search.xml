@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:paddingHorizontal="@dimen/dp_16">
+    android:background="@drawable/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
@@ -18,8 +17,9 @@
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
-            android:layout_width="320dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/comment_edt"
             android:queryHint="What do you want to listen to?"
@@ -37,6 +37,7 @@
             android:id="@+id/txtCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:text="Cancel"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/searchView"
@@ -64,8 +65,10 @@
                 style="@style/Heading4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="History"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginEnd="16dp"
+                android:text="History"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +78,9 @@
                 android:id="@+id/flexboxLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="16dp"
                 app:alignItems="center"
                 app:flexWrap="wrap"
                 app:justifyContent="flex_start"
@@ -172,7 +177,9 @@
                 style="@style/Heading4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/dp_32"
+                android:layout_marginEnd="16dp"
                 android:text="Genres"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -184,6 +191,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="550dp"
                 android:layout_marginTop="@dimen/dp_16"
+                android:scrollbars="none"
                 android:columnWidth="90dp"
                 android:gravity="center"
                 android:horizontalSpacing="10dp"
