@@ -146,7 +146,8 @@ class  GoogleLoginActivity : AppCompatActivity() {
         }
 
         binding.btnForgetPassword.setOnClickListener {
-            // Future add forgot password intent
+            val intent = Intent(this, ActivityForgotPassword::class.java)
+            startActivity(intent)
         }
 
         binding.btnRegister.setOnClickListener {
