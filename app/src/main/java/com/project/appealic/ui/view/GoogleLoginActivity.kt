@@ -16,12 +16,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.databinding.ActivityLoginBinding
 import com.project.appealic.ui.viewmodel.AuthViewModel
+import com.project.appealic.ui.viewmodel.ProfileViewModel
 import com.project.appealic.ui.viewmodel.SpotifyViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class GoogleLoginActivity : AppCompatActivity() {
+class  GoogleLoginActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityLoginBinding
 
@@ -30,8 +32,7 @@ class GoogleLoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
 
     private lateinit var viewModel: AuthViewModel
-
-    private val spotifyViewModel: SpotifyViewModel by viewModels()
+    private lateinit var profileViewModel: ProfileViewModel
 
 
     private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -53,7 +54,8 @@ class GoogleLoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Khởi tạo ViewModel
-        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+        profileViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
 
         auth = FirebaseAuth.getInstance()
@@ -69,8 +71,23 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         // Đăng nhập bằng tài khoản google
         binding.btnGoogle.setOnClickListener(){
-            CoroutineScope(Dispatchers.IO).launch {
-                launcher.launch(googleSignInClient.signInIntent)
+            CoroutineScope(Dispatchers.Main).launch {
+                // Chuyển sang Dispatchers.IO để thực hiện các hoạt động I/O
+                val signInAccount = withContext(Dispatchers.IO) {
+                    googleSignInClient.signInIntent
+                }
+                launcher.launch(signInAccount)
+
+                val applicationContext = binding.root.context.applicationContext
+
+                // Sử dụng applicationContext khi gọi getLastSignedInAccount()
+                val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(applicationContext)
+
+                lastSignedInAccount?.let { account ->
+                    auth.currentUser?.let { currentUser ->
+                        profileViewModel.createUserProfileByGoogle(account, currentUser)
+                    }
+                }
             }
         }
         //Đăng nhập bằng Email
