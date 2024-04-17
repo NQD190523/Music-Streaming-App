@@ -6,28 +6,50 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
+import com.project.appealic.ui.viewmodel.AuthViewModel
+import com.project.appealic.ui.viewmodel.ProfileViewModel
 import com.project.appealic.utils.ValidationUtils
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+
 
 class ActivityRegister : AppCompatActivity() {
+
+    private lateinit var authViewModel: AuthViewModel
+    private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var auth : FirebaseAuth
+    private lateinit var email : String
+    private lateinit var password : String
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         val signUpButton = findViewById<Button>(R.id.btnSignUp)
         signUpButton.setOnClickListener {
-            val email = findViewById<EditText>(R.id.txtxRegisterEmail).text.toString()
-            val password = findViewById<EditText>(R.id.txtRegisterPassword).text.toString()
-            val confirmedPassword = findViewById<EditText>(R.id.txtRegisterCfpassword).text.toString()
+            email = findViewById<EditText>(R.id.txtxRegisterEmail).text.toString()
+            password = findViewById<EditText>(R.id.txtRegisterPassword).text.toString()
+            val confirmedPassword =
+                findViewById<EditText>(R.id.txtRegisterCfpassword).text.toString()
 
             val isValidEmail = ValidationUtils.isValidEmail(email)
+            authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+            auth = FirebaseAuth.getInstance()
+            profileViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
             if (isValidEmail != ValidationUtils.VALID) {
                 var errorMessage: String = ""
 
                 when (isValidEmail) {
                     ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập Email"
-                    ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage = "Nhập đúng định dang Email"
+                    ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage =
+                        "Nhập đúng định dang Email"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
@@ -41,29 +63,46 @@ class ActivityRegister : AppCompatActivity() {
 
                 when (isValidPassword) {
                     ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập mật khẩu"
-                    ValidationUtils.PASSWORD_LENGTH_ERROR -> errorMessage = "Vui lòng nhập ít nhất 8 ký tự"
-                    ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage = "Mật khẩu phải có cả chữ và số"
+                    ValidationUtils.PASSWORD_LENGTH_ERROR -> errorMessage =
+                        "Vui lòng nhập ít nhất 8 ký tự"
+
+                    ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage =
+                        "Mật khẩu phải có cả chữ và số"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val isValidConfirmedPassword = ValidationUtils.checkConfirmPassword(password, confirmedPassword)
+            val isValidConfirmedPassword =
+                ValidationUtils.checkConfirmPassword(password, confirmedPassword)
 
             if (isValidConfirmedPassword != ValidationUtils.VALID) {
                 var errorMessage: String = ""
 
                 when (isValidConfirmedPassword) {
                     ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập xác nhận mật khẩu"
-                    ValidationUtils.PASSWORD_MISMATCH_ERROR -> errorMessage = "Xác nhận mật khẩu không đúng"
+                    ValidationUtils.PASSWORD_MISMATCH_ERROR -> errorMessage =
+                        "Xác nhận mật khẩu không đúng"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
+                try {
+                    authViewModel.signInWithEmailAndPassword(email, password)
+                    // Đăng nhập thành công
+                    val user = auth.currentUser
+                    user?.let {
+                        // Tạo dữ liệu người dùng trên Firestore
+                        profileViewModel.createUserProfile(user, email)
+                    }
+                } catch (exception: Exception) {
+                    // Xử lý khi đăng nhập thất bại
+                    Toast.makeText(this@ActivityRegister, "Đăng ký không thành công: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
             Toast.makeText(this, "Pass validation, progress to sign up", Toast.LENGTH_SHORT).show()
+
         }
 
         val signInPhoneButton = findViewById<Button>(R.id.btnUsePhone)

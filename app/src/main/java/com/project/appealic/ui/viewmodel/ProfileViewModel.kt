@@ -15,8 +15,8 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
     private val user = FirebaseAuth.getInstance().currentUser
 
     constructor() : this(ProfileRepository())
-    fun createUserProfile(user: FirebaseUser){
-        profileRepository.addUserToFirestore(user)
+    fun createUserProfile(user: FirebaseUser, email : String){
+        profileRepository.addUserToFirestore(user,email)
     }
 
     fun createUserProfileByGoogle(account: GoogleSignInAccount, user: FirebaseUser){

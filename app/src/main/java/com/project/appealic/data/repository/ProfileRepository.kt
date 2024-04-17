@@ -18,8 +18,8 @@ class ProfileRepository {
     private val user = FirebaseAuth.getInstance().currentUser
     val db = FirebaseFirestore.getInstance()
 
-    fun addUserToFirestore(user: FirebaseUser) {
-        val userData = User()
+    fun addUserToFirestore(user: FirebaseUser, email : String) {
+        val userData = User("","","",99999999,email)
         db.collection("users")
             .document(user.uid)
             .set(userData)
