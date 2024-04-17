@@ -1,13 +1,13 @@
 package com.project.appealic.ui.view
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -15,7 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
-import com.project.appealic.databinding.ActivityLoginBinding
+import com.project.appealic.databinding.ActivityLoginPhoneBinding
 import com.project.appealic.ui.viewmodel.AuthViewModel
 import com.project.appealic.ui.viewmodel.SpotifyViewModel
 import com.project.appealic.utils.ValidationUtils
@@ -23,35 +23,33 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class GoogleLoginActivity : AppCompatActivity() {
+class ActivityLoginPhone : AppCompatActivity() {
+    private lateinit var binding : ActivityLoginPhoneBinding
 
-    private lateinit var binding : ActivityLoginBinding
-
-    private lateinit var auth :FirebaseAuth
+    private lateinit var auth : FirebaseAuth
 
     private lateinit var googleSignInClient: GoogleSignInClient
 
     private lateinit var viewModel: AuthViewModel
 
-    private val spotifyViewModel: SpotifyViewModel by viewModels()
-
-
     private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        result ->
+            result ->
         val data : Intent? = result.data
-        val task =GoogleSignIn.getSignedInAccountFromIntent(data)
-        if(task.isSuccessful){
-            val account : GoogleSignInAccount? =task.result
-            if(account!=null){
+        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+        if (task.isSuccessful) {
+            val account : GoogleSignInAccount? = task.result
+            if (account != null){
                 viewModel.signInWithGoogle(account)
-            }else{
-                Toast.makeText(this,task.exception.toString(),Toast.LENGTH_SHORT).show()
+            } else{
+                Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+    private val spotifyViewModel: SpotifyViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityLoginPhoneBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Khởi tạo ViewModel
@@ -75,41 +73,28 @@ class GoogleLoginActivity : AppCompatActivity() {
                 launcher.launch(googleSignInClient.signInIntent)
             }
         }
-        // Đăng nhập bằng Email
-        binding.btnLogin.setOnClickListener() {
-            val email = binding.txtLoginEmail.text.toString()
-            val password = binding.txtLoginPassword.text.toString()
 
-            val isValidEmail = ValidationUtils.isValidEmail(email)
+        binding.btnLogin.setOnClickListener {
+            val phone = binding.txtLoginPhone.text.toString()
 
-            if (isValidEmail != ValidationUtils.VALID) {
+            val isValidPhoneNumber = ValidationUtils.isValidPhoneNumber(phone)
+
+            if (isValidPhoneNumber != ValidationUtils.VALID) {
                 var errorMessage: String = ""
 
-                when (isValidEmail) {
-                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập Email"
-                    ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage = "Vui lòng nhập đúng định dạng Email"
+                when (isValidPhoneNumber) {
+                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập SĐT"
+                    ValidationUtils.PHONE_MISMATCH_ERROR -> errorMessage = "Vui lòng nhập SĐT hợp lệ"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+
                 return@setOnClickListener
             }
 
-            val isValidPassword = ValidationUtils.isValidPassword(password)
+            Toast.makeText(this, "Phone correct", Toast.LENGTH_SHORT).show()
 
-            if (isValidPassword != ValidationUtils.VALID) {
-                var errorMessage: String = ""
-
-                when (isValidPassword) {
-                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập mật khẩu"
-                    ValidationUtils.PASSWORD_LENGTH_ERROR -> errorMessage = "Vui lòng nhập ít nhất 8 ký tự"
-                    ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage = "Mật khẩu phải bao gồm cả chữ và số"
-                }
-
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            viewModel.loginWithEmailAndPassword(email, password)
+            // Future login using phone number
         }
 
         viewModel.signInSuccess.observe(this) { signInSuccess ->
@@ -128,20 +113,17 @@ class GoogleLoginActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnForgetPassword.setOnClickListener {
-            // Future add forgot password intent
+        binding.btnEmail.setOnClickListener {
+            val intent = Intent(this, GoogleLoginActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnRegister.setOnClickListener {
             val intent = Intent(this, ActivityRegister::class.java)
             startActivity(intent)
         }
-
-        binding.btnPhone.setOnClickListener {
-            val intent = Intent(this, ActivityLoginPhone::class.java)
-            startActivity(intent)
-        }
     }
+
     private fun navigateToMainScreen() {
         // Chuyển hướng đến màn hình chính hoặc màn hình tiếp theo sau khi đăng nhập thành công
         intent = Intent(this, ActivityHome::class.java)

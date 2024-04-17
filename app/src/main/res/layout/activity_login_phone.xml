@@ -36,7 +36,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <EditText
-            android:id="@+id/txtLoginPassword"
+            android:id="@+id/txtLoginPhone"
             style="@style/Placeholder"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -64,9 +64,9 @@
             android:text="@string/btnLogin"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/txtLoginPassword"
-            app:layout_constraintStart_toStartOf="@+id/txtLoginPassword"
-            app:layout_constraintTop_toBottomOf="@+id/txtLoginPassword" />
+            app:layout_constraintEnd_toEndOf="@+id/txtLoginPhone"
+            app:layout_constraintStart_toStartOf="@+id/txtLoginPhone"
+            app:layout_constraintTop_toBottomOf="@+id/txtLoginPhone" />
 
         <View
             android:id="@+id/view6"
@@ -112,12 +112,11 @@
             app:layout_constraintTop_toTopOf="@+id/textView35" />
 
         <ImageView
-            android:id="@+id/btnFacebook"
+            android:id="@+id/btnEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
-            android:onClick="toFacebook"
-            android:src="@drawable/ic_facebook_fill"
+            android:src="@drawable/ic_email_fill"
             app:layout_constraintBottom_toBottomOf="@+id/btnGoogle"
             app:layout_constraintEnd_toStartOf="@+id/btnGoogle"
             app:layout_constraintHorizontal_bias="0.5"
@@ -132,11 +131,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:background="#00000000"
-            android:onClick="toGoogle"
             android:src="@drawable/ic_google_fill"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btnFacebook"
+            app:layout_constraintStart_toEndOf="@+id/btnEmail"
             app:layout_constraintTop_toBottomOf="@id/textView35" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -146,7 +144,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/btnGoogle"
-            app:layout_constraintStart_toStartOf="@+id/btnFacebook"
+            app:layout_constraintStart_toStartOf="@+id/btnEmail"
             app:layout_constraintTop_toBottomOf="@+id/btnGoogle">
 
             <TextView
@@ -167,7 +165,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:background="@drawable/noncolor_button"
-                android:onClick="toRegister"
                 android:text="@string/sign_up"
                 android:textColor="@color/text"
                 app:layout_constraintBottom_toBottomOf="@+id/textView36"
