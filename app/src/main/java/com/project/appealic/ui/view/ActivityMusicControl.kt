@@ -65,6 +65,7 @@ class ActivityMusicControl : AppCompatActivity(){
     private lateinit var moreBtn: Button
     private lateinit var addPlaylistBtn: ImageView
     private lateinit var shareBtn: ImageView
+    private lateinit var likeBtn: ImageView
     private  var player: ExoPlayer? = null
     private lateinit var trackId: String
     private lateinit var musicPlayerViewModel: MusicPlayerViewModel
@@ -96,6 +97,7 @@ class ActivityMusicControl : AppCompatActivity(){
         val songTitle = intent.getStringExtra("SONG_TITLE")?: "N/A"
         val artistName = intent.getStringExtra("SINGER_NAME")
         val trackImage = intent.getStringExtra("TRACK_IMAGE")
+        val artistId = intent.getStringExtra("ARTIST_ID")
         val duration = intent.getIntExtra("DURATION", 0)
         val trackUrl = intent.getStringExtra("TRACK_URL")
         trackList = intent.getStringArrayListExtra("TRACK_LIST")!!
@@ -177,6 +179,7 @@ class ActivityMusicControl : AppCompatActivity(){
         addPlaylistBtn = findViewById(R.id.addPlaylist)
         shareBtn = findViewById(R.id.share)
         playBtn = findViewById(R.id.playPauseIcon)
+        likeBtn = findViewById(R.id.like)
 
 
 
@@ -191,7 +194,8 @@ class ActivityMusicControl : AppCompatActivity(){
         moreBtn.setOnClickListener { handleMoreButtonClick() }
         addPlaylistBtn.setOnClickListener { handleAddPlaylistButtonClick() }
         shareBtn.setOnClickListener { handleShareButtonClick() }
-        playBtn.setOnClickListener { handelPlayButtonClick() }
+        playBtn.setOnClickListener { handlePlayButtonClick() }
+        likeBtn.setOnClickListener { handleLikeButtonClick()}
 
         //Cập nhật trang thái khi thay đổi progresBar
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -255,9 +259,11 @@ class ActivityMusicControl : AppCompatActivity(){
         val songTitle = intent.getStringExtra("SONG_TITLE")
         val artistName = intent.getStringExtra("SINGER_NAME")
         val trackImage = intent.getStringExtra("TRACK_IMAGE")
+        val artistId = intent.getStringExtra("ARTIST_ID")
         editor.putString("SONG_TITLE", songTitle)
         editor.putString("SINGER_NAME", artistName)
         editor.putString("TRACK_IMAGE", trackImage)
+        editor.putString("ARTIST_ID", artistId)
         // Save other song info to SharedPreferences if needed
         editor.apply()
 
@@ -283,7 +289,7 @@ class ActivityMusicControl : AppCompatActivity(){
        musicPlayerViewModel.previousButtonClick()
     }
 
-    private fun handelPlayButtonClick() {
+    private fun handlePlayButtonClick() {
         if (player?.isPlaying == true) {
             player?.pause()
             playBtn.setImageResource(R.drawable.ic_play_24_filled)
@@ -321,6 +327,30 @@ class ActivityMusicControl : AppCompatActivity(){
         // Xử lý khi nhấn nút Download
     }
 
+    fun handleLikeButtonClick() {
+        val sharedPreferences = getSharedPreferences("MyFavoriteSongs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        val songId = trackId
+        val isLiked = sharedPreferences.getBoolean(songId, false) // Kiểm tra xem bài hát đã được thêm vào danh sách yêu thích chưa
+
+        if (isLiked) {
+            // Nếu bài hát đã được thêm vào danh sách yêu thích, xóa nó khỏi danh sách yêu thích
+            editor.remove(songId)
+            editor.apply()
+
+            // Thay đổi hình ảnh của likeBtn về trạng thái không yêu thích
+            likeBtn.setImageResource(R.drawable.ic_heart_24_outlined)
+        } else {
+            // Nếu bài hát chưa được thêm vào danh sách yêu thích, thêm vào danh sách yêu thích
+            editor.putBoolean(songId, true)
+            editor.apply()
+
+            // Thay đổi hình ảnh của likeBtn về trạng thái đã yêu thích
+            likeBtn.setImageResource(R.drawable.ic_isliked)
+        }
+    }
+
 
     private fun handleMoreButtonClick() {
         val moreActionFragment = MoreActionFragment()
@@ -328,6 +358,7 @@ class ActivityMusicControl : AppCompatActivity(){
         bundle.putString("SONG_TITLE", intent.getStringExtra("SONG_TITLE"))
         bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
         bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
+        bundle.putString("ARTIST_ID", intent.getStringExtra("ARTIST_ID"))
         moreActionFragment.arguments = bundle
         moreActionFragment.show(supportFragmentManager, "MoreActionsFragment")
     }
@@ -367,5 +398,4 @@ private fun formatDuration(durationInSeconds: Long): String {
     val minutes = durationInSeconds / 60000
     return "$minutes:${String.format("%02d", seconds)}"
 }
-
 

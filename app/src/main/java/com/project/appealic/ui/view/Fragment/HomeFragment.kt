@@ -75,6 +75,7 @@ class HomeFragment : Fragment() {
                 bundle.putString("SONG_TITLE", track.trackTitle)
                 bundle.putString("SINGER_NAME", track.artist)
                 bundle.putString("TRACK_IMAGE", track.trackImage)
+                bundle.putString("ARTIST_ID", track.artistId)
                 moreActionFragment.arguments = bundle
                 moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
             }
@@ -165,6 +166,7 @@ class HomeFragment : Fragment() {
                 intent.putExtra("SINGER_NAME", selectedSong.artist)
                 intent.putExtra("SONG_NAME", selectedSong.trackTitle)
                 intent.putExtra("TRACK_IMAGE", selectedSong.trackImage)
+                intent.putExtra("ARTIST_ID", selectedSong.artistId)
                 intent.putExtra("DURATION", selectedSong.duration)
                 intent.putExtra("TRACK_URL", selectedSong.trackUrl)
                 intent.putExtra("TRACK_ID", selectedSong.trackId)
