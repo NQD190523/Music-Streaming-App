@@ -106,10 +106,11 @@ class SongViewModel(private val songRepository: SongRepository, private val user
 
     fun loadSearchResults(searchQuery: String?) {
         // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
-        val tracksLiveData = songRepository.loadSearchResults(searchQuery)
+        val searchResultsLiveData = songRepository.loadSearchResults(searchQuery)
         // Cập nhật LiveData _tracks với dữ liệu mới
-        tracksLiveData.observeForever { tracks ->
-            _tracks.postValue(tracks)
-    }
+        searchResultsLiveData.observeForever { searchResultsLiveData ->
+            _tracks.postValue(searchResultsLiveData.tracks)
+            _artists.postValue(searchResultsLiveData.artist)
+        }
 }
 }

@@ -10,8 +10,10 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.project.appealic.R
@@ -90,8 +92,25 @@ class EditAccountFragment : Fragment() {
         private fun setOnClickListeners(view: View?) {
 //            choose gender
         }
+        override fun onStart() {
+            super.onStart()
 
+            val dialog = dialog
+            if (dialog != null) {
+                // Đặt kích thước dialog
+                val width = 315 // Kích thước dp
+                val height = 285 // Kích thước dp
+                val params = dialog.window?.attributes
+                params?.width = (width * resources.displayMetrics.density).toInt()
+                params?.height = (height * resources.displayMetrics.density).toInt()
+                dialog.window?.attributes = params as WindowManager.LayoutParams
+
+                // Thiết lập background cho dialog
+                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.bg_update_profile)
+                dialog.window?.setBackgroundDrawable(drawable)
+            }
         }
+    }
 
         class UpdateDOBDialogFragment : DialogFragment() {
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -124,16 +143,24 @@ class EditAccountFragment : Fragment() {
             }
         }
 
-        override fun onStart() {
-            super.onStart()
+            override fun onStart() {
+                super.onStart()
 
-            val dialog = dialog
-            if (dialog != null) {
-                val width = ViewGroup.LayoutParams.MATCH_PARENT
-                val height = ViewGroup.LayoutParams.WRAP_CONTENT
-                dialog.window?.setLayout(width, height)
+                val dialog = dialog
+                if (dialog != null) {
+                    // Đặt kích thước dialog
+                    val width = 315 // Kích thước dp
+                    val height = 285 // Kích thước dp
+                    val params = dialog.window?.attributes
+                    params?.width = (width * resources.displayMetrics.density).toInt()
+                    params?.height = (height * resources.displayMetrics.density).toInt()
+                    dialog.window?.attributes = params as WindowManager.LayoutParams
+
+                    // Thiết lập background cho dialog
+                    val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.bg_update_profile)
+                    dialog.window?.setBackgroundDrawable(drawable)
+                }
             }
-        }
 
 
     }
@@ -171,12 +198,19 @@ class EditAccountFragment : Fragment() {
 
         override fun onStart() {
             super.onStart()
-
             val dialog = dialog
             if (dialog != null) {
-                val width = ViewGroup.LayoutParams.MATCH_PARENT
-                val height = ViewGroup.LayoutParams.WRAP_CONTENT
-                dialog.window?.setLayout(width, height)
+                // Đặt kích thước dialog
+                val width = 315 // Kích thước dp
+                val height = 285 // Kích thước dp
+                val params = dialog.window?.attributes
+                params?.width = (width * resources.displayMetrics.density).toInt()
+                params?.height = (height * resources.displayMetrics.density).toInt()
+                dialog.window?.attributes = params as WindowManager.LayoutParams
+
+                // Thiết lập background cho dialog
+                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.bg_update_profile)
+                dialog.window?.setBackgroundDrawable(drawable)
             }
         }
 
@@ -198,7 +232,7 @@ class EditAccountFragment : Fragment() {
                 dismiss()
             }
 
-            val edtNewEmail = view.findViewById<View>(R.id.edtNewEmail)
+            val edtNewEmail = view.findViewById<View>(R.id.edtEmailProfile)
 
             btnUpdate.setOnClickListener {
                 val newEmail = edtNewEmail.toString()
@@ -218,9 +252,17 @@ class EditAccountFragment : Fragment() {
 
             val dialog = dialog
             if (dialog != null) {
-                val width = ViewGroup.LayoutParams.MATCH_PARENT
-                val height = ViewGroup.LayoutParams.WRAP_CONTENT
-                dialog.window?.setLayout(width, height)
+                // Đặt kích thước dialog
+                val width = 315 // Kích thước dp
+                val height = 285 // Kích thước dp
+                val params = dialog.window?.attributes
+                params?.width = (width * resources.displayMetrics.density).toInt()
+                params?.height = (height * resources.displayMetrics.density).toInt()
+                dialog.window?.attributes = params as WindowManager.LayoutParams
+
+                // Thiết lập background cho dialog
+                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.bg_update_profile)
+                dialog.window?.setBackgroundDrawable(drawable)
             }
         }
 
@@ -262,11 +304,20 @@ class EditAccountFragment : Fragment() {
         override fun onStart() {
             super.onStart()
 
+            // Cóp khúc này vô là đẹp
             val dialog = dialog
             if (dialog != null) {
-                val width = ViewGroup.LayoutParams.MATCH_PARENT
-                val height = ViewGroup.LayoutParams.WRAP_CONTENT
-                dialog.window?.setLayout(width, height)
+                // Đặt kích thước dialog
+                val width = 315 // Kích thước dp
+                val height = 285 // Kích thước dp
+                val params = dialog.window?.attributes
+                params?.width = (width * resources.displayMetrics.density).toInt()
+                params?.height = (height * resources.displayMetrics.density).toInt()
+                dialog.window?.attributes = params as WindowManager.LayoutParams
+
+                // Thiết lập background cho dialog
+                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.bg_update_profile)
+                dialog.window?.setBackgroundDrawable(drawable)
             }
         }
 

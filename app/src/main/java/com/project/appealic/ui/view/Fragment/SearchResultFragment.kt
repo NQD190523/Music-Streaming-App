@@ -17,11 +17,14 @@ import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.project.appealic.ui.view.Adapters.ArtistAdapter
+
 class SearchResultFragment: Fragment() {
     private lateinit var listSong: ListView
     private lateinit var songViewModel: SongViewModel
-    private lateinit var searchtest: androidx.appcompat.widget.SearchView
-    private lateinit var listArtist: ListView
+    private lateinit var listArtist: RecyclerView
     private lateinit var listAlbum: ListView
 
     private lateinit var searchDatabase: DatabaseReference
@@ -35,6 +38,8 @@ class SearchResultFragment: Fragment() {
         val view = inflater.inflate(R.layout.fragment_search_result, container, false)
 
         listSong = view.findViewById(R.id.lvSearchResultSongs)
+        listArtist = view.findViewById(R.id.lvSearchResultArtists)
+        listArtist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         // Khởi tạo SongViewModel
         val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
@@ -49,8 +54,12 @@ class SearchResultFragment: Fragment() {
 
             // Quan sát LiveData _tracks để cập nhật ListView khi có kết quả tìm kiếm mới
             songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
-                val adapter = NewReleaseAdapter(requireContext(), tracks)
-                listSong.adapter = adapter
+                val adapterSong = NewReleaseAdapter(requireContext(), tracks)
+                listSong.adapter = adapterSong
+            })
+            songViewModel.artists.observe(viewLifecycleOwner, Observer { artists->
+                val adapterArtist = ArtistAdapter(requireContext(), artists)
+                listArtist.adapter = adapterArtist
             })
         }
 
