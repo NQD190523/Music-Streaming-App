@@ -22,5 +22,8 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
     fun createUserProfileByGoogle(account: GoogleSignInAccount, user: FirebaseUser){
         profileRepository.addUserLoginByGoogleToFireStore(account,user)
     }
+    fun getUserInfo(userId : String) : User?{
+        return profileRepository.getUserInfo(userId)
+    }
 
 }

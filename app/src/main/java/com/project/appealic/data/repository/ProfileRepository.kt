@@ -9,9 +9,11 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.project.appealic.data.model.User
+import kotlinx.coroutines.tasks.await
 
 
 class ProfileRepository {
@@ -70,6 +72,23 @@ class ProfileRepository {
                 }
         } catch (e: ApiException) {
             Log.e(TAG, "signInResult:failed code=" + e.statusCode)
+        }
+    }
+
+    fun getUserInfo(userId: String): User? {
+        val task = FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(userId)
+            .get()
+
+        while (!task.isComplete) {
+            // Chờ cho đến khi nhiệm vụ hoàn thành
+        }
+        return if (task.isSuccessful) {
+            val documentSnapshot: DocumentSnapshot? = task.result
+            documentSnapshot?.toObject(User::class.java)
+        } else {
+            null
         }
     }
 }

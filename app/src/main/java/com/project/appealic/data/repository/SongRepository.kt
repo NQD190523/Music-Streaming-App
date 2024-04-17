@@ -66,7 +66,7 @@ class SongRepository (application: Application) {
         userDocRef.get()
             .addOnSuccessListener { userDoc ->
                 if (userDoc.exists()) {
-                    val favoriteSongIds = userDoc["favoriteSongs"] as? List<String> ?: emptyList()
+                    val favoriteSongIds = userDoc["likedSongs"] as? List<String> ?: emptyList()
 
                     val tasks = favoriteSongIds.map { songId ->
                         val trackDocRef = firebaseDB.collection("tracks").document(songId)
