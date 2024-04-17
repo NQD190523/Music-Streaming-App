@@ -11,6 +11,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.toObject
 import com.google.firebase.firestore.toObjects
 import com.project.appealic.data.model.Artist
+import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.model.UserEntity
@@ -33,6 +34,9 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     private val _artists = MutableLiveData<List<Artist>>()
     val artists: LiveData<List<Artist>> get() = _artists
 
+    private val _playlists = MutableLiveData<List<Playlist>>()
+    val playlists: LiveData<List<Playlist>> get() = _playlists
+
     fun getAllTracks(){
         songRepository.getAllTrack()
             .addOnSuccessListener { tracks ->
@@ -51,6 +55,17 @@ class SongViewModel(private val songRepository: SongRepository, private val user
             }
             .addOnFailureListener { exception->
                 Log.e("error" , exception.toString())
+            }
+    }
+
+    fun getAllPlaylists() {
+        songRepository.getAllPlaylists()
+            .addOnSuccessListener { playlists ->
+                if (playlists != null)
+                    _playlists.postValue(playlists.toObjects(Playlist::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.e("error", exception.toString())
             }
     }
 
