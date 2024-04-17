@@ -42,3 +42,4 @@ class ArtistAdapter(private val context: Context, private val artists: List<Arti
 
     override fun getItemCount() = artists.size
 }
+

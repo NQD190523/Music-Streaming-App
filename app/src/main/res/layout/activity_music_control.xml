@@ -366,8 +366,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/icon_btn_heart"
+                android:padding="@dimen/dp_20"
+                android:src="@drawable/ic_heart_24_outlined"
                 app:layout_constraintBottom_toBottomOf="@+id/singer_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/song_name" />

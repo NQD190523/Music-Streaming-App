@@ -3,6 +3,7 @@ package com.project.appealic.ui.view.Fragment
 import SongAdapter
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,8 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
 import com.project.appealic.data.model.Track
@@ -51,7 +54,7 @@ class MoreActionFragment : DialogFragment() {
         savedInstanceState: Bundle?,
 
     ): View? {
-        val track: Track? = arguments?.getParcelable("TRACK")
+        val track: Track? = arguments?.getParcelable(ARG_TRACK)
         return inflater.inflate(R.layout.fragment_more_action, container, false)
     }
 
@@ -82,6 +85,7 @@ class MoreActionFragment : DialogFragment() {
         val songTitle = arguments?.getString("SONG_TITLE")
         val artistName = arguments?.getString("SINGER_NAME")
         val trackImage = arguments?.getString("TRACK_IMAGE")
+
         val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
         txtSongName.text = songTitle
         val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
@@ -154,6 +158,39 @@ class MoreActionFragment : DialogFragment() {
         )
         window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
         dialog.setContentView(R.layout.bottom_artist)
+
+        // Lấy ID của nghệ sĩ từ bundle
+        val artistId = arguments?.getString("ARTIST_ID")
+
+        // Truy vấn Firebase để lấy thông tin chi tiết về nghệ sĩ
+        val artistNameTextView = dialog.findViewById<TextView>(R.id.artistName)
+        val artistImageView = dialog.findViewById<ImageView>(R.id.artistImage)
+        val artistRef = Firebase.firestore.collection("artists").document(artistId.toString())
+        artistRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    // Lấy thông tin chi tiết về nghệ sĩ từ Firestore
+                    val artistName = document.getString("Name")
+                    val artistImage = document.getString("ImageResource")
+
+                    // Hiển thị thông tin chi tiết của nghệ sĩ trên giao diện của Dialog
+                    artistNameTextView.text = artistName
+                    // Đoạn này chưa load được ảnh
+                    if (artistImage != null && isAdded) {
+                        val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(artistImage)
+                        Glide.with(requireContext()) // Sử dụng requireContext() thay vì this
+                            .load(storageReference)
+                            .into(artistImageView)
+                        }
+                    } else {
+                        Log.d("MoreActionFragment", "No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("MoreActionFragment", "get failed with ", exception)
+                }
+
+
         dialog.show()
     }
 
