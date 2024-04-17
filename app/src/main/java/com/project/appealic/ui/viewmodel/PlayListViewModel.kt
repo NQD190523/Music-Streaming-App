@@ -37,7 +37,7 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
         _userPlayLists.postValue(playLists)
     }
     fun getAllPlayList(){
-        playListRepository.getAllTrack()
+        playListRepository.getAllPlaylists()
             .addOnSuccessListener { playlist ->
                 if(playlist != null) _playLists.postValue(playlist.toObjects(Playlist::class.java))
             }

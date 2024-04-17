@@ -31,7 +31,7 @@ class PlayListRepository(application: Application) {
         return playListDao.insert(playList)
     }
 
-    fun getAllTrack(): Task<QuerySnapshot> {
+    fun getAllPlaylists(): Task<QuerySnapshot> {
         return firebaseDB.collection("playlists").get()
     }
 }
