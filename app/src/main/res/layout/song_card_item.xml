@@ -25,22 +25,26 @@
 
         <TextView
             android:id="@+id/txtSongName"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_8"
             android:text="Song Name"
             android:textColor="@color/white"
-            style="@style/Body1Bold"/>
+            style="@style/Body1Bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
 
         <TextView
             android:id="@+id/txtSinger"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_4"
             android:text="Artist Name"
             android:textColor="@color/subText"
-            style="@style/Body2"/>
+            style="@style/Body2"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
     </LinearLayout>
 
