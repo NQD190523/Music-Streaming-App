@@ -115,7 +115,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="14dp"
                 android:background="@drawable/noncolor_button"
-                android:onClick="toForgetPassword"
                 android:text="@string/forgot_password"
                 android:textColor="@color/text"
                 app:layout_constraintBottom_toBottomOf="@+id/constraintLayout17"
@@ -247,94 +246,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
-        <!--        <RelativeLayout-->
-        <!--            android:id="@+id/relativeLayout2"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/btnLogin"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            android:layout_marginTop="20dp">-->
-
-        <!--            <View-->
-        <!--                android:layout_width="100dp"-->
-        <!--                android:layout_height="1dp"-->
-        <!--                android:layout_centerVertical="true"-->
-        <!--                android:background="@color/white" />-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:textColor="@color/text"-->
-        <!--                android:layout_centerHorizontal="true"-->
-        <!--                android:layout_centerVertical="true"-->
-        <!--                android:text="@string/or_continue_with"-->
-        <!--                style="@style/Label" />-->
-
-        <!--            <View-->
-        <!--                android:layout_width="100dp"-->
-        <!--                android:layout_height="1dp"-->
-        <!--                android:layout_alignParentEnd="true"-->
-        <!--                android:layout_centerVertical="true"-->
-        <!--                android:background="@color/white" />-->
-
-        <!--        </RelativeLayout>-->
-
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/linearLayout"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="20dp"-->
-        <!--            android:gravity="center"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent">-->
-
-        <!--            <ImageView-->
-        <!--                android:id="@+id/btnFacebook"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:background="#00000000"-->
-        <!--                android:src="@drawable/ic_facebook_fill"-->
-        <!--                android:onClick="toFacebook"/>-->
-        <!--            <ImageView-->
-        <!--                android:id="@+id/btnGoogle"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginStart="16dp"-->
-        <!--                android:background="#00000000"-->
-        <!--                android:src="@drawable/ic_google_fill"-->
-        <!--                android:onClick="toGoogle"/>-->
-
-        <!--        </LinearLayout>-->
-
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/linearLayout2"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="20dp"-->
-        <!--            android:gravity="center"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent">-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="@string/dont_have_account"-->
-        <!--                style="@style/Body2"-->
-        <!--                android:textColor="@color/subText"-->
-        <!--                android:textSize="16sp" />-->
-        <!--            <Button-->
-        <!--                android:id="@+id/btnRegister"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:background="@drawable/noncolor_button"-->
-        <!--                android:text="@string/sign_up"-->
-        <!--                android:textColor="@color/text"-->
-        <!--                style="@style/Body2"-->
-        <!--                android:onClick="toRegister"/>-->
-
-        <!--        </LinearLayout>-->
-
-

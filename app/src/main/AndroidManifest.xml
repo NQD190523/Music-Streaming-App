@@ -39,7 +39,9 @@
         <activity android:name=".ui.view.Activity_welcome"/>
         <activity android:name=".ui.view.MediaActivity"/>
         <activity android:name=".ui.view.ActivityMusicControl" />
+        <activity android:name=".ui.view.ActivityNewPassword" />
         <activity android:name=".ui.view.ActivityHome" />
+        <activity android:name=".ui.view.ActivityForgotPassword" />
         <activity android:name=".MainActivity" />
         <receiver android:name=".ui.view.WidgetView"
             android:exported="true">
