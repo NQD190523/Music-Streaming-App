@@ -83,8 +83,8 @@ class ActivityLoginPhone : AppCompatActivity() {
                 var errorMessage: String = ""
 
                 when (isValidPhoneNumber) {
-                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập SĐT"
-                    ValidationUtils.PHONE_MISMATCH_ERROR -> errorMessage = "Vui lòng nhập SĐT hợp lệ"
+                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Please enter your Phone Number"
+                    ValidationUtils.PHONE_MISMATCH_ERROR -> errorMessage = "Please enter a valid Phone Number"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()

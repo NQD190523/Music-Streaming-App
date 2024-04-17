@@ -47,9 +47,9 @@ class ActivityRegister : AppCompatActivity() {
                 var errorMessage: String = ""
 
                 when (isValidEmail) {
-                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập Email"
+                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Please enter your email address"
                     ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage =
-                        "Nhập đúng định dang Email"
+                        "Please enter a valid email address"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
@@ -62,12 +62,12 @@ class ActivityRegister : AppCompatActivity() {
                 var errorMessage: String = ""
 
                 when (isValidPassword) {
-                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập mật khẩu"
+                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Please enter your password"
                     ValidationUtils.PASSWORD_LENGTH_ERROR -> errorMessage =
-                        "Vui lòng nhập ít nhất 8 ký tự"
+                        "The minimum password allowance is 8 characters"
 
                     ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage =
-                        "Mật khẩu phải có cả chữ và số"
+                        "Password must contain both numbers and characters"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
@@ -81,9 +81,9 @@ class ActivityRegister : AppCompatActivity() {
                 var errorMessage: String = ""
 
                 when (isValidConfirmedPassword) {
-                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập xác nhận mật khẩu"
+                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Please enter your confirmation password"
                     ValidationUtils.PASSWORD_MISMATCH_ERROR -> errorMessage =
-                        "Xác nhận mật khẩu không đúng"
+                        "Check your password again"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()

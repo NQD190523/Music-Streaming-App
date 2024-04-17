@@ -103,8 +103,8 @@ class  GoogleLoginActivity : AppCompatActivity() {
                 var errorMessage: String = ""
 
                 when (isValidEmail) {
-                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập Email"
-                    ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage = "Vui lòng nhập đúng định dạng Email"
+                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Please enter your email address"
+                    ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage = "Please enter a valid email address"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
@@ -117,9 +117,9 @@ class  GoogleLoginActivity : AppCompatActivity() {
                 var errorMessage: String = ""
 
                 when (isValidPassword) {
-                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập mật khẩu"
-                    ValidationUtils.PASSWORD_LENGTH_ERROR -> errorMessage = "Vui lòng nhập ít nhất 8 ký tự"
-                    ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage = "Mật khẩu phải bao gồm cả chữ và số"
+                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Please enter your password"
+                    ValidationUtils.PASSWORD_LENGTH_ERROR -> errorMessage = "The minimum password allowance is 8 characters"
+                    ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage = "Password must contain both numbers and characters"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
