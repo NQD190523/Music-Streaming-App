@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -18,6 +19,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.data.dao.SongDao
 import com.project.appealic.data.dao.UserDao
 import com.project.appealic.data.database.AppDatabase
+import com.project.appealic.data.model.SearchResults
 import com.project.appealic.data.model.SongEntity
 import com.spotify.protocol.types.Track
 import kotlinx.coroutines.tasks.await
@@ -82,29 +84,53 @@ class SongRepository(application: Application) {
 //            }
 //        }
 //        return tracksLiveData
-fun loadSearchResults(searchQuery: String?): LiveData<List<com.project.appealic.data.model.Track>> {
-    val tracksLiveData = MutableLiveData<List<com.project.appealic.data.model.Track>>()
+fun loadSearchResults(searchQuery: String?): LiveData<SearchResults> {
+    val searchResultsLiveData = MutableLiveData<SearchResults>()
     if (searchQuery.isNullOrEmpty()) {
         Log.d(TAG, "loadSearchResults: No search query provided")
-        return tracksLiveData
+        return searchResultsLiveData
     }
 
-    firebaseDB.collection("tracks").get().addOnCompleteListener { task ->
+    val tracksTask = firebaseDB.collection("tracks").get()
+    val artistsTask = firebaseDB.collection("artists").get()
+
+    Tasks.whenAllComplete(tracksTask, artistsTask).addOnCompleteListener { task ->
         if (task.isSuccessful) {
-            val snapshot = task.result
-            if (snapshot != null && !snapshot.isEmpty) {
-                Log.d(TAG, "loadSearchResults: Found ${snapshot.size()} tracks")
-                val tracks = snapshot.documents.mapNotNull { it.toObject(com.project.appealic.data.model.Track::class.java) }
+            val tasks = task.result
+            var tracksSnapshot: QuerySnapshot? = null
+            var artistsSnapshot: QuerySnapshot? = null
+
+            for (t in tasks) {
+                if (t.isSuccessful) {
+                    val result = t.result
+                    if (result is QuerySnapshot) {
+                        if (tracksSnapshot == null) {
+                            tracksSnapshot = result
+                        } else if (artistsSnapshot == null) {
+                            artistsSnapshot = result
+                        }
+                    }
+                } else {
+                    Log.e(TAG, "loadSearchResults: Error fetching data", t.exception)
+                }
+            }
+
+            if (tracksSnapshot != null || artistsSnapshot != null) {
+                val tracks = tracksSnapshot?.documents?.mapNotNull { it.toObject(com.project.appealic.data.model.Track::class.java) } ?: emptyList()
+                val artists = artistsSnapshot?.documents?.mapNotNull { it.toObject(com.project.appealic.data.model.Artist::class.java) } ?: emptyList()
+
                 val filteredTracks = tracks.filter { it.trackTitle?.contains(searchQuery, ignoreCase = true) == true }
-                tracksLiveData.postValue(filteredTracks)
+                val filteredArtists = artists.filter { it.Name?.contains(searchQuery, ignoreCase = true) == true }
+
+                searchResultsLiveData.postValue(SearchResults(filteredTracks, filteredArtists))
             } else {
-                Log.d(TAG, "loadSearchResults: No tracks found")
+                Log.e(TAG, "loadSearchResults: No data found")
             }
         } else {
-            Log.e(TAG, "loadSearchResults: Error fetching tracks", task.exception)
+            Log.e(TAG, "loadSearchResults: Error fetching data", task.exception)
         }
     }
 
-    return tracksLiveData
+    return searchResultsLiveData
 }
 }
