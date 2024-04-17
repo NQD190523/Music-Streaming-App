@@ -20,15 +20,19 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat.ACTION_PAUSE
 import android.support.v4.media.session.PlaybackStateCompat.ACTION_PLAY
 import android.support.v4.media.session.PlaybackStateCompat.ACTION_STOP
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
+import com.bumptech.glide.Glide
 import com.project.appealic.R
 import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.utils.MusicPlayerFactory
@@ -62,6 +66,14 @@ class MusicPlayerService : Service() {
     override fun onCreate() {
         super.onCreate()
         player = ExoPlayer.Builder(this).build()
+        player.addListener(object : Player.Listener {
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                super.onMediaItemTransition(mediaItem, reason)
+                if (mediaItem != null) {
+                    updateTrackInfoOnUI(mediaItem)
+                }
+            }
+        })
         trackCurrentPosition()
 
         // Khởi tạo NotificationManager
@@ -72,7 +84,15 @@ class MusicPlayerService : Service() {
         startForeground(MusicPlayerService.NOTIFICATION_ID,createNotification())
         _serviceReady.value = true
     }
+    private fun updateTrackInfoOnUI(mediaItem: MediaItem) {
+        val songTitle = mediaItem.mediaMetadata.title.toString()
+        val artistName = mediaItem.mediaMetadata.artist.toString()
 
+        val intent = Intent("ACTION_TRACK_CHANGED")
+        intent.putExtra("songTitle", songTitle)
+        intent.putExtra("artistName", artistName)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_PLAY -> {
@@ -100,6 +120,7 @@ class MusicPlayerService : Service() {
         player.play()
     }
 
+
     fun play() {
         if(player.isPlaying){
             player.playWhenReady = true
@@ -110,17 +131,23 @@ class MusicPlayerService : Service() {
             player.playWhenReady = false
         }
     }
+
+
     fun nextButtonClick() {
         // Kiểm tra xem player có được khởi tạo không
         if (player.playbackState != Player.STATE_IDLE && player.playbackState != Player.STATE_ENDED) {
             // Lấy vị trí của mục phương tiện hiện tại trong danh sách phát
             val currentMediaItemIndex = player.currentMediaItemIndex
-            println(currentMediaItemIndex)
-            println(player.mediaItemCount)
             // Xác định vị trí của mục phương tiện kế tiếp
             val nextMediaItemIndex = if (currentMediaItemIndex < player.mediaItemCount - 1) currentMediaItemIndex + 1 else currentMediaItemIndex
             // Chuyển đến mục phương tiện kế tiếp
             player.seekToDefaultPosition(nextMediaItemIndex)
+            // Lấy thông tin về bài hát mới
+            val nextMediaItem = player.getMediaItemAt(nextMediaItemIndex)
+            // Gửi thông tin về bài hát mới đến ActivityMusicControl
+            if (nextMediaItem != null) {
+                updateTrackInfoOnUI(nextMediaItem)
+            }
         }
     }
     fun previousButtonClick() {
