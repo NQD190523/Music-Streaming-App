@@ -147,15 +147,32 @@ override fun onCreate(savedInstanceState: Bundle?) {
     }
 }
     private fun sendVerificationCodeToUser(phoneNo: String) {
+        val formattedPhoneNumber = formatPhoneNumber(phoneNo)
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-            phoneNo, // Phone number to verify
+            formattedPhoneNumber,
             20,
             TimeUnit.SECONDS, // Unit of timeout
             this,
             callbacks
         )
     }
-private fun navigateToMainScreen() {
+
+    private fun formatPhoneNumber(phoneNo: String): String {
+        val digitsOnly = phoneNo.replace("\\D".toRegex(), "")
+        val formattedNumber = if (digitsOnly.startsWith("0")) {
+            digitsOnly.substring(1)
+        } else {
+            digitsOnly
+        }
+        return if (!formattedNumber.startsWith("+84")) {
+            "+84$formattedNumber"
+        } else {
+            formattedNumber
+        }
+    }
+
+
+    private fun navigateToMainScreen() {
     // Chuyển hướng đến màn hình chính hoặc màn hình tiếp theo sau khi đăng nhập thành công
     intent = Intent(this, ActivityHome::class.java)
     startActivity(intent)
