@@ -22,12 +22,21 @@ class ProfileRepository {
         val userData = User("","","",99999999,email)
         db.collection("users")
             .document(user.uid)
-            .set(userData)
-            .addOnSuccessListener {
-                Log.d("Firestore", "DocumentSnapshot added with ID: user1")
-            }
-            .addOnFailureListener { e ->
-                Log.e("Firestore", "Error adding document", e)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    Log.d("Firestore", "User document already exists")
+                } else {
+                    db.collection("users")
+                        .document(user.uid)
+                        .set(userData)
+                        .addOnSuccessListener {
+                            Log.d("Firestore", "DocumentSnapshot added with ID: user1")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("Firestore", "Error adding document", e)
+                        }
+                }
             }
     }
 
