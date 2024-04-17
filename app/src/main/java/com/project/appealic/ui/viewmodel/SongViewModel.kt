@@ -22,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.concurrent.CompletableFuture
 
 class SongViewModel(private val songRepository: SongRepository, private val userRepository: UserRepository) : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
@@ -93,15 +94,22 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     }
 
 
-    fun getLikedSongs(userId: String) = viewModelScope.launch {
-        try {
-            val songs = songRepository.getLikedSongs(userId).await()
-            val likedSongsList = songs.documents.map { it.toObject<SongEntity>()!! }
-            _likedSongs.postValue(likedSongsList)
-        } catch (exception: Exception) {
-            Log.e("error", exception.toString())
+    fun getLikedSongs(userId: String) : CompletableFuture<List<Track>>{
+       return songRepository.getLikedSongFromUser(userId)
+    }
+
+    fun addTrackToUserLikedSongs ( userId: String, trackId : String) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            songRepository.addTrackToUserLikedSongs(userId, trackId)
         }
     }
+
+    fun removeTrackFromUserLikedSongs ( userId: String, trackId : String) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            songRepository.removeTrackFromUserLikedSongs(userId, trackId)
+        }
+    }
+
 
 
     fun loadSearchResults(searchQuery: String?) {
