@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="315dp"
-    android:layout_height="285dp"
-    android:background="@drawable/bg_update_profile">
+    android:layout_height="285dp">
 
     <TextView
         android:id="@+id/title_dialog"
@@ -33,7 +32,7 @@
 
 
     <EditText
-        android:id="@+id/edtNewEmail"
+        android:id="@+id/edtEmailProfile"
         style="@style/Placeholder"
         android:layout_width="match_parent"
         android:layout_height="48dp"

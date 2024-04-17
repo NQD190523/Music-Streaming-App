@@ -135,6 +135,8 @@
     <string name="pragraph8">This is part of our Privacy Policy but focuses more specifically on our use of cookies and related technologies. We also share more information on how you can opt-out of specific services. </string>
     <string name="title6">Copyright Page</string>
     <string name="pragraph9">Find out more about copyright and our approach to protecting creators rights. </string>
+    <string name="you_have_an_account">You have an account?</string>
+    <string name="sign_in">Sign in</string>
 
 
 </resources>
