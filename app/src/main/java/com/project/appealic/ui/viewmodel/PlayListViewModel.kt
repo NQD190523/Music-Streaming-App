@@ -49,7 +49,7 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
             // Handle the error, e.g., show a message to the user
         }
 
-        fun getAllPlayList() {
+        fun getAllPlaylists() {
             playListRepository.getAllPlaylists()
                 .addOnSuccessListener { playlist ->
                     if (playlist != null) _playLists.postValue(playlist.toObjects(Playlist::class.java))
@@ -59,6 +59,7 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
                 }
         }
 
+
     }
 
     fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
@@ -66,6 +67,8 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
             withContext(Dispatchers.IO) {
                 playListRepository.addTrackToPlaylist(track, playlist)
             }
+            Log.d("PlayListViewModel", "Track added to playlist: ${playlist.playListName}")
+
         }
     }
     }

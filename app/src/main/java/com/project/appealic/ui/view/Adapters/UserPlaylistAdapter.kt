@@ -34,13 +34,31 @@ class UserPlaylistAdapter (
         return position.toLong()
     }
 
-
     @SuppressLint("ViewHolder", "InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_user_playlist, parent, false)
+        val view: View
+        val holder: ViewHolder
+
+        if (convertView == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.item_user_playlist, parent, false)
+            holder = ViewHolder(view)
+            view?.tag = holder
+        } else {
+            view = convertView
+            holder = convertView.tag as ViewHolder
+        }
+
         val currentPlaylist = playlists[position]
-        val playlistNameTextView: TextView = view.findViewById(R.id.txtUserPlaylistName)
-        playlistNameTextView.text = currentPlaylist.playListName
+        holder.playlistNameTextView.text = currentPlaylist.playListName
+        // Load the image from Firebase Storage
+        val imageRef = storage.getReferenceFromUrl(currentPlaylist.playListThumb.toString())
+        Glide.with(context).load(imageRef).into(holder.playlistImageView)
+
         return view
+    }
+
+    private class ViewHolder(view: View) {
+        val playlistNameTextView: TextView = view.findViewById(R.id.txtUserPlaylistName)
+        val playlistImageView: ImageView = view.findViewById(R.id.playlistImage)
     }
 }

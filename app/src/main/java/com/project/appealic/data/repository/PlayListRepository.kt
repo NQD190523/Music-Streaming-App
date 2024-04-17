@@ -31,8 +31,10 @@ class PlayListRepository(application: Application) {
     }
 
 
-    fun createNewPlayList(playList : PlayListEntity){
-        return playListDao.insert(playList)
+    suspend fun createNewPlayList(playList : PlayListEntity) {
+        withContext(Dispatchers.IO) {
+            playListDao.insert(playList)
+        }
     }
 
     fun getAllPlaylists(): Task<QuerySnapshot> {
@@ -43,6 +45,9 @@ class PlayListRepository(application: Application) {
             if (!playList.tracks.contains(track)) {
                 playList.tracks.add(track)
                 playListDao.update(playList)
+            } else {
+                // Handle the error, show a message to the user
+
             }
         }
     }

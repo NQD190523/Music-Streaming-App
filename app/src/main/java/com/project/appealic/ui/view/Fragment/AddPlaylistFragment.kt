@@ -32,6 +32,8 @@ import com.project.appealic.utils.PlayListViewModelFactory
 import java.io.ByteArrayOutputStream
 
 class AddPlaylistFragment : DialogFragment() {
+    private lateinit var lvUserPlaylist: ListView
+
 
     companion object {
         fun newInstance(track: Track): AddPlaylistFragment {
@@ -103,8 +105,11 @@ class AddPlaylistFragment : DialogFragment() {
     private fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
         playListViewModel.addTrackToPlaylist(track, playlist)
         Toast.makeText(context, "Bài hát \"${track.trackTitle}\" đã được thêm vào playlist ${playlist.playListName}.", Toast.LENGTH_SHORT).show()
+        playListViewModel.userPlayLists.observe(viewLifecycleOwner, Observer { playlists ->
+            val adapter = UserPlaylistAdapter(requireContext(), playlists)
+            lvUserPlaylist.adapter = adapter
+        })
     }
-
     private fun showCreatePlaylistDialog() {
         val dialog = Dialog(requireActivity())
         dialog.setContentView(R.layout.dialog_create_playlist)
@@ -122,11 +127,11 @@ class AddPlaylistFragment : DialogFragment() {
         btnCancel.setOnClickListener {
             dialog.dismiss()
         }
-
         btnConfirm.setOnClickListener {
             if(userId != null){
                 val newPlaylist = PlayListEntity("", userId, edtPlaylistName.text.toString(), R.drawable.song2)
                 playListViewModel.createNewPlayList(newPlaylist)
+                playListViewModel.getUserPlaylist(userId)
                 dialog.dismiss()
             }
         }
