@@ -11,7 +11,10 @@ import com.project.appealic.data.dao.PlayListDao
 import com.project.appealic.data.dao.UserDao
 import com.project.appealic.data.database.AppDatabase
 import com.project.appealic.data.model.PlayListEntity
+import com.project.appealic.data.model.Track
 import com.project.appealic.data.model.UserWithPlayLists
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class PlayListRepository(application: Application) {
     val firebaseDB = Firebase.firestore
@@ -23,9 +26,10 @@ class PlayListRepository(application: Application) {
         .build()
     private val playListDao : PlayListDao = db.platListDao()
 
-    fun getAllUserPlayList(userId : String) : List<PlayListEntity>{
+    fun getAllUserPlayList(userId : String) : LiveData<List<PlayListEntity>> {
         return playListDao.getUserPlayLists(userId)
     }
+
 
     fun createNewPlayList(playList : PlayListEntity){
         return playListDao.insert(playList)
@@ -33,5 +37,13 @@ class PlayListRepository(application: Application) {
 
     fun getAllPlaylists(): Task<QuerySnapshot> {
         return firebaseDB.collection("playlists").get()
+    }
+    suspend fun addTrackToPlaylist(track: Track, playList: PlayListEntity) {
+        withContext(Dispatchers.IO) {
+            if (!playList.tracks.contains(track)) {
+                playList.tracks.add(track)
+                playListDao.update(playList)
+            }
+        }
     }
 }
