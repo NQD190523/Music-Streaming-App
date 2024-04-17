@@ -26,5 +26,6 @@ class Activity_welcome_2 : AppCompatActivity() {
             val intent = Intent(this, Activiy_Singup::class.java)
             startActivity(intent)
         }
+
     }
 }
