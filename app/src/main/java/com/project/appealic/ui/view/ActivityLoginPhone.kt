@@ -17,6 +17,7 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.project.appealic.MainActivity
 import com.project.appealic.R
 import com.project.appealic.databinding.ActivityLoginPhoneBinding
 import com.project.appealic.ui.viewmodel.AuthViewModel
@@ -29,22 +30,21 @@ import java.util.concurrent.TimeUnit
 
 class ActivityLoginPhone : AppCompatActivity() {
 
-    private lateinit var binding : ActivityLoginPhoneBinding
-    private lateinit var auth : FirebaseAuth
+    private lateinit var binding: ActivityLoginPhoneBinding
+    private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var viewModel: AuthViewModel
     private lateinit var verificationId: String
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
-    private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            result ->
-        val data : Intent? = result.data
+    private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val data: Intent? = result.data
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
         if (task.isSuccessful) {
-            val account : GoogleSignInAccount? = task.result
-            if (account != null){
+            val account: GoogleSignInAccount? = task.result
+            if (account != null) {
                 viewModel.signInWithGoogle(account)
-            } else{
+            } else {
                 Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
@@ -55,24 +55,25 @@ class ActivityLoginPhone : AppCompatActivity() {
         binding = ActivityLoginPhoneBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize ViewModel
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         auth = FirebaseAuth.getInstance()
 
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-            override fun onVerificationCompleted(p0: PhoneAuthCredential) {
+            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                signInWithPhoneAuthCredential(credential)
+            }
+
+            override fun onVerificationFailed(exception: FirebaseException) {
+                Toast.makeText(this@ActivityLoginPhone, "Verification failed: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+                super.onCodeSent(verificationId, token)
+                this@ActivityLoginPhone.verificationId = verificationId
+                // Navigate to the OTP verification screen
                 val intent = Intent(this@ActivityLoginPhone, ActivityLoginPhoneOTP::class.java)
                 intent.putExtra("verificationId", verificationId)
                 startActivity(intent)
-            }
-
-            override fun onVerificationFailed(p0: FirebaseException) {
-                Toast.makeText(this@ActivityLoginPhone, p0.message, Toast.LENGTH_LONG).show()
-            }
-
-            override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
-                super.onCodeSent(p0, p1)
-                verificationId = p0
             }
         }
 
@@ -81,9 +82,9 @@ class ActivityLoginPhone : AppCompatActivity() {
             .requestEmail()
             .build()
 
-        googleSignInClient = GoogleSignIn.getClient(this,gso)
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        binding.btnGoogle.setOnClickListener(){
+        binding.btnGoogle.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 launcher.launch(googleSignInClient.signInIntent)
             }
@@ -92,60 +93,20 @@ class ActivityLoginPhone : AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
             val phone = binding.txtLoginPhone.text.toString()
 
-            val isValidPhoneNumber = ValidationUtils.isValidPhoneNumber(phone)
-
-            if (isValidPhoneNumber != ValidationUtils.VALID) {
-                var errorMessage: String = ""
-
-                when (isValidPhoneNumber) {
-                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập SĐT"
-                    ValidationUtils.PHONE_MISMATCH_ERROR -> errorMessage = "Vui lòng nhập SĐT hợp lệ"
-                }
-
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-
-                return@setOnClickListener
-            }
-
-            Toast.makeText(this, "Phone correct", Toast.LENGTH_SHORT).show()
-
-            sendVerificationCodeToUser(phone)
-        }
-
-        viewModel.signInSuccess.observe(this) { signInSuccess ->
-            if (signInSuccess) {
-                navigateToMainScreen()
+            if (ValidationUtils.isValidPhoneNumber(phone) == ValidationUtils.VALID) {
+                sendVerificationCodeToUser(phone)
             } else {
-                // Handle sign-in failure
-                Log.e("error", "incompleted")
+                Toast.makeText(this, "Please enter a valid phone number", Toast.LENGTH_SHORT).show()
             }
-        }
-
-        viewModel.logoutSuccess.observe(this) { logoutSuccess ->
-            if (logoutSuccess) {
-                // Handle logout success
-            } else {
-                // Handle logout failure
-            }
-        }
-
-        binding.btnEmail.setOnClickListener {
-            val intent = Intent(this, GoogleLoginActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnRegister.setOnClickListener {
-            val intent = Intent(this, ActivityRegister::class.java)
-            startActivity(intent)
         }
     }
 
     private fun sendVerificationCodeToUser(phoneNo: String) {
-        val formattedPhoneNumber = formatPhoneNumber(phoneNo)
+        val phoneNumber = formatPhoneNumber(phoneNo)
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-            formattedPhoneNumber,
-            20,
-            TimeUnit.SECONDS, // Timeout duration
+            phoneNumber,
+            60,
+            TimeUnit.SECONDS,
             this,
             callbacks
         )
@@ -153,21 +114,30 @@ class ActivityLoginPhone : AppCompatActivity() {
 
     private fun formatPhoneNumber(phoneNo: String): String {
         val digitsOnly = phoneNo.replace("\\D".toRegex(), "")
-        val formattedNumber = if (digitsOnly.startsWith("0")) {
-            digitsOnly.substring(1)
+        return if (digitsOnly.startsWith("0")) {
+            "+84" + digitsOnly.substring(1)
         } else {
-            digitsOnly
-        }
-        return if (!formattedNumber.startsWith("+84")) {
-            "+84$formattedNumber"
-        } else {
-            formattedNumber
+            "+84$digitsOnly"
         }
     }
 
+    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d("SignIn", "signInWithCredential:success")
+                    // Navigate to the main screen after successful sign-in
+                    navigateToMainScreen()
+                } else {
+                    Log.w("SignIn", "signInWithCredential:failure", task.exception)
+                    Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
     private fun navigateToMainScreen() {
-        // Navigate to the main screen or the next screen after successful login
-        intent = Intent(this, ActivityHome::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }

@@ -27,9 +27,10 @@ class ActivityForgotPassword : AppCompatActivity() {
                 auth.sendPasswordResetEmail(email)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(applicationContext, "Email sent successfully", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this, ActivityForgotpassOtp::class.java)
+                            Toast.makeText(applicationContext, "Reset successful. Please check your email.", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, Activity_Signin::class.java) // replace with your Login Activity
                             startActivity(intent)
+                            finish() // to prevent going back to this activity
                         } else {
                             Toast.makeText(applicationContext, "Failed to send reset email!", Toast.LENGTH_SHORT).show()
                         }

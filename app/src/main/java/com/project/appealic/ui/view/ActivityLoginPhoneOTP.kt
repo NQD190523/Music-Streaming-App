@@ -25,11 +25,11 @@ class ActivityLoginPhoneOTP : AppCompatActivity() {
 
         binding.btnVerify.setOnClickListener {
             val otp = getEnteredOTP()
-            if (otp.length == 4) {
+            if (otp.length == 6) {
                 val credential = PhoneAuthProvider.getCredential(verificationId, otp)
                 signInWithPhoneAuthCredential(credential)
             } else {
-                Toast.makeText(this, "Please enter the 4-digit OTP", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter the digit OTP", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -39,8 +39,10 @@ class ActivityLoginPhoneOTP : AppCompatActivity() {
         val otp2 = binding.edtNumb2.text.toString()
         val otp3 = binding.edtNumb3.text.toString()
         val otp4 = binding.edtNumb4.text.toString()
+        val otp5 = binding.edtNumb5.text.toString()
+        val otp6 = binding.edtNumb6.text.toString()
 
-        return otp1 + otp2 + otp3 + otp4
+        return otp1 + otp2 + otp3 + otp4 + otp5 + otp6
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
