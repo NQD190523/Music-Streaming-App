@@ -32,6 +32,7 @@ import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistForYouAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
+import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 import java.util.ArrayList
@@ -40,6 +41,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var songViewModel: SongViewModel
     private lateinit var listView: ListView
+    private lateinit var musicPlayerViewModel: MusicPlayerViewModel
     private lateinit var recyclerViewArtists: RecyclerView
 
     override fun onCreateView(
@@ -50,7 +52,7 @@ class HomeFragment : Fragment() {
 
         // Khởi tạo SongViewModel
         val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
-        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
+        songViewModel = ViewModelProvider(this, factory)[SongViewModel::class.java]
 
         // Khởi tạo và cấu hình RecyclerView cho banner
         val recyclerViewBanner: RecyclerView = rootView.findViewById(R.id.rrBanner)
@@ -124,6 +126,7 @@ class HomeFragment : Fragment() {
         // Thiết lập OnItemClickListener cho ListView
         listView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, _, position, _ ->
+
                 // Lấy dữ liệu của mục được chọn từ Adapter
                 val selectedSong = parent.getItemAtPosition(position) as Track
                 //lưu bài hát vừa mở vào database của thiết bị

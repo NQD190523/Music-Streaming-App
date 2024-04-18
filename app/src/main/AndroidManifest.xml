@@ -26,10 +26,10 @@
         android:theme="@style/Theme.Appealic"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ui.view.GoogleLoginActivity"
+            android:name=".ui.view.ActivityForgotPassword"
             android:exported="false" />
         <activity
-            android:name=".ui.view.ActivityForgotPassword"
+            android:name=".ui.view.GoogleLoginActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Appealic">

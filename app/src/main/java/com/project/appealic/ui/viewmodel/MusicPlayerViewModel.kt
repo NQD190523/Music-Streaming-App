@@ -6,6 +6,10 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
 import android.os.IBinder
+import android.util.Log
+import android.widget.AdapterView
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -13,10 +17,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.data.dao.SongDao
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.service.MusicPlayerService
+import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.utils.MusicPlayerFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +31,6 @@ class MusicPlayerViewModel :ViewModel() {
 
     private val _currentSong = MutableLiveData<Track>()
     val currentSong: LiveData<Track> = _currentSong
-
 
     private var musicPlayerService: MusicPlayerService? = null
     val currentPosition = MutableLiveData<Long>()
@@ -67,6 +72,49 @@ class MusicPlayerViewModel :ViewModel() {
     }
     fun repeatButtonClick(){
         musicPlayerService?.repeatButtonClick()
+    }
+    fun handleListViewItemClick(intent: Intent ,parent: AdapterView<*>, songViewModel: SongViewModel, context : Context, position: Int) {
+        val selectedSong = parent.getItemAtPosition(position) as Track
+        val user = FirebaseAuth.getInstance().currentUser?.uid
+        val trackUrlList = ArrayList<String>()
+
+        val song = selectedSong.trackId?.let {
+            SongEntity(
+                it,
+                selectedSong.trackImage,
+                selectedSong.trackTitle,
+                selectedSong.artist,
+                user,
+                null,
+                System.currentTimeMillis(),
+                null
+            )
+        }
+
+        if (song != null) {
+            songViewModel.insertSong(song)
+            Log.d(" test status", "success")
+        }
+        // Lấy dữ liệu các url trong playlist
+        for (i in 0 until parent.count) {
+            val item = parent.getItemAtPosition(i) as Track
+            item.trackUrl?.let { trackUrl ->
+                println(trackUrl)
+                trackUrlList.add(trackUrl)
+            }
+        }
+
+        // Truyền dữ liệu cần thiết qua Intent
+        intent.putExtra("SONG_TITLE", selectedSong.trackTitle)
+        intent.putExtra("SINGER_NAME", selectedSong.artist)
+        intent.putExtra("SONG_NAME", selectedSong.trackTitle)
+        intent.putExtra("TRACK_IMAGE", selectedSong.trackImage)
+        intent.putExtra("ARTIST_ID", selectedSong.artistId)
+        intent.putExtra("DURATION", selectedSong.duration)
+        intent.putExtra("TRACK_URL", selectedSong.trackUrl)
+        intent.putExtra("TRACK_ID", selectedSong.trackId)
+        intent.putExtra("TRACK_INDEX", position)
+        intent.putStringArrayListExtra("TRACK_LIST", trackUrlList)
     }
 
 
