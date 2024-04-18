@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/background">
 
     <LinearLayout
@@ -16,196 +16,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-            <FrameLayout
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:background="@drawable/btn_round"
-                android:backgroundTint="@color/codGray900">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_plus_24_outlined"
-                    android:layout_gravity="center"/>
-            </FrameLayout>
-            <LinearLayout
+        <FrameLayout
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="@drawable/btn_round"
+            android:backgroundTint="@color/codGray900">
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/Body1Bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Add favorite singer"
-                    android:textColor="@color/text" />
-
-                <TextView
-                    style="@style/Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Create your favorite singer list"
-                    android:textColor="@color/subtitleText" />
-            </LinearLayout>
-        </LinearLayout>
+                android:layout_gravity="center"
+                android:src="@drawable/ic_plus_24_outlined" />
+        </FrameLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <FrameLayout
-                android:layout_width="65dp"
-                android:layout_height="65dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/artist1" />
-
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                style="@style/Body1Bold"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:text="Add favorite singer"
+                android:textColor="@color/text" />
 
-                <TextView
-                    style="@style/Body1Bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Taylor Swift"
-                    android:textColor="@color/text"
-                    android:textSize="19sp" />
-
-                <TextView
-                    style="@style/Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="123 songs"
-                    android:textColor="@color/subtitleText" />
-            </LinearLayout>
-
-            <ImageButton
+            <TextView
+                style="@style/Body2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#00FFFFFF"
-                android:src="@drawable/ic_more_20_outlined" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <FrameLayout
-                android:layout_width="65dp"
-                android:layout_height="65dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/artist1" />
-
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/Body1Bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Taylor Swift"
-                    android:textColor="@color/text"
-                    android:textSize="19sp" />
-
-                <TextView
-                    style="@style/Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="123 songs"
-                    android:textColor="@color/subtitleText" />
-            </LinearLayout>
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#00FFFFFF"
-                android:src="@drawable/ic_more_20_outlined" />
-
+                android:text="Create your favorite singer list"
+                android:textColor="@color/subtitleText" />
         </LinearLayout>
+    </LinearLayout>
 
-        <LinearLayout
+        <ListView
+            android:id="@+id/lstAtirstFavourite"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="200dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-            <FrameLayout
-                android:layout_width="65dp"
-                android:layout_height="65dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/artist1" />
-
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/Body1Bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Taylor Swift"
-                    android:textColor="@color/text"
-                    android:textSize="19sp" />
-
-                <TextView
-                    style="@style/Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="123 songs"
-                    android:textColor="@color/subtitleText" />
-            </LinearLayout>
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#00FFFFFF"
-                android:src="@drawable/ic_more_20_outlined" />
-        </LinearLayout>
+        </ListView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

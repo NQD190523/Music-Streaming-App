@@ -18,7 +18,7 @@
             app:cardCornerRadius="8dp">
 
             <ImageView
-                android:id="@+id/imvPhoto"
+                android:id="@+id/imvPhotoPlaylist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/song1"  />

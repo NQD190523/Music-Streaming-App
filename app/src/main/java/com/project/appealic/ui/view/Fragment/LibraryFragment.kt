@@ -28,6 +28,7 @@ import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
 import com.project.appealic.ui.view.Fragment.AddAlbumFragment
 import com.project.appealic.ui.view.Fragment.AddArtistFragment
 import com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment
+import com.project.appealic.ui.view.Fragment.SearchMainFragment
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 
@@ -84,6 +85,7 @@ class LibraryFragment : Fragment() {
         val deltaXAlbums = tvAddAlbums.x - initialX * 1/2
 
 // Thiết lập onClickListener cho TextViews
+
         tvAddSongs.setOnClickListener {
             // Thay thế fragment hiện tại bằng AddSongToPlaylistFragment
             requireActivity().supportFragmentManager.beginTransaction()

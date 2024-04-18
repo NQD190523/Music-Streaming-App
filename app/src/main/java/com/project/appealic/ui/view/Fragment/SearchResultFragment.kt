@@ -28,13 +28,14 @@ import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.ui.view.ActivityNotification
 import com.project.appealic.ui.view.Adapters.ArtistAdapter
+import com.project.appealic.ui.view.Adapters.ArtistResultAdapter
 import com.project.appealic.ui.view.Adapters.SongResultAdapter
 import java.util.ArrayList
 
 class SearchResultFragment: Fragment() {
     private lateinit var listSong: ListView
     private lateinit var songViewModel: SongViewModel
-    private lateinit var listArtist: RecyclerView
+    private lateinit var listArtist: ListView
     private lateinit var listAlbum: ListView
 
     private lateinit var searchDatabase: DatabaseReference
@@ -49,7 +50,6 @@ class SearchResultFragment: Fragment() {
 
         listSong = view.findViewById(R.id.lvSearchResultSongs)
         listArtist = view.findViewById(R.id.lvSearchResultArtists)
-        listArtist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         // Khởi tạo SongViewModel
         val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
@@ -124,7 +124,7 @@ class SearchResultFragment: Fragment() {
             })
 
             songViewModel.artists.observe(viewLifecycleOwner, Observer { artists->
-                val adapterArtist = ArtistAdapter(requireContext(), artists)
+                val adapterArtist = ArtistResultAdapter(requireContext(), artists)
                 listArtist.adapter = adapterArtist
             })
         }
