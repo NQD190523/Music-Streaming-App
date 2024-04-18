@@ -36,7 +36,7 @@ class EditAccountFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_account, container, false)
         profileImageView = view.findViewById(R.id.circleImageView2)
-        profileViewModel = ViewModelProvider(requireActivity())[ProfileViewModel::class.java]
+        profileViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
         val user = uid?.let { profileViewModel.getUserInfo(it) }
         view.findViewById<TextView>(R.id.txtProfileName).text = user?.name

@@ -34,6 +34,8 @@ import androidx.media3.ui.PlayerNotificationManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
@@ -103,6 +105,8 @@ class ActivityMusicControl : AppCompatActivity(){
         trackList = intent.getStringArrayListExtra("TRACK_LIST")!!
         trackIndex = intent.getIntExtra("TRACK_INDEX",0)
         trackId = intent.getStringExtra("TRACK_ID").toString()
+
+
 
         findViewById<TextView>(R.id.song_name).text = songTitle
         findViewById<TextView>(R.id.singer_name).text = artistName
@@ -236,7 +240,7 @@ class ActivityMusicControl : AppCompatActivity(){
         super.onStart()
         // Register the BroadcastReceiver when the Activity becomes visible
         val filter = IntentFilter("ACTION_TRACK_CHANGED")
-        registerReceiver(trackChangeReceiver, filter)
+        registerReceiver(trackChangeReceiver, filter,null,null,Context.RECEIVER_EXPORTED)
     }
 
     override fun onStop() {
@@ -276,9 +280,6 @@ class ActivityMusicControl : AppCompatActivity(){
         }
 
     }
-
-
-
 
     private fun handleMixButtonClick() {
 
@@ -374,28 +375,31 @@ class ActivityMusicControl : AppCompatActivity(){
     private fun loadDataFromFirebase() {
         // Load audio data from Firebase Storage
         val mediaItems = mutableListOf<MediaItem>()
-        var completedDownloads = 0
-        for (i in trackList) {
-            val trackPath = i.substring(i.indexOf("/", 5) + 1)
-            val audioRef = trackPath.let { storageRef.child(it) }
-            audioRef.downloadUrl.addOnSuccessListener { url ->
+        val tasks = mutableListOf<Task<Uri>>()
+
+        trackList.forEach { trackPath ->
+            val audioRef = storageRef.child(trackPath.substring(trackPath.indexOf("/", 5) + 1))
+            val task = audioRef.downloadUrl
+            tasks.add(task)
+            task.addOnSuccessListener { url ->
                 val songUri = Uri.parse(url.toString())
                 mediaItems.add(MediaItem.fromUri(songUri))
-                completedDownloads++
-                if (completedDownloads == trackList.size) {
+
+                // Kiểm tra nếu đã tải xuống tất cả các track
+                if (mediaItems.size == trackList.size) {
                     musicPlayerViewModel.setMediaUri(mediaItems, trackIndex)
                 }
             }.addOnFailureListener { exception ->
-                Log.e("Error", "Failed to download track: ${exception.message}")
+                Log.e("Error", "Failed to download track at index: ${exception.message}")
             }
         }
+
     }
 
-}
-
-private fun formatDuration(durationInSeconds: Long): String {
-    val seconds = (durationInSeconds / 1000) % 60
-    val minutes = durationInSeconds / 60000
-    return "$minutes:${String.format("%02d", seconds)}"
+    private fun formatDuration(durationInSeconds: Long): String {
+        val seconds = (durationInSeconds / 1000) % 60
+        val minutes = durationInSeconds / 60000
+        return "$minutes:${String.format("%02d", seconds)}"
+    }
 }
 
