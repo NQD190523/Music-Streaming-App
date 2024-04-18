@@ -48,19 +48,19 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
             Log.e("PlayListViewModel", "Error fetching user playlists", e)
             // Handle the error, e.g., show a message to the user
         }
-
-        fun getAllPlaylists() {
-            playListRepository.getAllPlaylists()
-                .addOnSuccessListener { playlist ->
-                    if (playlist != null) _playLists.postValue(playlist.toObjects(Playlist::class.java))
-                }
-                .addOnFailureListener { exception ->
-                    Log.e("error", exception.toString())
-                }
-        }
-
-
     }
+
+    fun getAllPlaylists() {
+        playListRepository.getAllPlaylists()
+            .addOnSuccessListener { playlist ->
+                if (playlist != null) _playLists.postValue(playlist.toObjects(Playlist::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.e("error", exception.toString())
+            }
+    }
+
+
 
     fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
         viewModelScope.launch {

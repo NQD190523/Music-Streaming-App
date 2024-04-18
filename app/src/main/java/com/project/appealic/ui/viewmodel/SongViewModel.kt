@@ -43,7 +43,7 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     private val _playlists = MutableLiveData<List<Playlist>>()
     val playlists: LiveData<List<Playlist>> get() = _playlists
 
-    val firebaseDB = Firebase.firestore
+    private val firebaseDB = Firebase.firestore
 
 
     fun getAllTracks(){
