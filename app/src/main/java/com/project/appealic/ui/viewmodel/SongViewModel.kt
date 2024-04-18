@@ -29,7 +29,9 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CompletableFuture
 
+
 class SongViewModel(private val songRepository: SongRepository, private val userRepository: UserRepository) : ViewModel() {
+
     private val db = FirebaseFirestore.getInstance()
     private val _tracks = MutableLiveData<List<Track>>()
     private val _likedSongs = MutableLiveData<List<Track>>()
@@ -43,117 +45,125 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     private val _playlists = MutableLiveData<List<Playlist>>()
     val playlists: LiveData<List<Playlist>> get() = _playlists
 
-    private val firebaseDB = Firebase.firestore
+        private val firebaseDB = Firebase.firestore
 
 
-    fun getAllTracks(){
-        songRepository.getAllTrack()
-            .addOnSuccessListener { tracks ->
-                    if(tracks != null) _tracks.postValue(tracks.toObjects(Track::class.java))
+        fun getAllTracks() {
+            songRepository.getAllTrack()
+                .addOnSuccessListener { tracks ->
+                    if (tracks != null) _tracks.postValue(tracks.toObjects(Track::class.java))
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("error", exception.toString())
+                }
+        }
+
+        fun getAllArtists() {
+            songRepository.getAllArtist()
+                .addOnSuccessListener { artists ->
+                    if (artists != null)
+                        _artists.postValue(artists.toObjects(Artist::class.java))
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("error", exception.toString())
+                }
+        }
+
+        fun getAllPlaylists() {
+            songRepository.getAllPlaylists()
+                .addOnSuccessListener { playlists ->
+                    if (playlists != null)
+                        _playlists.postValue(playlists.toObjects(Playlist::class.java))
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("error", exception.toString())
+                }
+        }
+
+
+        fun getTrackFromGenres(genre: String) {
+            songRepository.getAllTrack()
+                .addOnSuccessListener { tracks ->
+                    val genreTrack =
+                        tracks.documents.filter { it.toObject(Track::class.java)?.genre == genre }
+                    _tracks.postValue(genreTrack.map { it.toObject(Track::class.java)!! })
+                }
+        }
+
+        fun getUserData(): LiveData<UserEntity>? {
+            return userRepository.getUserData()
+        }
+
+        fun getRecentSongs(userId: String): LiveData<List<SongEntity>> {
+            return songRepository.getRecentSongs(userId)
+        }
+
+        fun insertSong(song: SongEntity) = viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                songRepository.insertSong(song)
             }
-            .addOnFailureListener { exception ->
-                Log.e("error",exception.toString())
+        }
+
+    fun updateTracks(tracks: List<Track>) {
+        viewModelScope.launch {
+            withContext(Dispatchers.Main) {
+                _tracks.value = tracks
             }
-    }
-
-    fun getAllArtists(){
-        songRepository.getAllArtist()
-            .addOnSuccessListener { artists ->
-                if(artists!= null)
-                    _artists.postValue(artists.toObjects(Artist::class.java))
-            }
-            .addOnFailureListener { exception->
-                Log.e("error" , exception.toString())
-            }
-    }
-
-    fun getAllPlaylists() {
-        songRepository.getAllPlaylists()
-            .addOnSuccessListener { playlists ->
-                if (playlists != null)
-                    _playlists.postValue(playlists.toObjects(Playlist::class.java))
-            }
-            .addOnFailureListener { exception ->
-                Log.e("error", exception.toString())
-            }
-    }
-
-
-    fun getTrackFromGenres(genre :String){
-        songRepository.getAllTrack()
-            .addOnSuccessListener { tracks ->
-                val genreTrack = tracks.documents.filter { it.toObject(Track::class.java)?.genre == genre }
-                _tracks.postValue(genreTrack.map { it.toObject(Track::class.java)!! })
-            }
-    }
-
-    fun getUserData() : LiveData<UserEntity>? {
-        return userRepository.getUserData()
-    }
-
-    fun getRecentSongs(userId: String): LiveData<List<SongEntity>> {
-        return songRepository.getRecentSongs(userId)
-    }
-
-    fun insertSong(song: SongEntity) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            songRepository.insertSong(song)
         }
     }
+        fun getLikedSongs(userId: String) {
+            songRepository.getLikedSongFromUser(userId)
+                .addOnSuccessListener { userDoc ->
+                    if (userDoc.exists()) {
+                        val favoriteSongIds = userDoc["likedSong"] as? List<String> ?: emptyList()
 
-
-    fun getLikedSongs(userId: String){
-        songRepository.getLikedSongFromUser(userId)
-            .addOnSuccessListener { userDoc ->
-                if (userDoc.exists()) {
-                    val favoriteSongIds = userDoc["likedSong"] as? List<String> ?: emptyList()
-
-                    val tasks = favoriteSongIds.map { trackId ->
-                        val trackDocRef = firebaseDB.collection("tracks").document(trackId)
-                        trackDocRef.get().continueWith { task ->
-                            if (task.isSuccessful) {
-                                task.result?.toObject(Track::class.java)
-                            } else {
-                                null
+                        val tasks = favoriteSongIds.map { trackId ->
+                            val trackDocRef = firebaseDB.collection("tracks").document(trackId)
+                            trackDocRef.get().continueWith { task ->
+                                if (task.isSuccessful) {
+                                    task.result?.toObject(Track::class.java)
+                                } else {
+                                    null
+                                }
                             }
                         }
-                    }
 
-                    Tasks.whenAllSuccess<Track?>(tasks).addOnSuccessListener { documents ->
-                        val tracksList = documents.filterNotNull()
-                        // Xử lý danh sách trackList ở đây
-                        _likedSongs.postValue(tracksList)
-                    }.addOnFailureListener { exception ->
-                        Log.e(TAG, "Error fetching liked songs: $exception")
+                        Tasks.whenAllSuccess<Track?>(tasks).addOnSuccessListener { documents ->
+                            val tracksList = documents.filterNotNull()
+                            // Xử lý danh sách trackList ở đây
+                            _likedSongs.postValue(tracksList)
+                        }.addOnFailureListener { exception ->
+                            Log.e(TAG, "Error fetching liked songs: $exception")
+                        }
                     }
                 }
+                .addOnFailureListener { exception ->
+                    Log.e(TAG, "Error fetching user document: $exception")
+                }
+        }
+
+        fun addTrackToUserLikedSongs(userId: String, trackId: String) = viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                songRepository.addTrackToUserLikedSongs(userId, trackId)
             }
-            .addOnFailureListener { exception ->
-                Log.e(TAG, "Error fetching user document: $exception")
+        }
+
+        fun removeTrackFromUserLikedSongs(userId: String, trackId: String) = viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                songRepository.removeTrackFromUserLikedSongs(userId, trackId)
             }
-    }
+        }
 
-    fun addTrackToUserLikedSongs ( userId: String, trackId : String) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            songRepository.addTrackToUserLikedSongs(userId, trackId)
+
+        fun loadSearchResults(searchQuery: String?) {
+            // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
+            val searchResultsLiveData = songRepository.loadSearchResults(searchQuery)
+            // Cập nhật LiveData _tracks với dữ liệu mới
+            searchResultsLiveData.observeForever { searchResultsLiveData ->
+                _tracks.postValue(searchResultsLiveData.tracks)
+                _artists.postValue(searchResultsLiveData.artist)
+            }
         }
     }
 
-    fun removeTrackFromUserLikedSongs ( userId: String, trackId : String) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            songRepository.removeTrackFromUserLikedSongs(userId, trackId)
-        }
-    }
 
-
-
-    fun loadSearchResults(searchQuery: String?) {
-        // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
-        val searchResultsLiveData = songRepository.loadSearchResults(searchQuery)
-        // Cập nhật LiveData _tracks với dữ liệu mới
-        searchResultsLiveData.observeForever { searchResultsLiveData ->
-            _tracks.postValue(searchResultsLiveData.tracks)
-            _artists.postValue(searchResultsLiveData.artist)
-        }
-}
-}

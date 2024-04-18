@@ -49,6 +49,7 @@ fun RecyclerView.Adapter<*>.setOnTrackClickListener(context: Context, songViewMo
             intent.putExtra("SINGER_NAME", selectedTrack.singer)
             intent.putExtra("SONG_NAME", selectedTrack.songName)
             intent.putExtra("TRACK_IMAGE", selectedTrack.thumbUrl)
+            intent.putExtra("DURATION", selectedTrack.duration)
             intent.putStringArrayListExtra("TRACK_LIST", trackUrlList)
             context.startActivity(intent)
         }
