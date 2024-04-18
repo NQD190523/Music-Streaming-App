@@ -180,13 +180,13 @@ class MoreActionFragment : DialogFragment() {
         if (userId != null && trackId != null) {
             songViewModel.getLikedSongs(userId)
             val isLiked = songViewModel.likedSongs.value?.any { it.trackId == trackId } ?: false
-                if (isLiked) {
-                    songViewModel.removeTrackFromUserLikedSongs(userId, trackId)
-                    heartIcon?.setImageResource(R.drawable.ic_heart_24_outlined)
-                } else {
-                    songViewModel.addTrackToUserLikedSongs(userId, trackId)
-                    heartIcon?.setImageResource(R.drawable.ic_isliked)
-                }
+            if (isLiked) {
+                songViewModel.removeTrackFromUserLikedSongs(userId, trackId)
+                heartIcon?.setImageResource(R.drawable.ic_heart_24_outlined)
+            } else {
+                songViewModel.addTrackToUserLikedSongs(userId, trackId)
+                heartIcon?.setImageResource(R.drawable.ic_isliked)
+            }
         } else {
             // Hiển thị thông báo yêu cầu đăng nhập nếu người dùng chưa đăng nhập
             Toast.makeText(requireContext(), "You need to sign in to use this feature", Toast.LENGTH_SHORT).show()
