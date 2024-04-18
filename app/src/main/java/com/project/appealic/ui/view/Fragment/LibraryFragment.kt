@@ -1,5 +1,6 @@
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
+import com.project.appealic.ui.view.ActivityLikedSong
 import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistCardAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
@@ -131,10 +133,21 @@ class LibraryFragment : Fragment() {
 
         recycleCardPlaylist.adapter = cardAdapter
 
+        cardAdapter.setOnItemClickListener(object : PlaylistCardAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                if (position == 0) {
+                    // Chuyển sang ActivityLikedSong
+                    val intent = Intent(requireContext(), ActivityLikedSong::class.java)
+                    startActivity(intent)
+                }
+            }
+        })
+
         val horizontalSpacing = resources.getDimensionPixelSize(R.dimen.dp_2) // Khoảng cách ngang mong muốn
         val verticalSpacing = resources.getDimensionPixelSize(R.dimen.dp_2) // Khoảng cách dọc mong muốn
         val decoration = StaggeredGridSpacingItemDecoration(horizontalSpacing, verticalSpacing)
         recycleCardPlaylist.addItemDecoration(decoration)
+
 
         // Select playlists
         view.findViewById<Button>(R.id.btnSelect).setOnClickListener {

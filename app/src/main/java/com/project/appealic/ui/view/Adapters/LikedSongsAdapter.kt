@@ -8,39 +8,34 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 
 class LikedSongsAdapter(context: Context, resource: Int, objects: List<Track>) :
     ArrayAdapter<Track>(context, resource, objects) {
+    private val storage = FirebaseStorage.getInstance()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var listItemView = convertView
-        if (listItemView == null) {
-            listItemView =
-                LayoutInflater.from(context).inflate(R.layout.activity_liked_song, parent, false)
-        }
+        var view = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_playlist, parent, false)
 
         val currentSong = getItem(position)
+        val songTitleTextView = view!!.findViewById<TextView>(R.id.txtSongName)
+        val singerTextView = view.findViewById<TextView>(R.id.txtSinger)
+        val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
 
-        val songTitleTextView = listItemView!!.findViewById<TextView>(R.id.txtSongName)
-        songTitleTextView.text = currentSong?.trackTitle
-
-        val singerTextView = listItemView.findViewById<TextView>(R.id.txtSinger)
-        singerTextView.text = currentSong?.artist
-
-        val songImageView = listItemView.findViewById<ImageView>(R.id.imvPhoto)
-        currentSong?.let { song ->
-            song.trackUrl?.let { imageUrl ->
+        currentSong?.let {
+            songTitleTextView.text = it.trackTitle
+            singerTextView.text = it.artist
+            it.trackImage?.let { imageUrl ->
+                val gsReference = storage.getReferenceFromUrl(imageUrl)
                 Glide.with(context)
-                    .load(imageUrl)
+                    .load(gsReference)
                     .into(songImageView)
             }
         }
 
-
-
-        return listItemView
+        return view
     }
 }

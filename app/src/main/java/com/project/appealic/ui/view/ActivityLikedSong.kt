@@ -2,6 +2,7 @@ package com.project.appealic.ui.view
 
 import SongAdapter
 import android.os.Bundle
+import android.widget.ImageView
 
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.LikedSongsAdapter
+import com.project.appealic.ui.view.Fragment.ProfileFragment
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 
@@ -46,5 +48,9 @@ class ActivityLikedSong : AppCompatActivity() {
 
         // Gọi phương thức để lấy danh sách các bài hát yêu thích
         viewModel.getLikedSongs(FirebaseAuth.getInstance().currentUser?.uid.toString())
+
+        findViewById<ImageView>(R.id.imv_back).setOnClickListener {
+            finish()
+        }
     }
 }
