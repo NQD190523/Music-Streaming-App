@@ -1,30 +1,19 @@
 package com.project.appealic.ui.viewmodel
 
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
-import android.net.Uri
-import android.os.IBinder
 import android.util.Log
 import android.widget.AdapterView
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.google.firebase.auth.FirebaseAuth
-import com.project.appealic.data.dao.SongDao
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.service.MusicPlayerService
-import com.project.appealic.ui.view.ActivityMusicControl
-import com.project.appealic.utils.MusicPlayerFactory
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MusicPlayerViewModel :ViewModel() {

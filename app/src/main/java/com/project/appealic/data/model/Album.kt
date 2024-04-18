@@ -1,9 +1,12 @@
 package com.project.appealic.data.model
 
 data class Album(
+    val artistId: String,
+    val artistName: String,
+    val releaseDate: String,
+    val thumbUrl: String,
     val title: String,
-    val id: String,
-    val name: String,
-    val release_date: String,
-    val total_tracks: Int,
-)
+    val trackIds : List<String>?
+){
+    constructor() : this("","","","","",null)
+}

@@ -13,6 +13,11 @@ class ArtistRepository {
     fun getAllArtist(): Task<QuerySnapshot> {
         return firebaseDB.collection("artists").get()
     }
+    fun getTrackFromArtist(artistId : String): Task<QuerySnapshot> {
+        return firebaseDB.collection("tracks")
+            .whereEqualTo("artistId", artistId)
+            .get()
+    }
     fun getFollowArtistFromUser(userId: String): Task<DocumentSnapshot> {
         return firebaseDB.collection("users").document(userId)
             .get()

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import com.project.appealic.data.dao.PlayListDao
@@ -40,6 +41,11 @@ class PlayListRepository(application: Application) {
     fun getAllPlaylists(): Task<QuerySnapshot> {
         return firebaseDB.collection("playlists").get()
     }
+
+    fun getTracksFromPlaylist(playlistId : String) : Task<DocumentSnapshot>{
+        return firebaseDB.collection("playlists").document(playlistId).get()
+    }
+
     suspend fun addTrackToPlaylist(track: Track, playList: PlayListEntity) {
         withContext(Dispatchers.IO) {
             if (!playList.tracks.contains(track)) {
@@ -47,7 +53,6 @@ class PlayListRepository(application: Application) {
                 playListDao.update(playList)
             } else {
                 // Handle the error, show a message to the user
-
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.project.appealic.ui.viewmodel
 
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.Log
@@ -9,6 +10,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import com.project.appealic.R
 import com.project.appealic.data.model.Artist
 import com.project.appealic.data.model.PlayListEntity
@@ -24,11 +28,18 @@ import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 class PlayListViewModel(private val playListRepository: PlayListRepository) :ViewModel() {
+
+    private val firebaseDB = Firebase.firestore
+
     private val _userPlayLists = MutableLiveData<List<PlayListEntity>>()
     val userPlayLists: LiveData<List<PlayListEntity>> get() = _userPlayLists
 
     private val _playLists = MutableLiveData<List<Playlist>>()
     val playLists: LiveData<List<Playlist>> get() = _playLists
+
+    private val _tracks = MutableLiveData<List<Track>>()
+    val track: LiveData<List<Track>> get() = _tracks
+
     fun createNewPlayList(playList: PlayListEntity) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             playListRepository.createNewPlayList(playList)
@@ -60,6 +71,34 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
             }
     }
 
+    fun getTracksFromPlaylist(playlistId : String) {
+        playListRepository.getTracksFromPlaylist(playlistId)
+            .addOnSuccessListener { tracks ->
+                if (tracks != null){
+                    val trackIds = tracks["trackIds"] as? List<String> ?: emptyList()
+
+                    val tasks = trackIds.map { trackId ->
+                        val trackDocRef = firebaseDB.collection("tracks").document(trackId)
+                        trackDocRef.get().continueWith { task ->
+                            if (task.isSuccessful) {
+                                task.result?.toObject(Track::class.java)
+                            } else {
+                                null
+                            }
+                        }
+                    }
+                    Tasks.whenAllSuccess<Track?>(tasks).addOnSuccessListener { documents ->
+                        val tracksList = documents.filterNotNull()
+                        // Xử lý danh sách trackList ở đây
+                        _tracks.postValue(tracksList)
+                    }.addOnFailureListener { exception ->
+                        Log.e(ContentValues.TAG, "Error fetching liked songs: $exception")
+                    }
+                }
+            }.addOnFailureListener { exception ->
+                Log.e(ContentValues.TAG, "Error fetching user document: $exception")
+            }
+    }
 
 
     fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
@@ -71,4 +110,4 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
 
         }
     }
-    }
+}
