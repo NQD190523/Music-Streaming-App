@@ -131,7 +131,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="32dp"
             android:background="@drawable/rounded_button"
-            android:onClick="toHome"
             android:text="@string/btnLogin"
             android:textAllCaps="false"
             android:textColor="@color/white"

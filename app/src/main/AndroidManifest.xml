@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -20,10 +26,10 @@
         android:theme="@style/Theme.Appealic"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ui.view.ActivityNotification"
+            android:name=".ui.view.GoogleLoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.GoogleLoginActivity"
+            android:name=".ui.view.ActivityForgotPassword"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Appealic">
@@ -35,13 +41,15 @@
         </activity>
         <activity android:name=".ui.view.ActivityLikedSong" />
         <activity android:name=".ui.view.ActivityRegister" />
-        <activity android:name=".ui.view.ActivityLoginPhone" />
+        <activity android:name=".ui.view.ActivityNotification" />
+        <activity android:name=".ui.view.ActivityLoginPhoneOTP" />
         <activity android:name=".ui.view.Activity_welcome"/>
         <activity android:name=".ui.view.MediaActivity"/>
+        <activity android:name=".ui.view.Activity_Signin" />
         <activity android:name=".ui.view.ActivityMusicControl" />
         <activity android:name=".ui.view.ActivityNewPassword" />
         <activity android:name=".ui.view.ActivityHome" />
-        <activity android:name=".ui.view.ActivityForgotPassword" />
+        <activity android:name=".ui.view.ActivityLoginPhone" />
         <activity android:name=".MainActivity" />
         <receiver android:name=".ui.view.WidgetView"
             android:exported="true">

@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -136,6 +137,8 @@ dependencies {
     implementation("com.google.android.flexbox:flexbox:3.0.0")
     implementation ("com.google.android.material:material:1.5.0")
     implementation ("com.squareup.picasso:picasso:2.71828")
-
+    implementation ("com.google.firebase:firebase-appcheck:16.0.0")
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation("com.google.firebase:firebase-auth")
 
 }

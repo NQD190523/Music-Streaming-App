@@ -13,7 +13,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthProvider
+import com.project.appealic.MainActivity
 import com.project.appealic.R
 import com.project.appealic.databinding.ActivityLoginPhoneBinding
 import com.project.appealic.ui.viewmodel.AuthViewModel
@@ -22,53 +26,65 @@ import com.project.appealic.utils.ValidationUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class ActivityLoginPhone : AppCompatActivity() {
-    private lateinit var binding : ActivityLoginPhoneBinding
 
-    private lateinit var auth : FirebaseAuth
-
+    private lateinit var binding: ActivityLoginPhoneBinding
+    private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
-
     private lateinit var viewModel: AuthViewModel
+    private lateinit var verificationId: String
+    private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
-    private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            result ->
-        val data : Intent? = result.data
+    private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val data: Intent? = result.data
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
         if (task.isSuccessful) {
-            val account : GoogleSignInAccount? = task.result
-            if (account != null){
+            val account: GoogleSignInAccount? = task.result
+            if (account != null) {
                 viewModel.signInWithGoogle(account)
-            } else{
+            } else {
                 Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private val spotifyViewModel: SpotifyViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginPhoneBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Khởi tạo ViewModel
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-
-
         auth = FirebaseAuth.getInstance()
 
-        // Khởi tạo GoogleSignInOptions
+        callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                signInWithPhoneAuthCredential(credential)
+            }
+
+            override fun onVerificationFailed(exception: FirebaseException) {
+                Toast.makeText(this@ActivityLoginPhone, "Verification failed: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+                super.onCodeSent(verificationId, token)
+                this@ActivityLoginPhone.verificationId = verificationId
+                // Navigate to the OTP verification screen
+                val intent = Intent(this@ActivityLoginPhone, ActivityLoginPhoneOTP::class.java)
+                intent.putExtra("verificationId", verificationId)
+                startActivity(intent)
+            }
+        }
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
-        // Khởi tạo GoogleSignInClient
-        googleSignInClient = GoogleSignIn.getClient(this,gso)
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        // Đăng nhập bằng tài khoản google
-        binding.btnGoogle.setOnClickListener(){
+        binding.btnGoogle.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 launcher.launch(googleSignInClient.signInIntent)
             }
@@ -77,56 +93,51 @@ class ActivityLoginPhone : AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
             val phone = binding.txtLoginPhone.text.toString()
 
-            val isValidPhoneNumber = ValidationUtils.isValidPhoneNumber(phone)
-
-            if (isValidPhoneNumber != ValidationUtils.VALID) {
-                var errorMessage: String = ""
-
-                when (isValidPhoneNumber) {
-                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập SĐT"
-                    ValidationUtils.PHONE_MISMATCH_ERROR -> errorMessage = "Vui lòng nhập SĐT hợp lệ"
-                }
-
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-
-                return@setOnClickListener
-            }
-
-            Toast.makeText(this, "Phone correct", Toast.LENGTH_SHORT).show()
-
-            // Future login using phone number
-        }
-
-        viewModel.signInSuccess.observe(this) { signInSuccess ->
-            if (signInSuccess) {
-                navigateToMainScreen()
+            if (ValidationUtils.isValidPhoneNumber(phone) == ValidationUtils.VALID) {
+                sendVerificationCodeToUser(phone)
             } else {
-                Log.e("error", "incompleted")
+                Toast.makeText(this, "Please enter a valid phone number", Toast.LENGTH_SHORT).show()
             }
-        }
-
-        viewModel.logoutSuccess.observe(this) { logoutSuccess ->
-            if (logoutSuccess) {
-                // Xử lý sau khi đăng xuất thành công
-            } else {
-                // Xử lý khi đăng xuất thất bại
-            }
-        }
-
-        binding.btnEmail.setOnClickListener {
-            val intent = Intent(this, GoogleLoginActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnRegister.setOnClickListener {
-            val intent = Intent(this, ActivityRegister::class.java)
-            startActivity(intent)
         }
     }
 
+    private fun sendVerificationCodeToUser(phoneNo: String) {
+        val phoneNumber = formatPhoneNumber(phoneNo)
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+            phoneNumber,
+            60,
+            TimeUnit.SECONDS,
+            this,
+            callbacks
+        )
+    }
+
+    private fun formatPhoneNumber(phoneNo: String): String {
+        val digitsOnly = phoneNo.replace("\\D".toRegex(), "")
+        return if (digitsOnly.startsWith("0")) {
+            "+84" + digitsOnly.substring(1)
+        } else {
+            "+84$digitsOnly"
+        }
+    }
+
+    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d("SignIn", "signInWithCredential:success")
+                    // Navigate to the main screen after successful sign-in
+                    navigateToMainScreen()
+                } else {
+                    Log.w("SignIn", "signInWithCredential:failure", task.exception)
+                    Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
     private fun navigateToMainScreen() {
-        // Chuyển hướng đến màn hình chính hoặc màn hình tiếp theo sau khi đăng nhập thành công
-        intent = Intent(this, ActivityHome::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }
