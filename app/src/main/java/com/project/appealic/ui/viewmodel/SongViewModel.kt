@@ -11,6 +11,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.toObject
 import com.google.firebase.firestore.toObjects
 import com.project.appealic.data.model.Artist
+import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.model.UserEntity
@@ -21,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.concurrent.CompletableFuture
 
 class SongViewModel(private val songRepository: SongRepository, private val userRepository: UserRepository) : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
@@ -32,6 +34,9 @@ class SongViewModel(private val songRepository: SongRepository, private val user
 
     private val _artists = MutableLiveData<List<Artist>>()
     val artists: LiveData<List<Artist>> get() = _artists
+
+    private val _playlists = MutableLiveData<List<Playlist>>()
+    val playlists: LiveData<List<Playlist>> get() = _playlists
 
     fun getAllTracks(){
         songRepository.getAllTrack()
@@ -53,9 +58,18 @@ class SongViewModel(private val songRepository: SongRepository, private val user
                 Log.e("error" , exception.toString())
             }
     }
-    fun getPlayList(){
 
+    fun getAllPlaylists() {
+        songRepository.getAllPlaylists()
+            .addOnSuccessListener { playlists ->
+                if (playlists != null)
+                    _playlists.postValue(playlists.toObjects(Playlist::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.e("error", exception.toString())
+            }
     }
+
 
     fun getTrackFromGenres(genre :String){
         songRepository.getAllTrack()
@@ -80,15 +94,22 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     }
 
 
-    fun getLikedSongs(userId: String) = viewModelScope.launch {
-        try {
-            val songs = songRepository.getLikedSongs(userId).await()
-            val likedSongsList = songs.documents.map { it.toObject<SongEntity>()!! }
-            _likedSongs.postValue(likedSongsList)
-        } catch (exception: Exception) {
-            Log.e("error", exception.toString())
+    fun getLikedSongs(userId: String) : CompletableFuture<List<Track>>{
+       return songRepository.getLikedSongFromUser(userId)
+    }
+
+    fun addTrackToUserLikedSongs ( userId: String, trackId : String) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            songRepository.addTrackToUserLikedSongs(userId, trackId)
         }
     }
+
+    fun removeTrackFromUserLikedSongs ( userId: String, trackId : String) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            songRepository.removeTrackFromUserLikedSongs(userId, trackId)
+        }
+    }
+
 
 
     fun loadSearchResults(searchQuery: String?) {

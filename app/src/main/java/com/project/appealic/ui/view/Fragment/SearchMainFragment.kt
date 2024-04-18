@@ -9,7 +9,6 @@ import android.widget.GridView
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.database.DatabaseReference
 import com.project.appealic.R
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.SongRepository
@@ -26,7 +25,6 @@ class SearchMainFragment: Fragment() {
     private lateinit var listArtist: ListView
     private lateinit var listAlbum: ListView
 
-    private lateinit var searchDatabase: DatabaseReference
     private var originalTracks: List<Track> = emptyList() // Danh sách gốc
 
     override fun onCreateView(

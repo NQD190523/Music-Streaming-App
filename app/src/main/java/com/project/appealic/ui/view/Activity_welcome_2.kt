@@ -23,8 +23,9 @@ class Activity_welcome_2 : AppCompatActivity() {
 
         // Xử lý sự kiện khi nút Sign Up được nhấn
         binding.btnSignup.setOnClickListener {
-            val intent = Intent(this, Activiy_Singup::class.java)
+            val intent = Intent(this, ActivityRegister::class.java)
             startActivity(intent)
         }
+
     }
 }

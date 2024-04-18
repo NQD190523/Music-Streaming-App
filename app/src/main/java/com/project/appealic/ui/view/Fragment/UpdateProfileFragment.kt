@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.project.appealic.R
+import com.project.appealic.ui.viewmodel.ProfileViewModel
 
 class UpdateProfileFragment : Fragment(){
     override fun onCreateView(
@@ -18,6 +20,7 @@ class UpdateProfileFragment : Fragment(){
         val view = inflater.inflate(R.layout.fragment_upgrade_account, container, false)
         setOnClickListeners(view)
         return view
+
     }
 
     private fun setOnClickListeners(view: View) {

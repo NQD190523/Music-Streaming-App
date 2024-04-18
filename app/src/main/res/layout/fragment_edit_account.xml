@@ -129,11 +129,12 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
+                            android:id="@+id/txtProfileName"
                             style="@style/Label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:text="Nguyen Van A"
+                            android:text="Nguyen Van B"
                             android:textColor="@color/text"
                             app:layout_constraintBottom_toBottomOf="@id/txtName"
                             app:layout_constraintEnd_toStartOf="@+id/imageViewname"
@@ -297,6 +298,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
+                            android:id="@+id/txtProfileEmail"
                             style="@style/Label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

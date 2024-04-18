@@ -2,6 +2,7 @@ package com.project.appealic.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,12 +17,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.databinding.ActivityLoginBinding
 import com.project.appealic.ui.viewmodel.AuthViewModel
+import com.project.appealic.ui.viewmodel.ProfileViewModel
 import com.project.appealic.ui.viewmodel.SpotifyViewModel
+import com.project.appealic.utils.ValidationUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class GoogleLoginActivity : AppCompatActivity() {
+class  GoogleLoginActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityLoginBinding
 
@@ -30,8 +34,7 @@ class GoogleLoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
 
     private lateinit var viewModel: AuthViewModel
-
-    private val spotifyViewModel: SpotifyViewModel by viewModels()
+    private lateinit var profileViewModel: ProfileViewModel
 
 
     private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -53,7 +56,8 @@ class GoogleLoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Khởi tạo ViewModel
-        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+        profileViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
 
         auth = FirebaseAuth.getInstance()
@@ -69,15 +73,60 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         // Đăng nhập bằng tài khoản google
         binding.btnGoogle.setOnClickListener(){
-            CoroutineScope(Dispatchers.IO).launch {
-                launcher.launch(googleSignInClient.signInIntent)
+            CoroutineScope(Dispatchers.Main).launch {
+                // Chuyển sang Dispatchers.IO để thực hiện các hoạt động I/O
+                val signInAccount = withContext(Dispatchers.IO) {
+                    googleSignInClient.signInIntent
+                }
+                launcher.launch(signInAccount)
+
+                val applicationContext = binding.root.context.applicationContext
+
+                // Sử dụng applicationContext khi gọi getLastSignedInAccount()
+                val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(applicationContext)
+
+                lastSignedInAccount?.let { account ->
+                    auth.currentUser?.let { currentUser ->
+                        profileViewModel.createUserProfileByGoogle(account, currentUser)
+                    }
+                }
             }
         }
-        //Đăng nhập bằng Email
+        // Đăng nhập bằng Email
         binding.btnLogin.setOnClickListener() {
             val email = binding.txtLoginEmail.text.toString()
             val password = binding.txtLoginPassword.text.toString()
-            viewModel.loginWithEmailAndPassword(email, password )
+
+            val isValidEmail = ValidationUtils.isValidEmail(email)
+
+            if (isValidEmail != ValidationUtils.VALID) {
+                var errorMessage: String = ""
+
+                when (isValidEmail) {
+                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập Email"
+                    ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage = "Vui lòng nhập đúng định dạng Email"
+                }
+
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val isValidPassword = ValidationUtils.isValidPassword(password)
+
+            if (isValidPassword != ValidationUtils.VALID) {
+                var errorMessage: String = ""
+
+                when (isValidPassword) {
+                    ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập mật khẩu"
+                    ValidationUtils.PASSWORD_LENGTH_ERROR -> errorMessage = "Vui lòng nhập ít nhất 8 ký tự"
+                    ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage = "Mật khẩu phải bao gồm cả chữ và số"
+                }
+
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            viewModel.loginWithEmailAndPassword(email, password)
         }
 
         viewModel.signInSuccess.observe(this) { signInSuccess ->
@@ -94,6 +143,21 @@ class GoogleLoginActivity : AppCompatActivity() {
             } else {
                 // Xử lý khi đăng xuất thất bại
             }
+        }
+
+        binding.btnForgetPassword.setOnClickListener {
+            val intent = Intent(this, ActivityForgotPassword::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnRegister.setOnClickListener {
+            val intent = Intent(this, ActivityRegister::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnPhone.setOnClickListener {
+            val intent = Intent(this, ActivityLoginPhone::class.java)
+            startActivity(intent)
         }
     }
     private fun navigateToMainScreen() {

@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/more_background"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/more_background">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,15 +38,21 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             >
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="100dp">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/artist1"
-                />
-
+                <ImageView
+                    android:id="@+id/artistImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/artist1"
+                    android:contentDescription="get artist image" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/artistName"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,33 +62,6 @@
 
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/dp_16"
-            >
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/artist2"
-                />
-
-
-            <TextView
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Artist 2"
-                android:textColor="@color/white"
-                style="@style/Body1Bold"/>
-
-
-        </LinearLayout>
-
 
 
     </LinearLayout>

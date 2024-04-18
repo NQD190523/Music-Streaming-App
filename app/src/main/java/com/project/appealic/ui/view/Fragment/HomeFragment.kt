@@ -30,6 +30,7 @@ import com.project.appealic.ui.view.ActivityNotification
 import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
+import com.project.appealic.ui.view.Adapters.PlaylistForYouAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
@@ -74,6 +75,7 @@ class HomeFragment : Fragment() {
                 bundle.putString("SONG_TITLE", track.trackTitle)
                 bundle.putString("SINGER_NAME", track.artist)
                 bundle.putString("TRACK_IMAGE", track.trackImage)
+                bundle.putString("ARTIST_ID", track.artistId)
                 moreActionFragment.arguments = bundle
                 moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
             }
@@ -98,9 +100,21 @@ class HomeFragment : Fragment() {
             recyclerViewArtists.adapter = artistAdapter
         })
 
-// Lấy danh sách tracks và artists từ repository
+// Khởi tạo RecyclerView cho danh sách các playlist cho người dùng
+        val playlistForU: RecyclerView = rootView.findViewById(R.id.PlaylistForYou)
+        playlistForU.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val playlistForUAdapter = PlaylistForYouAdapter(requireContext(), emptyList())
+        playlistForU.adapter = playlistForUAdapter
+        songViewModel.playlists.observe(viewLifecycleOwner, Observer { playlists ->
+
+            // Cập nhật danh sách playlist trong adapter
+            playlistForUAdapter.updateData(playlists)
+        })
+
+// Lấy danh sách tracks và artists và playlist từ repository
         songViewModel.getAllTracks()
         songViewModel.getAllArtists()
+        songViewModel.getAllPlaylists()
 
 
         // Xác định ListView
@@ -152,6 +166,7 @@ class HomeFragment : Fragment() {
                 intent.putExtra("SINGER_NAME", selectedSong.artist)
                 intent.putExtra("SONG_NAME", selectedSong.trackTitle)
                 intent.putExtra("TRACK_IMAGE", selectedSong.trackImage)
+                intent.putExtra("ARTIST_ID", selectedSong.artistId)
                 intent.putExtra("DURATION", selectedSong.duration)
                 intent.putExtra("TRACK_URL", selectedSong.trackUrl)
                 intent.putExtra("TRACK_ID", selectedSong.trackId)

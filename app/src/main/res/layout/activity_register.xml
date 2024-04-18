@@ -131,7 +131,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnSignUp"
                 style="@style/CTAsMedium"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
@@ -174,7 +174,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/view7"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/view6"
-                app:layout_constraintTop_toBottomOf="@id/btnLogin" />
+                app:layout_constraintTop_toBottomOf="@id/btnSignUp" />
 
             <View
                 android:id="@+id/view7"
@@ -268,7 +268,7 @@
                     style="@style/Body2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/dont_have_account"
+                    android:text="@string/you_have_an_account"
                     android:textColor="@color/subText"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -276,13 +276,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/btnRegister"
+                    android:id="@+id/btnSignin"
                     style="@style/Body2"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:background="@drawable/noncolor_button"
-                    android:onClick="toRegister"
-                    android:text="@string/sign_up"
+                    android:text="@string/sign_in"
                     android:textColor="@color/text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

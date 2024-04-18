@@ -12,17 +12,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
+import com.project.appealic.ui.viewmodel.ProfileViewModel
 import java.io.InputStream
 
 class EditAccountFragment : Fragment() {
-
     private val PICK_IMAGE = 1
     private lateinit var profileImageView: ImageView
+    private lateinit var profileViewModel: ProfileViewModel
+    private var uid = FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +36,12 @@ class EditAccountFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_account, container, false)
         profileImageView = view.findViewById(R.id.circleImageView2)
+        profileViewModel = ViewModelProvider(requireActivity())[ProfileViewModel::class.java]
+
+        val user = uid?.let { profileViewModel.getUserInfo(it) }
+        view.findViewById<TextView>(R.id.txtProfileName).text = user?.name
+        println(user?.name)
+        view.findViewById<TextView>(R.id.txtProfileName).text = user?.email
 
         setOnClickListeners(view)
 

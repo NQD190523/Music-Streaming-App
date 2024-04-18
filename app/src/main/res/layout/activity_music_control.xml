@@ -47,17 +47,17 @@
         app:layout_constraintStart_toStartOf="@id/txtMusiccontrol"
         app:layout_constraintTop_toBottomOf="@id/txtMusiccontrol">
         <View
-            android:id="@+id/view1"
+            android:id="@+id/viewinfomusic"
             android:layout_width="@dimen/dp_8"
             android:layout_height="@dimen/dp_2"
             android:layout_marginEnd="4dp"
             android:background="#50FFFFFF"
-            app:layout_constraintBottom_toBottomOf="@id/view2"
-            app:layout_constraintEnd_toStartOf="@id/view2"
-            app:layout_constraintTop_toTopOf="@id/view2" />
+            app:layout_constraintBottom_toBottomOf="@id/viewsong"
+            app:layout_constraintEnd_toStartOf="@id/viewsong"
+            app:layout_constraintTop_toTopOf="@id/viewsong" />
 
         <View
-            android:id="@+id/view2"
+            android:id="@+id/viewsong"
             android:layout_width="@dimen/dp_16"
             android:layout_height="@dimen/dp_2"
             android:background="#FFFFFF"
@@ -67,16 +67,24 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            android:id="@+id/view3"
+            android:id="@+id/viewlyris"
             android:layout_width="@dimen/dp_8"
             android:layout_height="@dimen/dp_2"
             android:layout_marginStart="4dp"
             android:background="#50FFFFFF"
-            app:layout_constraintBottom_toBottomOf="@id/view2"
-            app:layout_constraintStart_toEndOf="@id/view2"
-            app:layout_constraintTop_toTopOf="@id/view2" />
+            app:layout_constraintBottom_toBottomOf="@id/viewsong"
+            app:layout_constraintStart_toEndOf="@id/viewsong"
+            app:layout_constraintTop_toTopOf="@id/viewsong" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transitionbar">
+    </androidx.viewpager2.widget.ViewPager2>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/controls"
@@ -358,8 +366,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/icon_btn_heart"
+                android:padding="@dimen/dp_20"
+                android:src="@drawable/ic_heart_24_outlined"
                 app:layout_constraintBottom_toBottomOf="@+id/singer_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/song_name" />
