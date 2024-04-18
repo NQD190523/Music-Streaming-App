@@ -32,7 +32,7 @@ class LikedSongsAdapter(context: Context, resource: Int, objects: List<Track>) :
 
         val songImageView = listItemView.findViewById<ImageView>(R.id.imvPhoto)
         currentSong?.let { song ->
-            song.trackImage?.let { imageUrl ->
+            song.trackUrl?.let { imageUrl ->
                 Glide.with(context)
                     .load(imageUrl)
                     .into(songImageView)

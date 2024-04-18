@@ -1,13 +1,18 @@
 package com.project.appealic.ui.viewmodel
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.firestore.toObjects
 import com.project.appealic.data.model.Artist
@@ -37,6 +42,9 @@ class SongViewModel(private val songRepository: SongRepository, private val user
 
     private val _playlists = MutableLiveData<List<Playlist>>()
     val playlists: LiveData<List<Playlist>> get() = _playlists
+
+    val firebaseDB = Firebase.firestore
+
 
     fun getAllTracks(){
         songRepository.getAllTrack()
@@ -94,8 +102,35 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     }
 
 
-    fun getLikedSongs(userId: String) : CompletableFuture<List<Track>>{
-       return songRepository.getLikedSongFromUser(userId)
+    fun getLikedSongs(userId: String){
+        songRepository.getLikedSongFromUser(userId)
+            .addOnSuccessListener { userDoc ->
+                if (userDoc.exists()) {
+                    val favoriteSongIds = userDoc["likedSong"] as? List<String> ?: emptyList()
+
+                    val tasks = favoriteSongIds.map { trackId ->
+                        val trackDocRef = firebaseDB.collection("tracks").document(trackId)
+                        trackDocRef.get().continueWith { task ->
+                            if (task.isSuccessful) {
+                                task.result?.toObject(Track::class.java)
+                            } else {
+                                null
+                            }
+                        }
+                    }
+
+                    Tasks.whenAllSuccess<Track?>(tasks).addOnSuccessListener { documents ->
+                        val tracksList = documents.filterNotNull()
+                        // Xử lý danh sách trackList ở đây
+                        _likedSongs.postValue(tracksList)
+                    }.addOnFailureListener { exception ->
+                        Log.e(TAG, "Error fetching liked songs: $exception")
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.e(TAG, "Error fetching user document: $exception")
+            }
     }
 
     fun addTrackToUserLikedSongs ( userId: String, trackId : String) = viewModelScope.launch {
