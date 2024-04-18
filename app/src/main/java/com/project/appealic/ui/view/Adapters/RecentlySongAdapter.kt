@@ -12,9 +12,11 @@ import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
 import com.project.appealic.data.model.SongEntity
+import com.project.appealic.data.model.Track
 
 class RecentlySongAdapter(private val context: Context, private var songs: List<SongEntity>) :
     RecyclerView.Adapter<RecentlySongAdapter.RecentlySongViewHolder>() {
+    var onItemClick: ((SongEntity) -> Unit)? = null
 
     private val storage = FirebaseStorage.getInstance()
 
@@ -37,8 +39,12 @@ class RecentlySongAdapter(private val context: Context, private var songs: List<
                 .load(gsReference)
                 .into(holder.songImageView)
         }
-    }
 
+        // Thêm setOnClickListener cho itemView
+        holder.itemView.setOnClickListener {
+            onItemClick?.invoke(currentSong)
+        }
+    }
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(newSongs: List<SongEntity>) {
         this.songs = newSongs

@@ -11,7 +11,7 @@ import com.project.appealic.data.model.PlayListEntity
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.UserEntity
 
-@Database(entities = [UserEntity::class, SongEntity::class, PlayListEntity::class], version = 6)
+@Database(entities = [UserEntity::class, SongEntity::class, PlayListEntity::class], version = 8)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao() : UserDao
     abstract fun songDao() : SongDao

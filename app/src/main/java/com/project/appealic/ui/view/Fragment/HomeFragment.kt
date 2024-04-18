@@ -32,6 +32,7 @@ import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistForYouAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
+import com.project.appealic.ui.view.setOnTrackClickListener
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
@@ -93,6 +94,7 @@ class HomeFragment : Fragment() {
         recentlyViewSong.adapter = recentlySongAdapter
         songViewModel.getRecentSongs(FirebaseAuth.getInstance().currentUser?.uid.toString()).observe(viewLifecycleOwner, Observer { songs ->
             recentlySongAdapter.updateData(songs)
+            recentlySongAdapter.setOnTrackClickListener(requireContext(), songViewModel, songs)
         })
 
 
@@ -144,7 +146,9 @@ class HomeFragment : Fragment() {
                         user,
                         null,
                         System.currentTimeMillis(),
-                        null
+                        null,
+                        selectedSong.duration?.toLong(),
+                        selectedSong.artistId,
                     )
                 }
 

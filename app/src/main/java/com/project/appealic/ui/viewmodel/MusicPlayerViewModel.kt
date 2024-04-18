@@ -87,7 +87,9 @@ class MusicPlayerViewModel :ViewModel() {
                 user,
                 null,
                 System.currentTimeMillis(),
-                null
+                null,
+                selectedSong.duration?.toLong(),
+                selectedSong.artistId,
             )
         }
 
