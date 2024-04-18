@@ -100,7 +100,7 @@
             android:id="@+id/otp_numb2"
             android:layout_width="46dp"
             android:layout_height="48dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/otp_numb1"
             app:layout_constraintStart_toEndOf="@id/otp_numb1"
             app:layout_constraintTop_toTopOf="@+id/otp_numb1">
@@ -133,7 +133,7 @@
             android:id="@+id/otp_numb3"
             android:layout_width="46dp"
             android:layout_height="48dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/otp_numb2"
             app:layout_constraintStart_toEndOf="@id/otp_numb2"
             app:layout_constraintTop_toTopOf="@+id/otp_numb2">
@@ -166,13 +166,78 @@
             android:id="@+id/otp_numb4"
             android:layout_width="46dp"
             android:layout_height="48dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/otp_numb3"
             app:layout_constraintStart_toEndOf="@id/otp_numb3"
             app:layout_constraintTop_toTopOf="@+id/otp_numb3">
 
             <EditText
                 android:id="@+id/edt_numb4"
+                style="@style/Heading3"
+                android:layout_width="46dp"
+                android:layout_height="48dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/edt_opt"
+                android:inputType="number"
+                android:maxLength="1"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:background="@color/primaryColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/otp_numb5"
+            android:layout_width="46dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/otp_numb4"
+            app:layout_constraintStart_toEndOf="@id/otp_numb4"
+            app:layout_constraintTop_toTopOf="@+id/otp_numb4">
+
+            <EditText
+                android:id="@+id/edt_numb5"
+                style="@style/Heading3"
+                android:layout_width="46dp"
+                android:layout_height="48dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/edt_opt"
+                android:inputType="number"
+                android:maxLength="1"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:background="@color/primaryColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/otp_numb6"
+            android:layout_width="46dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/otp_numb5"
+            app:layout_constraintStart_toEndOf="@id/otp_numb5"
+            app:layout_constraintTop_toTopOf="@+id/otp_numb5">
+
+            <EditText
+                android:id="@+id/edt_numb6"
                 style="@style/Heading3"
                 android:layout_width="46dp"
                 android:layout_height="48dp"
