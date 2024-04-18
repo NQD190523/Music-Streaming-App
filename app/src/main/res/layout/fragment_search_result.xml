@@ -6,43 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@+id/topBar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="70dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        <androidx.appcompat.widget.SearchView-->
-<!--            android:id="@+id/searchtest"-->
-<!--            android:theme="@style/ThemeOverlay.SearchView"-->
-<!--            android:layout_width="320dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:background="@drawable/comment_edt"-->
-<!--            app:searchIcon="@drawable/ic_search_16_outlined"-->
-<!--            app:iconifiedByDefault="false"-->
-<!--            android:focusable="false"-->
-<!--            app:queryBackground="@android:color/transparent"-->
-<!--            android:queryHint="What do you want to listen to?"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/txtCancel"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtCancel"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Cancel"-->
-<!--            android:textColor="@color/white"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/searchtest"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/searchtest" />-->
-
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -96,7 +59,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lvSearchResultSongs" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <ListView
                 android:id="@+id/lvSearchResultArtists"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"

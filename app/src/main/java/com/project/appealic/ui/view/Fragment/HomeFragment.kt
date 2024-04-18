@@ -65,6 +65,7 @@ class HomeFragment : Fragment() {
         listView = rootView.findViewById(R.id.lvNewRelease)
         songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
             val adapter = NewReleaseAdapter(requireContext(), tracks)
+
             adapter.setOnAddPlaylistClickListener { track ->
                 // Mở dialog thêm playlist
                 val addPlaylistFragment = AddPlaylistFragment.newInstance(track)

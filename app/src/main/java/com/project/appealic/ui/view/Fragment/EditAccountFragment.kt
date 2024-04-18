@@ -123,7 +123,7 @@ class EditAccountFragment : Fragment() {
         }
     }
 
-        class UpdateDOBDialogFragment : DialogFragment() {
+    class UpdateDOBDialogFragment : DialogFragment() {
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val view = inflater.inflate(R.layout.dialog_update_dob, container, false)
             setOnClickListeners(view)
@@ -279,7 +279,6 @@ class EditAccountFragment : Fragment() {
 
     }
 
-
     class ChangeNameDialog : DialogFragment() {
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val view = inflater.inflate(R.layout.dialog_update_name, container, false)
@@ -341,5 +340,6 @@ class EditAccountFragment : Fragment() {
             val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
             profileImageView.setImageBitmap(bitmap)
         }
+
     }
 }

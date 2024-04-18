@@ -51,7 +51,6 @@ class SearchFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // Nếu cần, bạn có thể thực hiện các thao tác khi người dùng thay đổi nội dung tìm kiếm
                 return false
             }
         })
