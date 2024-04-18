@@ -16,6 +16,8 @@ import com.project.appealic.data.model.Track
 class NewReleaseAdapter(context: Context, private val tracks: List<Track>) :
     ArrayAdapter<Track>(context, 0, tracks) {
 
+    var onItemClick: ((Track) -> Unit)? = null
+
     lateinit var onAddPlaylistClick: (Track) -> Unit
 
     fun setOnAddPlaylistClickListener(listener: (Track) -> Unit) {

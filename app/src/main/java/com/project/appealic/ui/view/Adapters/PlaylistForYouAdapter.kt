@@ -15,24 +15,18 @@ import com.project.appealic.data.model.Playlist
 class PlaylistForYouAdapter(private val context: Context, private var playlists: List<Playlist>)
     : RecyclerView.Adapter<PlaylistForYouAdapter.PlaylistForYouViewHolder>() {
     private val storage = FirebaseStorage.getInstance()
+    var onItemClickListener: ((Playlist) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistForYouViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_playlistforyou, parent, false)
         return PlaylistForYouViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(
-        holder: PlaylistForYouViewHolder,
-        position: Int
-    ) {
-        var currentPlaylist = playlists[position]
-        holder.playlistForYouName.text = currentPlaylist.playlistName
-        holder.artistPlaylist.text = currentPlaylist.playlistArtists
-        currentPlaylist.playlistThumb?.let { imageUrl ->
-            val gsReference = storage.getReferenceFromUrl(imageUrl)
-            Glide.with(context)
-                .load(gsReference)
-                .into(holder.playlistForYouPhoto)
+    override fun onBindViewHolder(holder: PlaylistForYouViewHolder, position: Int) {
+        val currentPlaylist = playlists[position]
+        holder.bind(currentPlaylist)
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.invoke(currentPlaylist)
         }
     }
 
@@ -45,9 +39,21 @@ class PlaylistForYouAdapter(private val context: Context, private var playlists:
         notifyDataSetChanged()
     }
 
-    class PlaylistForYouViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val playlistForYouName: TextView = view.findViewById(R.id.playlistForUName)
-        val artistPlaylist: TextView = view.findViewById(R.id.artistPlaylist)
-        val playlistForYouPhoto: ImageView = view.findViewById(R.id.playlistForUPhoto)
+    inner class PlaylistForYouViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val playlistForYouName: TextView = itemView.findViewById(R.id.playlistForUName)
+        val artistPlaylist: TextView = itemView.findViewById(R.id.artistPlaylist)
+        val playlistForYouPhoto: ImageView = itemView.findViewById(R.id.playlistForUPhoto)
+
+        fun bind(playlist: Playlist) {
+            playlistForYouName.text = playlist.playlistName
+            artistPlaylist.text = playlist.playlistArtists
+
+            playlist.playlistThumb?.let { imageUrl ->
+                val gsReference = storage.getReferenceFromUrl(imageUrl)
+                Glide.with(context)
+                    .load(gsReference)
+                    .into(playlistForYouPhoto)
+            }
+        }
     }
 }

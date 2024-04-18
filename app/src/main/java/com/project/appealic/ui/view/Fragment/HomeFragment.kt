@@ -1,6 +1,5 @@
 package com.project.appealic.ui.view.Fragment
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,12 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.ListView
-import android.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,7 +47,7 @@ class HomeFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
 
-        // Khởi tạo SongViewModel
+        // Initialize SongViewModel
         val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
         songViewModel = ViewModelProvider(this, factory)[SongViewModel::class.java]
 
@@ -111,16 +107,32 @@ class HomeFragment : Fragment() {
         playlistForU.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val playlistForUAdapter = PlaylistForYouAdapter(requireContext(), emptyList())
         playlistForU.adapter = playlistForUAdapter
-        songViewModel.playlists.observe(viewLifecycleOwner, Observer { playlists ->
 
-            // Cập nhật danh sách playlist trong adapter
+        songViewModel.playlists.observe(viewLifecycleOwner, Observer { playlists ->
             playlistForUAdapter.updateData(playlists)
         })
 
+// Xử lý sự kiện click trên item của RecyclerView
+        playlistForUAdapter.onItemClickListener = { selectedPlaylist ->
+            // Chuyển sang PlaylistPageFragment với thông tin của playlist đã chọn
+            val bundle = Bundle().apply {
+                putParcelable("selected_playlist", selectedPlaylist)
+            }
+            val playlistPageFragment = PlaylistPageFragment()
+            playlistPageFragment.arguments = bundle
+
+            // Thay đổi Fragment hoặc khởi chạy Activity mới (tùy vào thiết kế của bạn)
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmenthome, playlistPageFragment)
+                .addToBackStack(null)
+                .commit()
+        }
 // Lấy danh sách tracks và artists và playlist từ repository
+
         songViewModel.getAllTracks()
         songViewModel.getAllArtists()
         songViewModel.getAllPlaylists()
+
 
 
         // Xác định ListView
