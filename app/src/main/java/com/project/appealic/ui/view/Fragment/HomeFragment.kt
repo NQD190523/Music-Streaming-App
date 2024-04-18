@@ -122,7 +122,7 @@ class HomeFragment : Fragment() {
 
         // Thiết lập OnItemClickListener cho ListView
         listView.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, view, position, id ->
+            AdapterView.OnItemClickListener { parent, _, position, _ ->
                 // Lấy dữ liệu của mục được chọn từ Adapter
                 val selectedSong = parent.getItemAtPosition(position) as Track
                 //lưu bài hát vừa mở vào database của thiết bị
@@ -155,12 +155,14 @@ class HomeFragment : Fragment() {
                         })
                 }
 //              Lấy dữ liệu các url trogn playlist
-                for (i  in 0 until parent.count-1){
+                for (i  in 0 until parent.count){
                     val item = parent.getItemAtPosition(i) as Track
                     item.trackUrl?.let { trackUrl ->
+                        println(trackUrl)
                         trackUrlList.add(trackUrl)
                     }
                 }
+                println(position)
                 // Truyền dữ liệu cần thiết qua Intent
                 intent.putExtra("SONG_TITLE", selectedSong.trackTitle)
                 intent.putExtra("SINGER_NAME", selectedSong.artist)

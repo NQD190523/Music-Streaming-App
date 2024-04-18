@@ -377,23 +377,37 @@ class ActivityMusicControl : AppCompatActivity(){
         val mediaItems = mutableListOf<MediaItem>()
         val tasks = mutableListOf<Task<Uri>>()
 
-        trackList.forEach { trackPath ->
+        for (i in 0 until trackList.size) {
+            val trackPath = trackList[i]
             val audioRef = storageRef.child(trackPath.substring(trackPath.indexOf("/", 5) + 1))
             val task = audioRef.downloadUrl
             tasks.add(task)
-            task.addOnSuccessListener { url ->
-                val songUri = Uri.parse(url.toString())
-                mediaItems.add(MediaItem.fromUri(songUri))
+        }
+        // Chờ tất cả các tác vụ tải xuống hoàn tất
+        Tasks.whenAllComplete(tasks).addOnCompleteListener { completedTasks ->
+            val results = mutableListOf<Task<*>>()
+            for (taskResult in completedTasks.result!!) {
+                results.add(taskResult)
+            }
+            val size = results.size
 
-                // Kiểm tra nếu đã tải xuống tất cả các track
-                if (mediaItems.size == trackList.size) {
-                    musicPlayerViewModel.setMediaUri(mediaItems, trackIndex)
+            for (i in 0 until size) {
+                val task = tasks[i]
+                val index = i
+                if (task.isSuccessful) {
+                    val url = task.result as Uri
+                    val songUri = MediaItem.fromUri(url)
+                    mediaItems.add(songUri)
+
+                    // Kiểm tra nếu đã tải xuống tất cả các track
+                    if (mediaItems.size == trackList.size) {
+                        musicPlayerViewModel.setMediaUri(mediaItems, trackIndex)
+                    }
+                } else {
+                    Log.e("Error", "Failed to download track at index $index: ${task.exception?.message}")
                 }
-            }.addOnFailureListener { exception ->
-                Log.e("Error", "Failed to download track at index: ${exception.message}")
             }
         }
-
     }
 
     private fun formatDuration(durationInSeconds: Long): String {
