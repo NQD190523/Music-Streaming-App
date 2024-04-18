@@ -15,6 +15,6 @@ import com.project.appealic.data.model.UserEntity
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao() : UserDao
     abstract fun songDao() : SongDao
-    abstract fun platListDao() : PlayListDao
+    abstract fun playListDao() : PlayListDao
 
 }

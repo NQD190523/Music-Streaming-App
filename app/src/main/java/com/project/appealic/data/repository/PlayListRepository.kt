@@ -24,7 +24,7 @@ class PlayListRepository(application: Application) {
     )
         .fallbackToDestructiveMigration()
         .build()
-    private val playListDao : PlayListDao = db.platListDao()
+    private val playListDao : PlayListDao = db.playListDao()
 
     fun getAllUserPlayList(userId : String) : LiveData<List<PlayListEntity>> {
         return playListDao.getUserPlayLists(userId)
