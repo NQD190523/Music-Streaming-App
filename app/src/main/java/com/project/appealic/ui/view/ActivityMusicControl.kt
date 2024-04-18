@@ -22,9 +22,11 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -35,9 +37,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import com.project.appealic.R
+import com.project.appealic.data.repository.SongRepository
+import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.data.repository.service.MusicPlayerService
 import com.project.appealic.ui.view.Fragment.AddPlaylistFragment
 import com.project.appealic.ui.view.Fragment.InfoMusicFragment
@@ -45,8 +50,12 @@ import com.project.appealic.ui.view.Fragment.LyrisFragment
 import com.project.appealic.ui.view.Fragment.MoreActionFragment
 import com.project.appealic.ui.view.Fragment.PlaySongFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
+import com.project.appealic.ui.viewmodel.SongViewModel
+import com.project.appealic.utils.SongViewModelFactory
 
 class ActivityMusicControl : AppCompatActivity(){
+
+    private lateinit var songViewModel: SongViewModel
 
     private var isRepeating = false
     private var playlist: ArrayList<MediaBrowser.MediaItem> = ArrayList()
@@ -75,6 +84,7 @@ class ActivityMusicControl : AppCompatActivity(){
     private val storage = Firebase.storage
     private val storageRef = storage.reference
     private lateinit var trackChangeReceiver: BroadcastReceiver
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
@@ -92,6 +102,11 @@ class ActivityMusicControl : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music_control)
+
+        // Khởi tạo SongViewModel
+        val factory = SongViewModelFactory(SongRepository(this.application), UserRepository(this.application))
+        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
+
 
         // Lấy dữ liệu từ Intent và hiển thị trên giao diện
         val songTitle = intent.getStringExtra("SONG_TITLE")?: "N/A"
@@ -197,6 +212,21 @@ class ActivityMusicControl : AppCompatActivity(){
         playBtn.setOnClickListener { handlePlayButtonClick() }
         likeBtn.setOnClickListener { handleLikeButtonClick()}
 
+        // Xét hiển thị bài hát yêu thích
+        if (userId != null) {
+            songViewModel.getLikedSongs(userId)
+            songViewModel.likedSongs.observe(this, Observer { likedSong ->
+                for (i in 0 until likedSong.size) {
+                    if (likedSong.get(i).trackId == trackId)
+                        likeBtn.setImageResource(R.drawable.ic_isliked)
+                    else likeBtn.setImageResource(R.drawable.ic_heart_24_outlined)
+                }
+            })
+        } else {
+            // Hiển thị thông báo yêu cầu đăng nhập nếu người dùng chưa đăng nhập
+            Toast.makeText(this, "You need to sign in to use this feature", Toast.LENGTH_SHORT).show()
+        }
+
         //Cập nhật trang thái khi thay đổi progresBar
         progressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -260,10 +290,12 @@ class ActivityMusicControl : AppCompatActivity(){
         val artistName = intent.getStringExtra("SINGER_NAME")
         val trackImage = intent.getStringExtra("TRACK_IMAGE")
         val artistId = intent.getStringExtra("ARTIST_ID")
+        val trackId = intent.getStringExtra("TRACK_ID")
         editor.putString("SONG_TITLE", songTitle)
         editor.putString("SINGER_NAME", artistName)
         editor.putString("TRACK_IMAGE", trackImage)
         editor.putString("ARTIST_ID", artistId)
+        editor.putString("TRACK_ID", trackId)
         // Save other song info to SharedPreferences if needed
         editor.apply()
 
@@ -327,27 +359,30 @@ class ActivityMusicControl : AppCompatActivity(){
         // Xử lý khi nhấn nút Download
     }
 
-    fun handleLikeButtonClick() {
-        val sharedPreferences = getSharedPreferences("MyFavoriteSongs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
+    private fun handleLikeButtonClick() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val trackId = intent.getStringExtra("TRACK_ID").toString()
 
-        val songId = trackId
-        val isLiked = sharedPreferences.getBoolean(songId, false) // Kiểm tra xem bài hát đã được thêm vào danh sách yêu thích chưa
 
-        if (isLiked) {
-            // Nếu bài hát đã được thêm vào danh sách yêu thích, xóa nó khỏi danh sách yêu thích
-            editor.remove(songId)
-            editor.apply()
-
-            // Thay đổi hình ảnh của likeBtn về trạng thái không yêu thích
-            likeBtn.setImageResource(R.drawable.ic_heart_24_outlined)
+        if (userId != null) {
+            songViewModel.getLikedSongs(userId)
+            val isLiked = songViewModel.likedSongs.value?.any { it.trackId == trackId } ?: false
+            println(isLiked)
+            println(songViewModel.likedSongs.value)
+            if (isLiked) {
+                // Bài hát đã được thích, nên xóa khỏi danh sách yêu thích của người dùng
+                songViewModel.removeTrackFromUserLikedSongs(userId, trackId)
+                // Cập nhật trạng thái của likeBtn
+                likeBtn.setImageResource(R.drawable.ic_heart_24_outlined)
+            } else {
+                // Bài hát chưa được thích, nên thêm vào danh sách yêu thích của người dùng
+                songViewModel.addTrackToUserLikedSongs(userId, trackId)
+                // Cập nhật trạng thái của likeBtn
+                likeBtn.setImageResource(R.drawable.ic_isliked)
+            }
         } else {
-            // Nếu bài hát chưa được thêm vào danh sách yêu thích, thêm vào danh sách yêu thích
-            editor.putBoolean(songId, true)
-            editor.apply()
-
-            // Thay đổi hình ảnh của likeBtn về trạng thái đã yêu thích
-            likeBtn.setImageResource(R.drawable.ic_isliked)
+            // Hiển thị thông báo yêu cầu đăng nhập nếu người dùng chưa đăng nhập
+            Toast.makeText(this, "You need to sign in to use this feature", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -359,6 +394,7 @@ class ActivityMusicControl : AppCompatActivity(){
         bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
         bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
         bundle.putString("ARTIST_ID", intent.getStringExtra("ARTIST_ID"))
+        bundle.putString("TRACK_ID", intent.getStringExtra("TRACK_ID"))
         moreActionFragment.arguments = bundle
         moreActionFragment.show(supportFragmentManager, "MoreActionsFragment")
     }

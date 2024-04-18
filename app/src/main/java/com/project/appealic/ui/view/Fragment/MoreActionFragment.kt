@@ -3,6 +3,8 @@ package com.project.appealic.ui.view.Fragment
 import SongAdapter
 import android.app.Dialog
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
@@ -14,14 +16,22 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
 import com.project.appealic.data.model.Track
+import com.project.appealic.data.repository.SongRepository
+import com.project.appealic.data.repository.UserRepository
+import com.project.appealic.ui.viewmodel.SongViewModel
+import com.project.appealic.utils.SongViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,6 +45,9 @@ private const val ARG_PARAM2 = "param2"
  */
 class MoreActionFragment : DialogFragment() {
 
+    private lateinit var songViewModel: SongViewModel
+
+
     companion object {
         private const val ARG_TRACK = "arg_track"
 
@@ -42,10 +55,17 @@ class MoreActionFragment : DialogFragment() {
             val fragment = MoreActionFragment()
             val args = Bundle().apply {
                 putParcelable(ARG_TRACK, track)
+                putString("TRACK_ID", track.trackId)
             }
             fragment.arguments = args
             return fragment
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
+        songViewModel = ViewModelProvider(requireActivity(), factory).get(SongViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -54,6 +74,8 @@ class MoreActionFragment : DialogFragment() {
         savedInstanceState: Bundle?,
 
     ): View? {
+        // Khởi tạo SongViewModel
+
         val track: Track? = arguments?.getParcelable(ARG_TRACK)
         return inflater.inflate(R.layout.fragment_more_action, container, false)
     }
@@ -74,17 +96,18 @@ class MoreActionFragment : DialogFragment() {
         layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
         window?.attributes = layoutParams
 
+
         return dialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         // Lấy dữ liệu từ Intent và hiển thị trên giao diện playlist
         val songTitle = arguments?.getString("SONG_TITLE")
         val artistName = arguments?.getString("SINGER_NAME")
         val trackImage = arguments?.getString("TRACK_IMAGE")
+        val trackId = arguments?.getString("TRACK_ID").toString()
 
         val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
         txtSongName.text = songTitle
@@ -100,6 +123,25 @@ class MoreActionFragment : DialogFragment() {
                 .into(songImageView)
         }
 
+        // Xét điều kiện hiển thị thêm vào yêu thích
+        val heartIcon = view.findViewById<ImageView>(R.id.heartIcon)
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        // Xét hiển thị bài hát yêu thích
+        if (userId != null) {
+            songViewModel.getLikedSongs(userId)
+            songViewModel.likedSongs.observe(this, Observer { likedSong ->
+                for (i in 0 until likedSong.size) {
+                    if (likedSong.get(i).trackId == trackId)
+                        heartIcon.setImageResource(R.drawable.ic_isliked)
+                    else heartIcon.setImageResource(R.drawable.ic_heart_24_outlined)
+                }
+            })
+        } else {
+            // Hiển thị thông báo yêu cầu đăng nhập nếu người dùng chưa đăng nhập
+            Toast.makeText(requireContext(), "You need to sign in to use this feature", Toast.LENGTH_SHORT).show()
+        }
+
         // Xử lý các sự kiện click
         view.findViewById<LinearLayout>(R.id.llAddPlay).setOnClickListener {
             dismiss()
@@ -107,8 +149,7 @@ class MoreActionFragment : DialogFragment() {
         }
 
         view.findViewById<LinearLayout>(R.id.llAddFav).setOnClickListener {
-            dismiss()
-            showDialogForAddFav()
+            handleAddToFavorites()
         }
 
         view.findViewById<LinearLayout>(R.id.llComment).setOnClickListener {
@@ -132,8 +173,26 @@ class MoreActionFragment : DialogFragment() {
         addPlaylistFragment.show(parentFragmentManager, "AddPlaylistFragment")
     }
 
-    private fun showDialogForAddFav() {
+    private fun handleAddToFavorites() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val heartIcon = view?.findViewById<ImageView>(R.id.heartIcon)
+        val trackId = arguments?.getString("TRACK_ID")
+        if (userId != null && trackId != null) {
+            songViewModel.getLikedSongs(userId)
+            val isLiked = songViewModel.likedSongs.value?.any { it.trackId == trackId } ?: false
+                if (isLiked) {
+                    songViewModel.removeTrackFromUserLikedSongs(userId, trackId)
+                    heartIcon?.setImageResource(R.drawable.ic_heart_24_outlined)
+                } else {
+                    songViewModel.addTrackToUserLikedSongs(userId, trackId)
+                    heartIcon?.setImageResource(R.drawable.ic_isliked)
+                }
+        } else {
+            // Hiển thị thông báo yêu cầu đăng nhập nếu người dùng chưa đăng nhập
+            Toast.makeText(requireContext(), "You need to sign in to use this feature", Toast.LENGTH_SHORT).show()
+        }
     }
+
 
     private fun showDialogForComment() {
         val dialog = Dialog(requireActivity())

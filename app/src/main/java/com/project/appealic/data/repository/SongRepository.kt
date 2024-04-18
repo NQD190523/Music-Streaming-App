@@ -59,46 +59,14 @@ class SongRepository (application: Application) {
         return songDao.getRecentSongs(userId)
     }
 
-    fun getLikedSongFromUser(userId: String): CompletableFuture<List<Track>> {
-        val future = CompletableFuture<List<Track>>()
-
-        val userDocRef = firebaseDB.collection("users").document(userId)
-        userDocRef.get()
-            .addOnSuccessListener { userDoc ->
-                if (userDoc.exists()) {
-                    val favoriteSongIds = userDoc["favoriteSongs"] as? List<String> ?: emptyList()
-
-                    val tasks = favoriteSongIds.map { songId ->
-                        val trackDocRef = firebaseDB.collection("tracks").document(songId)
-                        trackDocRef.get().continueWith { task ->
-                            if (task.isSuccessful) {
-                                task.result?.toObject(Track::class.java)
-                            } else {
-                                null
-                            }
-                        }
-                    }
-
-                    Tasks.whenAllSuccess<Track?>(tasks).addOnSuccessListener { documents ->
-                        val tracksList = documents.filterNotNull()
-                        future.complete(tracksList)
-                    }.addOnFailureListener { exception ->
-                        future.completeExceptionally(exception)
-                    }
-                } else {
-                    future.complete(emptyList())
-                }
-            }
-            .addOnFailureListener { exception ->
-                future.completeExceptionally(exception)
-            }
-
-        return future
+    fun getLikedSongFromUser(userId: String): Task<DocumentSnapshot> {
+        return firebaseDB.collection("users").document(userId)
+            .get()
     }
     fun addTrackToUserLikedSongs(userId: String, trackId: String) {
         val userDocRef = firebaseDB.collection("users").document(userId)
         // Cập nhật tài liệu người dùng với ID bài hát mới
-        userDocRef.update("likedSongs", FieldValue.arrayUnion(trackId))
+        userDocRef.update("likedSong", FieldValue.arrayUnion(trackId))
             .addOnSuccessListener {
                 println("Track ID $trackId added to user $userId liked songs successfully")
             }
@@ -110,7 +78,7 @@ class SongRepository (application: Application) {
         val userDocRef = firebaseDB.collection("users").document(userId)
 
         // Cập nhật tài liệu người dùng, xóa trackId khỏi mảng likedSongs
-        userDocRef.update("likedSongs", FieldValue.arrayRemove(trackId))
+        userDocRef.update("likedSong", FieldValue.arrayRemove(trackId))
             .addOnSuccessListener {
                 println("Track ID $trackId removed from user $userId liked songs successfully")
             }

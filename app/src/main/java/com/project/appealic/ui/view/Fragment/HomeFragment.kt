@@ -76,6 +76,7 @@ class HomeFragment : Fragment() {
                 bundle.putString("SINGER_NAME", track.artist)
                 bundle.putString("TRACK_IMAGE", track.trackImage)
                 bundle.putString("ARTIST_ID", track.artistId)
+                bundle.putString("TRACK_ID", track.trackId)
                 moreActionFragment.arguments = bundle
                 moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
             }
