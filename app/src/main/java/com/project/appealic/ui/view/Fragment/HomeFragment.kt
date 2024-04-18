@@ -155,7 +155,7 @@ class HomeFragment : Fragment() {
                         })
                 }
 //              Lấy dữ liệu các url trogn playlist
-                for (i in 0 until parent.count){
+                for (i  in 0 until parent.count-1){
                     val item = parent.getItemAtPosition(i) as Track
                     item.trackUrl?.let { trackUrl ->
                         trackUrlList.add(trackUrl)

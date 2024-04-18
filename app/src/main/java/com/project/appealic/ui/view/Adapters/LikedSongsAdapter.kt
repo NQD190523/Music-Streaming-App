@@ -10,9 +10,10 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.project.appealic.R
 import com.project.appealic.data.model.SongEntity
+import com.project.appealic.data.model.Track
 
-class LikedSongsAdapter(context: Context, resource: Int, objects: List<SongEntity>) :
-    ArrayAdapter<SongEntity>(context, resource, objects) {
+class LikedSongsAdapter(context: Context, resource: Int, objects: List<Track>) :
+    ArrayAdapter<Track>(context, resource, objects) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var listItemView = convertView
@@ -24,14 +25,14 @@ class LikedSongsAdapter(context: Context, resource: Int, objects: List<SongEntit
         val currentSong = getItem(position)
 
         val songTitleTextView = listItemView!!.findViewById<TextView>(R.id.txtSongName)
-        songTitleTextView.text = currentSong?.songName
+        songTitleTextView.text = currentSong?.trackTitle
 
         val singerTextView = listItemView.findViewById<TextView>(R.id.txtSinger)
-        singerTextView.text = currentSong?.singer
+        singerTextView.text = currentSong?.artist
 
         val songImageView = listItemView.findViewById<ImageView>(R.id.imvPhoto)
         currentSong?.let { song ->
-            song.thumbUrl?.let { imageUrl ->
+            song.trackImage?.let { imageUrl ->
                 Glide.with(context)
                     .load(imageUrl)
                     .into(songImageView)

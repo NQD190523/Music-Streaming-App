@@ -27,8 +27,8 @@ import java.util.concurrent.CompletableFuture
 class SongViewModel(private val songRepository: SongRepository, private val userRepository: UserRepository) : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val _tracks = MutableLiveData<List<Track>>()
-    private val _likedSongs = MutableLiveData<List<SongEntity>>()
-    val likedSongs: LiveData<List<SongEntity>> get() = _likedSongs
+    private val _likedSongs = MutableLiveData<List<Track>>()
+    val likedSongs: LiveData<List<Track>> get() = _likedSongs
 
     val tracks: LiveData<List<Track>> get() = _tracks
 
