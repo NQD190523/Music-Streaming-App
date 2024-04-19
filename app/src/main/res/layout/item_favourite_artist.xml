@@ -1,51 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/llAlbumItem"
-        android:gravity="center_vertical"
+        android:id="@+id/llArtistItem"
         android:layout_margin="10dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <androidx.cardview.widget.CardView
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imvPhotoArtist"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:cardCornerRadius="8dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/song1"
-                android:id="@+id/imvPhotoAlbum"/>
-
-        </androidx.cardview.widget.CardView>
+            android:src="@drawable/artist1"
+            android:layout_gravity="center"/>
 
 
         <LinearLayout
             android:layout_width="126dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginStart="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtAlbumName"
-                style="@style/Body1Bold"
+                android:id="@+id/txtArtistName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Top songs: Taylor Swift"
-                android:textColor="@color/white" />
+                android:text="Taylor Swift"
+                style="@style/Body1Bold"
+                android:textColor="@color/white"
+                />
 
             <TextView
-                android:id="@+id/txtAlbumTotalSongs"
+                android:id="@+id/txtFollowed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="125 songs"
+                android:text="52K followers"
                 style="@style/Body2"
                 android:textColor="@color/subText"
                 />
@@ -53,12 +48,12 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/btnMoreAction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_20_left"
-            android:rotation="180"
-            />
+            android:src="@drawable/ic_more_20_outlined"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
 
     </LinearLayout>
-
 </LinearLayout>

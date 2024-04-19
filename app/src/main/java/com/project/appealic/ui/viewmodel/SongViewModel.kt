@@ -15,6 +15,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.firestore.toObjects
+import com.project.appealic.data.model.Album
 import com.project.appealic.data.model.Artist
 import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.model.SongEntity
@@ -45,18 +46,19 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     private val _playlists = MutableLiveData<List<Playlist>>()
     val playlists: LiveData<List<Playlist>> get() = _playlists
 
-        private val firebaseDB = Firebase.firestore
+    private val _albums = MutableLiveData<List<Album>>()
+    val albums: LiveData<List<Album>> get() = _albums
+    private val firebaseDB = Firebase.firestore
 
-
-        fun getAllTracks() {
-            songRepository.getAllTrack()
-                .addOnSuccessListener { tracks ->
-                    if (tracks != null) _tracks.postValue(tracks.toObjects(Track::class.java))
-                }
-                .addOnFailureListener { exception ->
-                    Log.e("error", exception.toString())
-                }
-        }
+    fun getAllTracks(){
+        songRepository.getAllTrack()
+            .addOnSuccessListener { tracks ->
+                    if(tracks != null) _tracks.postValue(tracks.toObjects(Track::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.e("error",exception.toString())
+            }
+    }
 
         fun getAllArtists() {
             songRepository.getAllArtist()
@@ -154,16 +156,26 @@ class SongViewModel(private val songRepository: SongRepository, private val user
             }
         }
 
+//    fun getAllAlbums() {
+//        songRepository.getAllAlbums()
+//            .addOnSuccessListener { albums ->
+//                if (albums != null)
+//                    _albums.postValue(albums.toObjects(Album::class.java))
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.e("error", exception.toString())
+//            }
+//    }
 
-        fun loadSearchResults(searchQuery: String?) {
-            // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
-            val searchResultsLiveData = songRepository.loadSearchResults(searchQuery)
-            // Cập nhật LiveData _tracks với dữ liệu mới
-            searchResultsLiveData.observeForever { searchResultsLiveData ->
-                _tracks.postValue(searchResultsLiveData.tracks)
-                _artists.postValue(searchResultsLiveData.artist)
-            }
+    fun loadSearchResults(searchQuery: String?) {
+        // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
+        val searchResultsLiveData = songRepository.loadSearchResults(searchQuery)
+        // Cập nhật LiveData _tracks với dữ liệu mới
+        searchResultsLiveData.observeForever { searchResultsLiveData ->
+            _tracks.postValue(searchResultsLiveData.tracks)
+            _artists.postValue(searchResultsLiveData.artist)
+            _playlists.postValue(searchResultsLiveData.playlists)
+            _albums.postValue(searchResultsLiveData.albums)
         }
-    }
-
-
+}
+}

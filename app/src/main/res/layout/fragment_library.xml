@@ -145,8 +145,7 @@
                     style="@style/Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="32dp"
                     android:text="Artists"
                     android:textColor="@color/text"
                     app:layout_constraintBottom_toBottomOf="@+id/tvAddPlaylists"
@@ -229,7 +228,7 @@
                 android:name="com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout12" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout12"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -27,8 +27,10 @@ import com.project.appealic.data.model.SongEntity
 import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.ui.view.ActivityNotification
+import com.project.appealic.ui.view.Adapters.AlbumsResultAdapter
 import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.ArtistResultAdapter
+import com.project.appealic.ui.view.Adapters.PlaylistResultAdapter
 import com.project.appealic.ui.view.Adapters.SongResultAdapter
 import java.util.ArrayList
 
@@ -36,6 +38,7 @@ class SearchResultFragment: Fragment() {
     private lateinit var listSong: ListView
     private lateinit var songViewModel: SongViewModel
     private lateinit var listArtist: ListView
+    private lateinit var listPlaylist: ListView
     private lateinit var listAlbum: ListView
 
     private lateinit var searchDatabase: DatabaseReference
@@ -50,6 +53,8 @@ class SearchResultFragment: Fragment() {
 
         listSong = view.findViewById(R.id.lvSearchResultSongs)
         listArtist = view.findViewById(R.id.lvSearchResultArtists)
+        listPlaylist = view.findViewById(R.id.lvSearchResultPlaylists)
+        listAlbum = view.findViewById(R.id.lvSearchResultAlbums)
 
         // Khởi tạo SongViewModel
         val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
@@ -128,6 +133,16 @@ class SearchResultFragment: Fragment() {
             songViewModel.artists.observe(viewLifecycleOwner, Observer { artists->
                 val adapterArtist = ArtistResultAdapter(requireContext(), artists)
                 listArtist.adapter = adapterArtist
+            })
+
+            songViewModel.playlists.observe(viewLifecycleOwner, Observer { playlits ->
+                val adapterPlaylists = PlaylistResultAdapter(requireContext(), playlits)
+                listPlaylist.adapter = adapterPlaylists
+            })
+
+            songViewModel.albums.observe(viewLifecycleOwner, Observer { albums ->
+                val adapterAlbum = AlbumsResultAdapter(requireContext(), albums)
+                listAlbum.adapter = adapterAlbum
             })
         }
 

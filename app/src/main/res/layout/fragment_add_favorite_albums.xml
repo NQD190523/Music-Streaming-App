@@ -3,254 +3,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/background">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:orientation="vertical"
         android:padding="@dimen/dp_16"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="10dp"
+            >
+
             <FrameLayout
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/btn_rounded_gray">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_plus_24_outlined"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_plus_24_outlined" />
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="16dp">
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
 
                 <TextView
+                    style="@style/Body1Bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add your favorite albums"
-                    style="@style/Body1Bold"
                     android:textColor="@color/text" />
+
                 <TextView
+                    style="@style/Body2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="Create your own albums"
-                    style="@style/Body2"
                     android:textColor="@color/subtitleText" />
             </LinearLayout>
         </LinearLayout>
+
         <ListView
             android:id="@+id/lv_fav_album"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_16"/>
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/dp_16" />
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:layout_marginTop="16dp">-->
-<!--            <FrameLayout-->
-<!--                android:layout_width="65dp"-->
-<!--                android:layout_height="65dp"-->
-<!--                >-->
-<!--                <TableLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:stretchColumns="*"-->
-<!--                    >-->
-<!--                    <TableRow-->
-<!--                        android:layout_width="fill_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center_horizontal"-->
-<!--                        >-->
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:scaleType="fitXY"-->
-<!--                            android:adjustViewBounds="true"-->
-<!--                            android:src="@drawable/song1"-->
-<!--                            />-->
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:scaleType="fitXY"-->
-<!--                            android:adjustViewBounds="true"-->
-<!--                            android:src="@drawable/song2"-->
-<!--                            />-->
-<!--                    </TableRow>-->
-
-<!--                    <TableRow-->
-<!--                        android:layout_width="fill_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center_horizontal"-->
-<!--                        >-->
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:scaleType="fitXY"-->
-<!--                            android:adjustViewBounds="true"-->
-<!--                            android:src="@drawable/song4"-->
-<!--                            />-->
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:scaleType="fitXY"-->
-<!--                            android:adjustViewBounds="true"-->
-<!--                            android:src="@drawable/song3"-->
-<!--                            />-->
-<!--                    </TableRow>-->
-
-<!--                </TableLayout>-->
-
-<!--            </FrameLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="16dp"-->
-<!--                android:orientation="vertical">-->
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Album 1"-->
-<!--                    style="@style/Body1Bold"-->
-<!--                    android:textColor="@color/text"-->
-<!--                    />-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="5dp"-->
-<!--                    android:text="Jienne"-->
-<!--                    style="@style/Body2"-->
-<!--                    android:textColor="@color/subtitleText"-->
-<!--                    />-->
-<!--            </LinearLayout>-->
-
-<!--            <ImageButton-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:backgroundTint="#00FFFFFF"-->
-<!--                android:src="@drawable/ic_more_20_outlined" />-->
-
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            >-->
-<!--            <FrameLayout-->
-<!--                android:layout_width="65dp"-->
-<!--                android:layout_height="65dp"-->
-<!--                >-->
-<!--                <TableLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:stretchColumns="*"-->
-<!--                    >-->
-<!--                    <TableRow-->
-<!--                        android:layout_width="fill_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center_horizontal"-->
-<!--                        >-->
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:scaleType="fitXY"-->
-<!--                            android:adjustViewBounds="true"-->
-<!--                            android:src="@drawable/song1"-->
-<!--                            />-->
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:scaleType="fitXY"-->
-<!--                            android:adjustViewBounds="true"-->
-<!--                            android:src="@drawable/song2"-->
-<!--                            />-->
-<!--                    </TableRow>-->
-
-<!--                    <TableRow-->
-<!--                        android:layout_width="fill_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center_horizontal"-->
-<!--                        >-->
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:scaleType="fitXY"-->
-<!--                            android:adjustViewBounds="true"-->
-<!--                            android:src="@drawable/song4"-->
-<!--                            />-->
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:scaleType="fitXY"-->
-<!--                            android:adjustViewBounds="true"-->
-<!--                            android:src="@drawable/song3"-->
-<!--                            />-->
-<!--                    </TableRow>-->
-
-<!--                </TableLayout>-->
-
-<!--            </FrameLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="16dp"-->
-<!--                android:orientation="vertical"-->
-<!--                >-->
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Album 2"-->
-<!--                    style="@style/Body1Bold"-->
-<!--                    android:textColor="@color/text"-->
-<!--                    />-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="5dp"-->
-<!--                    android:text="Jienne"-->
-<!--                    style="@style/Body2"-->
-<!--                    android:textColor="@color/subtitleText"-->
-<!--                    />-->
-<!--            </LinearLayout>-->
-<!--            <ImageButton-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:backgroundTint="#00FFFFFF"-->
-<!--                android:src="@drawable/ic_more_20_outlined" />-->
-
-<!--        </LinearLayout>-->
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
