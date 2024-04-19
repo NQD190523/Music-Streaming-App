@@ -60,51 +60,51 @@ class SongViewModel(private val songRepository: SongRepository, private val user
             }
     }
 
-        fun getAllArtists() {
-            songRepository.getAllArtist()
-                .addOnSuccessListener { artists ->
-                    if (artists != null)
-                        _artists.postValue(artists.toObjects(Artist::class.java))
-                }
-                .addOnFailureListener { exception ->
-                    Log.e("error", exception.toString())
-                }
-        }
-
-        fun getAllPlaylists() {
-            songRepository.getAllPlaylists()
-                .addOnSuccessListener { playlists ->
-                    if (playlists != null)
-                        _playlists.postValue(playlists.toObjects(Playlist::class.java))
-                }
-                .addOnFailureListener { exception ->
-                    Log.e("error", exception.toString())
-                }
-        }
-
-
-        fun getTrackFromGenres(genre: String) {
-            songRepository.getAllTrack()
-                .addOnSuccessListener { tracks ->
-                    val genreTrack =
-                        tracks.documents.filter { it.toObject(Track::class.java)?.genre == genre }
-                    _tracks.postValue(genreTrack.map { it.toObject(Track::class.java)!! })
-                }
-        }
-
-        fun getUserData(): LiveData<UserEntity>? {
-            return userRepository.getUserData()
-        }
-
-        fun getRecentSongs(userId: String): LiveData<List<SongEntity>> {
-            return songRepository.getRecentSongs(userId)
-        }
-
-        fun insertSong(song: SongEntity) = viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                songRepository.insertSong(song)
+    fun getAllArtists() {
+        songRepository.getAllArtist()
+            .addOnSuccessListener { artists ->
+                if (artists != null)
+                    _artists.postValue(artists.toObjects(Artist::class.java))
             }
+            .addOnFailureListener { exception ->
+                Log.e("error", exception.toString())
+            }
+    }
+
+    fun getAllPlaylists() {
+        songRepository.getAllPlaylists()
+            .addOnSuccessListener { playlists ->
+                if (playlists != null)
+                    _playlists.postValue(playlists.toObjects(Playlist::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.e("error", exception.toString())
+            }
+    }
+
+
+    fun getTrackFromGenres(genre: String) {
+        songRepository.getAllTrack()
+            .addOnSuccessListener { tracks ->
+                val genreTrack =
+                    tracks.documents.filter { it.toObject(Track::class.java)?.genre == genre }
+                _tracks.postValue(genreTrack.map { it.toObject(Track::class.java)!! })
+            }
+    }
+
+    fun getUserData(): LiveData<UserEntity>? {
+        return userRepository.getUserData()
+    }
+
+    fun getRecentSongs(userId: String): LiveData<List<SongEntity>> {
+        return songRepository.getRecentSongs(userId)
+    }
+
+    fun insertSong(song: SongEntity) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            songRepository.insertSong(song)
         }
+    }
 
     fun updateTracks(tracks: List<Track>) {
         viewModelScope.launch {
@@ -113,48 +113,49 @@ class SongViewModel(private val songRepository: SongRepository, private val user
             }
         }
     }
-        fun getLikedSongs(userId: String) {
-            songRepository.getLikedSongFromUser(userId)
-                .addOnSuccessListener { userDoc ->
-                    if (userDoc.exists()) {
-                        val favoriteSongIds = userDoc["likedSong"] as? List<String> ?: emptyList()
 
-                        val tasks = favoriteSongIds.map { trackId ->
-                            val trackDocRef = firebaseDB.collection("tracks").document(trackId)
-                            trackDocRef.get().continueWith { task ->
-                                if (task.isSuccessful) {
-                                    task.result?.toObject(Track::class.java)
-                                } else {
-                                    null
-                                }
+    fun getLikedSongs(userId: String) {
+        songRepository.getLikedSongFromUser(userId)
+            .addOnSuccessListener { userDoc ->
+                if (userDoc.exists()) {
+                    val favoriteSongIds = userDoc["likedSong"] as? List<String> ?: emptyList()
+
+                    val tasks = favoriteSongIds.map { trackId ->
+                        val trackDocRef = firebaseDB.collection("tracks").document(trackId)
+                        trackDocRef.get().continueWith { task ->
+                            if (task.isSuccessful) {
+                                task.result?.toObject(Track::class.java)
+                            } else {
+                                null
                             }
                         }
+                    }
 
-                        Tasks.whenAllSuccess<Track?>(tasks).addOnSuccessListener { documents ->
-                            val tracksList = documents.filterNotNull()
-                            // Xử lý danh sách trackList ở đây
-                            _likedSongs.postValue(tracksList)
-                        }.addOnFailureListener { exception ->
-                            Log.e(TAG, "Error fetching liked songs: $exception")
-                        }
+                    Tasks.whenAllSuccess<Track?>(tasks).addOnSuccessListener { documents ->
+                        val tracksList = documents.filterNotNull()
+                        // Xử lý danh sách trackList ở đây
+                        _likedSongs.postValue(tracksList)
+                    }.addOnFailureListener { exception ->
+                        Log.e(TAG, "Error fetching liked songs: $exception")
                     }
                 }
-                .addOnFailureListener { exception ->
-                    Log.e(TAG, "Error fetching user document: $exception")
-                }
-        }
-
-        fun addTrackToUserLikedSongs(userId: String, trackId: String) = viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                songRepository.addTrackToUserLikedSongs(userId, trackId)
             }
-        }
-
-        fun removeTrackFromUserLikedSongs(userId: String, trackId: String) = viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                songRepository.removeTrackFromUserLikedSongs(userId, trackId)
+            .addOnFailureListener { exception ->
+                Log.e(TAG, "Error fetching user document: $exception")
             }
+    }
+
+    fun addTrackToUserLikedSongs(userId: String, trackId: String) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            songRepository.addTrackToUserLikedSongs(userId, trackId)
         }
+    }
+
+    fun removeTrackFromUserLikedSongs(userId: String, trackId: String) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            songRepository.removeTrackFromUserLikedSongs(userId, trackId)
+        }
+    }
 
 //    fun getAllAlbums() {
 //        songRepository.getAllAlbums()
@@ -177,5 +178,5 @@ class SongViewModel(private val songRepository: SongRepository, private val user
             _playlists.postValue(searchResultsLiveData.playlists)
             _albums.postValue(searchResultsLiveData.albums)
         }
-}
+    }
 }
