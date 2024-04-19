@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.toObject
 import com.google.firebase.firestore.toObjects
+import com.project.appealic.data.model.Album
 import com.project.appealic.data.model.Artist
 import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.model.SongEntity
@@ -37,6 +38,9 @@ class SongViewModel(private val songRepository: SongRepository, private val user
 
     private val _playlists = MutableLiveData<List<Playlist>>()
     val playlists: LiveData<List<Playlist>> get() = _playlists
+
+    private val _albums = MutableLiveData<List<Album>>()
+    val albums: LiveData<List<Album>> get() = _albums
 
     fun getAllTracks(){
         songRepository.getAllTrack()
@@ -110,7 +114,16 @@ class SongViewModel(private val songRepository: SongRepository, private val user
         }
     }
 
-
+    fun getAllAlbums() {
+        songRepository.getAllAlbums()
+            .addOnSuccessListener { albums ->
+                if (albums != null)
+                    _albums.postValue(albums.toObjects(Album::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.e("error", exception.toString())
+            }
+    }
 
     fun loadSearchResults(searchQuery: String?) {
         // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
@@ -119,6 +132,8 @@ class SongViewModel(private val songRepository: SongRepository, private val user
         searchResultsLiveData.observeForever { searchResultsLiveData ->
             _tracks.postValue(searchResultsLiveData.tracks)
             _artists.postValue(searchResultsLiveData.artist)
+            _playlists.postValue(searchResultsLiveData.playlists)
+            _albums.postValue(searchResultsLiveData.albums)
         }
 }
 }

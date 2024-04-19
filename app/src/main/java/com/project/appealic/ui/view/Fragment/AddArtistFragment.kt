@@ -16,6 +16,7 @@ import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.ArtistResultAdapter
+import com.project.appealic.ui.view.Adapters.FavouriteArtistAdapter
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
@@ -36,7 +37,7 @@ class AddArtistFragment : Fragment() {
 
         listViewArtists = view.findViewById(R.id.lstAtirstFavourite)
         songViewModel.artists.observe(viewLifecycleOwner, Observer { artirts ->
-            val adapter = ArtistResultAdapter(requireContext(), artirts)
+            val adapter = FavouriteArtistAdapter(requireContext(), artirts)
             listViewArtists.adapter = adapter
         })
         songViewModel.getAllArtists()

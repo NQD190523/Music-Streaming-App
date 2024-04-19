@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -166,8 +168,21 @@ class LibraryFragment : Fragment() {
             savedInstanceState: Bundle?
         ): View? {
             val view = inflater.inflate(R.layout.dialog_select, container, false)
-
             return view
+        }
+        override fun onStart() {
+            super.onStart()
+            val dialog = dialog
+            if (dialog != null) {
+                val width = 315
+                val height = 655
+                val params = dialog.window?.attributes
+                params?.width = (width * resources.displayMetrics.density).toInt()
+                params?.height = (height * resources.displayMetrics.density).toInt()
+                dialog.window?.attributes = params as WindowManager.LayoutParams
+                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.background_select_playlist)
+                dialog.window?.setBackgroundDrawable(drawable)
+            }
         }
     }
 }
