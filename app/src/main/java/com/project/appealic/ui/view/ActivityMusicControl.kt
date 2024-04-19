@@ -52,9 +52,7 @@ import com.project.appealic.ui.view.Fragment.PlaySongFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+
 
 
 class ActivityMusicControl : AppCompatActivity(){
@@ -155,9 +153,9 @@ class ActivityMusicControl : AppCompatActivity(){
         songViewModel.recentTrack.observe(this, Observer {track ->
             findViewById<TextView>(R.id.song_name).text = track[0].trackTitle
             findViewById<TextView>(R.id.singer_name).text = track[0].artist
-                if (track[0].trackImage?.isNotEmpty() == true) {
-                    val gsReference = track[0].trackImage?.let { storage.getReferenceFromUrl(it) }
-                    Glide.with(this@ActivityMusicControl).load(gsReference).into(findViewById<ImageView>(R.id.imvGround))
+            if (track[0].trackImage?.isNotEmpty() == true) {
+                val gsReference = track[0].trackImage?.let { storage.getReferenceFromUrl(it) }
+                Glide.with(this@ActivityMusicControl).load(gsReference).into(findViewById<ImageView>(R.id.imvGround))
                 }
             })
 
@@ -341,10 +339,7 @@ class ActivityMusicControl : AppCompatActivity(){
     }
 
     private fun handleLikeButtonClick() {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        val trackId = intent.getStringExtra("TRACK_ID").toString()
-
-
+        println(userId)
         if (userId != null) {
             songViewModel.getLikedSongs(userId)
             val isLiked = songViewModel.likedSongs.value?.any { it.trackId == trackId } ?: false
