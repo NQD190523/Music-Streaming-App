@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import com.project.appealic.R
 import com.project.appealic.data.model.Artist
+import com.project.appealic.ui.view.Fragment.ArtistProfileFragment
 
 class ArtistAdapter(private val context: Context, private val artists: List<Artist>) :
     RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>() {
@@ -38,6 +40,13 @@ class ArtistAdapter(private val context: Context, private val artists: List<Arti
             .load(gsReference)
             .into(holder.artistImageView)
         holder.artistNameTextView.text = currentArtist.Name
+        holder.itemView.setOnClickListener { v ->
+            val activity = v!!.context as AppCompatActivity
+            val transaction = activity.supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragmenthome, ArtistProfileFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
     }
 
     override fun getItemCount() = artists.size
