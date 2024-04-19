@@ -23,6 +23,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.project.appealic.data.model.Album
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.ActivityMusicControl
@@ -143,9 +144,26 @@ class SearchResultFragment: Fragment() {
             songViewModel.albums.observe(viewLifecycleOwner, Observer { albums ->
                 val adapterAlbum = AlbumsResultAdapter(requireContext(), albums)
                 listAlbum.adapter = adapterAlbum
-            })
-        }
 
+                listAlbum.setOnItemClickListener { parent, view, position, id ->
+                    val selectedAlbum = adapterAlbum.getItem(position)
+
+                    // Handle click event here
+                    // For example, navigate to another fragment with selectedAlbum
+                    val bundle = Bundle().apply {
+                        putParcelable("selected_album", selectedAlbum)
+                    }
+
+                    val albumPageFragment = AlbumPageFragment()
+                    albumPageFragment.arguments = bundle
+
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmenthome, albumPageFragment)
+                        .addToBackStack(null)
+                        .commit()
+                }
+            })
+}
 
         return view
     }
