@@ -45,7 +45,7 @@
         <activity android:name=".ui.view.ActivityLoginPhoneOTP" />
         <activity android:name=".ui.view.Activity_welcome"/>
         <activity android:name=".ui.view.MediaActivity"/>
-        <activity android:name=".ui.view.Activity_Signin" />
+        <activity android:name=".ui.view.ActivityLogin" />
         <activity android:name=".ui.view.ActivityMusicControl" />
         <activity android:name=".ui.view.ActivityNewPassword" />
         <activity android:name=".ui.view.ActivityHome" />

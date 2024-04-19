@@ -28,7 +28,7 @@ class ActivityForgotPassword : AppCompatActivity() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(applicationContext, "Reset successful. Please check your email.", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this, Activity_Signin::class.java) // replace with your Login Activity
+                            val intent = Intent(this, ActivityLogin::class.java) // replace with your Login Activity
                             startActivity(intent)
                             finish() // to prevent going back to this activity
                         } else {

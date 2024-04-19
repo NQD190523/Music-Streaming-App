@@ -64,9 +64,20 @@
             android:paddingEnd="8dp"
             android:textColor="@color/subText"
             android:textColorHint="@color/subText"
+            android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@+id/txtLoginEmail"
             app:layout_constraintStart_toStartOf="@+id/txtLoginEmail"
             app:layout_constraintTop_toBottomOf="@+id/txtLoginEmail" />
+        <ImageView
+            android:id="@+id/imgShowpass"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_hirre_password"
+            app:layout_constraintBottom_toBottomOf="@+id/txtLoginPassword"
+            app:layout_constraintEnd_toEndOf="@+id/txtLoginPassword"
+            app:layout_constraintTop_toTopOf="@+id/txtLoginPassword" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"

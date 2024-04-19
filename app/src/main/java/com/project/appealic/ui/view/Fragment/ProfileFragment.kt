@@ -10,7 +10,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.project.appealic.R
-import com.project.appealic.ui.view.Activity_Signin
 
 class ProfileFragment : Fragment() {
     override fun onCreateView(
