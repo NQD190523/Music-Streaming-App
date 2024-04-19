@@ -1,7 +1,6 @@
 package com.project.appealic.ui.view
 
 import android.app.Dialog
-import android.app.NotificationManager
 import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
 import android.content.ComponentName
@@ -24,14 +23,13 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
-import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.MediaSource
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.PlayerNotificationManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -54,6 +52,7 @@ import com.project.appealic.ui.view.Fragment.PlaySongFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
+
 
 class ActivityMusicControl : AppCompatActivity(){
 
@@ -333,6 +332,11 @@ class ActivityMusicControl : AppCompatActivity(){
     }
     private fun handleNextButtonClick() {
         musicPlayerViewModel.nextButtonClick()
+        // Lấy MediaSource từ ExoPlayer
+        // Lấy MediaSource từ ExoPlayer
+        val mediaSource = player?.currentMediaItem
+        val currentUri: Uri? = mediaSource?.playbackProperties?.uri
+
 //        songViewModel.getTrackByUrl()
 
     }
