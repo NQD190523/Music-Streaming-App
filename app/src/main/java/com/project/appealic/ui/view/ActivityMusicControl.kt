@@ -154,7 +154,7 @@ class ActivityMusicControl : AppCompatActivity(){
         viewPager.adapter = adapter
         viewPager.currentItem = 1
 
-// Thiết lập các sự kiện nhấp vào View
+        // Thiết lập các sự kiện nhấp vào View
         viewInfoMusic.setOnClickListener { viewPager.currentItem = 0 }
         viewSong.setOnClickListener { viewPager.currentItem = 1 }
         viewLyrics.setOnClickListener { viewPager.currentItem = 2 }

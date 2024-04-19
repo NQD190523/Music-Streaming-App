@@ -21,7 +21,7 @@ import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.view.Adapters.SleepingPlaylistAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
-import com.project.appealic.ui.viewmodel.SongViewModelFactory
+import com.project.appealic.utils.SongViewModelFactory
 import setOnItemClickListener
 
 class PlaylistPageFragment : Fragment() {
