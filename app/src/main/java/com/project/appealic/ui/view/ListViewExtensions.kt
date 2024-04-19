@@ -53,6 +53,7 @@ fun ListView.setOnItemClickListener(
                 trackUrlList.add(trackUrl)
             }
         }
+        selectedSong.trackUrl?.let { songViewModel.getTrackByUrl(it) }
         val intent = Intent(context, ActivityMusicControl::class.java).apply {
             putExtra("SONG_TITLE", selectedSong.trackTitle)
             putExtra("SINGER_NAME", selectedSong.artist)

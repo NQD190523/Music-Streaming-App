@@ -52,22 +52,22 @@ import com.project.appealic.ui.view.Fragment.PlaySongFragment
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
 
 class ActivityMusicControl : AppCompatActivity(){
 
     private lateinit var songViewModel: SongViewModel
 
-    private var isRepeating = false
-    private var playlist: ArrayList<MediaBrowser.MediaItem> = ArrayList()
-    private var currentTrackIndex: Int = 0
+
     private lateinit var progressTv: TextView
     private lateinit var progressSb: SeekBar
     private lateinit var durationTv: TextView
     private lateinit var previousBtn: ImageView
     private lateinit var playBtn: ImageView
     private lateinit var mixBtn: ImageView
-    private lateinit var playFrameLayout: FrameLayout
     private lateinit var nextBtn: ImageView
     private lateinit var repeatBtn: ImageView
     private lateinit var commentBtn: ImageView
@@ -79,13 +79,16 @@ class ActivityMusicControl : AppCompatActivity(){
     private  var player: ExoPlayer? = null
     private lateinit var trackId: String
     private lateinit var musicPlayerViewModel: MusicPlayerViewModel
-    private lateinit var playerNotificationManager: PlayerNotificationManager
     private lateinit var trackList : ArrayList<String>
     private  var trackIndex : Int =0
     private val storage = Firebase.storage
     private val storageRef = storage.reference
-    private lateinit var trackChangeReceiver: BroadcastReceiver
     val userId = FirebaseAuth.getInstance().currentUser?.uid
+    private lateinit var songTitle : String
+    private lateinit var artistName : String
+    private lateinit var trackImage : String
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private var job: Job? = null
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
@@ -110,9 +113,9 @@ class ActivityMusicControl : AppCompatActivity(){
 
 
         // Lấy dữ liệu từ Intent và hiển thị trên giao diện
-        val songTitle = intent.getStringExtra("SONG_TITLE")?: "N/A"
-        val artistName = intent.getStringExtra("SINGER_NAME")
-        val trackImage = intent.getStringExtra("TRACK_IMAGE")
+        songTitle = intent.getStringExtra("SONG_TITLE")?: "N/A"
+        artistName = intent.getStringExtra("SINGER_NAME").toString()
+        trackImage = intent.getStringExtra("TRACK_IMAGE").toString()
         val artistId = intent.getStringExtra("ARTIST_ID")
         val duration = intent.getIntExtra("DURATION", 0)
         val trackUrl = intent.getStringExtra("TRACK_URL")
@@ -121,20 +124,6 @@ class ActivityMusicControl : AppCompatActivity(){
         trackId = intent.getStringExtra("TRACK_ID").toString()
 
 
-
-        findViewById<TextView>(R.id.song_name).text = songTitle
-        findViewById<TextView>(R.id.singer_name).text = artistName
-        trackImage?.let { imageUrl ->
-            val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
-            storageReference.downloadUrl.addOnSuccessListener { uri ->
-                val songImageView = findViewById<ImageView>(R.id.imvGround)
-
-                Glide.with(this)
-                    .load(uri)
-                    .into(songImageView)
-            }
-        }
-        val infoMusicFragment = InfoMusicFragment.newInstance(songTitle ?: "", artistName ?: "")
         Log.d("MusicControlActivity", "Song title: $songTitle, Artist name: $artistName, Track image: $trackImage")
         val playSongFragment = PlaySongFragment.newInstance(trackImage ?: "")
 
@@ -166,19 +155,15 @@ class ActivityMusicControl : AppCompatActivity(){
 
         musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
 
-        trackChangeReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                val songTitle = intent?.getStringExtra("songTitle") ?: ""
-                val artistName = intent?.getStringExtra("artistName") ?: ""
-                val trackImage = intent?.getStringExtra("trackImage") ?: ""
-
-                findViewById<TextView>(R.id.song_name).text = songTitle
-                findViewById<TextView>(R.id.singer_name).text = artistName
-                if (context != null && trackImage.isNotEmpty()) {
-                    Glide.with(context).load(trackImage).into(findViewById<ImageView>(R.id.imvGround))
+        songViewModel.getTrackByUrl(trackList[trackIndex])
+        songViewModel.recentTrack.observe(this, Observer {track ->
+            findViewById<TextView>(R.id.song_name).text = track[0].trackTitle
+            findViewById<TextView>(R.id.singer_name).text = track[0].artist
+                if (track[0].trackImage?.isNotEmpty() == true) {
+                    val gsReference = track[0].trackImage?.let { storage.getReferenceFromUrl(it) }
+                    Glide.with(this@ActivityMusicControl).load(gsReference).into(findViewById<ImageView>(R.id.imvGround))
                 }
-            }
-        }
+            })
 
 
 
@@ -265,18 +250,19 @@ class ActivityMusicControl : AppCompatActivity(){
         loadDataFromFirebase()
     }
 
+
     override fun onStart() {
         super.onStart()
         // Register the BroadcastReceiver when the Activity becomes visible
         val filter = IntentFilter("ACTION_TRACK_CHANGED")
-        registerReceiver(trackChangeReceiver, filter,null,null,Context.RECEIVER_EXPORTED)
+//        registerReceiver(trackChangeReceiver, filter,null,null,Context.RECEIVER_EXPORTED)
     }
 
     override fun onStop() {
         // Unregister the BroadcastReceiver when the Activity is no longer visible
-        if (::trackChangeReceiver.isInitialized) {
-            unregisterReceiver(trackChangeReceiver)
-        }
+//        if (::trackChangeReceiver.isInitialized) {
+//            unregisterReceiver(trackChangeReceiver)
+//        }
         super.onStop()
     }
 
@@ -319,6 +305,8 @@ class ActivityMusicControl : AppCompatActivity(){
     // Các hàm xử lý sự kiện khi nhấn các nút
     fun handlePreviousButtonClick() {
        musicPlayerViewModel.previousButtonClick()
+        val index = player?.currentMediaItemIndex
+        songViewModel.getTrackByUrl(trackList[index!!])
     }
 
     private fun handlePlayButtonClick() {
@@ -332,12 +320,8 @@ class ActivityMusicControl : AppCompatActivity(){
     }
     private fun handleNextButtonClick() {
         musicPlayerViewModel.nextButtonClick()
-        // Lấy MediaSource từ ExoPlayer
-        // Lấy MediaSource từ ExoPlayer
-        val mediaSource = player?.currentMediaItem
-//        val currentUri: Uri? = mediaSource?.playbackProperties?.uri
-
-//        songViewModel.getTrackByUrl()
+        val index = player?.currentMediaItemIndex
+        songViewModel.getTrackByUrl(trackList[index!!])
 
     }
 
