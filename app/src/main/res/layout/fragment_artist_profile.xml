@@ -107,6 +107,7 @@
                     android:background="@drawable/btn_rounded_border"
                     android:text="@string/btnFollow"
                     android:textColor="@color/white"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnPlay"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
@@ -155,7 +156,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ListView
-                    android:id="@+id/listViewArists"
+                    android:id="@+id/lvFeaturedSongs"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:layout_constraintEnd_toEndOf="@+id/layoutHeader"
@@ -167,18 +168,18 @@
                     style="@style/Heading6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/listViewArists"
+                    android:layout_below="@+id/lvFeaturedSongs"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:text="Recommended songs"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/listViewArists"
-                    app:layout_constraintTop_toBottomOf="@+id/listViewArists" />
+                    app:layout_constraintStart_toStartOf="@+id/lvFeaturedSongs"
+                    app:layout_constraintTop_toBottomOf="@+id/lvFeaturedSongs" />
 
                 <ListView
-                    android:id="@+id/listView"
+                    android:id="@+id/lvRecommendSongs"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
