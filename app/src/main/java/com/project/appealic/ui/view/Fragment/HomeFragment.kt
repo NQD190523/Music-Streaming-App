@@ -82,6 +82,7 @@ class HomeFragment : Fragment() {
                 moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
             }
             listView.adapter = adapter
+            setListViewHeightBasedOnItems(listView)
         })
 
 // Khởi tạo RecyclerView cho danh sách các bài hát đã xem gần đây
@@ -167,6 +168,21 @@ class HomeFragment : Fragment() {
 
     private fun NewReleaseAdapter.setOnMoreActionClickListener(listener: (Track) -> Unit) {
         this.moreActionClickListener = listener
+    }
+
+    private fun setListViewHeightBasedOnItems(listView: ListView) {
+        val listAdapter = listView.adapter
+        val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
+        var totalHeight = 0
+        for (i in 0 until listAdapter.count) {
+            val listItem: View = listAdapter.getView(i, null, listView)
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
+            totalHeight += listItem.measuredHeight
+        }
+        val params = listView.layoutParams
+        params.height = totalHeight + (listView.dividerHeight * (listAdapter.count - 1))
+        listView.layoutParams = params
+        listView.requestLayout()
     }
 
 }

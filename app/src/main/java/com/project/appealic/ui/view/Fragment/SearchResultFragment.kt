@@ -73,6 +73,9 @@ class SearchResultFragment: Fragment() {
                 val adapterSong = SongResultAdapter(requireContext(), tracks)
                 listSong.adapter = adapterSong
 
+                // Cập nhật chiều cao của ListView
+                setListViewHeightBasedOnItems(listSong)
+
                 // Thiết lập OnItemClickListener cho ListView
                 listSong.setOnItemClickListener(requireContext(), songViewModel, tracks)
             })
@@ -80,20 +83,40 @@ class SearchResultFragment: Fragment() {
             songViewModel.artists.observe(viewLifecycleOwner, Observer { artists->
                 val adapterArtist = ArtistResultAdapter(requireContext(), artists)
                 listArtist.adapter = adapterArtist
+                // Cập nhật chiều cao của ListView
+                setListViewHeightBasedOnItems(listArtist)
             })
 
             songViewModel.playlists.observe(viewLifecycleOwner, Observer { playlits ->
                 val adapterPlaylists = PlaylistResultAdapter(requireContext(), playlits)
                 listPlaylist.adapter = adapterPlaylists
+                setListViewHeightBasedOnItems(listPlaylist)
             })
 
             songViewModel.albums.observe(viewLifecycleOwner, Observer { albums ->
                 val adapterAlbum = AlbumsResultAdapter(requireContext(), albums)
                 listAlbum.adapter = adapterAlbum
+                setListViewHeightBasedOnItems(listAlbum)
             })
         }
 
 
         return view
     }
+
+    private fun setListViewHeightBasedOnItems(listView: ListView) {
+        val listAdapter = listView.adapter
+        val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
+        var totalHeight = 0
+        for (i in 0 until listAdapter.count) {
+            val listItem: View = listAdapter.getView(i, null, listView)
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
+            totalHeight += listItem.measuredHeight
+        }
+        val params = listView.layoutParams
+        params.height = totalHeight + (listView.dividerHeight * (listAdapter.count - 1))
+        listView.layoutParams = params
+        listView.requestLayout()
+    }
+
 }
