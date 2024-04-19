@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.project.appealic.ui.theme.AppealicTheme
 import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.GoogleLoginActivity
@@ -16,6 +17,9 @@ import com.project.appealic.ui.view.GoogleLoginActivity
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        Thread.sleep(3000)
+//        installSplashScreen()
+//        setContentView(R.layout.activity_login)
         val  intent = Intent(this, GoogleLoginActivity::class.java)
         startActivity(intent)
     }
