@@ -335,7 +335,7 @@ class ActivityMusicControl : AppCompatActivity(){
         // Lấy MediaSource từ ExoPlayer
         // Lấy MediaSource từ ExoPlayer
         val mediaSource = player?.currentMediaItem
-        val currentUri: Uri? = mediaSource?.playbackProperties?.uri
+//        val currentUri: Uri? = mediaSource?.playbackProperties?.uri
 
 //        songViewModel.getTrackByUrl()
 
