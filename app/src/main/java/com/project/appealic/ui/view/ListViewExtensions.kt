@@ -1,56 +1,65 @@
+package com.project.appealic.ui.view
+
 import android.content.Context
 import android.content.Intent
+import android.util.Log
+import android.widget.AdapterView
 import android.widget.ListView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
-import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
 
-fun ListView.setOnItemClickListener(context: Context, songViewModel: SongViewModel, songList: List<Track>) {
-    if (adapter is NewReleaseAdapter) {
-        val newReleaseAdapter = adapter as NewReleaseAdapter
-        newReleaseAdapter.onItemClick = { selectedTrack ->
-            // Construct a SongEntity from the selected track
-            val song = selectedTrack.trackId?.let {
-                SongEntity(
-                    it,
-                    selectedTrack.trackImage,
-                    selectedTrack.trackTitle,
-                    selectedTrack.artist,
-                    null,
-                    null,
-                    System.currentTimeMillis(),
-                    null,
-                    selectedTrack.duration?.toLong(),
-                    selectedTrack.artistId,
-                )
-            }
+fun ListView.setOnItemClickListener(
+    context: Context,
+    songViewModel: SongViewModel,
+    trackList: List<Track>
+) {
+    this.onItemClickListener = AdapterView.OnItemClickListener { parent, _, position, _ ->
+        val selectedSong = trackList[position]
+        val user = FirebaseAuth.getInstance().currentUser?.uid
 
-            // Insert the SongEntity into the database
-            song?.let {
-                songViewModel.insertSong(it)
-            }
+        val trackUrlList = ArrayList<String>()
 
-            // Collect track URLs from the songList
-            val trackUrlList = ArrayList<String>()
-            songList.forEach { item ->
-                item.trackUrl?.let { trackUrl ->
-                    trackUrlList.add(trackUrl)
-                }
-            }
-
-            // Prepare the Intent to start ActivityMusicControl
-            val intent = Intent(context, ActivityMusicControl::class.java).apply {
-                putExtra("SONG_TITLE", selectedTrack.trackTitle)
-                putExtra("SINGER_NAME", selectedTrack.artist)
-                putExtra("SONG_NAME", selectedTrack.trackTitle)
-                putExtra("TRACK_IMAGE", selectedTrack.trackImage)
-                putStringArrayListExtra("TRACK_LIST", trackUrlList)
-            }
-
-            // Start ActivityMusicControl with the prepared Intent
-            context.startActivity(intent)
+        val song = selectedSong.trackId?.let {
+            SongEntity(
+                it,
+                selectedSong.trackImage,
+                selectedSong.trackTitle,
+                selectedSong.artist,
+                user,
+                null,
+                System.currentTimeMillis(),
+                null,
+                selectedSong.duration?.toLong(),
+                selectedSong.artistId,
+            )
         }
+
+        if (song != null) {
+            songViewModel.insertSong(song)
+            Log.d(" test status", "success")
+        }
+
+        for (i in 0 until parent.count) {
+            val item = trackList[i]
+            item.trackUrl?.let { trackUrl ->
+                println(trackUrl)
+                trackUrlList.add(trackUrl)
+            }
+        }
+        val intent = Intent(context, ActivityMusicControl::class.java).apply {
+            putExtra("SONG_TITLE", selectedSong.trackTitle)
+            putExtra("SINGER_NAME", selectedSong.artist)
+            putExtra("SONG_NAME", selectedSong.trackTitle)
+            putExtra("TRACK_IMAGE", selectedSong.trackImage)
+            putExtra("DURATION", selectedSong.duration)
+            putExtra("TRACK_INDEX",position)
+            putStringArrayListExtra("TRACK_LIST", trackUrlList)
+        }
+        context.startActivity(intent)
     }
 }

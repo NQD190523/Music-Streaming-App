@@ -6,30 +6,35 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ListView
-import android.widget.Toast
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.project.appealic.R
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.media3.common.util.Log
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.data.model.Playlist
+import com.project.appealic.data.repository.PlayListRepository
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.view.Adapters.SleepingPlaylistAdapter
+import com.project.appealic.ui.viewmodel.PlayListViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
+import com.project.appealic.utils.PlayListViewModelFactory
 import com.project.appealic.utils.SongViewModelFactory
-import setOnItemClickListener
+import com.project.appealic.ui.view.setOnItemClickListener
 
 class PlaylistPageFragment : Fragment() {
 
     private lateinit var sleepingPlaylistAdapter: SleepingPlaylistAdapter
     private lateinit var recommendedSongAdapter: NewReleaseAdapter
+    private lateinit var playListViewModel: PlayListViewModel
     private lateinit var songViewModel: SongViewModel
     private lateinit var rcsong: ListView
+    private lateinit var trackInPlaylist : ListView
+    private lateinit var title : TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,8 +50,10 @@ class PlaylistPageFragment : Fragment() {
         val storage = FirebaseStorage.getInstance()
 
         // Correctly initialize SongViewModel using the custom factory
-        val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
-        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
+        val playlistFactory = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
+        playListViewModel = ViewModelProvider(this,playlistFactory)[PlayListViewModel::class.java]
+        val songFactory = SongViewModelFactory(SongRepository(requireActivity().application),UserRepository(requireActivity().application))
+        songViewModel = ViewModelProvider(this,songFactory)[SongViewModel::class.java]
 
         val selectedPlaylist = arguments?.getParcelable<Playlist>("selected_playlist")
         selectedPlaylist?.let {
@@ -59,14 +66,26 @@ class PlaylistPageFragment : Fragment() {
                 }
             }
         }
+        title = view.findViewById(R.id.textView16)
+        trackInPlaylist = view.findViewById(R.id.lstPlalistSleepping)
 
-        // Initialize adapter for ListView displaying recommended songs
         rcsong = view.findViewById(R.id.lstRecommendSong)
-        songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
+        // Initialize adapter for ListView displaying recommended songs
+        if (selectedPlaylist != null) {
+            playListViewModel.getTracksFromPlaylist(selectedPlaylist.playlistId)
+            songViewModel.getAllTracks()
+            title.text = selectedPlaylist.playlistName
+        }
+        playListViewModel.track.observe(viewLifecycleOwner, Observer { tracks ->
             val adapter = NewReleaseAdapter(requireContext(), tracks)
-            rcsong.adapter = adapter
-            
+            trackInPlaylist.adapter = adapter
+            trackInPlaylist.setOnItemClickListener(requireContext(), songViewModel,tracks )
         })
+        songViewModel.tracks.observe(viewLifecycleOwner, Observer {tracks ->
+            val adapter = NewReleaseAdapter(requireContext(),tracks)
+            rcsong.adapter = adapter
+        })
+
 
 
 
