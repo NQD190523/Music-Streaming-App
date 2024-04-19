@@ -1,9 +1,9 @@
 package com.project.appealic.data.model
 
-import kotlinx.android.parcel.Parcelize
+import android.os.Parcel
 import android.os.Parcelable
+import java.util.ArrayList
 
-@Parcelize
 data class Album(
     val albumId: String,
     val artistId: String,
@@ -11,7 +11,44 @@ data class Album(
     val releaseDate: String,
     val thumbUrl: String?,
     val title: String,
-    val trackIds : List<String>?
+    val trackIds: List<String>?
 ) : Parcelable {
-    constructor() : this("", "", "", "", null,"", null)
+
+    // Default constructor
+    constructor() : this("", "", "", "", null, "", null)
+
+    // Constructor that takes a Parcel and gives you an object populated with its values
+    constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString(),
+        parcel.readString()!!,
+        parcel.createStringArrayList()
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(albumId)
+        parcel.writeString(artistId)
+        parcel.writeString(artistName)
+        parcel.writeString(releaseDate)
+        parcel.writeString(thumbUrl.toString())
+        parcel.writeStringList(trackIds)
+        parcel.writeString(title)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Album> {
+        override fun createFromParcel(parcel: Parcel): Album {
+            return Album(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Album?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

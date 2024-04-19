@@ -148,8 +148,6 @@ class SearchResultFragment: Fragment() {
                 listAlbum.setOnItemClickListener { parent, view, position, id ->
                     val selectedAlbum = adapterAlbum.getItem(position)
 
-                    // Handle click event here
-                    // For example, navigate to another fragment with selectedAlbum
                     val bundle = Bundle().apply {
                         putParcelable("selected_album", selectedAlbum)
                     }
