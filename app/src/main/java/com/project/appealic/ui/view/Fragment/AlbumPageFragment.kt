@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
+import com.project.appealic.data.model.Album
 import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
@@ -38,13 +39,16 @@ class AlbumPageFragment : Fragment() {
         val storage = FirebaseStorage.getInstance()
 
         // Correctly initialize SongViewModel using the custom factory
-        val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
+        val factory = SongViewModelFactory(
+            SongRepository(requireActivity().application),
+            UserRepository(requireActivity().application)
+        )
         songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
 
-        val selectedPlaylist = arguments?.getParcelable<Playlist>("selected_playlist")
-        selectedPlaylist?.let {
+        val selectedAlbum: Album? = arguments?.getParcelable("selected_album")
+        selectedAlbum?.let {
             view.findViewById<ImageView>(R.id.imageView5).let { playlistCover ->
-                selectedPlaylist.playlistThumb?.let { imageUrl ->
+                selectedAlbum.thumbUrl?.let { imageUrl ->
                     val gsReference = storage.getReferenceFromUrl(imageUrl)
                     Glide.with(requireContext())
                         .load(gsReference)
@@ -56,12 +60,11 @@ class AlbumPageFragment : Fragment() {
         // Initialize adapter for ListView displaying recommended songs
         rcsong = view.findViewById(R.id.lstRecommendSong)
         songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
-            val adapter = NewReleaseAdapter(requireContext(), tracks)
-            rcsong.adapter = adapter
-
+            tracks?.let {
+                val adapter = NewReleaseAdapter(requireContext(), it)
+                rcsong.adapter = adapter
+            }
         })
-
-
 
         // Placeholder for sleepingPlaylistAdapter setup
         // Initialize and set up sleepingPlaylistAdapter here if needed
