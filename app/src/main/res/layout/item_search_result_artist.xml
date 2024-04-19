@@ -1,64 +1,66 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/dp_8"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imvPhotoArtist"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/artist1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout19"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/llArtistItem"
-        android:layout_margin="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imvPhotoArtist"
+        app:layout_constraintStart_toEndOf="@+id/imvPhotoArtist"
+        app:layout_constraintTop_toTopOf="@+id/imvPhotoArtist">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imvPhotoArtist"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/artist1"
-            android:layout_gravity="center"/>
-
-
-        <LinearLayout
-            android:layout_width="126dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txtArtistName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Taylor Swift"
-                style="@style/Body1Bold"
-                android:textColor="@color/white"
-                />
-
-            <TextView
-                android:id="@+id/txtFollowed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="52K followers"
-                style="@style/Body2"
-                android:textColor="@color/subText"
-                />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnSearchResultFollow"
+        <TextView
+            android:id="@+id/txtArtistName"
+            style="@style/Body1Bold"
             android:layout_width="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:textSize="14sp"
-            android:layout_height="28dp"
-            android:textColorHint="@color/white"
-            android:hint="Follow"
+            android:layout_height="wrap_content"
+            android:text="Taylor Swift"
             android:textColor="@color/white"
-            android:background="@drawable/btn_not_follow"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/txtFollowed"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="52K followers"
+            android:textColor="@color/subText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtArtistName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btnFollow"
+        style="@style/Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/btn_not_follow"
+        android:hint="Follow"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout19"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout19"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout19" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
