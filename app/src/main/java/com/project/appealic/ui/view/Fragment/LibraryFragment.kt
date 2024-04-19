@@ -33,7 +33,7 @@ import com.project.appealic.ui.view.Fragment.AddAlbumFragment
 import com.project.appealic.ui.view.Fragment.AddArtistFragment
 import com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment
 import com.project.appealic.ui.view.Fragment.SearchMainFragment
-import com.project.appealic.ui.view.setOnTrackClickListener
+import com.project.appealic.ui.view.setOnItemClickListener
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 
@@ -80,7 +80,7 @@ class LibraryFragment : Fragment() {
         recentlyViewSong.adapter = recentlySongAdapter
         songViewModel.getRecentSongs(FirebaseAuth.getInstance().currentUser?.uid.toString()).observe(viewLifecycleOwner, Observer { songs ->
             recentlySongAdapter.updateData(songs)
-            recentlySongAdapter.setOnTrackClickListener(requireContext(), songViewModel, songs)
+            recentlyViewSong.setOnItemClickListener(requireContext(), songViewModel, songs)
         })
 
 

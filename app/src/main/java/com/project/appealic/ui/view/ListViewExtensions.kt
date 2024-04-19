@@ -27,6 +27,7 @@ fun ListView.setOnItemClickListener(
         val song = selectedSong.trackId?.let {
             SongEntity(
                 it,
+                selectedSong.trackUrl,
                 selectedSong.trackImage,
                 selectedSong.trackTitle,
                 selectedSong.artist,
@@ -39,6 +40,7 @@ fun ListView.setOnItemClickListener(
             )
         }
 
+        //Lưu vào room db recent play
         if (song != null) {
             songViewModel.insertSong(song)
             Log.d(" test status", "success")

@@ -28,7 +28,7 @@ import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistForYouAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
-import com.project.appealic.ui.view.setOnTrackClickListener
+import com.project.appealic.ui.view.setOnItemClickListener
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
@@ -61,6 +61,7 @@ class HomeFragment : Fragment() {
         // Khởi tạo và cấu hình ListView cho danh sách các bài hát mới
         listView = rootView.findViewById(R.id.lvNewRelease)
         songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
+            listView.setOnItemClickListener(requireContext(),songViewModel,tracks)
             val adapter = NewReleaseAdapter(requireContext(), tracks)
 
             adapter.setOnAddPlaylistClickListener { track ->
@@ -86,11 +87,13 @@ class HomeFragment : Fragment() {
 // Khởi tạo RecyclerView cho danh sách các bài hát đã xem gần đây
         val recentlyViewSong: RecyclerView = rootView.findViewById(R.id.RecentlyViewSong)
         recentlyViewSong.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
         val recentlySongAdapter = RecentlySongAdapter(requireContext(), emptyList())
         recentlyViewSong.adapter = recentlySongAdapter
+
         songViewModel.getRecentSongs(FirebaseAuth.getInstance().currentUser?.uid.toString()).observe(viewLifecycleOwner, Observer { songs ->
+            recentlyViewSong.setOnItemClickListener(requireContext(), songViewModel, songs)
             recentlySongAdapter.updateData(songs)
-            recentlySongAdapter.setOnTrackClickListener(requireContext(), songViewModel, songs)
         })
 
 
@@ -133,70 +136,6 @@ class HomeFragment : Fragment() {
         songViewModel.getAllArtists()
         songViewModel.getAllPlaylists()
 
-
-
-        // Xác định ListView
-        listView = rootView.findViewById(R.id.lvNewRelease)
-
-        // Thiết lập OnItemClickListener cho ListView
-        listView.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, _, position, _ ->
-
-                // Lấy dữ liệu của mục được chọn từ Adapter
-                val selectedSong = parent.getItemAtPosition(position) as Track
-                //lưu bài hát vừa mở vào database của thiết bị
-                val user = FirebaseAuth.getInstance().currentUser?.uid
-                val intent = Intent(requireContext(), ActivityMusicControl::class.java)
-                val trackUrlList = ArrayList<String>()
-
-                val song = selectedSong.trackId?.let {
-                    SongEntity(
-                        it,
-                        selectedSong.trackImage,
-                        selectedSong.trackTitle,
-                        selectedSong.artist,
-                        user,
-                        null,
-                        System.currentTimeMillis(),
-                        null,
-                        selectedSong.duration?.toLong(),
-                        selectedSong.artistId,
-                    )
-                }
-
-                if (song != null) {
-                    songViewModel.insertSong(song)
-                    Log.d(" test status", "success")
-                }
-                //lấy dữ liệu vài hát vừa nghẻ được lưu ra
-                if (user != null) {
-                    val info = songViewModel.getRecentSongs(user)
-                        .observe(viewLifecycleOwner, Observer { song ->
-                            Log.d("info", song.toString())
-                        })
-                }
-//              Lấy dữ liệu các url trogn playlist
-                for (i  in 0 until parent.count){
-                    val item = parent.getItemAtPosition(i) as Track
-                    item.trackUrl?.let { trackUrl ->
-                        println(trackUrl)
-                        trackUrlList.add(trackUrl)
-                    }
-                }
-                println(position)
-                // Truyền dữ liệu cần thiết qua Intent
-                intent.putExtra("SONG_TITLE", selectedSong.trackTitle)
-                intent.putExtra("SINGER_NAME", selectedSong.artist)
-                intent.putExtra("SONG_NAME", selectedSong.trackTitle)
-                intent.putExtra("TRACK_IMAGE", selectedSong.trackImage)
-                intent.putExtra("ARTIST_ID", selectedSong.artistId)
-                intent.putExtra("DURATION", selectedSong.duration)
-                intent.putExtra("TRACK_URL", selectedSong.trackUrl)
-                intent.putExtra("TRACK_ID", selectedSong.trackId)
-                intent.putExtra("TRACK_INDEX",position)
-                intent.putStringArrayListExtra("TRACK_LIST",trackUrlList)
-                startActivity(intent)
-            }
 
         val imageView: ImageView = rootView.findViewById(R.id.imvSearch);
         imageView.setOnClickListener{

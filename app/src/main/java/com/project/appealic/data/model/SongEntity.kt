@@ -8,6 +8,7 @@ import java.io.Serializable
 @Entity
 data class SongEntity(
     @PrimaryKey val songId : String,
+    val songUrl : String?,
     val thumbUrl: String?,
     val songName: String?,
     val singer: String?,

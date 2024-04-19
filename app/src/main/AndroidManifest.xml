@@ -29,7 +29,7 @@
             android:name=".ui.view.ActivityForgotPassword"
             android:exported="false" />
         <activity
-            android:name=".ui.view.ActivityHome"
+            android:name=".ui.view.GoogleLoginActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Appealic">
@@ -48,7 +48,7 @@
         <activity android:name=".ui.view.Activity_Signin" />
         <activity android:name=".ui.view.ActivityMusicControl" />
         <activity android:name=".ui.view.ActivityNewPassword" />
-        <activity android:name=".ui.view.GoogleLoginActivity" />
+        <activity android:name=".ui.view.ActivityHome" />
         <activity android:name=".ui.view.ActivityLoginPhone" />
         <activity android:name=".MainActivity" />
         <receiver android:name=".ui.view.WidgetView"

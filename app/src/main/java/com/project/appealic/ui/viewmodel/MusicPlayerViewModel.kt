@@ -62,51 +62,51 @@ class MusicPlayerViewModel :ViewModel() {
     fun repeatButtonClick(){
         musicPlayerService?.repeatButtonClick()
     }
-    fun handleListViewItemClick(intent: Intent ,parent: AdapterView<*>, songViewModel: SongViewModel, context : Context, position: Int) {
-        val selectedSong = parent.getItemAtPosition(position) as Track
-        val user = FirebaseAuth.getInstance().currentUser?.uid
-        val trackUrlList = ArrayList<String>()
-
-        val song = selectedSong.trackId?.let {
-            SongEntity(
-                it,
-                selectedSong.trackImage,
-                selectedSong.trackTitle,
-                selectedSong.artist,
-                user,
-                null,
-                System.currentTimeMillis(),
-                null,
-                selectedSong.duration?.toLong(),
-                selectedSong.artistId,
-            )
-        }
-
-        if (song != null) {
-            songViewModel.insertSong(song)
-            Log.d(" test status", "success")
-        }
-        // Lấy dữ liệu các url trong playlist
-        for (i in 0 until parent.count) {
-            val item = parent.getItemAtPosition(i) as Track
-            item.trackUrl?.let { trackUrl ->
-                println(trackUrl)
-                trackUrlList.add(trackUrl)
-            }
-        }
-
-        // Truyền dữ liệu cần thiết qua Intent
-        intent.putExtra("SONG_TITLE", selectedSong.trackTitle)
-        intent.putExtra("SINGER_NAME", selectedSong.artist)
-        intent.putExtra("SONG_NAME", selectedSong.trackTitle)
-        intent.putExtra("TRACK_IMAGE", selectedSong.trackImage)
-        intent.putExtra("ARTIST_ID", selectedSong.artistId)
-        intent.putExtra("DURATION", selectedSong.duration)
-        intent.putExtra("TRACK_URL", selectedSong.trackUrl)
-        intent.putExtra("TRACK_ID", selectedSong.trackId)
-        intent.putExtra("TRACK_INDEX", position)
-        intent.putStringArrayListExtra("TRACK_LIST", trackUrlList)
-    }
+//    fun handleListViewItemClick(intent: Intent ,parent: AdapterView<*>, songViewModel: SongViewModel, context : Context, position: Int) {
+//        val selectedSong = parent.getItemAtPosition(position) as Track
+//        val user = FirebaseAuth.getInstance().currentUser?.uid
+//        val trackUrlList = ArrayList<String>()
+//
+//        val song = selectedSong.trackId?.let {
+//            SongEntity(
+//                it,
+//                selectedSong.trackImage,
+//                selectedSong.trackTitle,
+//                selectedSong.artist,
+//                user,
+//                null,
+//                System.currentTimeMillis(),
+//                null,
+//                selectedSong.duration?.toLong(),
+//                selectedSong.artistId,
+//            )
+//        }
+//
+//        if (song != null) {
+//            songViewModel.insertSong(song)
+//            Log.d(" test status", "success")
+//        }
+//        // Lấy dữ liệu các url trong playlist
+//        for (i in 0 until parent.count) {
+//            val item = parent.getItemAtPosition(i) as Track
+//            item.trackUrl?.let { trackUrl ->
+//                println(trackUrl)
+//                trackUrlList.add(trackUrl)
+//            }
+//        }
+//
+//        // Truyền dữ liệu cần thiết qua Intent
+//        intent.putExtra("SONG_TITLE", selectedSong.trackTitle)
+//        intent.putExtra("SINGER_NAME", selectedSong.artist)
+//        intent.putExtra("SONG_NAME", selectedSong.trackTitle)
+//        intent.putExtra("TRACK_IMAGE", selectedSong.trackImage)
+//        intent.putExtra("ARTIST_ID", selectedSong.artistId)
+//        intent.putExtra("DURATION", selectedSong.duration)
+//        intent.putExtra("TRACK_URL", selectedSong.trackUrl)
+//        intent.putExtra("TRACK_ID", selectedSong.trackId)
+//        intent.putExtra("TRACK_INDEX", position)
+//        intent.putStringArrayListExtra("TRACK_LIST", trackUrlList)
+//    }
 
 
 

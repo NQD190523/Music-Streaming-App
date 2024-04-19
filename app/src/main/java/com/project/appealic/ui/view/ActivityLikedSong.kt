@@ -47,62 +47,14 @@ class ActivityLikedSong : AppCompatActivity() {
             adapter.clear()
             adapter.addAll(songs)
             adapter.notifyDataSetChanged()
+            // Onclick sang music control
+            lvLikedSongs.setOnItemClickListener(this,songViewModel,songs)
         })
 
         // Gọi phương thức để lấy danh sách các bài hát yêu thích
         songViewModel.getLikedSongs(FirebaseAuth.getInstance().currentUser?.uid.toString())
 
-        // Onclick sang music control
-        lvLikedSongs.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            // Lấy dữ liệu của mục được chọn từ Adapter
-            val selectedSong = parent.getItemAtPosition(position) as Track
-            //lưu bài hát vừa mở vào database của thiết bị
-            val user = FirebaseAuth.getInstance().currentUser?.uid
-            val intent = Intent(this, ActivityMusicControl::class.java)
-            val trackUrlList = java.util.ArrayList<String>()
 
-            val song = selectedSong.trackId?.let {
-                SongEntity(
-                    it,
-                    selectedSong.trackImage,
-                    selectedSong.trackTitle,
-                    selectedSong.artist,
-                    user,
-                    null,
-                    System.currentTimeMillis(),
-                    null,
-                    selectedSong.duration?.toLong(),
-                    selectedSong.artistId,
-                )
-            }
-
-            if (song != null) {
-                songViewModel.insertSong(song)
-                Log.d(" test status", "success")
-            }
-
-//              Lấy dữ liệu các url trong playlist
-            for (i  in 0 until parent.count){
-                val item = parent.getItemAtPosition(i) as Track
-                item.trackUrl?.let { trackUrl ->
-                    println(trackUrl)
-                    trackUrlList.add(trackUrl)
-                }
-            }
-            println(position)
-            // Truyền dữ liệu cần thiết qua Intent
-            intent.putExtra("SONG_TITLE", selectedSong.trackTitle)
-            intent.putExtra("SINGER_NAME", selectedSong.artist)
-            intent.putExtra("SONG_NAME", selectedSong.trackTitle)
-            intent.putExtra("TRACK_IMAGE", selectedSong.trackImage)
-            intent.putExtra("ARTIST_ID", selectedSong.artistId)
-            intent.putExtra("DURATION", selectedSong.duration)
-            intent.putExtra("TRACK_URL", selectedSong.trackUrl)
-            intent.putExtra("TRACK_ID", selectedSong.trackId)
-            intent.putExtra("TRACK_INDEX",position)
-            intent.putStringArrayListExtra("TRACK_LIST",trackUrlList)
-            startActivity(intent)
-        }
 
 
         findViewById<ImageView>(R.id.imv_back).setOnClickListener {
