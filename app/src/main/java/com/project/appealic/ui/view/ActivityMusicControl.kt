@@ -60,8 +60,6 @@ import kotlinx.coroutines.Job
 class ActivityMusicControl : AppCompatActivity(){
 
     private lateinit var songViewModel: SongViewModel
-
-
     private lateinit var progressTv: TextView
     private lateinit var progressSb: SeekBar
     private lateinit var durationTv: TextView
@@ -87,8 +85,6 @@ class ActivityMusicControl : AppCompatActivity(){
     private lateinit var songTitle : String
     private lateinit var artistName : String
     private lateinit var trackImage : String
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
-    private var job: Job? = null
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
@@ -253,16 +249,10 @@ class ActivityMusicControl : AppCompatActivity(){
 
     override fun onStart() {
         super.onStart()
-        // Register the BroadcastReceiver when the Activity becomes visible
-        val filter = IntentFilter("ACTION_TRACK_CHANGED")
-//        registerReceiver(trackChangeReceiver, filter,null,null,Context.RECEIVER_EXPORTED)
+
     }
 
     override fun onStop() {
-        // Unregister the BroadcastReceiver when the Activity is no longer visible
-//        if (::trackChangeReceiver.isInitialized) {
-//            unregisterReceiver(trackChangeReceiver)
-//        }
         super.onStop()
     }
 
