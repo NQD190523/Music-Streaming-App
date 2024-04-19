@@ -32,7 +32,8 @@ fun RecyclerView.setOnItemClickListener(
     this.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
         override fun onChildViewAttachedToWindow(view: View) {
             view.setOnClickListener {
-                val position = getChildAdapterPosition(view)
+                val holder = getChildViewHolder(view)
+                val position = holder.adapterPosition
                 val selectedSong = trackList[position]
                 val user = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -58,6 +59,7 @@ fun RecyclerView.setOnItemClickListener(
                 for (element in trackList) {
                     element.songUrl?.let { trackUrl ->
                         println(trackUrl)
+                        println(position)
                         trackUrlList.add(trackUrl)
                     }
                 }

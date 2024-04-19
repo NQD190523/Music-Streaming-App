@@ -92,8 +92,11 @@ class HomeFragment : Fragment() {
         recentlyViewSong.adapter = recentlySongAdapter
 
         songViewModel.getRecentSongs(FirebaseAuth.getInstance().currentUser?.uid.toString()).observe(viewLifecycleOwner, Observer { songs ->
-            recentlyViewSong.setOnItemClickListener(requireContext(), songViewModel, songs)
             recentlySongAdapter.updateData(songs)
+            println(songs)
+            recentlyViewSong.post {
+                recentlyViewSong.setOnItemClickListener(requireContext(), songViewModel, songs)
+            }
         })
 
 

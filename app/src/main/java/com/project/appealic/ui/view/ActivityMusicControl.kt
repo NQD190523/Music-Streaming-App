@@ -333,6 +333,8 @@ class ActivityMusicControl : AppCompatActivity(){
     }
     private fun handleNextButtonClick() {
         musicPlayerViewModel.nextButtonClick()
+//        songViewModel.getTrackByUrl()
+
     }
 
     private fun handleRepeatButtonClick() {

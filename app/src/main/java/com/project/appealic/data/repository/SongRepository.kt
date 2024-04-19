@@ -59,6 +59,18 @@ class SongRepository (application: Application) {
         return songDao.getRecentSongs(userId)
     }
 
+    fun getTrackByUrl(trackUrl : String) : Task<QuerySnapshot>{
+        return firebaseDB.collection("tracks")
+            .whereEqualTo("trackUrl", trackUrl)
+            .get()
+            .addOnSuccessListener {
+                    Log.d("FirestoreData", "Success")
+                }
+            .addOnFailureListener { exception ->
+                // Xử lý khi có lỗi xảy ra
+                Log.e("FirestoreData", "Error getting documents: $exception")
+            }
+    }
     fun getLikedSongFromUser(userId: String): Task<DocumentSnapshot> {
         return firebaseDB.collection("users").document(userId)
             .get()

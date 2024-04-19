@@ -33,11 +33,14 @@ import java.util.concurrent.CompletableFuture
 
 class SongViewModel(private val songRepository: SongRepository, private val userRepository: UserRepository) : ViewModel() {
 
-    private val db = FirebaseFirestore.getInstance()
-    private val _tracks = MutableLiveData<List<Track>>()
+
     private val _likedSongs = MutableLiveData<List<Track>>()
     val likedSongs: LiveData<List<Track>> get() = _likedSongs
 
+    private val _recentTrack = MutableLiveData<List<Track>>()
+    val recentTrack: LiveData<List<Track>> get() = _recentTrack
+
+    private val _tracks = MutableLiveData<List<Track>>()
     val tracks: LiveData<List<Track>> get() = _tracks
 
     private val _artists = MutableLiveData<List<Artist>>()
@@ -89,6 +92,13 @@ class SongViewModel(private val songRepository: SongRepository, private val user
                 val genreTrack =
                     tracks.documents.filter { it.toObject(Track::class.java)?.genre == genre }
                 _tracks.postValue(genreTrack.map { it.toObject(Track::class.java)!! })
+            }
+    }
+    fun getTrackByUrl(trackUrl : String) {
+        songRepository.getTrackByUrl(trackUrl)
+            .addOnSuccessListener { track->
+                if (track != null)
+                    _recentTrack.postValue(track.toObjects(Track::class.java))
             }
     }
 

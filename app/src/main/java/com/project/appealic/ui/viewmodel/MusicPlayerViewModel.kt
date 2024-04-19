@@ -38,7 +38,7 @@ class MusicPlayerViewModel :ViewModel() {
         }
     }
 
-    fun setCurrentSong(song: Track) {
+    fun getCurrentSong(song: Track) {
         _currentSong.value = song
     }
     fun play() {
