@@ -27,9 +27,10 @@ class AddAlbumFragment: Fragment()  {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_favorite_albums, container, false)
-        val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
-        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
-        albumViewModel = ViewModelProvider(this,factory)[AlbumViewModel::class.java]
+        val songFactory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
+        val albumFactory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
+        songViewModel = ViewModelProvider(this, songFactory)[SongViewModel::class.java]
+        albumViewModel = ViewModelProvider(this,albumFactory)[AlbumViewModel::class.java]
 
         listViewAlbums = view.findViewById(R.id.lv_fav_album)
         songViewModel.albums.observe(viewLifecycleOwner, Observer { albums ->
