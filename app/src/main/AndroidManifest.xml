@@ -19,11 +19,11 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/logo"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Appealic"
+        android:theme="@style/Theme.MySplashScreen"
         tools:targetApi="tiramisu">
         <activity
             android:name=".ui.view.ActivityForgotPassword"
@@ -32,7 +32,7 @@
             android:name=".ui.view.GoogleLoginActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Appealic">
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

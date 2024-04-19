@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Theme.MySplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/dark</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_name_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.Appealic</item>
+    </style>
     <style name="Theme.Appealic" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="windowNoTitle">true</item>   <!-- Đặt giá trị này thành true để ẩn tiêu đề của cửa sổ -->
