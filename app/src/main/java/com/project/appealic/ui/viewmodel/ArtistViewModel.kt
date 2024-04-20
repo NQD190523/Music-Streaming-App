@@ -66,8 +66,8 @@ class ArtistViewModel(private val artistRepository: ArtistRepository): ViewModel
                 if (userDoc.exists()) {
                     val favoriteSongIds = userDoc["followArtist"] as? List<String> ?: emptyList()
 
-                    val tasks = favoriteSongIds.map { trackId ->
-                        val trackDocRef = firebaseDB.collection("tracks").document(trackId)
+                    val tasks = favoriteSongIds.map { artistId ->
+                        val trackDocRef = firebaseDB.collection("artists").document(artistId)
                         trackDocRef.get().continueWith { task ->
                             if (task.isSuccessful) {
                                 task.result?.toObject(Artist::class.java)
@@ -77,9 +77,9 @@ class ArtistViewModel(private val artistRepository: ArtistRepository): ViewModel
                         }
                     }
                     Tasks.whenAllSuccess<Artist?>(tasks).addOnSuccessListener { documents ->
-                        val tracksList = documents.filterNotNull()
-                        // Xử lý danh sách trackList ở đây
-                        _likedArtist.postValue(tracksList)
+                        val artistList = documents.filterNotNull()
+                        // Xử lý danh sách artistList ở đây
+                        _likedArtist.postValue(artistList)
                     }.addOnFailureListener { exception ->
                         Log.e(ContentValues.TAG, "Error fetching liked songs: $exception")
                     }
@@ -89,15 +89,15 @@ class ArtistViewModel(private val artistRepository: ArtistRepository): ViewModel
                 Log.e(ContentValues.TAG, "Error fetching user document: $exception")
             }
     }
-    fun addArtistToUserFollowArtist ( userId: String, trackId : String) = viewModelScope.launch {
+    fun addArtistToUserFollowArtist ( userId: String, artistId : String) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            artistRepository.addArtistToUserFollowArtist(userId, trackId)
+            artistRepository.addArtistToUserFollowArtist(userId, artistId)
         }
     }
 
-    fun  removeArtistToUserFollowArtist( userId: String, trackId : String) = viewModelScope.launch {
+    fun  removeArtistToUserFollowArtist( userId: String, artistId : String) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            artistRepository.removeArtistToUserFollowArtist(userId, trackId)
+            artistRepository.removeArtistToUserFollowArtist(userId, artistId)
         }
     }
 }

@@ -48,13 +48,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btnFollow"
+        android:id="@+id/btnFollowArtist"
         style="@style/Caption"
         android:layout_width="wrap_content"
         android:layout_height="28dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/btn_not_follow"
-        android:hint="Follow"
+        android:text="Follow"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout19"
