@@ -297,6 +297,7 @@ class ActivityMusicControl : AppCompatActivity(){
        musicPlayerViewModel.previousButtonClick()
         val index = player?.currentMediaItemIndex
         songViewModel.getTrackByUrl(trackList[index!!])
+        println(trackList[index])
     }
 
     private fun handlePlayButtonClick() {

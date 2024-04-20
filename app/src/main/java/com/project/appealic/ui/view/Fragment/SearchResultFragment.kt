@@ -79,16 +79,16 @@ class SearchResultFragment: Fragment() {
 
         // Khởi tạo SongViewModel
         val factorySong = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
-        songViewModel = ViewModelProvider(this, factorySong).get(SongViewModel::class.java)
+        songViewModel = ViewModelProvider(this, factorySong)[SongViewModel::class.java]
 
         val factoryArtist = ArtistViewModelFactory(ArtistRepository(requireActivity().application))
-        artistViewModel = ViewModelProvider(this, factoryArtist).get(ArtistViewModel::class.java)
+        artistViewModel = ViewModelProvider(this, factoryArtist)[ArtistViewModel::class.java]
 
         val factoryPlaylist = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
-        playlistViewModel = ViewModelProvider(this, factoryPlaylist).get(PlayListViewModel:: class.java)
+        playlistViewModel = ViewModelProvider(this, factoryPlaylist)[PlayListViewModel:: class.java]
 
         val factoryAlbum = AlbumViewModelFactory(AlbumRepository())
-        albumViewModel = ViewModelProvider(this, factoryAlbum).get(AlbumViewModel:: class.java)
+        albumViewModel = ViewModelProvider(this, factoryAlbum)[AlbumViewModel:: class.java]
 
         // Nhận dữ liệu từ Bundle
         val searchQuery = arguments?.getString("search_query")
@@ -129,8 +129,6 @@ class SearchResultFragment: Fragment() {
                 setListViewHeightBasedOnItems(listAlbum)
             })
         }
-
-
         return view
     }
 

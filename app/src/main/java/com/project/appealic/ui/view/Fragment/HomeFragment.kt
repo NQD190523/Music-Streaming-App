@@ -71,6 +71,9 @@ class HomeFragment : Fragment() {
             }
 
             adapter.setOnMoreActionClickListener {track ->
+                track.trackUrl?.let { songViewModel.getTrackByUrl(it) }
+                println(track.trackUrl)
+                println(songViewModel.recentTrack.value)
                 val moreActionFragment = MoreActionFragment.newInstance(track)
                 val bundle = Bundle()
                 bundle.putString("SONG_TITLE", track.trackTitle)
@@ -78,6 +81,7 @@ class HomeFragment : Fragment() {
                 bundle.putString("TRACK_IMAGE", track.trackImage)
                 bundle.putString("ARTIST_ID", track.artistId)
                 bundle.putString("TRACK_ID", track.trackId)
+                bundle.putString("TRACK_URL",track.trackUrl)
                 moreActionFragment.arguments = bundle
                 moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
             }

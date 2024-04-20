@@ -50,6 +50,10 @@ class MoreActionFragment : DialogFragment() {
 
     private lateinit var songViewModel: SongViewModel
     private lateinit var trackId : String
+    private lateinit var songTitle : String
+    private lateinit var artistName : String
+    private lateinit var trackImage : String
+    private lateinit var trackUrl : String
 
 
     companion object {
@@ -101,32 +105,64 @@ class MoreActionFragment : DialogFragment() {
         layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
         window?.attributes = layoutParams
 
-
         return dialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Lấy dữ liệu từ Intent và hiển thị trên giao diện playlist
-        songViewModel.recentTrack.observe(this, Observer { recentSong ->
-            val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
-            txtSongName.text = recentSong[0].trackTitle
-            val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
-            txtSinger.text = recentSong[0].artist
-            val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
-            recentSong[0].trackImage.let { imageUrl ->
-                val storageReference = imageUrl?.let {
-                    FirebaseStorage.getInstance().getReferenceFromUrl(
-                        it
-                    )
-                }
+        songTitle = arguments?.getString("SONG_TITLE").toString()
+        artistName = arguments?.getString("SINGER_NAME").toString()
+        trackImage = arguments?.getString("TRACK_IMAGE").toString()
+        println(trackImage)
+        trackId = arguments?.getString("TRACK_ID").toString()
+        trackUrl = arguments?.getString("TRACK_URL").toString()
+
+        val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
+        if (txtSongName != null) {
+            txtSongName.text = songTitle
+        }
+        val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
+        if (txtSinger != null) {
+            txtSinger.text = artistName
+        }
+        val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
+        trackImage.let { imageUrl ->
+            println(imageUrl)
+            val storageReference = imageUrl.let {
+                println(it)
+                FirebaseStorage.getInstance().getReferenceFromUrl(it)
+            }
+            if (songImageView != null) {
                 Glide.with(this)
                     .load(storageReference)
                     .into(songImageView)
             }
+        }
+
+        songViewModel.getTrackByUrl(trackUrl)
+        songViewModel.recentTrack.observe(viewLifecycleOwner, Observer { recentSong ->
+            println(recentSong)
+            txtSongName.text = recentSong[0].trackTitle.toString()
+            txtSinger.text = recentSong[0].artist.toString()
+            recentSong[0].trackImage.let { imageUrl ->
+                println(imageUrl)
+                val storageReference = imageUrl.let {
+                    println(it)
+                    if (it != null) {
+                        FirebaseStorage.getInstance().getReferenceFromUrl(it)
+                    }
+                }
+                if (songImageView != null) {
+                    Glide.with(this)
+                        .load(storageReference)
+                        .into(songImageView)
+                }
+            }
             trackId = recentSong[0].trackId.toString()
         })
+
+
 
 
         // Xét điều kiện hiển thị thêm vào yêu thích
