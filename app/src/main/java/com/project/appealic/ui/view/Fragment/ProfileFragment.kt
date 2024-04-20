@@ -9,10 +9,15 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.ui.view.Activity_Signin
+import com.project.appealic.ui.view.GoogleLoginActivity
+import com.project.appealic.ui.viewmodel.AuthViewModel
 
 class ProfileFragment : Fragment() {
+    private lateinit var authViewModel : AuthViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -20,7 +25,10 @@ class ProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
         setOnClickListeners(view)
+        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         return view
+
+
     }
 
     private fun setOnClickListeners(view: View) {
@@ -65,13 +73,15 @@ class ProfileFragment : Fragment() {
                 showDialog(UpdatePassDialogFragment())
             })
 //        logout
-//        view.findViewById<Button>(R.id.btnSignout).setOnClickListener {
-//            // Replace ProfileFragment with UpdateProfileFragment
-//            val transaction = activity?.supportFragmentManager?.beginTransaction()
-//            transaction?.replace(R.id.fragmenthome, Activity_Signin())
-//            transaction?.addToBackStack(null)
-//            transaction?.commit()
-//        }
+        view.findViewById<Button>(R.id.btnSignout).setOnClickListener {
+            // Replace ProfileFragment with UpdateProfileFragment
+            authViewModel.signOut()
+
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.fragmenthome, GoogleLoginActivity())
+            transaction?.addToBackStack(null)
+            transaction?.commit()
+        }
 
 
     }
