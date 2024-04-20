@@ -11,8 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -64,10 +66,6 @@ class EditAccountFragment : Fragment() {
         view?.findViewById<ConstraintLayout>(R.id.ll_name)?.setOnClickListener {
             showDialog(ChangeNameDialog())
         }
-//        show dialog change password
-        view?.findViewById<ConstraintLayout>(R.id.ll_password)?.setOnClickListener {
-            showDialog(UpdatePassDialogFragment())
-        }
 //        show dialog change email
         view?.findViewById<ConstraintLayout>(R.id.ll_email)?.setOnClickListener {
             showDialog(UpdateEmailDialogFragment())
@@ -92,17 +90,44 @@ class EditAccountFragment : Fragment() {
         dialogFragment.show(fragmentManager, dialogFragment.tag)
     }
     class UpdateGenderDialogFragment : DialogFragment() {
-//        function choose gender
+        // function choose gender
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            val view = inflater.inflate(R.layout.dialog_update_gender, container, false)
-            setOnClickListeners(view)
-            return view
-
-    }
-
-        private fun setOnClickListeners(view: View?) {
-//            choose gender
+            return inflater.inflate(R.layout.dialog_update_gender, container, false)
         }
+
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+
+            // Tìm kiếm CheckBox trong layout
+            val checkBoxMale = view.findViewById<CheckBox>(R.id.checkBoxSelectMale)
+            val checkBoxFemale = view.findViewById<CheckBox>(R.id.checkBoxSelectFemale)
+            val checkBoxOther = view.findViewById<CheckBox>(R.id.checkBoxSelectOther)
+
+            checkBoxMale.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    Toast.makeText(requireContext(), "Male selected", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Male unselected", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            checkBoxFemale.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    Toast.makeText(requireContext(), "Female selected", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Female unselected", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            checkBoxOther.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    Toast.makeText(requireContext(), "Other selected", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Other unselected", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
         override fun onStart() {
             super.onStart()
 
@@ -110,7 +135,7 @@ class EditAccountFragment : Fragment() {
             if (dialog != null) {
                 // Đặt kích thước dialog
                 val width = 315 // Kích thước dp
-                val height = 285 // Kích thước dp
+                val height = 315 // Kích thước dp
                 val params = dialog.window?.attributes
                 params?.width = (width * resources.displayMetrics.density).toInt()
                 params?.height = (height * resources.displayMetrics.density).toInt()

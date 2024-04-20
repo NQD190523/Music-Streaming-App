@@ -25,6 +25,8 @@ class ArtistViewModel(private val artistRepository: ArtistRepository): ViewModel
 
     private val _tracks = MutableLiveData<List<Track>>()
     val track: LiveData<List<Track>> get() = _tracks
+    private val _artists = MutableLiveData<List<Artist>>()
+    val artists: LiveData<List<Artist>> get() = _artists
 
     fun getTracksFromArtist(artistId: String){
         artistRepository.getTrackFromArtist(artistId)
@@ -100,4 +102,11 @@ class ArtistViewModel(private val artistRepository: ArtistRepository): ViewModel
             artistRepository.removeArtistToUserFollowArtist(userId, artistId)
         }
     }
-}
+    fun SearchArtistResults(searchQuery: String?) {
+        // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
+        val searchResultsLiveData = artistRepository.loadArtistSearchResults(searchQuery)
+        // Cập nhật LiveData _tracks với dữ liệu mới
+        searchResultsLiveData.observeForever { artists ->
+            _artists.postValue(artists) }
+    }
+    }

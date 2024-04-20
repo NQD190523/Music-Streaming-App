@@ -1,18 +1,30 @@
 package com.project.appealic.ui.view.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.ui.view.Activity_Signin
+import com.project.appealic.ui.view.GoogleLoginActivity
+import com.project.appealic.ui.viewmodel.AuthViewModel
 
 class ProfileFragment : Fragment() {
+    private lateinit var authViewModel : AuthViewModel
+    private lateinit var googleSignInClient: GoogleSignInClient
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -20,7 +32,15 @@ class ProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
         setOnClickListeners(view)
+        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
+
         return view
+
     }
 
     private fun setOnClickListeners(view: View) {
@@ -63,19 +83,48 @@ class ProfileFragment : Fragment() {
         view.findViewById<ConstraintLayout>(R.id.ll_ChangePassword)
             .setOnClickListener(View.OnClickListener {
                 showDialog(UpdatePassDialogFragment())
+
             })
+
 //        logout
-//        view.findViewById<Button>(R.id.btnSignout).setOnClickListener {
-//            // Replace ProfileFragment with UpdateProfileFragment
+        view.findViewById<Button>(R.id.btnSignout).setOnClickListener {
+            // Replace ProfileFragment with UpdateProfileFragment
+            authViewModel.signOut(googleSignInClient)
+            val intent = Intent(requireContext(),GoogleLoginActivity::class.java)
+            startActivity(intent)
 //            val transaction = activity?.supportFragmentManager?.beginTransaction()
-//            transaction?.replace(R.id.fragmenthome, Activity_Signin())
+//            transaction?.replace(R.id.fragmenthome, GoogleLoginActivity())
 //            transaction?.addToBackStack(null)
 //            transaction?.commit()
-//        }
-
+        }
 
     }
+    class UpdatePassDialogFragment : DialogFragment() {
 
+        override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
+            // Tạo view cho dialog từ layout XML
+            return inflater.inflate(R.layout.dialog_update_password, container, false)
+        }
+
+        override fun onStart() {
+            super.onStart()
+
+            // Đặt kích thước dialog
+            val width = 315 // Kích thước dp
+            val height = 355 // Kích thước dp
+            val params = dialog?.window?.attributes
+            params?.width = (width * resources.displayMetrics.density).toInt()
+            params?.height = (height * resources.displayMetrics.density).toInt()
+            dialog?.window?.attributes = params as WindowManager.LayoutParams
+
+            // Thiết lập background cho dialog
+            val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.bg_update_profile)
+            dialog?.window?.setBackgroundDrawable(drawable)
+        }
+    }
 
     private fun showDialog(dialog: DialogFragment) {
         val tag = dialog::class.java.simpleName

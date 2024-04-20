@@ -24,7 +24,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.data.model.SongEntity
+import com.project.appealic.data.repository.AlbumRepository
 import com.project.appealic.data.repository.ArtistRepository
+import com.project.appealic.data.repository.PlayListRepository
 import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.ui.view.ActivityNotification
@@ -33,15 +35,21 @@ import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.ArtistResultAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistResultAdapter
 import com.project.appealic.ui.view.Adapters.SongResultAdapter
-import com.project.appealic.ui.view.setOnItemClickListener
+import com.project.appealic.ui.viewmodel.AlbumViewModel
 import com.project.appealic.ui.viewmodel.ArtistViewModel
+import com.project.appealic.ui.viewmodel.PlayListViewModel
+import com.project.appealic.utils.AlbumViewModelFactory
 import com.project.appealic.utils.ArtistViewModelFactory
+import com.project.appealic.utils.PlayListViewModelFactory
+import com.project.appealic.ui.view.setOnItemClickListener
 import java.util.ArrayList
 
 class SearchResultFragment: Fragment() {
     private lateinit var listSong: ListView
     private lateinit var songViewModel: SongViewModel
+    private lateinit var playlistViewModel: PlayListViewModel
     private lateinit var artistViewModel: ArtistViewModel
+    private lateinit var albumViewModel: AlbumViewModel
     private lateinit var listArtist: ListView
     private lateinit var listPlaylist: ListView
     private lateinit var listAlbum: ListView
@@ -69,46 +77,53 @@ class SearchResultFragment: Fragment() {
         listAlbum = view.findViewById(R.id.lvSearchResultAlbums)
 
         // Khởi tạo SongViewModel
-        val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
-        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
+        val factorySong = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
+        songViewModel = ViewModelProvider(this, factorySong).get(SongViewModel::class.java)
+
+        val factoryArtist = ArtistViewModelFactory(ArtistRepository(requireActivity().application))
+        artistViewModel = ViewModelProvider(this, factoryArtist).get(ArtistViewModel::class.java)
+
+        val factoryPlaylist = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
+        playlistViewModel = ViewModelProvider(this, factoryPlaylist).get(PlayListViewModel:: class.java)
+
+        val factoryAlbum = AlbumViewModelFactory(AlbumRepository())
+        albumViewModel = ViewModelProvider(this, factoryAlbum).get(AlbumViewModel:: class.java)
 
         // Nhận dữ liệu từ Bundle
         val searchQuery = arguments?.getString("search_query")
         Log.d("SearchResultsActivity", "Received searchQuery: $searchQuery")
         if (!searchQuery.isNullOrEmpty()) {
             // Gọi phương thức trong ViewModel để tải dữ liệu từ Firebase dựa trên searchQuery
-            songViewModel.loadSearchResults(searchQuery)
-
+            songViewModel.SearchSongResults(searchQuery)
+            artistViewModel.SearchArtistResults(searchQuery)
+            playlistViewModel.SearchPlaylistResults(searchQuery)
+            albumViewModel.SearchAlbumResults(searchQuery)
             // Quan sát LiveData _tracks để cập nhật ListView khi có kết quả tìm kiếm mới
-            songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
+                songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
                 val adapterSong = SongResultAdapter(requireContext(), tracks)
                 listSong.adapter = adapterSong
+
+                    artistViewModel.artists.observe(viewLifecycleOwner, Observer { artists->
+                        val adapterArtist = ArtistResultAdapter(requireContext(), artists, artistViewModel)
+                        listArtist.adapter = adapterArtist
+                    })
+
+                    playlistViewModel.playLists.observe(viewLifecycleOwner, Observer { playlits ->
+                        val adapterPlaylists = PlaylistResultAdapter(requireContext(), playlits)
+                        listPlaylist.adapter = adapterPlaylists
+                    })
+
+                    albumViewModel.album.observe(viewLifecycleOwner, Observer { albums ->
+                        val adapterAlbum = AlbumsResultAdapter(requireContext(), albums)
+                        listAlbum.adapter = adapterAlbum
+                    })
+
 
                 // Cập nhật chiều cao của ListView
                 setListViewHeightBasedOnItems(listSong)
 
                 // Thiết lập OnItemClickListener cho ListView
                 listSong.setOnItemClickListener(requireContext(), songViewModel, tracks)
-            })
-
-            // Hiển thị kết quả Artist
-            songViewModel.artists.observe(viewLifecycleOwner, Observer { artists ->
-                val adapterArtist = ArtistResultAdapter(requireContext(), artists, artistViewModel)
-                listArtist.adapter = adapterArtist
-                // Cập nhật chiều cao của ListView
-                setListViewHeightBasedOnItems(listArtist)
-            })
-
-            songViewModel.playlists.observe(viewLifecycleOwner, Observer { playlits ->
-                val adapterPlaylists = PlaylistResultAdapter(requireContext(), playlits)
-                listPlaylist.adapter = adapterPlaylists
-                setListViewHeightBasedOnItems(listPlaylist)
-            })
-
-            songViewModel.albums.observe(viewLifecycleOwner, Observer { albums ->
-                val adapterAlbum = AlbumsResultAdapter(requireContext(), albums)
-                listAlbum.adapter = adapterAlbum
-                setListViewHeightBasedOnItems(listAlbum)
             })
         }
 

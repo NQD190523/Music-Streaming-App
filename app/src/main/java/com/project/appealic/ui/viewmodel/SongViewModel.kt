@@ -178,15 +178,11 @@ class SongViewModel(private val songRepository: SongRepository, private val user
 //            }
 //    }
 
-    fun loadSearchResults(searchQuery: String?) {
+    fun SearchSongResults(searchQuery: String?) {
         // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
-        val searchResultsLiveData = songRepository.loadSearchResults(searchQuery)
+        val searchResultsLiveData = songRepository.loadSongSearchResults(searchQuery)
         // Cập nhật LiveData _tracks với dữ liệu mới
-        searchResultsLiveData.observeForever { searchResultsLiveData ->
-            _tracks.postValue(searchResultsLiveData.tracks)
-            _artists.postValue(searchResultsLiveData.artist)
-            _playlists.postValue(searchResultsLiveData.playlists)
-            _albums.postValue(searchResultsLiveData.albums)
-        }
-    }
+        searchResultsLiveData.observeForever { tracks ->
+            _tracks.postValue(tracks) }
+}
 }
