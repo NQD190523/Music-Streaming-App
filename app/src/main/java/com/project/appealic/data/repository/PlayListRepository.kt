@@ -1,7 +1,10 @@
 package com.project.appealic.data.repository
 
 import android.app.Application
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
@@ -12,6 +15,7 @@ import com.project.appealic.data.dao.PlayListDao
 import com.project.appealic.data.dao.UserDao
 import com.project.appealic.data.database.AppDatabase
 import com.project.appealic.data.model.PlayListEntity
+import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.model.UserWithPlayLists
 import kotlinx.coroutines.Dispatchers
@@ -55,5 +59,26 @@ class PlayListRepository(application: Application) {
                 // Handle the error, show a message to the user
             }
         }
+    }
+    fun loadPlaylistSearchResults(searchQuery: String?): LiveData<List<Playlist>> {
+        val searchResultsLiveData = MutableLiveData<List<Playlist>>()
+        if (searchQuery.isNullOrEmpty()) {
+            Log.d(TAG, "loadPlaylistSearchResults: No search query provided")
+            return searchResultsLiveData
+        }
+
+        val playlistsTask = firebaseDB.collection("playlists").get()
+        playlistsTask.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val playlistsSnapshot = task.result
+                val playlists = playlistsSnapshot?.documents?.mapNotNull { it.toObject(Playlist::class.java) } ?: emptyList()
+                val filteredPlaylists = playlists.filter { it.playlistName?.contains(searchQuery, ignoreCase = true) == true }
+                searchResultsLiveData.postValue(filteredPlaylists)
+            } else {
+                Log.e(TAG, "loadPlaylistSearchResults: Error fetching data", task.exception)
+            }
+        }
+
+        return searchResultsLiveData
     }
 }

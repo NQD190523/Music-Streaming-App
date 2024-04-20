@@ -110,4 +110,11 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
 
         }
     }
+    fun SearchPlaylistResults(searchQuery: String?) {
+        // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
+        val searchResultsLiveData = playListRepository.loadPlaylistSearchResults(searchQuery)
+        // Cập nhật LiveData _tracks với dữ liệu mới
+        searchResultsLiveData.observeForever { playlists ->
+            _playLists.postValue(playlists) }
+    }
 }

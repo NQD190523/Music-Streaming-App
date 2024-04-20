@@ -1,11 +1,16 @@
 package com.project.appealic.data.repository
 
+import android.content.ContentValues.TAG
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
+import com.project.appealic.data.model.Artist
 
 class ArtistRepository {
     val firebaseDB = Firebase.firestore
@@ -46,4 +51,27 @@ class ArtistRepository {
                 println("Error removing track ID from user liked songs: $exception")
             }
     }
+
+    fun loadArtistSearchResults(searchQuery: String?): LiveData<List<Artist>> {
+        val searchResultsLiveData = MutableLiveData<List<Artist>>()
+        if (searchQuery.isNullOrEmpty()) {
+            Log.d(TAG, "loadArtistSearchResults: No search query provided")
+            return searchResultsLiveData
+        }
+
+        val artistsTask = firebaseDB.collection("artists").get()
+        artistsTask.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val artistsSnapshot = task.result
+                val artists = artistsSnapshot?.documents?.mapNotNull { it.toObject(Artist::class.java) } ?: emptyList()
+                val filteredArtists = artists.filter { it.Name?.contains(searchQuery, ignoreCase = true) == true }
+                searchResultsLiveData.postValue(filteredArtists)
+            } else {
+                Log.e(TAG, "loadArtistSearchResults: Error fetching data", task.exception)
+            }
+        }
+
+        return searchResultsLiveData
+    }
+
 }

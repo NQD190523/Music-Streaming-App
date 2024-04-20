@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.project.appealic.R
@@ -63,7 +65,9 @@ class ProfileFragment : Fragment() {
         view.findViewById<ConstraintLayout>(R.id.ll_ChangePassword)
             .setOnClickListener(View.OnClickListener {
                 showDialog(UpdatePassDialogFragment())
+
             })
+
 //        logout
 //        view.findViewById<Button>(R.id.btnSignout).setOnClickListener {
 //            // Replace ProfileFragment with UpdateProfileFragment
@@ -73,9 +77,33 @@ class ProfileFragment : Fragment() {
 //            transaction?.commit()
 //        }
 
-
     }
+    class UpdatePassDialogFragment : DialogFragment() {
 
+        override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
+            // Tạo view cho dialog từ layout XML
+            return inflater.inflate(R.layout.dialog_update_password, container, false)
+        }
+
+        override fun onStart() {
+            super.onStart()
+
+            // Đặt kích thước dialog
+            val width = 315 // Kích thước dp
+            val height = 355 // Kích thước dp
+            val params = dialog?.window?.attributes
+            params?.width = (width * resources.displayMetrics.density).toInt()
+            params?.height = (height * resources.displayMetrics.density).toInt()
+            dialog?.window?.attributes = params as WindowManager.LayoutParams
+
+            // Thiết lập background cho dialog
+            val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.bg_update_profile)
+            dialog?.window?.setBackgroundDrawable(drawable)
+        }
+    }
 
     private fun showDialog(dialog: DialogFragment) {
         val tag = dialog::class.java.simpleName
