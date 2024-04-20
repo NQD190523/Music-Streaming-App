@@ -1,9 +1,14 @@
 package com.project.appealic.ui.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -18,38 +23,33 @@ import com.project.appealic.R
 import com.project.appealic.databinding.ActivityLoginBinding
 import com.project.appealic.ui.viewmodel.AuthViewModel
 import com.project.appealic.ui.viewmodel.ProfileViewModel
-import com.project.appealic.ui.viewmodel.SpotifyViewModel
 import com.project.appealic.utils.ValidationUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class  GoogleLoginActivity : AppCompatActivity() {
+class GoogleLoginActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityLoginBinding
-
-    private lateinit var auth :FirebaseAuth
-
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
-
     private lateinit var viewModel: AuthViewModel
     private lateinit var profileViewModel: ProfileViewModel
 
-
-    private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        result ->
-        val data : Intent? = result.data
-        val task =GoogleSignIn.getSignedInAccountFromIntent(data)
-        if(task.isSuccessful){
-            val account : GoogleSignInAccount? =task.result
-            if(account!=null){
+    private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val data: Intent? = result.data
+        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+        if (task.isSuccessful) {
+            val account: GoogleSignInAccount? = task.result
+            if (account != null) {
                 viewModel.signInWithGoogle(account)
-            }else{
-                Toast.makeText(this,task.exception.toString(),Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -58,7 +58,6 @@ class  GoogleLoginActivity : AppCompatActivity() {
         // Khởi tạo ViewModel
         viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         profileViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-
 
         auth = FirebaseAuth.getInstance()
 
@@ -69,10 +68,10 @@ class  GoogleLoginActivity : AppCompatActivity() {
             .build()
 
         // Khởi tạo GoogleSignInClient
-        googleSignInClient = GoogleSignIn.getClient(this,gso)
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         // Đăng nhập bằng tài khoản google
-        binding.btnGoogle.setOnClickListener(){
+        binding.btnGoogle.setOnClickListener() {
             CoroutineScope(Dispatchers.Main).launch {
                 // Chuyển sang Dispatchers.IO để thực hiện các hoạt động I/O
                 val signInAccount = withContext(Dispatchers.IO) {
@@ -92,6 +91,50 @@ class  GoogleLoginActivity : AppCompatActivity() {
                 }
             }
         }
+
+        // Ẩn hiện mật khẩu
+        val txtPassword: EditText = binding.txtLoginPassword
+        val imgShowPass: ImageView = binding.imgShowpass
+
+        imgShowPass.setOnClickListener {
+            if (txtPassword.transformationMethod is PasswordTransformationMethod) {
+                txtPassword.transformationMethod = null
+                imgShowPass.setImageResource(R.drawable.ic_show_pass)
+            } else {
+                txtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                imgShowPass.setImageResource(R.drawable.ic_hirre_password)
+            }
+        }
+
+        // Ghi nhớ mật khẩu
+        val edtUsername: EditText = binding.txtLoginEmail
+        val edtPassword: EditText = binding.txtLoginPassword
+        val cbRememberMe: CheckBox = binding.cbRememberMe
+
+        val sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        // Kiểm tra xem người dùng có yêu cầu nhớ mật khẩu không
+        if (sharedPreferences.getBoolean("rememberPassword", false)) {
+            edtUsername.setText(sharedPreferences.getString("username", ""))
+            edtPassword.setText(sharedPreferences.getString("password", ""))
+            cbRememberMe.isChecked = true
+        }
+
+        cbRememberMe.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                // Lưu tên đăng nhập và mật khẩu
+                editor.putBoolean("rememberPassword", true)
+                editor.putString("username", edtUsername.text.toString())
+                editor.putString("password", edtPassword.text.toString())
+                editor.apply()
+            } else {
+                // Xóa tên đăng nhập và mật khẩu đã lưu
+                editor.clear()
+                editor.apply()
+            }
+        }
+
         // Đăng nhập bằng Email
         binding.btnLogin.setOnClickListener() {
             val email = binding.txtLoginEmail.text.toString()
@@ -107,7 +150,7 @@ class  GoogleLoginActivity : AppCompatActivity() {
                     ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage = "Vui lòng nhập đúng định dạng Email"
                 }
 
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                showToast(errorMessage, android.R.color.holo_red_light)
                 return@setOnClickListener
             }
 
@@ -122,7 +165,7 @@ class  GoogleLoginActivity : AppCompatActivity() {
                     ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage = "Mật khẩu phải bao gồm cả chữ và số"
                 }
 
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                showToast(errorMessage, android.R.color.holo_red_light)
                 return@setOnClickListener
             }
 
@@ -131,8 +174,10 @@ class  GoogleLoginActivity : AppCompatActivity() {
 
         viewModel.signInSuccess.observe(this) { signInSuccess ->
             if (signInSuccess) {
+                showToast("Đăng nhập thành công", android.R.color.holo_green_light)
                 navigateToMainScreen()
             } else {
+                showToast("Đăng nhập thất bại", android.R.color.holo_red_light)
                 Log.e("error", "incompleted")
             }
         }
@@ -160,9 +205,17 @@ class  GoogleLoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
     private fun navigateToMainScreen() {
         // Chuyển hướng đến màn hình chính hoặc màn hình tiếp theo sau khi đăng nhập thành công
         intent = Intent(this, ActivityHome::class.java)
         startActivity(intent)
+    }
+
+    private fun showToast(message: String, colorResId: Int) {
+        val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+        val view = toast.view
+        view?.setBackgroundResource(colorResId)
+        toast.show()
     }
 }
