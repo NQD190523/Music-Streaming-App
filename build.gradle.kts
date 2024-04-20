@@ -1,6 +1,7 @@
 buildscript {
     dependencies {
         classpath("com.google.gms:google-services:4.4.1")
+        classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
     }
 
 

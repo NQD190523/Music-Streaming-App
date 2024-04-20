@@ -23,6 +23,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.project.appealic.data.model.Album
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.repository.AlbumRepository
 import com.project.appealic.data.repository.ArtistRepository

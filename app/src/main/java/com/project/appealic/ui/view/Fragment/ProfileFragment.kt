@@ -18,7 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
-import com.project.appealic.ui.view.Activity_Signin
 import com.project.appealic.ui.view.GoogleLoginActivity
 import com.project.appealic.ui.viewmodel.AuthViewModel
 

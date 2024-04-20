@@ -1,10 +1,13 @@
 package com.project.appealic.ui.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +30,7 @@ class ActivityRegister : AppCompatActivity() {
     private lateinit var password : String
 
 
+    @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -104,6 +108,31 @@ class ActivityRegister : AppCompatActivity() {
             Toast.makeText(this, "Pass validation, progress to sign up", Toast.LENGTH_SHORT).show()
 
         }
+        val txtPassword: EditText = findViewById(R.id.txtRegisterPassword)
+        val imgShowPass: ImageView = findViewById(R.id.imgShowpass)
+
+        imgShowPass.setOnClickListener {
+            if (txtPassword.transformationMethod is PasswordTransformationMethod) {
+                txtPassword.transformationMethod = null
+                imgShowPass.setImageResource(R.drawable.ic_show_pass)
+            } else {
+                txtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                imgShowPass.setImageResource(R.drawable.ic_hirre_password)
+            }
+        }
+        val txtPassword2: EditText = findViewById(R.id.txtRegisterCfpassword)
+        val imgShowPass2: ImageView = findViewById(R.id.imgShowpass2)
+
+        imgShowPass2.setOnClickListener {
+            if (txtPassword2.transformationMethod is PasswordTransformationMethod) {
+                txtPassword2.transformationMethod = null
+                imgShowPass2.setImageResource(R.drawable.ic_show_pass)
+            } else {
+                txtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                imgShowPass2.setImageResource(R.drawable.ic_hirre_password)
+            }
+        }
+
 
         val signInPhoneButton = findViewById<Button>(R.id.btnUsePhone)
         signInPhoneButton.setOnClickListener {

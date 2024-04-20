@@ -75,6 +75,7 @@
                     android:drawablePadding="8dp"
                     android:hint="Password"
                     android:paddingStart="8dp"
+                    android:inputType="textPassword"
                     android:paddingEnd="8dp"
                     android:textColor="@color/subText"
                     android:textColorHint="@color/subText"
@@ -83,6 +84,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/imgShowpass2"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_gravity="center_vertical"
@@ -109,7 +111,8 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_password_12_outlined"
                     android:drawablePadding="8dp"
-                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:hint="Comfirm Password"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:textColor="@color/subText"
@@ -119,6 +122,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/imgShowpass"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_gravity="center_vertical"

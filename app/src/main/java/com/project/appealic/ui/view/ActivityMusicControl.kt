@@ -153,6 +153,7 @@ class ActivityMusicControl : AppCompatActivity(){
         songViewModel.recentTrack.observe(this, Observer {track ->
             findViewById<TextView>(R.id.song_name).text = track[0].trackTitle
             findViewById<TextView>(R.id.singer_name).text = track[0].artist
+            trackId = track[0].trackId.toString()
             duration = track[0].duration!!
             if (track[0].trackImage?.isNotEmpty() == true) {
                 val gsReference = track[0].trackImage?.let { storage.getReferenceFromUrl(it) }
@@ -199,8 +200,8 @@ class ActivityMusicControl : AppCompatActivity(){
         if (userId != null) {
             songViewModel.getLikedSongs(userId)
             songViewModel.likedSongs.observe(this, Observer { likedSong ->
-                for (i in 0 until likedSong.size) {
-                    if (likedSong.get(i).trackId == trackId)
+                for (i in likedSong.indices) {
+                    if (likedSong[i].trackId == trackId)
                         likeBtn.setImageResource(R.drawable.ic_isliked)
                     else likeBtn.setImageResource(R.drawable.ic_heart_24_outlined)
                 }
@@ -366,13 +367,13 @@ class ActivityMusicControl : AppCompatActivity(){
 
     private fun handleMoreButtonClick() {
         val moreActionFragment = MoreActionFragment()
-        val bundle = Bundle()
-        bundle.putString("SONG_TITLE", intent.getStringExtra("SONG_TITLE"))
-        bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
-        bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
-        bundle.putString("ARTIST_ID", intent.getStringExtra("ARTIST_ID"))
-        bundle.putString("TRACK_ID", intent.getStringExtra("TRACK_ID"))
-        moreActionFragment.arguments = bundle
+//        val bundle = Bundle()
+//        bundle.putString("SONG_TITLE", intent.getStringExtra("SONG_TITLE"))
+//        bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
+//        bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
+//        bundle.putString("ARTIST_ID", intent.getStringExtra("ARTIST_ID"))
+//        bundle.putString("TRACK_ID", intent.getStringExtra("TRACK_ID"))
+//        moreActionFragment.arguments = bundle
         moreActionFragment.show(supportFragmentManager, "MoreActionsFragment")
     }
 

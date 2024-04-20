@@ -49,6 +49,7 @@ private const val ARG_PARAM2 = "param2"
 class MoreActionFragment : DialogFragment() {
 
     private lateinit var songViewModel: SongViewModel
+    private lateinit var trackId : String
 
 
     companion object {
@@ -68,7 +69,8 @@ class MoreActionFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
-        songViewModel = ViewModelProvider(requireActivity(), factory).get(SongViewModel::class.java)
+        songViewModel = ViewModelProvider(requireActivity(), factory)[SongViewModel::class.java]
+
     }
 
     override fun onCreateView(
@@ -107,35 +109,35 @@ class MoreActionFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Lấy dữ liệu từ Intent và hiển thị trên giao diện playlist
-        val songTitle = arguments?.getString("SONG_TITLE")
-        val artistName = arguments?.getString("SINGER_NAME")
-        val trackImage = arguments?.getString("TRACK_IMAGE")
-        val trackId = arguments?.getString("TRACK_ID").toString()
+        songViewModel.recentTrack.observe(this, Observer { recentSong ->
+            val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
+            txtSongName.text = recentSong[0].trackTitle
+            val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
+            txtSinger.text = recentSong[0].artist
+            val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
+            recentSong[0].trackImage.let { imageUrl ->
+                val storageReference = imageUrl?.let {
+                    FirebaseStorage.getInstance().getReferenceFromUrl(
+                        it
+                    )
+                }
+                Glide.with(this)
+                    .load(storageReference)
+                    .into(songImageView)
+            }
+            trackId = recentSong[0].trackId.toString()
+        })
 
-        val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
-        txtSongName.text = songTitle
-        val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
-        txtSinger.text = artistName
-
-        val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
-        trackImage?.let { imageUrl ->
-            val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
-
-            Glide.with(this)
-                .load(storageReference)
-                .into(songImageView)
-        }
 
         // Xét điều kiện hiển thị thêm vào yêu thích
         val heartIcon = view.findViewById<ImageView>(R.id.heartIcon)
         val userId = FirebaseAuth.getInstance().currentUser?.uid
-
         // Xét hiển thị bài hát yêu thích
         if (userId != null) {
             songViewModel.getLikedSongs(userId)
             songViewModel.likedSongs.observe(this, Observer { likedSong ->
-                for (i in 0 until likedSong.size) {
-                    if (likedSong.get(i).trackId == trackId)
+                for (i in likedSong.indices) {
+                    if (likedSong[i].trackId == trackId)
                         heartIcon.setImageResource(R.drawable.ic_isliked)
                     else heartIcon.setImageResource(R.drawable.ic_heart_24_outlined)
                 }
@@ -178,9 +180,9 @@ class MoreActionFragment : DialogFragment() {
 
     private fun handleAddToFavorites() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
+        println(userId)
         val heartIcon = view?.findViewById<ImageView>(R.id.heartIcon)
-        val trackId = arguments?.getString("TRACK_ID")
-        if (userId != null && trackId != null) {
+        if (userId != null) {
             songViewModel.getLikedSongs(userId)
             val isLiked = songViewModel.likedSongs.value?.any { it.trackId == trackId } ?: false
             if (isLiked) {
@@ -194,7 +196,6 @@ class MoreActionFragment : DialogFragment() {
             // Hiển thị thông báo yêu cầu đăng nhập nếu người dùng chưa đăng nhập
             Toast.makeText(requireContext(), "You need to sign in to use this feature", Toast.LENGTH_SHORT).show()
         }
-
         lifecycleScope.launch {
             delay(800)
             dismiss()
