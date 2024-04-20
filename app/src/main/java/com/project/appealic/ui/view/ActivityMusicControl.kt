@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
@@ -84,6 +85,7 @@ class ActivityMusicControl : AppCompatActivity(){
     private lateinit var artistName : String
     private lateinit var trackImage : String
     private  var duration : Int = 0
+    private  var isRepeated : Boolean = false
 
 
     private val serviceConnection = object : ServiceConnection {
@@ -106,6 +108,7 @@ class ActivityMusicControl : AppCompatActivity(){
         // Khởi tạo SongViewModel
         val factory = SongViewModelFactory(SongRepository(this.application), UserRepository(this.application))
         songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
+        musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
 
 
         // Lấy dữ liệu từ Intent và hiển thị trên giao diện
@@ -146,8 +149,6 @@ class ActivityMusicControl : AppCompatActivity(){
         startService(musicPlayerServiceIntent)
         bindService(musicPlayerServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
 
-
-        musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
 
         songViewModel.getTrackByUrl(trackList[trackIndex])
         songViewModel.recentTrack.observe(this, Observer {track ->
@@ -239,6 +240,17 @@ class ActivityMusicControl : AppCompatActivity(){
             durationTv.text = formatDuration(remainingDuration)
         }
 
+        player?.addListener(object :Player.Listener{
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                // Kiểm tra xem có thể là bắt đầu bài hát mới hay không
+                if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO || reason == Player.MEDIA_ITEM_TRANSITION_REASON_SEEK) {
+                    val newIndex = player!!.currentMediaItemIndex // Lấy chỉ số của bài hát mới
+                    // Cập nhật ViewModel với bài hát mới
+                    songViewModel.getTrackByUrl(trackList[newIndex])
+                }
+            }
+        })
+
     }
 
     override fun onResume() {
@@ -317,7 +329,14 @@ class ActivityMusicControl : AppCompatActivity(){
     }
 
     private fun handleRepeatButtonClick() {
+        isRepeated = !isRepeated
         musicPlayerViewModel.repeatButtonClick()
+        if(isRepeated)
+            repeatBtn.setImageResource(R.drawable.ic_repeat_off_24_filled)
+        else
+            repeatBtn.setImageResource(R.drawable.ic_repeat_24_filled)
+
+
     }
 
     private fun handleCommentButtonClick() {
