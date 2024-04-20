@@ -18,9 +18,6 @@ import com.project.appealic.data.model.Album
 class AlbumsResultAdapter(context: Context, private var albums: List<Album>) : ArrayAdapter<Album>(context, 0, albums) {
     private val storage = FirebaseStorage.getInstance()
 
-    class AlbumsResultAdapter(context: Context, private var albums: List<Album>) :
-        ArrayAdapter<Album>(context, 0, albums) {
-        private val storage = FirebaseStorage.getInstance()
 
         // Interface for on item click listener
         interface OnItemClickListener {
@@ -82,4 +79,3 @@ class AlbumsResultAdapter(context: Context, private var albums: List<Album>) : A
             notifyDataSetChanged()
         }
     }
-}

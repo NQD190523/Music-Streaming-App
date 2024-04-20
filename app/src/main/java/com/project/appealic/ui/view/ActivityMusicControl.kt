@@ -368,13 +368,14 @@ class ActivityMusicControl : AppCompatActivity(){
 
     private fun handleMoreButtonClick() {
         val moreActionFragment = MoreActionFragment()
-//        val bundle = Bundle()
-//        bundle.putString("SONG_TITLE", intent.getStringExtra("SONG_TITLE"))
-//        bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
-//        bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
-//        bundle.putString("ARTIST_ID", intent.getStringExtra("ARTIST_ID"))
-//        bundle.putString("TRACK_ID", intent.getStringExtra("TRACK_ID"))
-//        moreActionFragment.arguments = bundle
+        songViewModel.getTrackByUrl(trackList[trackIndex])
+        val bundle = Bundle()
+        bundle.putString("SONG_TITLE", intent.getStringExtra("SONG_TITLE"))
+        bundle.putString("SINGER_NAME", intent.getStringExtra("SINGER_NAME"))
+        bundle.putString("TRACK_IMAGE", intent.getStringExtra("TRACK_IMAGE"))
+        bundle.putString("ARTIST_ID", intent.getStringExtra("ARTIST_ID"))
+        bundle.putString("TRACK_ID", intent.getStringExtra("TRACK_ID"))
+        moreActionFragment.arguments = bundle
         moreActionFragment.show(supportFragmentManager, "MoreActionsFragment")
     }
 

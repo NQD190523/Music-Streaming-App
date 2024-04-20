@@ -133,16 +133,19 @@ class SearchResultFragment: Fragment() {
     }
 
     private fun setListViewHeightBasedOnItems(listView: ListView) {
-        val listAdapter = listView.adapter
+        val adapter = listView.adapter ?: return
+        val totalItems = adapter.count
         val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
         var totalHeight = 0
-        for (i in 0 until listAdapter.count) {
-            val listItem: View = listAdapter.getView(i, null, listView)
+
+        for (i in 0 until totalItems) {
+            val listItem: View = adapter.getView(i, null, listView)
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
             totalHeight += listItem.measuredHeight
         }
+
         val params = listView.layoutParams
-        params.height = totalHeight + (listView.dividerHeight * (listAdapter.count - 1))
+        params.height = totalHeight + (listView.dividerHeight * (totalItems - 1))
         listView.layoutParams = params
         listView.requestLayout()
     }

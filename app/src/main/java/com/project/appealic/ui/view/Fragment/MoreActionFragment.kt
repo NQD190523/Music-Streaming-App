@@ -111,54 +111,45 @@ class MoreActionFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Lấy dữ liệu từ Bundle
         songTitle = arguments?.getString("SONG_TITLE").toString()
         artistName = arguments?.getString("SINGER_NAME").toString()
         trackImage = arguments?.getString("TRACK_IMAGE").toString()
-        println(trackImage)
         trackId = arguments?.getString("TRACK_ID").toString()
         trackUrl = arguments?.getString("TRACK_URL").toString()
 
+        // Ánh xạ các thành phần trong layout
         val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
-        if (txtSongName != null) {
-            txtSongName.text = songTitle
-        }
         val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
-        if (txtSinger != null) {
-            txtSinger.text = artistName
-        }
         val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
-        trackImage.let { imageUrl ->
-            println(imageUrl)
-            val storageReference = imageUrl.let {
-                println(it)
-                FirebaseStorage.getInstance().getReferenceFromUrl(it)
-            }
-            if (songImageView != null) {
-                Glide.with(this)
-                    .load(storageReference)
-                    .into(songImageView)
-            }
-        }
 
-        songViewModel.getTrackByUrl(trackUrl)
+        // Gán giá trị ban đầu vào layout
+        txtSongName.text = songTitle
+        txtSinger.text = artistName
+
+        // Load hình ảnh từ Firebase Storage
+        println(trackImage)
+        val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(trackImage)
+        Glide.with(this)
+            .load(storageReference)
+            .into(songImageView)
+
+        // Quan sát LiveData để cập nhật layout khi dữ liệu thay đổi
         songViewModel.recentTrack.observe(viewLifecycleOwner, Observer { recentSong ->
-            println(recentSong)
+            // Cập nhật layout với dữ liệu mới
             txtSongName.text = recentSong[0].trackTitle.toString()
             txtSinger.text = recentSong[0].artist.toString()
-            recentSong[0].trackImage.let { imageUrl ->
-                println(imageUrl)
-                val storageReference = imageUrl.let {
-                    println(it)
-                    if (it != null) {
-                        FirebaseStorage.getInstance().getReferenceFromUrl(it)
-                    }
-                }
-                if (songImageView != null) {
-                    Glide.with(this)
-                        .load(storageReference)
-                        .into(songImageView)
-                }
+
+            // Load hình ảnh mới từ Firebase Storage
+            val newImageURL = recentSong[0].trackImage
+            if (newImageURL != null) {
+                val newStorageReference = FirebaseStorage.getInstance().getReferenceFromUrl(newImageURL)
+                Glide.with(this)
+                    .load(newStorageReference)
+                    .into(songImageView)
             }
+
+            // Cập nhật trackId (nếu cần thiết)
             trackId = recentSong[0].trackId.toString()
         })
 
