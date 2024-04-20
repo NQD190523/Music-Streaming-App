@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.data.model.SongEntity
+import com.project.appealic.data.repository.ArtistRepository
 import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.ui.view.ActivityNotification
@@ -33,11 +34,14 @@ import com.project.appealic.ui.view.Adapters.ArtistResultAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistResultAdapter
 import com.project.appealic.ui.view.Adapters.SongResultAdapter
 import com.project.appealic.ui.view.setOnItemClickListener
+import com.project.appealic.ui.viewmodel.ArtistViewModel
+import com.project.appealic.utils.ArtistViewModelFactory
 import java.util.ArrayList
 
 class SearchResultFragment: Fragment() {
     private lateinit var listSong: ListView
     private lateinit var songViewModel: SongViewModel
+    private lateinit var artistViewModel: ArtistViewModel
     private lateinit var listArtist: ListView
     private lateinit var listPlaylist: ListView
     private lateinit var listAlbum: ListView
@@ -45,12 +49,19 @@ class SearchResultFragment: Fragment() {
     private lateinit var searchDatabase: DatabaseReference
     private var originalTracks: List<Track> = emptyList() // Danh sách gốc
 
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_search_result, container, false)
+
+        val artistFactory = ArtistViewModelFactory(ArtistRepository(requireActivity().application))
+        artistViewModel = ViewModelProvider(requireActivity(), artistFactory)[ArtistViewModel::class.java]
 
         listSong = view.findViewById(R.id.lvSearchResultSongs)
         listArtist = view.findViewById(R.id.lvSearchResultArtists)
@@ -80,8 +91,9 @@ class SearchResultFragment: Fragment() {
                 listSong.setOnItemClickListener(requireContext(), songViewModel, tracks)
             })
 
-            songViewModel.artists.observe(viewLifecycleOwner, Observer { artists->
-                val adapterArtist = ArtistResultAdapter(requireContext(), artists)
+            // Hiển thị kết quả Artist
+            songViewModel.artists.observe(viewLifecycleOwner, Observer { artists ->
+                val adapterArtist = ArtistResultAdapter(requireContext(), artists, artistViewModel)
                 listArtist.adapter = adapterArtist
                 // Cập nhật chiều cao của ListView
                 setListViewHeightBasedOnItems(listArtist)
