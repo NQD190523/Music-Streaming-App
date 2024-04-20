@@ -83,6 +83,8 @@ class ActivityMusicControl : AppCompatActivity(){
     private lateinit var songTitle : String
     private lateinit var artistName : String
     private lateinit var trackImage : String
+    private  var duration : Int = 0
+
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
@@ -110,9 +112,7 @@ class ActivityMusicControl : AppCompatActivity(){
         songTitle = intent.getStringExtra("SONG_TITLE")?: "N/A"
         artistName = intent.getStringExtra("SINGER_NAME").toString()
         trackImage = intent.getStringExtra("TRACK_IMAGE").toString()
-        val artistId = intent.getStringExtra("ARTIST_ID")
-        val duration = intent.getIntExtra("DURATION", 0)
-        val trackUrl = intent.getStringExtra("TRACK_URL")
+        duration = intent.getIntExtra("DURATION", 0)
         trackList = intent.getStringArrayListExtra("TRACK_LIST")!!
         trackIndex = intent.getIntExtra("TRACK_INDEX",0)
         trackId = intent.getStringExtra("TRACK_ID").toString()
@@ -153,6 +153,7 @@ class ActivityMusicControl : AppCompatActivity(){
         songViewModel.recentTrack.observe(this, Observer {track ->
             findViewById<TextView>(R.id.song_name).text = track[0].trackTitle
             findViewById<TextView>(R.id.singer_name).text = track[0].artist
+            duration = track[0].duration!!
             if (track[0].trackImage?.isNotEmpty() == true) {
                 val gsReference = track[0].trackImage?.let { storage.getReferenceFromUrl(it) }
                 Glide.with(this@ActivityMusicControl).load(gsReference).into(findViewById<ImageView>(R.id.imvGround))
