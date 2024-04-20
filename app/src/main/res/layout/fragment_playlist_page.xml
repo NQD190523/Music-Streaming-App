@@ -10,6 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +129,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView17"
+                    android:id="@+id/txtSongNumb"
                     style="@style/Label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -162,7 +163,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ListView
-                android:id="@+id/lstPlalistSleepping"
+                android:id="@+id/lstPlalist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -175,15 +176,15 @@
                 style="@style/Heading5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lstPlalistSleepping"
+                android:layout_below="@+id/lstPlalist"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="Recommended songs"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="@+id/lstPlalistSleepping"
-                app:layout_constraintStart_toStartOf="@+id/lstPlalistSleepping"
-                app:layout_constraintTop_toBottomOf="@+id/lstPlalistSleepping" />
+                app:layout_constraintEnd_toEndOf="@+id/lstPlalist"
+                app:layout_constraintStart_toStartOf="@+id/lstPlalist"
+                app:layout_constraintTop_toBottomOf="@+id/lstPlalist" />
 
             <ListView
                 android:id="@+id/lstRecommendSong"

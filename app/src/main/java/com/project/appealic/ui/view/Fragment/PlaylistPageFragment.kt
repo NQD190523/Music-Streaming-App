@@ -1,6 +1,8 @@
 package com.project.appealic.ui.view.Fragment
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import com.project.appealic.R
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.repository.PlayListRepository
@@ -35,6 +38,7 @@ class PlaylistPageFragment : Fragment() {
     private lateinit var rcsong: ListView
     private lateinit var trackInPlaylist : ListView
     private lateinit var title : TextView
+    private lateinit var songNumb : TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,7 +71,15 @@ class PlaylistPageFragment : Fragment() {
             }
         }
         title = view.findViewById(R.id.textView16)
-        trackInPlaylist = view.findViewById(R.id.lstPlalistSleepping)
+        songNumb = view.findViewById(R.id.txtSongNumb)
+        trackInPlaylist = view.findViewById(R.id.lstPlalist)
+
+        // Gọi hàm để lấy tổng số bài hát từ Firebase và cập nhật UI
+        if (selectedPlaylist != null) {
+            getTotalSongsFromFirebase(selectedPlaylist.playlistId) { totalSongs ->
+                songNumb.text = (totalSongs.toString()+" Songs")
+            }
+        }
 
         rcsong = view.findViewById(R.id.lstRecommendSong)
         // Initialize adapter for ListView displaying recommended songs
@@ -79,6 +91,7 @@ class PlaylistPageFragment : Fragment() {
         playListViewModel.track.observe(viewLifecycleOwner, Observer { tracks ->
             val adapter = NewReleaseAdapter(requireContext(), tracks)
             trackInPlaylist.adapter = adapter
+            setListViewHeightBasedOnItems(trackInPlaylist)
             trackInPlaylist.setOnItemClickListener(requireContext(), songViewModel,tracks )
         })
         songViewModel.tracks.observe(viewLifecycleOwner, Observer {tracks ->
@@ -91,5 +104,37 @@ class PlaylistPageFragment : Fragment() {
 
         // Placeholder for sleepingPlaylistAdapter setup
         // Initialize and set up sleepingPlaylistAdapter here if needed
+    }
+
+    private fun setListViewHeightBasedOnItems(listView: ListView) {
+        val listAdapter = listView.adapter
+        val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
+        var totalHeight = 0
+        for (i in 0 until listAdapter.count) {
+            val listItem: View = listAdapter.getView(i, null, listView)
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
+            totalHeight += listItem.measuredHeight
+        }
+        val params = listView.layoutParams
+        params.height = totalHeight + (listView.dividerHeight * (listAdapter.count - 1))
+        listView.layoutParams = params
+        listView.requestLayout()
+    }
+
+    private fun getTotalSongsFromFirebase(playlistId: String, onResult: (Int) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val playlistsRef = db.collection("playlists")
+        playlistsRef.document(playlistId).get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val playlistData = task.result?.toObject(Playlist::class.java)
+                val trackIds = playlistData?.trackIds ?: emptyList()
+                val totalSongs = trackIds.size
+                Log.d(ContentValues.TAG, "Total songs: $totalSongs")
+                onResult(totalSongs)
+            } else {
+                Log.d(ContentValues.TAG, "Failed to get playlist data", task.exception)
+                onResult(0)
+            }
+        }
     }
 }
