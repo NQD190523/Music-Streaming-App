@@ -36,6 +36,7 @@ class ArtistResultAdapter(context: Context, artists: List<Artist>,
     private val storage = Firebase.storage
     val userId = FirebaseAuth.getInstance().currentUser?.uid
     private lateinit var artistId: String
+    private val artistIds: HashMap<Int, String> = HashMap()
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -60,20 +61,22 @@ class ArtistResultAdapter(context: Context, artists: List<Artist>,
             .into(viewHolder.artistImageView)
         viewHolder.artistNameTextView.text = currentArtist?.Name
 
-        // Xác định trạng thái của nút follow và cập nhật màu nền và văn bản
-        artistId = currentArtist?.Id.toString()
-        if (userId != null) {
-            artistViewModel.getFollowArtistFromUser(userId)
-            val isFollowed = artistViewModel.likedArtist.value?.any { it.Id == artistId } ?: false
+        val artistId = currentArtist?.Id.toString()
+        artistIds[position] = artistId
 
-            if (isFollowed) {
-                viewHolder.followBtn.text = "Following"
-                viewHolder.followBtn.setBackgroundResource(R.drawable.btn_following)
-            }
-            else {
-                viewHolder.followBtn.text = "Follow"
-                viewHolder.followBtn.setBackgroundResource(R.drawable.btn_not_follow)
-            }
+        // Xác định trạng thái của nút follow và cập nhật màu nền và văn bản
+        if (userId != null) {
+            artistViewModel.likedArtist.observe(context as LifecycleOwner, Observer { likedArtists ->
+                val isFollowed = likedArtists.any { it.Id == artistId }
+                if (isFollowed) {
+                    viewHolder.followBtn.text = "Following"
+                    viewHolder.followBtn.setBackgroundResource(R.drawable.btn_following)
+                } else {
+                    viewHolder.followBtn.text = "Follow"
+                    viewHolder.followBtn.setBackgroundResource(R.drawable.btn_not_follow)
+                }
+            })
+            artistViewModel.getFollowArtistFromUser(userId)
         } else {
             // Hiển thị thông báo yêu cầu đăng nhập nếu người dùng chưa đăng nhập
             Toast.makeText(context, "You need to sign in to use this feature", Toast.LENGTH_SHORT).show()
@@ -82,7 +85,7 @@ class ArtistResultAdapter(context: Context, artists: List<Artist>,
         // Xử lý sự kiện click cho nút follow
         viewHolder.followBtn.setOnClickListener {
             if (userId != null) {
-                artistViewModel.getFollowArtistFromUser(userId)
+                val artistId = artistIds[position] ?: ""
                 val isFollowed = artistViewModel.likedArtist.value?.any { it.Id == artistId } ?: false
                 if (currentArtist != null) {
                     if (isFollowed) {
