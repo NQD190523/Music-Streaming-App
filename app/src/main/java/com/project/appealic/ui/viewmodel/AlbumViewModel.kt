@@ -62,5 +62,11 @@ class AlbumViewModel( private val albumRepository: AlbumRepository) : ViewModel(
                 Log.e(ContentValues.TAG, "Error fetching user document: $exception")
             }
     }
-
+    fun SearchAlbumResults(searchQuery: String?) {
+        // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
+        val searchResultsLiveData = albumRepository.loadAlbumSearchResults(searchQuery)
+        // Cập nhật LiveData _tracks với dữ liệu mới
+        searchResultsLiveData.observeForever { albums ->
+            _album.postValue(albums) }
+    }
 }
