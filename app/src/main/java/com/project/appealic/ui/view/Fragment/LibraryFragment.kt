@@ -68,7 +68,7 @@ class LibraryFragment : Fragment() {
 
         // Tìm kiếm các TextView tương ứng
         val tvAddArtists = view.findViewById<TextView>(R.id.tvAddArtists)
-        val tvAddAlbums = view.findViewById<TextView>(R.id.tvAddAlbums)
+//        val tvAddAlbums = view.findViewById<TextView>(R.id.tvAddAlbums)
         val tvAddSongs = view.findViewById<TextView>(R.id.tvAddPlaylists)
 
         val underline = view.findViewById<View>(R.id.underline)
@@ -88,7 +88,7 @@ class LibraryFragment : Fragment() {
         val initialX = 203f
         val deltaXSongs =  tvAddSongs.x - initialX*2
         val deltaXArtists = tvAddArtists.x - initialX*5/4
-        val deltaXAlbums = tvAddAlbums.x - initialX * 1/2
+//        val deltaXAlbums = tvAddAlbums.x - initialX * 1/2
 
 // Thiết lập onClickListener cho TextViews
 
@@ -110,14 +110,14 @@ class LibraryFragment : Fragment() {
             underline.animate().translationX(deltaXArtists).setDuration(300).start()
         }
 
-        tvAddAlbums.setOnClickListener {
-            // Replace the current fragment with AddAlbumFragment
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentAddPlaylistLibrary, AddAlbumFragment())
-                .addToBackStack(null)
-                .commit()
-            underline.animate().translationX(deltaXAlbums).setDuration(300).start()
-        }
+//        tvAddAlbums.setOnClickListener {
+//            // Replace the current fragment with AddAlbumFragment
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .replace(R.id.fragmentAddPlaylistLibrary, AddAlbumFragment())
+//                .addToBackStack(null)
+//                .commit()
+//            underline.animate().translationX(deltaXAlbums).setDuration(300).start()
+//        }
 
         // Danh sách hình ảnh từ thư mục drawable
         val imageList = listOf(
