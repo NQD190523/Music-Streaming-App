@@ -70,11 +70,13 @@
             app:layout_constraintTop_toBottomOf="@+id/txtLoginEmail" />
         <ImageView
             android:id="@+id/imgShowpass"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="16dp"
             android:src="@drawable/ic_hirre_password"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             app:layout_constraintBottom_toBottomOf="@+id/txtLoginPassword"
             app:layout_constraintEnd_toEndOf="@+id/txtLoginPassword"
             app:layout_constraintTop_toTopOf="@+id/txtLoginPassword" />
@@ -99,10 +101,11 @@
 
                 <CheckBox
                     android:id="@+id/cbRememberMe"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:background="@color/white"
+                    android:layout_marginStart="@dimen/dp_8"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -124,7 +127,7 @@
                 android:id="@+id/btnForgetPassword"
                 style="@style/Label"
                 android:layout_width="wrap_content"
-                android:layout_height="14dp"
+                android:layout_height="20dp"
                 android:background="@drawable/noncolor_button"
                 android:text="@string/forgot_password"
                 android:textColor="@color/text"
