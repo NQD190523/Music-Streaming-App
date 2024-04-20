@@ -100,31 +100,33 @@ class SearchResultFragment: Fragment() {
             playlistViewModel.SearchPlaylistResults(searchQuery)
             albumViewModel.SearchAlbumResults(searchQuery)
             // Quan sát LiveData _tracks để cập nhật ListView khi có kết quả tìm kiếm mới
-                songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
+            songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
                 val adapterSong = SongResultAdapter(requireContext(), tracks)
                 listSong.adapter = adapterSong
-
-                    artistViewModel.artists.observe(viewLifecycleOwner, Observer { artists->
-                        val adapterArtist = ArtistResultAdapter(requireContext(), artists, artistViewModel)
-                        listArtist.adapter = adapterArtist
-                    })
-
-                    playlistViewModel.playLists.observe(viewLifecycleOwner, Observer { playlits ->
-                        val adapterPlaylists = PlaylistResultAdapter(requireContext(), playlits)
-                        listPlaylist.adapter = adapterPlaylists
-                    })
-
-                    albumViewModel.album.observe(viewLifecycleOwner, Observer { albums ->
-                        val adapterAlbum = AlbumsResultAdapter(requireContext(), albums)
-                        listAlbum.adapter = adapterAlbum
-                    })
-
 
                 // Cập nhật chiều cao của ListView
                 setListViewHeightBasedOnItems(listSong)
 
                 // Thiết lập OnItemClickListener cho ListView
                 listSong.setOnItemClickListener(requireContext(), songViewModel, tracks)
+            })
+
+            artistViewModel.artists.observe(viewLifecycleOwner, Observer { artists->
+                val adapterArtist = ArtistResultAdapter(requireContext(), artists, artistViewModel)
+                listArtist.adapter = adapterArtist
+                setListViewHeightBasedOnItems(listArtist)
+            })
+
+            playlistViewModel.playLists.observe(viewLifecycleOwner, Observer { playlits ->
+                val adapterPlaylists = PlaylistResultAdapter(requireContext(), playlits)
+                listPlaylist.adapter = adapterPlaylists
+                setListViewHeightBasedOnItems(listPlaylist)
+            })
+
+            albumViewModel.album.observe(viewLifecycleOwner, Observer { albums ->
+                val adapterAlbum = AlbumsResultAdapter(requireContext(), albums)
+                listAlbum.adapter = adapterAlbum
+                setListViewHeightBasedOnItems(listAlbum)
             })
         }
 
