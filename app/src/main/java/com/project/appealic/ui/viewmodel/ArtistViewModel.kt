@@ -91,13 +91,14 @@ class ArtistViewModel(private val artistRepository: ArtistRepository): ViewModel
                 Log.e(ContentValues.TAG, "Error fetching user document: $exception")
             }
     }
+
     fun addArtistToUserFollowArtist ( userId: String, artistId : String) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             artistRepository.addArtistToUserFollowArtist(userId, artistId)
         }
     }
 
-    fun  removeArtistToUserFollowArtist( userId: String, artistId : String) = viewModelScope.launch {
+    fun removeArtistToUserFollowArtist( userId: String, artistId : String) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             artistRepository.removeArtistToUserFollowArtist(userId, artistId)
         }
@@ -109,4 +110,4 @@ class ArtistViewModel(private val artistRepository: ArtistRepository): ViewModel
         searchResultsLiveData.observeForever { artists ->
             _artists.postValue(artists) }
     }
-    }
+}

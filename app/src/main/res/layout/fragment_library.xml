@@ -52,6 +52,7 @@
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,9 +127,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="@dimen/dp_32"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout11">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout11"
+                app:layout_constraintVertical_bias="0.0">
 
                 <TextView
                     android:id="@+id/tvAddPlaylists"
@@ -145,7 +149,7 @@
                     style="@style/Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="32dp"
                     android:text="Artists"
                     android:textColor="@color/text"
                     app:layout_constraintBottom_toBottomOf="@+id/tvAddPlaylists"
@@ -158,9 +162,9 @@
                     android:layout_width="50dp"
                     android:layout_height="2dp"
                     android:background="@color/white"
-                    app:layout_constraintTop_toBottomOf="@+id/tvAddPlaylists"
+                    app:layout_constraintEnd_toEndOf="@+id/tvAddPlaylists"
                     app:layout_constraintStart_toStartOf="@+id/tvAddPlaylists"
-                    app:layout_constraintEnd_toEndOf="@+id/tvAddPlaylists"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tvAddPlaylists" />
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
