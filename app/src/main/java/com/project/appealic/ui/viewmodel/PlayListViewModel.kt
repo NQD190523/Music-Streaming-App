@@ -27,12 +27,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
-class PlayListViewModel(private val playListRepository: PlayListRepository) :ViewModel() {
+class PlayListViewModel(private val playListRepository: PlayListRepository) : ViewModel() {
 
     private val firebaseDB = Firebase.firestore
 
-    private val _userPlayLists = MutableLiveData<List<PlayListEntity>>()
-    val userPlayLists: LiveData<List<PlayListEntity>> get() = _userPlayLists
+    private val _userPlayLists = MutableLiveData<List<PlayListEntity>?>()
+    val userPlayLists: MutableLiveData<List<PlayListEntity>?> get() = _userPlayLists
 
     private val _playLists = MutableLiveData<List<Playlist>>()
     val playLists: LiveData<List<Playlist>> get() = _playLists
@@ -42,22 +42,7 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
 
     fun createNewPlayList(playList: PlayListEntity) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            playListRepository.createNewPlayList(playList)
-        }
-    }
-
-    fun getUserPlaylist(uid: String) = viewModelScope.launch {
-        try {
-            val playListsLiveData = withContext(Dispatchers.IO) {
-                playListRepository.getAllUserPlayList(uid)
-            }
-            // Convert LiveData to Flow and collect the first value
-            playListsLiveData.asFlow().first().let { playLists ->
-                _userPlayLists.postValue(playLists)
-            }
-        } catch (e: Exception) {
-            Log.e("PlayListViewModel", "Error fetching user playlists", e)
-            // Handle the error, e.g., show a message to the user
+            playListRepository.createNewPlaylist(playList)
         }
     }
 
@@ -71,10 +56,10 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
             }
     }
 
-    fun getTracksFromPlaylist(playlistId : String) {
+    fun getTracksFromPlaylist(playlistId: String) {
         playListRepository.getTracksFromPlaylist(playlistId)
             .addOnSuccessListener { tracks ->
-                if (tracks != null){
+                if (tracks != null) {
                     val trackIds = tracks["trackIds"] as? List<String> ?: emptyList()
 
                     val tasks = trackIds.map { trackId ->
@@ -89,7 +74,6 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
                     }
                     Tasks.whenAllSuccess<Track?>(tasks).addOnSuccessListener { documents ->
                         val tracksList = documents.filterNotNull()
-                        // Xử lý danh sách trackList ở đây
                         _tracks.postValue(tracksList)
                     }.addOnFailureListener { exception ->
                         Log.e(ContentValues.TAG, "Error fetching liked songs: $exception")
@@ -100,21 +84,27 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) :Vie
             }
     }
 
-
-    fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                playListRepository.addTrackToPlaylist(track, playlist)
+    fun getUserPlaylist(uid: String) = viewModelScope.launch {
+        try {
+            val playListsLiveData = withContext(Dispatchers.IO) {
+                playListRepository.getAllUserPlayList(uid)
             }
-            Log.d("PlayListViewModel", "Track added to playlist: ${playlist.playListName}")
-
+            playListsLiveData.asFlow().first().let { playLists ->
+                _userPlayLists.postValue(playLists)
+            }
+        } catch (e: Exception) {
+            Log.e("PlayListViewModel", "Error fetching user playlists", e)
         }
     }
+
     fun SearchPlaylistResults(searchQuery: String?) {
-        // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
         val searchResultsLiveData = playListRepository.loadPlaylistSearchResults(searchQuery)
-        // Cập nhật LiveData _tracks với dữ liệu mới
         searchResultsLiveData.observeForever { playlists ->
-            _playLists.postValue(playlists) }
+            _playLists.postValue(playlists)
+        }
+    }
+
+    fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
+        playListRepository.addTrackToPlaylist(track, playlist)
     }
 }

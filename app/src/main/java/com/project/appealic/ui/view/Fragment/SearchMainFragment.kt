@@ -35,7 +35,6 @@ class SearchMainFragment: Fragment() {
         val view = inflater.inflate(R.layout.fragment_search_main, container, false)
         val gridView: GridView = view.findViewById(R.id.gridviewSearch)
 
-        // Danh sách hình ảnh từ thư mục drawable
         val imageList = listOf(
             R.drawable.playlist1,
             R.drawable.playlistkpop,
