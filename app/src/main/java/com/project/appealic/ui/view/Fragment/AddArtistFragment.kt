@@ -11,20 +11,26 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
+import com.project.appealic.data.model.Artist
+import com.project.appealic.data.repository.ArtistRepository
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.ArtistResultAdapter
 import com.project.appealic.ui.view.Adapters.FavouriteArtistAdapter
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
+import com.project.appealic.ui.viewmodel.ArtistViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
+import com.project.appealic.utils.ArtistViewModelFactory
 import com.project.appealic.utils.SongViewModelFactory
 
-class AddArtistFragment : Fragment() {
+class AddArtistFragment : Fragment(), FavouriteArtistAdapter.OnArtistClickListener {
 
-    private lateinit var songViewModel: SongViewModel
+    private lateinit var artistViewModel: ArtistViewModel
     private lateinit var listViewArtists: ListView
+    val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,15 +38,37 @@ class AddArtistFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_favorite_artists, container, false)
 
-        val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
-        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
+        val factoryArtist = ArtistViewModelFactory(ArtistRepository(requireActivity().application))
+        artistViewModel = ViewModelProvider(this, factoryArtist)[ArtistViewModel::class.java]
 
         listViewArtists = view.findViewById(R.id.lstAtirstFavourite)
-        songViewModel.artists.observe(viewLifecycleOwner, Observer { artirts ->
-            val adapter = FavouriteArtistAdapter(requireContext(), artirts)
-            listViewArtists.adapter = adapter
+        val adapter = FavouriteArtistAdapter(requireContext(), ArrayList(), artistViewModel, this)
+        listViewArtists.adapter = adapter
+
+        // Sử dụng artistViewModel để lấy danh sách các nghệ sĩ đã follow
+        artistViewModel.likedArtist.observe(viewLifecycleOwner, Observer { likedArtists ->
+            adapter.clear()
+            adapter.addAll(likedArtists)
+            adapter.notifyDataSetChanged()
         })
-        songViewModel.getAllArtists()
+
+        // Gọi hàm để lấy danh sách các nghệ sĩ đã follow
+        artistViewModel.getFollowArtistFromUser(userId)
+
         return view
     }
+
+
+    override fun onArtistClick(artist: Artist) {
+        // Chuyển sang trang artist profile và truyền thông tin về artist được chọn
+        val artistProfileFragment = ArtistProfileFragment()
+        val bundle = Bundle()
+        bundle.putParcelable("selectedArtist", artist)
+        artistProfileFragment.arguments = bundle
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmenthome, artistProfileFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
 }
