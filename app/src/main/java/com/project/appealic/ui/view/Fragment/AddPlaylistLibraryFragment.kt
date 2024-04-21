@@ -35,8 +35,8 @@ class AddPlaylistLibraryFragment : Fragment()  {
             val addPlaylistFragment = AddPlaylistFragment()
             addPlaylistFragment.show(childFragmentManager, "AddPlaylistFragment")
         }
-        val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
-        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
+        val songFactory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
+        songViewModel = ViewModelProvider(this, songFactory)[SongViewModel::class.java]
 
         listViewPlaylist = view.findViewById(R.id.lvPlaylists)
         songViewModel.playlists.observe(viewLifecycleOwner, Observer { playlists ->

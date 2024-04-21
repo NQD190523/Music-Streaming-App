@@ -28,6 +28,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.Tracks
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
@@ -241,16 +242,12 @@ class ActivityMusicControl : AppCompatActivity(){
         }
 
         player?.addListener(object :Player.Listener{
-            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                // Kiểm tra xem có thể là bắt đầu bài hát mới hay không
-                if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO || reason == Player.MEDIA_ITEM_TRANSITION_REASON_SEEK) {
-                    val newIndex = player!!.currentMediaItemIndex // Lấy chỉ số của bài hát mới
-                    // Cập nhật ViewModel với bài hát mới
-                    songViewModel.getTrackByUrl(trackList[newIndex])
-                }
+            override fun onTracksChanged(tracks: Tracks) {
+                val newIndex = player!!.currentMediaItemIndex // Lấy chỉ số của bài hát mới
+                // Cập nhật ViewModel với bài hát mới
+                songViewModel.getTrackByUrl(trackList[newIndex])
             }
         })
-
     }
 
     override fun onResume() {
