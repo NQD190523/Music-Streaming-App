@@ -9,17 +9,15 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.ui.view.GoogleLoginActivity
-import com.project.appealic.ui.view.fragment.EditAccountFragment
+import com.project.appealic.ui.view.Fragment.EditAccountFragment
 import com.project.appealic.ui.viewmodel.AuthViewModel
 
 class ProfileFragment : Fragment() {
@@ -98,32 +96,6 @@ class ProfileFragment : Fragment() {
 //            transaction?.commit()
         }
 
-    }
-    class UpdatePassDialogFragment : DialogFragment() {
-
-        override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            // Tạo view cho dialog từ layout XML
-            return inflater.inflate(R.layout.dialog_update_password, container, false)
-        }
-
-        override fun onStart() {
-            super.onStart()
-
-            // Đặt kích thước dialog
-            val width = 315 // Kích thước dp
-            val height = 355 // Kích thước dp
-            val params = dialog?.window?.attributes
-            params?.width = (width * resources.displayMetrics.density).toInt()
-            params?.height = (height * resources.displayMetrics.density).toInt()
-            dialog?.window?.attributes = params as WindowManager.LayoutParams
-
-            // Thiết lập background cho dialog
-            val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.bg_update_profile)
-            dialog?.window?.setBackgroundDrawable(drawable)
-        }
     }
 
     private fun showDialog(dialog: DialogFragment) {

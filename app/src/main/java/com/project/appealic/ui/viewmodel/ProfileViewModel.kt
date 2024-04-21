@@ -6,26 +6,34 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.project.appealic.data.model.Track
 import com.project.appealic.data.model.User
-import com.project.appealic.data.repository.AuthRepository
 import com.project.appealic.data.repository.ProfileRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewModel() {
-    private val user = FirebaseAuth.getInstance().currentUser
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val firestore = FirebaseFirestore.getInstance()
-    private val currentUser = firebaseAuth.currentUser
     private val _userLiveData = MutableLiveData<User?>()
-    val userLiveData: MutableLiveData<User?> = _userLiveData
+    val userLiveData: LiveData<User?> = _userLiveData
 
+    private val _updatePhoneLiveData = MutableLiveData<String?>()
+    val updatePhoneLiveData: LiveData<String?> = _updatePhoneLiveData
 
+    private val _updateNameLiveData = MutableLiveData<String?>()
+    val updateNameLiveData: LiveData<String?> = _updateNameLiveData
+
+    private val _updateEmailLiveData = MutableLiveData<String?>()
+    val updateEmailLiveData: LiveData<String?> = _updateEmailLiveData
+
+    private val _updateDOBLiveData = MutableLiveData<String?>()
+    val updateDOBLiveData: LiveData<String?> = _updateDOBLiveData
+
+    private val _updateGenderLiveData = MutableLiveData<String?>()
+    val updateGenderLiveData: LiveData<String?> = _updateGenderLiveData
 
     constructor() : this(ProfileRepository())
 
@@ -41,12 +49,14 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
         return profileRepository.getUserInfo(userId)
     }
 
-    fun getCurrentUser(): User {
+    fun getCurrentUser(): User? {
         val currentUser = firebaseAuth.currentUser
-        return User(
-            name = currentUser?.displayName ?: "",
-            email = currentUser?.email ?: ""
-        )
+        return currentUser?.let {
+            User(
+                name = it.displayName ?: "",
+                email = it.email ?: ""
+            )
+        }
     }
 
     fun getUserProfile(uid: String) {
@@ -65,27 +75,15 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
         val document = docRef.get().await()
         return document.toObject(User::class.java)
     }
-    fun updateUserName(uid: String, newName: String) {
-        firestore.collection("users").document(uid)
-            .update("name", newName)
-            .addOnSuccessListener {
-                // Update successful, reload user profile
-                this.getUserProfile(uid)
-            }
-            .addOnFailureListener { exception ->
-                Log.e("ProfileViewModel", "Error updating user name: $exception")
-            }
-    }
 
-    fun updateUserEmail(uid: String, newEmail: String) {
+    fun updateUserProfile(uid: String, updatedUser: String) {
         firestore.collection("users").document(uid)
-            .update("email", newEmail)
+            .set(updatedUser)
             .addOnSuccessListener {
-                // Update successful, reload user profile
                 getUserProfile(uid)
             }
             .addOnFailureListener { exception ->
-                Log.e("ProfileViewModel", "Error updating user email: $exception")
+                Log.e("ProfileViewModel", "Error updating user profile: $exception")
             }
     }
 
@@ -93,11 +91,35 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
         firestore.collection("users").document(uid)
             .update("phone", newPhone)
             .addOnSuccessListener {
-                // Update successful, reload user profile
-                getUserProfile(uid)
+                _updatePhoneLiveData.postValue(newPhone)
             }
             .addOnFailureListener { exception ->
                 Log.e("ProfileViewModel", "Error updating user phone: $exception")
+                _updatePhoneLiveData.postValue(null)
+            }
+    }
+
+    fun updateUserName(uid: String, newName: String) {
+        firestore.collection("users").document(uid)
+            .update("name", newName)
+            .addOnSuccessListener {
+                _updateNameLiveData.postValue(newName)
+            }
+            .addOnFailureListener { exception ->
+                Log.e("ProfileViewModel", "Error updating user name: $exception")
+                _updateNameLiveData.postValue(null)
+            }
+    }
+
+    fun updateUserEmail(uid: String, newEmail: String) {
+        firestore.collection("users").document(uid)
+            .update("email", newEmail)
+            .addOnSuccessListener {
+                _updateEmailLiveData.postValue(newEmail)
+            }
+            .addOnFailureListener { exception ->
+                Log.e("ProfileViewModel", "Error updating user email: $exception")
+                _updateEmailLiveData.postValue(null)
             }
     }
 
@@ -105,11 +127,11 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
         firestore.collection("users").document(uid)
             .update("day_of_birth", newDOB)
             .addOnSuccessListener {
-                // Update successful, reload user profile
-                getUserProfile(uid)
+                _updateDOBLiveData.postValue(newDOB)
             }
             .addOnFailureListener { exception ->
                 Log.e("ProfileViewModel", "Error updating user DOB: $exception")
+                _updateDOBLiveData.postValue(null)
             }
     }
 
@@ -117,11 +139,11 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
         firestore.collection("users").document(uid)
             .update("gender", newGender)
             .addOnSuccessListener {
-                // Update successful, reload user profile
-                getUserProfile(uid)
+                _updateGenderLiveData.postValue(newGender)
             }
             .addOnFailureListener { exception ->
                 Log.e("ProfileViewModel", "Error updating user gender: $exception")
+                _updateGenderLiveData.postValue(null)
             }
     }
 }
