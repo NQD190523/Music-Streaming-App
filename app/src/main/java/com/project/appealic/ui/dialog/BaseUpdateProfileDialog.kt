@@ -38,20 +38,24 @@ abstract class BaseUpdateProfileDialog<T : ViewBinding>(private val bindingClass
     abstract fun updateValue()
 
     private fun setOnClickListeners() {
-        binding.root.findViewById<View>(R.id.btnUpdate).setOnClickListener {
+        val btnUpdate = binding.root.findViewById<View>(R.id.btnUpdate)
+        val imvCancel = binding.root.findViewById<View>(R.id.imvCancel)
+        val imvCancel1 = binding.root.findViewById<View>(R.id.imvCancel1)
+        val editText = binding.root.findViewById<EditText>(R.id.editText)
+
+        btnUpdate?.setOnClickListener {
             updateValue()
             dismiss()
         }
 
-        binding.root.findViewById<View>(R.id.imvCancel).setOnClickListener {
+        imvCancel?.setOnClickListener {
             dismiss()
         }
 
-        binding.root.findViewById<View>(R.id.imvCancel1).setOnClickListener {
-            binding.root.findViewById<EditText>(R.id.editText).text = null
+        imvCancel1?.setOnClickListener {
+            editText?.text = null
         }
     }
-
     override fun onStart() {
         super.onStart()
         val dialog = dialog
