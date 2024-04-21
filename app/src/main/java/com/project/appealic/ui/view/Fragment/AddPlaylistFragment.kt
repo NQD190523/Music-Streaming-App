@@ -5,7 +5,6 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.data.model.PlayListEntity
 import com.project.appealic.data.model.Track
-import com.project.appealic.data.model.UserPlaylist
 import com.project.appealic.data.repository.PlayListRepository
 import com.project.appealic.ui.view.Adapters.UserPlaylistAdapter
 import com.project.appealic.ui.viewmodel.PlayListViewModel
@@ -33,22 +31,21 @@ import java.io.ByteArrayOutputStream
 
 class AddPlaylistFragment : DialogFragment() {
     private lateinit var lvUserPlaylist: ListView
-
+    private lateinit var playListViewModel: PlayListViewModel
+    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val userId = auth.currentUser?.uid
 
     companion object {
         fun newInstance(track: Track): AddPlaylistFragment {
             val fragment = AddPlaylistFragment()
             val args = Bundle().apply {
                 putParcelable("TRACK", track)
-                Log.d("AddPlaylistFragment", "newInstance: $track")
             }
             fragment.arguments = args
             return fragment
         }
     }
-    private lateinit var playListViewModel: PlayListViewModel
-    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val userId = auth.currentUser?.uid
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,7 +83,7 @@ class AddPlaylistFragment : DialogFragment() {
             dismiss()
             showCreatePlaylistDialog()
         }
-        val lvUserPlaylist = view.findViewById<ListView>(R.id.lvUserPlaylist)
+        lvUserPlaylist = view.findViewById(R.id.lvUserPlaylist)
         if (userId != null) playListViewModel.getUserPlaylist(userId)
         val track = arguments?.getParcelable<Track>("TRACK")
         playListViewModel.userPlayLists.observe(viewLifecycleOwner, Observer { playlists ->
@@ -95,21 +92,29 @@ class AddPlaylistFragment : DialogFragment() {
                 lvUserPlaylist.adapter = adapter
             }
             lvUserPlaylist.setOnItemClickListener { _, _, position, _ ->
-                val selectedPlaylist = playlists[position]
+                val selectedPlaylist = playlists?.get(position)
                 if (track != null) {
-                    addTrackToPlaylist(track, selectedPlaylist)
+                    if (selectedPlaylist != null) {
+                        addTrackToPlaylist(track, selectedPlaylist)
+                    }
                 }
             }
         })
     }
+
     private fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
         playListViewModel.addTrackToPlaylist(track, playlist)
-        Toast.makeText(context, "Bài hát \"${track.trackTitle}\" đã được thêm vào playlist ${playlist.playListName}.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            context,
+            "Bài hát \"${track.trackTitle}\" đã được thêm vào playlist ${playlist.playListName}.",
+            Toast.LENGTH_SHORT
+        ).show()
         playListViewModel.userPlayLists.observe(viewLifecycleOwner, Observer { playlists ->
-            val adapter = UserPlaylistAdapter(requireContext(), playlists)
+            val adapter = playlists?.let { UserPlaylistAdapter(requireContext(), it) }
             lvUserPlaylist.adapter = adapter
         })
     }
+
     private fun showCreatePlaylistDialog() {
         val dialog = Dialog(requireActivity())
         dialog.setContentView(R.layout.dialog_create_playlist)
@@ -128,8 +133,9 @@ class AddPlaylistFragment : DialogFragment() {
             dialog.dismiss()
         }
         btnConfirm.setOnClickListener {
-            if(userId != null){
-                val newPlaylist = PlayListEntity("", userId, edtPlaylistName.text.toString(), R.drawable.song2)
+            if (userId != null) {
+                val newPlaylist =
+                    PlayListEntity("", userId, edtPlaylistName.text.toString(), R.drawable.song2, listOf())
                 playListViewModel.createNewPlayList(newPlaylist)
                 playListViewModel.getUserPlaylist(userId)
                 dialog.dismiss()

@@ -5,61 +5,50 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Room
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
-import com.project.appealic.data.dao.PlayListDao
-import com.project.appealic.data.dao.UserDao
-import com.project.appealic.data.database.AppDatabase
 import com.project.appealic.data.model.PlayListEntity
 import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.model.Track
-import com.project.appealic.data.model.UserWithPlayLists
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class PlayListRepository(application: Application) {
-    val firebaseDB = Firebase.firestore
-    private val db: AppDatabase = Room.databaseBuilder(
-        application.applicationContext,
-        AppDatabase::class.java,"appealic"
-    )
-        .fallbackToDestructiveMigration()
-        .build()
-    private val playListDao : PlayListDao = db.playListDao()
+    private val firebaseDB = Firebase.firestore
 
-    fun getAllUserPlayList(userId : String) : LiveData<List<PlayListEntity>> {
-        return playListDao.getUserPlayLists(userId)
+    fun createNewPlaylist(playlist: PlayListEntity) {
+        val playlistRef = firebaseDB.collection("playlists").document()
+        playlist.playlistId = playlistRef.id
+        playlistRef.set(playlist)
+            .addOnSuccessListener { Log.d("PlayListRepository", "Playlist created successfully") }
+            .addOnFailureListener { e -> Log.w("PlayListRepository", "Error creating playlist", e) }
     }
 
+    fun getAllUserPlayList(userId: String): MutableLiveData<List<PlayListEntity>?> {
+        val playlistsLiveData = MutableLiveData<List<PlayListEntity>?>()
+        firebaseDB.collection("playlists")
+            .whereEqualTo("userId", userId)
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Log.w("PlayListRepository", "Error listening for playlists", e)
+                    return@addSnapshotListener
+                }
 
-    suspend fun createNewPlayList(playList : PlayListEntity) {
-        withContext(Dispatchers.IO) {
-            playListDao.insert(playList)
-        }
+                val playlists = snapshot?.toObjects(PlayListEntity::class.java)
+                playlistsLiveData.value = playlists
+            }
+        return playlistsLiveData
     }
 
     fun getAllPlaylists(): Task<QuerySnapshot> {
         return firebaseDB.collection("playlists").get()
     }
 
-    fun getTracksFromPlaylist(playlistId : String) : Task<DocumentSnapshot>{
+    fun getTracksFromPlaylist(playlistId: String): Task<DocumentSnapshot> {
         return firebaseDB.collection("playlists").document(playlistId).get()
     }
 
-    suspend fun addTrackToPlaylist(track: Track, playList: PlayListEntity) {
-        withContext(Dispatchers.IO) {
-            if (!playList.tracks.contains(track)) {
-                playList.tracks.add(track)
-                playListDao.update(playList)
-            } else {
-                // Handle the error, show a message to the user
-            }
-        }
-    }
     fun loadPlaylistSearchResults(searchQuery: String?): LiveData<List<Playlist>> {
         val searchResultsLiveData = MutableLiveData<List<Playlist>>()
         if (searchQuery.isNullOrEmpty()) {
@@ -80,5 +69,19 @@ class PlayListRepository(application: Application) {
         }
 
         return searchResultsLiveData
+    }
+
+    fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
+        // Implement adding a track to a playlist in Firestore
+        val playlistRef = firebaseDB.collection("playlists").document(playlist.playlistId)
+        val trackIds = playlist.trackIds.toMutableList()
+        trackIds.add(track.trackId.toString())
+        playlistRef.update("trackIds", trackIds)
+            .addOnSuccessListener {
+                Log.d("PlayListRepository", "Track added to playlist successfully")
+            }
+            .addOnFailureListener { e ->
+                Log.w("PlayListRepository", "Error adding track to playlist", e)
+            }
     }
 }

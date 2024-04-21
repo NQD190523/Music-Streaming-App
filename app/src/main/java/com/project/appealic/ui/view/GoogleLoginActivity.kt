@@ -2,6 +2,7 @@ package com.project.appealic.ui.view
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.text.method.PasswordTransformationMethod
@@ -37,18 +38,19 @@ class GoogleLoginActivity : AppCompatActivity() {
     private lateinit var viewModel: AuthViewModel
     private lateinit var profileViewModel: ProfileViewModel
 
-    private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        val data: Intent? = result.data
-        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-        if (task.isSuccessful) {
-            val account: GoogleSignInAccount? = task.result
-            if (account != null) {
-                viewModel.signInWithGoogle(account)
-            } else {
-                Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
+    private var launcher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val data: Intent? = result.data
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            if (task.isSuccessful) {
+                val account: GoogleSignInAccount? = task.result
+                if (account != null) {
+                    viewModel.signInWithGoogle(account)
+                } else {
+                    Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
+                }
             }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +71,16 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         // Khởi tạo GoogleSignInClient
         googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        // Kiểm tra thông tin đăng nhập trong SharedPreferences
+        val sharedPrefForLogin = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
+        val email = sharedPrefForLogin.getString("email", null)
+        val password = sharedPrefForLogin.getString("password", null)
+
+        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+            // Nếu có thông tin đăng nhập, chuyển sang ActivityHome
+            navigateToMainScreen()
+        }
 
         // Đăng nhập bằng tài khoản google
         binding.btnGoogle.setOnClickListener() {
@@ -111,7 +123,7 @@ class GoogleLoginActivity : AppCompatActivity() {
         val edtPassword: EditText = binding.txtLoginPassword
         val cbRememberMe: CheckBox = binding.cbRememberMe
 
-        val sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences: SharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
         // Kiểm tra xem người dùng có yêu cầu nhớ mật khẩu không
@@ -147,7 +159,8 @@ class GoogleLoginActivity : AppCompatActivity() {
 
                 when (isValidEmail) {
                     ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập Email"
-                    ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage = "Vui lòng nhập đúng định dạng Email"
+                    ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage =
+                        "Vui lòng nhập đúng định dạng Email"
                 }
 
                 showToast(errorMessage, android.R.color.holo_red_light)
@@ -161,20 +174,30 @@ class GoogleLoginActivity : AppCompatActivity() {
 
                 when (isValidPassword) {
                     ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập mật khẩu"
-                    ValidationUtils.PASSWORD_LENGTH_ERROR -> errorMessage = "Vui lòng nhập ít nhất 8 ký tự"
-                    ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage = "Mật khẩu phải bao gồm cả chữ và số"
+                    ValidationUtils.PASSWORD_LENGTH_ERROR -> errorMessage =
+                        "Vui lòng nhập ít nhất 8 ký tự"
+
+                    ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage =
+                        "Mật khẩu phải bao gồm cả chữ và số"
                 }
 
                 showToast(errorMessage, android.R.color.holo_red_light)
                 return@setOnClickListener
             }
-
             viewModel.loginWithEmailAndPassword(email, password)
         }
 
         viewModel.signInSuccess.observe(this) { signInSuccess ->
             if (signInSuccess) {
                 showToast("Đăng nhập thành công", android.R.color.holo_green_light)
+
+                // Lưu thông tin đăng nhập vào SharedPreferences
+                val sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putString("email", email)
+                editor.putString("password", password)
+                editor.apply()
+
                 navigateToMainScreen()
             } else {
                 showToast("Đăng nhập thất bại", android.R.color.holo_red_light)
@@ -184,6 +207,13 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         viewModel.logoutSuccess.observe(this) { logoutSuccess ->
             if (logoutSuccess) {
+                // Xóa thông tin đăng nhập khỏi SharedPreferences
+                val sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.remove("email")
+                editor.remove("password")
+                editor.apply()
+
                 // Xử lý sau khi đăng xuất thành công
             } else {
                 // Xử lý khi đăng xuất thất bại

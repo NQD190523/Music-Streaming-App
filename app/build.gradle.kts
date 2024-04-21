@@ -74,6 +74,7 @@ dependencies {
     implementation("androidx.room:room-common:2.6.1")
     implementation("com.google.firebase:firebase-database-ktx:20.3.1")
     implementation ("com.firebaseui:firebase-ui-database:8.0.2")
+    implementation("androidx.databinding:adapters:3.2.0-alpha11")
 
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
