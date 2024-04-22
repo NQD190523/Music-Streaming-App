@@ -47,6 +47,7 @@ class SongRepository (application: Application) {
         return firebaseDB.collection("tracks").get()
     }
 
+
     fun getAllArtist(): Task<QuerySnapshot> {
         return firebaseDB.collection("artists").get()
     }
