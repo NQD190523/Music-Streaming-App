@@ -189,12 +189,10 @@ class GoogleLoginActivity : AppCompatActivity() {
             if (signInSuccess) {
                 showToast("Đăng nhập thành công", android.R.color.holo_green_light)
 
-                // Lưu trạng thái đăng nhập vào SharedPreferences
                 val sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("isLoggedIn", true)
                 editor.apply()
-
                 navigateToMainScreen()
             } else {
                 showToast("Đăng nhập thất bại", android.R.color.holo_red_light)
@@ -204,7 +202,6 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         viewModel.logoutSuccess.observe(this) { logoutSuccess ->
             if (logoutSuccess) {
-                // Xóa trạng thái đăng nhập khỏi SharedPreferences
                 val sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("isLoggedIn", false)
@@ -215,6 +212,8 @@ class GoogleLoginActivity : AppCompatActivity() {
                 // Xử lý khi đăng xuất thất bại
             }
         }
+
+
 
 
         binding.btnForgetPassword.setOnClickListener {
