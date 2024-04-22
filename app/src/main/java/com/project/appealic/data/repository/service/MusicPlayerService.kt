@@ -123,8 +123,6 @@ class MusicPlayerService : Service() {
         if(player.isPlaying){
             player.playWhenReady = true
         }
-        val intent = Intent("ACTION_NEW_SONG")
-        sendBroadcast(intent)
     }
     fun pause() {
         if (player.isPlaying) {
