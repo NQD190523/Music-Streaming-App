@@ -1,8 +1,13 @@
 package com.project.appealic.ui.view
 
 import LibraryFragment
+import android.appwidget.AppWidgetHostView
+import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetProviderInfo
+import android.content.ComponentName
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -20,6 +25,9 @@ class ActivityHome : AppCompatActivity() {
     private val searchFragment = SearchFragment()
     private val libraryFragment = LibraryFragment()
     private val profileFragment = ProfileFragment()
+    private lateinit var widgetContainer: FrameLayout
+    private lateinit var appWidgetManager: AppWidgetManager
+    private lateinit var widgetProviderInfo: AppWidgetProviderInfo
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
@@ -61,6 +69,27 @@ class ActivityHome : AppCompatActivity() {
         // Cấu hình BottomNavigationView
         bottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
+        // Khởi tạo AppWidgetManager
+        appWidgetManager = AppWidgetManager.getInstance(this)
+
+        // Lấy danh sách các widget trong ứng dụng của bạn
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this, WidgetView::class.java))
+
+        // Kiểm tra xem có widget nào không
+        if (appWidgetIds.isNotEmpty()) {
+            // Lấy thông tin của WidgetProvider
+            widgetProviderInfo = appWidgetManager.getAppWidgetInfo(appWidgetIds[0])
+
+            // Tạo một AppWidgetHostView và cập nhật nó với thông tin từ AppWidgetProviderInfo
+            val widgetHostView = AppWidgetHostView(this).apply {
+                setAppWidget(appWidgetIds[0], widgetProviderInfo)
+            }
+
+            // Thêm AppWidgetHostView vào FrameLayout trong layout của Activity hoặc Fragment
+            widgetContainer = findViewById(R.id.widgetContainer)
+            widgetContainer.addView(widgetHostView)
+        }
     }
 
     fun replaceFragment(fragment: Fragment) {

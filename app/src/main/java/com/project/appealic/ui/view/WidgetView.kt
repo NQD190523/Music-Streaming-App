@@ -17,56 +17,35 @@ import java.net.URL
 import java.util.concurrent.Executors
 
 class WidgetView: AppWidgetProvider() {
-    @SuppressLint("RemoteViewLayout")
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        val musicPlayerServiceIntent = Intent(context, MusicPlayerService::class.java)
-        context.startService(musicPlayerServiceIntent)
-        val sharedPreferences = context.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
-        val songTitle = sharedPreferences.getString("SONG_TITLE", "")
-        val singerName = sharedPreferences.getString("SINGER_NAME", "")
-        val trackImage = sharedPreferences.getString("TRACK_IMAGE", "")
+        // Đối với mỗi widget
+        appWidgetIds.forEach { appWidgetId ->
+            // Tạo Intent để khởi động MusicPlayerService
+            val musicPlayerServiceIntent = Intent(context, MusicPlayerService::class.java)
+            context.startService(musicPlayerServiceIntent)
 
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_playsong)
-        remoteViews.setTextViewText(R.id.txtSongName, songTitle)
-        remoteViews.setTextViewText(R.id.txtArtistName, singerName)
+            // Tạo PendingIntent cho các Intent play, pause, next và previous
+            val playPendingIntent = createPendingIntent(context, MusicPlayerService.ACTION_PLAY)
+            val pausePendingIntent = createPendingIntent(context, MusicPlayerService.ACTION_PAUSE)
+            val nextPendingIntent = createPendingIntent(context, MusicPlayerService.ACTION_NEXT)
+            val prevPendingIntent = createPendingIntent(context, MusicPlayerService.ACTION_PREVIOUS)
 
-        val executor = Executors.newSingleThreadExecutor()
-        val handler = Handler(Looper.getMainLooper())
+            // Thiết lập sự kiện click cho các Button trong widget
+            val remoteViews = RemoteViews(context.packageName, R.layout.widget_playsong)
+            remoteViews.setOnClickPendingIntent(R.id.imvPlay, playPendingIntent)
+            remoteViews.setOnClickPendingIntent(R.id.imvPlay, pausePendingIntent)
+            remoteViews.setOnClickPendingIntent(R.id.imvNext, nextPendingIntent)
 
-        executor.execute {
-            val url = URL(trackImage)
-            val bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-            handler.post {
-                remoteViews.setImageViewBitmap(R.id.imvSongPhoto, bitmap)
-                appWidgetManager.updateAppWidget(
-                    ComponentName(context, WidgetView::class.java),
-                    remoteViews
-                )
-            }
+            // Cập nhật widget với các RemoteViews đã cập nhật
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
         }
     }
-    companion object {
-        internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-            val views = RemoteViews(context.packageName, R.layout.widget_playsong)
 
-            val playIntent = Intent(context, MusicPlayerService::class.java).apply {
-                action = MusicPlayerService.ACTION_PLAY
-            }
-            val pauseIntent = Intent(context, MusicPlayerService::class.java).apply {
-                action = MusicPlayerService.ACTION_PAUSE
-            }
-            val nextIntent = Intent(context, MusicPlayerService::class.java).apply {
-                action = MusicPlayerService.ACTION_NEXT
-            }
-            val prevIntent = Intent(context, MusicPlayerService::class.java).apply {
-                action = MusicPlayerService.ACTION_PREVIOUS
-            }
-
-            views.setOnClickPendingIntent(R.id.imvPlay, PendingIntent.getService(context, 0, playIntent,
-                PendingIntent.FLAG_IMMUTABLE))
-
-
-            appWidgetManager.updateAppWidget(appWidgetId, views)
+    // Hàm để tạo PendingIntent cho các Intent
+    private fun createPendingIntent(context: Context, action: String): PendingIntent {
+        val intent = Intent(context, MusicPlayerService::class.java).apply {
+            this.action = action
         }
+        return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
     }
 }
