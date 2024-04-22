@@ -202,17 +202,18 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         viewModel.logoutSuccess.observe(this) { logoutSuccess ->
             if (logoutSuccess) {
+                // Xóa trạng thái đăng nhập khỏi SharedPreferences
                 val sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("isLoggedIn", false)
                 editor.apply()
-
-                // Xử lý sau khi đăng xuất thành công
+                val intent = Intent(this, GoogleLoginActivity::class.java)
+                startActivity(intent)
+                finish() // Đóng màn hình hiện tại (ActivityHome)
             } else {
                 // Xử lý khi đăng xuất thất bại
             }
         }
-
 
 
 
@@ -235,7 +236,6 @@ class GoogleLoginActivity : AppCompatActivity() {
     private fun navigateToMainScreen() {
         intent = Intent(this, ActivityHome::class.java)
         startActivity(intent)
-        finish()
     }
 
     private fun showToast(message: String, colorResId: Int) {
