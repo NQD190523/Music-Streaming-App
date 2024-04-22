@@ -31,14 +31,13 @@ import com.project.appealic.ui.view.setOnItemClickListener
 
 class PlaylistPageFragment : Fragment() {
 
-    private lateinit var sleepingPlaylistAdapter: SleepingPlaylistAdapter
     private lateinit var recommendedSongAdapter: NewReleaseAdapter
     private lateinit var playListViewModel: PlayListViewModel
     private lateinit var songViewModel: SongViewModel
     private lateinit var rcsong: ListView
-    private lateinit var trackInPlaylist : ListView
-    private lateinit var title : TextView
-    private lateinit var songNumb : TextView
+    private lateinit var trackInPlaylist: ListView
+    private lateinit var title: TextView
+    private lateinit var songNumb: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,11 +52,10 @@ class PlaylistPageFragment : Fragment() {
 
         val storage = FirebaseStorage.getInstance()
 
-        // Correctly initialize SongViewModel using the custom factory
         val playlistFactory = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
-        playListViewModel = ViewModelProvider(this,playlistFactory)[PlayListViewModel::class.java]
-        val songFactory = SongViewModelFactory(SongRepository(requireActivity().application),UserRepository(requireActivity().application))
-        songViewModel = ViewModelProvider(this,songFactory)[SongViewModel::class.java]
+        playListViewModel = ViewModelProvider(this, playlistFactory)[PlayListViewModel::class.java]
+        val songFactory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
+        songViewModel = ViewModelProvider(this, songFactory)[SongViewModel::class.java]
 
         val selectedPlaylist = arguments?.getParcelable<Playlist>("selected_playlist")
         selectedPlaylist?.let {
@@ -73,37 +71,28 @@ class PlaylistPageFragment : Fragment() {
         title = view.findViewById(R.id.textView16)
         songNumb = view.findViewById(R.id.txtSongNumb)
         trackInPlaylist = view.findViewById(R.id.lstPlalist)
+        rcsong = view.findViewById(R.id.lstRecommendSong)
 
-        // Gọi hàm để lấy tổng số bài hát từ Firebase và cập nhật UI
         if (selectedPlaylist != null) {
             getTotalSongsFromFirebase(selectedPlaylist.playlistId) { totalSongs ->
-                songNumb.text = (totalSongs.toString()+" Songs")
+                songNumb.text = "$totalSongs Songs"
             }
-        }
-
-        rcsong = view.findViewById(R.id.lstRecommendSong)
-        // Initialize adapter for ListView displaying recommended songs
-        if (selectedPlaylist != null) {
             playListViewModel.getTracksFromPlaylist(selectedPlaylist.playlistId)
             songViewModel.getAllTracks()
             title.text = selectedPlaylist.playlistName
         }
+
         playListViewModel.track.observe(viewLifecycleOwner, Observer { tracks ->
             val adapter = NewReleaseAdapter(requireContext(), tracks)
             trackInPlaylist.adapter = adapter
             setListViewHeightBasedOnItems(trackInPlaylist)
-            trackInPlaylist.setOnItemClickListener(requireContext(), songViewModel,tracks )
+            trackInPlaylist.setOnItemClickListener(requireContext(), songViewModel, tracks)
         })
-        songViewModel.tracks.observe(viewLifecycleOwner, Observer {tracks ->
-            val adapter = NewReleaseAdapter(requireContext(),tracks)
+
+        songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
+            val adapter = NewReleaseAdapter(requireContext(), tracks)
             rcsong.adapter = adapter
         })
-
-
-
-
-        // Placeholder for sleepingPlaylistAdapter setup
-        // Initialize and set up sleepingPlaylistAdapter here if needed
     }
 
     private fun setListViewHeightBasedOnItems(listView: ListView) {
@@ -124,17 +113,22 @@ class PlaylistPageFragment : Fragment() {
     private fun getTotalSongsFromFirebase(playlistId: String, onResult: (Int) -> Unit) {
         val db = FirebaseFirestore.getInstance()
         val playlistsRef = db.collection("playlists")
-        playlistsRef.document(playlistId).get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val playlistData = task.result?.toObject(Playlist::class.java)
-                val trackIds = playlistData?.trackIds ?: emptyList()
-                val totalSongs = trackIds.size
-                Log.d(ContentValues.TAG, "Total songs: $totalSongs")
-                onResult(totalSongs)
-            } else {
-                Log.d(ContentValues.TAG, "Failed to get playlist data", task.exception)
+        playlistsRef.document(playlistId).get()
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val playlistData = documentSnapshot.toObject(Playlist::class.java)
+                    val trackIds = playlistData?.trackIds ?: emptyList()
+                    val totalSongs = trackIds.size
+                    Log.d(ContentValues.TAG, "Total songs: $totalSongs")
+                    onResult(totalSongs)
+                } else {
+                    Log.d(ContentValues.TAG, "Playlist document with ID $playlistId does not exist")
+                    onResult(0)
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(ContentValues.TAG, "Failed to get playlist data", exception)
                 onResult(0)
             }
-        }
     }
 }

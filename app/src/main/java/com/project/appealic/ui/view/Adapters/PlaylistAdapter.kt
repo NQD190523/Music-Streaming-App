@@ -8,7 +8,15 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import com.project.appealic.R
 
-class PlaylistAdapter (private val context: Context, private val imageList: List<Int>) : BaseAdapter() {
+class PlaylistAdapter(
+    private val context: Context,
+    private val imageList: List<Int>,
+    private val onPlaylistClickListener: OnPlaylistClickListener
+) : BaseAdapter() {
+
+    interface OnPlaylistClickListener {
+        fun onPlaylistClick(position: Int)
+    }
 
     override fun getCount(): Int {
         return imageList.size
@@ -30,6 +38,10 @@ class PlaylistAdapter (private val context: Context, private val imageList: List
 
         val imageView = itemView?.findViewById<ImageView>(R.id.imageView)
         imageView?.setImageResource(imageList[position])
+
+        itemView?.setOnClickListener {
+            onPlaylistClickListener.onPlaylistClick(position)
+        }
 
         return itemView!!
     }
