@@ -53,14 +53,9 @@
         <activity android:name=".ui.view.ActivityLoginPhone" />
         <activity android:name=".MainActivity" />
         <receiver android:name=".ui.view.WidgetView"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
-
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.example.app.ACTION_PLAY" />
-                <action android:name="com.example.app.ACTION_PAUSE" />
-                <action android:name="com.example.app.ACTION_NEXT" />
-                <action android:name="com.example.app.ACTION_PREVIOUS" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -68,7 +63,16 @@
         </receiver>
         <service android:name=".data.repository.service.MusicPlayerService"
             android:foregroundServiceType="mediaPlayback"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.project.appealic.action.PLAY" />
+                <action android:name="com.project.appealic.action.PAUSE" />
+                <action android:name="com.project.appealic.action.NEXT" />
+                <action android:name="com.project.appealic.action.PREVIOUS" />
+                <!-- Thêm các action khác nếu cần -->
+            </intent-filter>
+        </service>
 
     </application>
 

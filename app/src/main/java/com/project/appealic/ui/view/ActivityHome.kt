@@ -1,6 +1,7 @@
 package com.project.appealic.ui.view
 
 import LibraryFragment
+import android.app.PendingIntent
 import android.appwidget.AppWidgetHostView
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
@@ -29,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
+import com.project.appealic.data.repository.service.MusicPlayerService
 import com.project.appealic.ui.view.Fragment.HomeFragment
 import com.project.appealic.ui.view.Fragment.ProfileFragment
 import com.project.appealic.ui.view.Fragment.SearchFragment
@@ -131,6 +133,28 @@ class ActivityHome : AppCompatActivity() {
             // Thêm AppWidgetHostView vào FrameLayout trong layout của Activity hoặc Fragment
             widgetContainer = findViewById(R.id.widgetContainer)
             widgetContainer.addView(widgetHostView)
+
+            // Tạo một RemoteViews mới dựa trên layout của widget
+            val remoteViews = RemoteViews(packageName, R.layout.widget_playsong)
+
+            // Tạo Intent để gửi tới MusicPlayerService khi widget được click
+            val playIntent = Intent(this, MusicPlayerService::class.java).apply {
+                action = MusicPlayerService.ACTION_PLAY
+            }
+            val playPendingIntent = PendingIntent.getService(this, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            remoteViews.setOnClickPendingIntent(R.id.imvPlay, playPendingIntent)
+
+            val pauseIntent = Intent(this, MusicPlayerService::class.java).apply {
+                action = MusicPlayerService.ACTION_PAUSE
+            }
+            val pausePendingIntent = PendingIntent.getService(this, 0, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            remoteViews.setOnClickPendingIntent(R.id.imvPlay, pausePendingIntent)
+            // Thiết lập RemoteViews mới cho widgetHostView
+            widgetHostView.apply {
+                val remoteViews = RemoteViews(packageName, R.layout.widget_playsong)
+                setAppWidget(appWidgetIds[0], widgetProviderInfo)
+                updateAppWidget(remoteViews)
+            }
         }
 
     }
