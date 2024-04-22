@@ -108,7 +108,7 @@ class HomeFragment : Fragment() {
         val recyclerViewArtists: RecyclerView = rootView.findViewById(R.id.recyclerViewArtist)
         recyclerViewArtists.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         songViewModel.artists.observe(viewLifecycleOwner, Observer { artists ->
-            val artistAdapter = ArtistAdapter(requireContext(), artists)
+            val artistAdapter = ArtistAdapter(requireContext(), artists, requireActivity().supportFragmentManager)
             recyclerViewArtists.adapter = artistAdapter
         })
 

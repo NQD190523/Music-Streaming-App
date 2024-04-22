@@ -162,11 +162,13 @@ class MoreActionFragment : DialogFragment() {
         // Xét hiển thị bài hát yêu thích
         if (userId != null) {
             songViewModel.getLikedSongs(userId)
-            songViewModel.likedSongs.observe(this, Observer { likedSong ->
-                for (i in likedSong.indices) {
-                    if (likedSong[i].trackId == trackId)
-                        heartIcon.setImageResource(R.drawable.ic_isliked)
-                    else heartIcon.setImageResource(R.drawable.ic_heart_24_outlined)
+            songViewModel.likedSongs.observe(this, Observer { likedSongs ->
+                if (likedSongs.any { it.trackId == trackId }) {
+                    // Track hiện tại đã được người dùng yêu thích
+                    heartIcon.setImageResource(R.drawable.ic_isliked)
+                } else {
+                    // Track hiện tại chưa được người dùng yêu thích
+                    heartIcon.setImageResource(R.drawable.ic_heart_24_outlined)
                 }
             })
         } else {
