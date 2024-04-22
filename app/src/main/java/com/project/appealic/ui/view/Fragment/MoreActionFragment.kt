@@ -94,7 +94,7 @@ class MoreActionFragment : DialogFragment() {
 
         val dialog = Dialog(requireActivity())
         // Tạo và gán layout cho dialog
-        val view = LayoutInflater.from(context).inflate(R.layout.fragment_more_action, null)
+        val view = LayoutInflater.from(requireActivity()).inflate(R.layout.fragment_more_action, null)
         dialog.setContentView(view)
 
         // Tùy chỉnh cài đặt của Window
@@ -251,9 +251,12 @@ class MoreActionFragment : DialogFragment() {
             putString("ARTIST_ID", arguments?.getString("ARTIST_ID"))
         }
 
-        val artistDetailFragment = ArtistDetailFragment(this.requireContext())
-        artistDetailFragment.arguments = bundle
-        artistDetailFragment.show(parentFragmentManager, "ArtistDetailFragment")
+        val artistDetailFragment = context?.let { ArtistDetailFragment(it) }
+        if (artistDetailFragment != null) {
+            artistDetailFragment.arguments = bundle
+            artistDetailFragment.show(parentFragmentManager, "ArtistDetailFragment")
+
+        }
     }
 
     private fun showDialogForSleep(){

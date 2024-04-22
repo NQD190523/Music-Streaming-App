@@ -47,13 +47,13 @@ class ArtistDetailFragment(private var context: Context) : DialogFragment() {
                     val artistImage = document.getString("ImageResource")
 
                     // Tạo một instance của Artist
-                    selectedArtist = Artist(artistId, artistName, artistImage)
+                    selectedArtist = Artist("",artistName,artistId, artistImage)
 
                     // Hiển thị thông tin chi tiết của nghệ sĩ trên giao diện của Dialog
                     artistNameTextView.text = artistName
                     artistImage?.let {
                         val gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(it)
-                        Glide.with(requireContext())
+                        Glide.with(context)
                             .load(gsReference)
                             .into(artistImageView)
                     }
@@ -65,25 +65,23 @@ class ArtistDetailFragment(private var context: Context) : DialogFragment() {
                 Log.d("ArtistDialogFragment", "get failed with ", exception)
             }
 
-//        llArtistDetail.setOnClickListener {
-//            // Sử dụng thông tin về nghệ sĩ đã được tải trước đó
-//            println(selectedArtist)
-//            selectedArtist?.let { artist ->
-//                // Tạo một instance của ArtistProfileFragment và truyền selectedArtist vào
-//                val artistProfileFragment = ArtistProfileFragment().apply {
-//                    arguments = Bundle().apply {
-//                        putParcelable("selectedArtist", artist)
-//                    }
-//                }
-//
-//                // Chuyển sang ArtistProfileFragment
-//                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.fragmenthome, artistProfileFragment)
-//                    .addToBackStack(null)
-//                    .commit()
-//            }
-//        }
-
+        llArtistDetail.setOnClickListener {
+            // Sử dụng thông tin về nghệ sĩ đã được tải trước đó
+            println(selectedArtist)
+            selectedArtist?.let { artist ->
+                // Tạo một instance của ArtistProfileFragment và truyền selectedArtist vào
+                val artistProfileFragment = ArtistProfileFragment().apply {
+                    arguments = Bundle().apply {
+                        putParcelable("selectedArtist", artist)
+                    }
+                }
+                // Chuyển sang ArtistProfileFragment
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmenthome, artistProfileFragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
         return dialog
     }
 }

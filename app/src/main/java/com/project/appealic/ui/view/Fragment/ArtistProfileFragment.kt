@@ -60,10 +60,10 @@ class ArtistProfileFragment: Fragment() {
 
         // Correctly initialize SongViewModel using the custom factory
         val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
-        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
+        songViewModel = ViewModelProvider(this, factory)[SongViewModel::class.java]
 
         val artistFatory = ArtistViewModelFactory(ArtistRepository(requireActivity().application))
-        artistViewModel = ViewModelProvider(this, artistFatory).get(ArtistViewModel::class.java)
+        artistViewModel = ViewModelProvider(this, artistFatory)[ArtistViewModel::class.java]
 
 
         val selectedArtist = arguments?.getParcelable<Artist>("selectedArtist")
