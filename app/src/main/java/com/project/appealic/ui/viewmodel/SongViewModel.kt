@@ -37,6 +37,9 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     private val _likedSongs = MutableLiveData<List<Track>>()
     val likedSongs: LiveData<List<Track>> get() = _likedSongs
 
+    private val _gerneTracks = MutableLiveData<List<Track>>()
+    val gerneTracks: LiveData<List<Track>> get() = _gerneTracks
+
     private val _recentTrack = MutableLiveData<List<Track>>()
     val recentTrack: LiveData<List<Track>> get() = _recentTrack
 
@@ -96,7 +99,7 @@ class SongViewModel(private val songRepository: SongRepository, private val user
             .addOnSuccessListener { tracks ->
                 val genreTrack =
                     tracks.documents.filter { it.toObject(Track::class.java)?.genre == genre }
-                _tracks.postValue(genreTrack.map { it.toObject(Track::class.java)!! })
+                _gerneTracks.postValue(genreTrack.map { it.toObject(Track::class.java)!! })
             }
     }
 

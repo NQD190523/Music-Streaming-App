@@ -15,7 +15,6 @@ import com.project.appealic.data.model.Artist
 
 class ArtistRepository(application: Application) {
     val firebaseDB = Firebase.firestore
-
     fun getAllArtist(): Task<QuerySnapshot> {
         return firebaseDB.collection("artists").get()
     }

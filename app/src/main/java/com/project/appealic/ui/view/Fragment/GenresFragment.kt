@@ -54,7 +54,7 @@ class GenresFragment : Fragment() {
             textView.text = selectedGenre?.name ?: "Unknown"
 
             songViewModel.getTrackFromGenres(selectedGenre?.name ?: "")
-            songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
+            songViewModel.gerneTracks.observe(viewLifecycleOwner, Observer { tracks ->
                 val adapter = NewReleaseAdapter(requireContext(), tracks)
                 gensong.adapter = adapter
                 gensong.setOnItemClickListener(requireContext(), songViewModel, tracks)
@@ -63,7 +63,7 @@ class GenresFragment : Fragment() {
 
             rcsong = view.findViewById(R.id.lstRecommendSong)
             songViewModel.getAllTracks()
-                songViewModel.tracks.observe(viewLifecycleOwner, Observer {tracks ->
+            songViewModel.tracks.observe(viewLifecycleOwner, Observer {tracks ->
               val adapter = NewReleaseAdapter(requireContext(),tracks)
                   adapter.setOnAddPlaylistClickListener { track ->
             // Mở dialog thêm playlist
