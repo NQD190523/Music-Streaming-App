@@ -86,14 +86,9 @@ class ProfileFragment : Fragment() {
 
 //        logout
         view.findViewById<Button>(R.id.btnSignout).setOnClickListener {
-            // Replace ProfileFragment with UpdateProfileFragment
             authViewModel.signOut(googleSignInClient)
             val intent = Intent(requireContext(),GoogleLoginActivity::class.java)
             startActivity(intent)
-//            val transaction = activity?.supportFragmentManager?.beginTransaction()
-//            transaction?.replace(R.id.fragmenthome, GoogleLoginActivity())
-//            transaction?.addToBackStack(null)
-//            transaction?.commit()
         }
 
     }

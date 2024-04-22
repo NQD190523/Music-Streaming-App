@@ -233,10 +233,9 @@ class GoogleLoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToMainScreen() {
-        // Chuyển hướng đến màn hình chính hoặc màn hình tiếp theo sau khi đăng nhập thành công
         intent = Intent(this, ActivityHome::class.java)
         startActivity(intent)
-        finish() // Đóng màn hình đăng nhập
+        finish()
     }
 
     private fun showToast(message: String, colorResId: Int) {
