@@ -1,5 +1,6 @@
 package com.project.appealic.ui.view.Fragment
 
+import ArtistDetailFragment
 import SongAdapter
 import android.app.Dialog
 import android.os.Bundle
@@ -246,52 +247,13 @@ class MoreActionFragment : DialogFragment() {
     }
 
     private fun showDialogForArtist(){
-        val dialog = Dialog(requireActivity())
-        val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.more_background)
-        window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
-        dialog.setContentView(R.layout.bottom_artist)
+        val bundle = Bundle().apply {
+            putString("ARTIST_ID", arguments?.getString("ARTIST_ID"))
+        }
 
-        // Lấy ID của nghệ sĩ từ bundle
-        val artistId = arguments?.getString("ARTIST_ID")
-
-        // Truy vấn Firebase để lấy thông tin chi tiết về nghệ sĩ
-        val artistNameTextView = dialog.findViewById<TextView>(R.id.artistName)
-        val artistImageView = dialog.findViewById<ImageView>(R.id.artistImage)
-        val artistRef = Firebase.firestore.collection("artists").document(artistId.toString())
-        artistRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    // Lấy thông tin chi tiết về nghệ sĩ từ Firestore
-                    val artistName = document.getString("Name")
-                    val artistImage = document.getString("ImageResource")
-                    println(artistImage)
-
-                    // Hiển thị thông tin chi tiết của nghệ sĩ trên giao diện của Dialog
-                    artistNameTextView.text = artistName
-                    // Đoạn này chưa load được ảnh
-
-                    if (artistImage != null && isAdded) {
-                        val gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(artistImage)
-                        println(gsReference)
-                        Glide.with(this)
-                            .load(gsReference)
-                            .into(artistImageView)
-                        }
-                    } else {
-                        Log.d("MoreActionFragment", "No such document")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.d("MoreActionFragment", "get failed with ", exception)
-                }
-
-
-        dialog.show()
+        val artistDetailFragment = ArtistDetailFragment(this.requireContext())
+        artistDetailFragment.arguments = bundle
+        artistDetailFragment.show(parentFragmentManager, "ArtistDetailFragment")
     }
 
     private fun showDialogForSleep(){
