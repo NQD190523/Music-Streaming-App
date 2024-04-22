@@ -90,12 +90,52 @@ class PlaylistPageFragment : Fragment() {
         }
         playListViewModel.track.observe(viewLifecycleOwner, Observer { tracks ->
             val adapter = NewReleaseAdapter(requireContext(), tracks)
+            adapter.setOnAddPlaylistClickListener { track ->
+                // Mở dialog thêm playlist
+                val addPlaylistFragment = AddPlaylistFragment.newInstance(track)
+                addPlaylistFragment.show(childFragmentManager, "AddPlaylistFragment")
+            }
+
+            adapter.setOnMoreActionClickListener {track ->
+                track.trackUrl?.let { songViewModel.getTrackByUrl(it) }
+
+                val moreActionFragment = MoreActionFragment.newInstance(track)
+                val bundle = Bundle()
+                bundle.putString("SONG_TITLE", track.trackTitle)
+                bundle.putString("SINGER_NAME", track.artist)
+                bundle.putString("TRACK_IMAGE", track.trackImage)
+                bundle.putString("ARTIST_ID", track.artistId)
+                bundle.putString("TRACK_ID", track.trackId)
+                bundle.putString("TRACK_URL",track.trackUrl)
+                moreActionFragment.arguments = bundle
+                moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
+            }
             trackInPlaylist.adapter = adapter
             setListViewHeightBasedOnItems(trackInPlaylist)
             trackInPlaylist.setOnItemClickListener(requireContext(), songViewModel,tracks )
         })
         songViewModel.tracks.observe(viewLifecycleOwner, Observer {tracks ->
             val adapter = NewReleaseAdapter(requireContext(),tracks)
+            adapter.setOnAddPlaylistClickListener { track ->
+                // Mở dialog thêm playlist
+                val addPlaylistFragment = AddPlaylistFragment.newInstance(track)
+                addPlaylistFragment.show(childFragmentManager, "AddPlaylistFragment")
+            }
+
+            adapter.setOnMoreActionClickListener {track ->
+                track.trackUrl?.let { songViewModel.getTrackByUrl(it) }
+
+                val moreActionFragment = MoreActionFragment.newInstance(track)
+                val bundle = Bundle()
+                bundle.putString("SONG_TITLE", track.trackTitle)
+                bundle.putString("SINGER_NAME", track.artist)
+                bundle.putString("TRACK_IMAGE", track.trackImage)
+                bundle.putString("ARTIST_ID", track.artistId)
+                bundle.putString("TRACK_ID", track.trackId)
+                bundle.putString("TRACK_URL",track.trackUrl)
+                moreActionFragment.arguments = bundle
+                moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
+            }
             rcsong.adapter = adapter
         })
 

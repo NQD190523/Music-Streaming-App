@@ -9,6 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +62,7 @@
                     android:layout_gravity="center"
                     android:background="#990E0526"
                     android:gravity="center"
-                    android:text="txtFollowed"
+                    android:text="52K followers"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="@+id/txtNameArtist"
                     app:layout_constraintStart_toStartOf="@+id/txtNameArtist"
@@ -159,6 +160,7 @@
                     android:id="@+id/lvFeaturedSongs"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scrollbars="none"
                     app:layout_constraintEnd_toEndOf="@+id/layoutHeader"
                     app:layout_constraintStart_toStartOf="@+id/layoutHeader"
                     app:layout_constraintTop_toBottomOf="@+id/layoutHeader" />
@@ -182,6 +184,7 @@
                     android:id="@+id/lvRecommendSongs"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scrollbars="none"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="@+id/textView15"
                     app:layout_constraintStart_toStartOf="@+id/textView15"

@@ -30,35 +30,12 @@ class ArtistViewModel(private val artistRepository: ArtistRepository): ViewModel
 
     fun getTracksFromArtist(artistId: String){
         artistRepository.getTrackFromArtist(artistId)
-            .addOnSuccessListener { artist->
-                val artistDocument = artist.documents.firstOrNull()
-                if (artistDocument != null) {
-                    val trackIds = artistDocument["trackIds"] as? List<String>
-
-                    if (!trackIds.isNullOrEmpty()) {
-                        val tasks = trackIds.map { trackId ->
-                            val trackDocRef = firebaseDB.collection("tracks").document(trackId)
-                            trackDocRef.get().continueWith { task ->
-                                if (task.isSuccessful) {
-                                    task.result?.toObject<Track>()
-                                } else {
-                                    null
-                                }
-                            }
-                        }
-                        Tasks.whenAllSuccess<Track?>(tasks).addOnSuccessListener { documents ->
-                            val tracksList = documents.filterNotNull()
-                            // Gán danh sách các bài hát vào LiveData để cập nhật giao diện
-                            _tracks.postValue(tracksList)
-                        }.addOnFailureListener { exception ->
-                            // Xử lý khi có lỗi xảy ra
-                            Log.e("Error", exception.toString())
-                        }
-                    }
-                }
-            }.addOnFailureListener { exception ->
-                // Xử lý khi có lỗi xảy ra
-                Log.e("Error", exception.toString())
+            .addOnSuccessListener { tracks ->
+                if (tracks != null)
+                    _tracks.postValue(tracks.toObjects(Track::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.e("error", exception.toString())
             }
     }
 

@@ -12,6 +12,7 @@ import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
+import kotlinx.coroutines.CoroutineScope
 
 fun ListView.setOnItemClickListener(
     context: Context,
@@ -45,7 +46,6 @@ fun ListView.setOnItemClickListener(
             songViewModel.insertSong(song)
             Log.d(" test status", "success")
         }
-
         for (i in 0 until parent.count) {
             val item = trackList[i]
             item.trackUrl?.let { trackUrl ->

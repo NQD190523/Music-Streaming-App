@@ -267,14 +267,17 @@ class MoreActionFragment : DialogFragment() {
                     // Lấy thông tin chi tiết về nghệ sĩ từ Firestore
                     val artistName = document.getString("Name")
                     val artistImage = document.getString("ImageResource")
+                    println(artistImage)
 
                     // Hiển thị thông tin chi tiết của nghệ sĩ trên giao diện của Dialog
                     artistNameTextView.text = artistName
                     // Đoạn này chưa load được ảnh
+
                     if (artistImage != null && isAdded) {
-                        val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(artistImage)
-                        Glide.with(requireContext()) // Sử dụng requireContext() thay vì this
-                            .load(storageReference)
+                        val gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(artistImage)
+                        println(gsReference)
+                        Glide.with(this)
+                            .load(gsReference)
                             .into(artistImageView)
                         }
                     } else {
