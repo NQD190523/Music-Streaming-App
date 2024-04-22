@@ -49,11 +49,17 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
                 else Log.e("LoginStatus", task.exception.toString())
             }
     }
-    fun signOut(googleSignInClient: GoogleSignInClient){
-        _logoutSuccess.value = false
-        repository.signOut(googleSignInClient).observeForever { isSuccess ->
-            _logoutSuccess.value = isSuccess
-        }
+    fun signOut(googleSignInClient: GoogleSignInClient) {
+        FirebaseAuth.getInstance().signOut()
+        googleSignInClient.signOut()
+            .addOnCompleteListener {
+                _logoutSuccess.postValue(true)
+            }
+    }
+
+    fun autoSignIn(currentUser: FirebaseUser) {
+        // Thực hiện đăng nhập tự động với currentUser
+        _signInSuccess.postValue(true)
     }
     fun getUser(){
         _currentUser.value = repository.getUser()

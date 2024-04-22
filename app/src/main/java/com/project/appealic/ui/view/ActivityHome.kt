@@ -36,11 +36,12 @@ import com.project.appealic.ui.view.Fragment.ProfileFragment
 import com.project.appealic.ui.view.Fragment.SearchFragment
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
+import com.project.appealic.ui.viewmodel.AuthViewModel
 
 class ActivityHome : AppCompatActivity() {
 
     lateinit var bottomNavigationView: BottomNavigationView
-
+    private lateinit var authViewModel: AuthViewModel
     private val homeFragment = HomeFragment()
     private val searchFragment = SearchFragment()
     private val libraryFragment = LibraryFragment()
@@ -90,6 +91,7 @@ class ActivityHome : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         // Set default fragment
         replaceFragment(homeFragment)
         // Cấu hình BottomNavigationView

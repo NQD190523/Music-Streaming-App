@@ -1,4 +1,5 @@
 package com.project.appealic.ui.view.Fragment
+import android.annotation.SuppressLint
 import androidx.lifecycle.Observer
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -39,6 +40,7 @@ class GenresFragment : Fragment() {
         return view
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val songFactory = SongViewModelFactory(
             SongRepository(requireActivity().application),
@@ -48,6 +50,11 @@ class GenresFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         songViewModel = ViewModelProvider(this).get(SongViewModel::class.java)
+
+        val imageViewBack = view.findViewById<ImageView>(R.id.imv_back)
+        imageViewBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
 
             val selectedGenre = requireArguments().getParcelable<Genre>("selected_genre")
             imageView.setImageResource(selectedGenre?.id ?: 0)

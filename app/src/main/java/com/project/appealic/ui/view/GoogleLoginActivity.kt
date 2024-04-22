@@ -73,23 +73,25 @@ class GoogleLoginActivity : AppCompatActivity() {
         val isLoggedIn = sharedPrefForLogin.getBoolean("isLoggedIn", false)
 
         if (isLoggedIn) {
-            // Nếu đã đăng nhập, chuyển sang ActivityHome
-            navigateToMainScreen()
+            // Nếu đã đăng nhập, thực hiện đăng nhập tự động
+            auth.currentUser?.let { currentUser ->
+                viewModel.autoSignIn(currentUser)
+            }
         } else {
             // Nếu chưa đăng nhập, hiển thị màn hình đăng nhập
             // ...
         }
 
-        // Đăng nhập bằng tài khoản google
+        // Đăng nhập bằng tài khoản Google
         binding.btnGoogle.setOnClickListener() {
             CoroutineScope(Dispatchers.Main).launch {
-                // Chuyển sang Dispatchers.IO để thực hiện các hoạt động I/O
                 val signInAccount = withContext(Dispatchers.IO) {
                     googleSignInClient.signInIntent
                 }
                 launcher.launch(signInAccount)
-
-                val applicationContext = binding.root.context.applicationContext
+            }
+        }
+        val applicationContext = binding.root.context.applicationContext
 
                 // Sử dụng applicationContext khi gọi getLastSignedInAccount()
                 val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(applicationContext)
@@ -99,8 +101,6 @@ class GoogleLoginActivity : AppCompatActivity() {
                         profileViewModel.createUserProfileByGoogle(account, currentUser)
                     }
                 }
-            }
-        }
 
         // Ẩn hiện mật khẩu
         val txtPassword: EditText = binding.txtLoginPassword
@@ -207,15 +207,21 @@ class GoogleLoginActivity : AppCompatActivity() {
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("isLoggedIn", false)
                 editor.apply()
-                val intent = Intent(this, GoogleLoginActivity::class.java)
-                startActivity(intent)
-                finish() // Đóng màn hình hiện tại (ActivityHome)
+
+                // Xóa tài khoản Google đã đăng nhập
+                googleSignInClient.signOut()
+                    .addOnCompleteListener {
+                        // Xóa thông tin tài khoản Google đã đăng nhập
+                        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestIdToken(getString(R.string.default_web_client_id))
+                            .requestEmail()
+                            .build()
+                        googleSignInClient = GoogleSignIn.getClient(this@GoogleLoginActivity, gso)
+                    }
             } else {
                 // Xử lý khi đăng xuất thất bại
             }
         }
-
-
 
         binding.btnForgetPassword.setOnClickListener {
             val intent = Intent(this, ActivityForgotPassword::class.java)
@@ -232,6 +238,8 @@ class GoogleLoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
 
     private fun navigateToMainScreen() {
         intent = Intent(this, ActivityHome::class.java)
