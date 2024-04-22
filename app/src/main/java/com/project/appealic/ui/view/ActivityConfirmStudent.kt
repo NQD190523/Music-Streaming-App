@@ -11,7 +11,7 @@ class ActivityConfirmStudent: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_confirm_student)
+        setContentView(R.layout.fragment_confirm_student)
 
         val monthAutoCompleteTextView: AutoCompleteTextView = findViewById(R.id.autoCompleteMonth)
         val dayAutoCompleteTextView: AutoCompleteTextView = findViewById(R.id.autoCompleteDay)

@@ -15,21 +15,24 @@ import com.project.appealic.R
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.ui.view.Fragment.MoreActionFragment
+import java.lang.ref.WeakReference
 
-class LikedSongsAdapter(context: Context, private val tracks: List<Track>) :
+class LikedSongsAdapter(context: Context, tracks: List<Track>) :
     ArrayAdapter<Track>(context, 0, tracks) {
 
     private val storage = FirebaseStorage.getInstance()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
-        var view = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_playlist, parent, false)
+        val layoutId = context.resources.getResourceEntryName(R.layout.item_playlist)
+        println("Layout ID: $layoutId")
+        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_playlist, parent, false)
         val btnMoreAction: ImageView  = view.findViewById(R.id.btnMoreAction)
 
         val currentSong = getItem(position)
-        val songTitleTextView = view!!.findViewById<TextView>(R.id.txtSongName)
+        val songTitleTextView = view.findViewById<TextView>(R.id.txtSongName)
         val singerTextView = view.findViewById<TextView>(R.id.txtSinger)
-        val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
+        val songImageView = view.findViewById<ImageView>(R.id.imageView)
 
         currentSong?.let {
             songTitleTextView.text = it.trackTitle

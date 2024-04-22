@@ -17,6 +17,8 @@ import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
+import com.project.appealic.databinding.ActivityFotgotpassBinding
+import com.project.appealic.databinding.ActivityLikedSongBinding
 import com.project.appealic.ui.view.Adapters.LikedSongsAdapter
 import com.project.appealic.ui.view.Fragment.ProfileFragment
 import com.project.appealic.ui.viewmodel.SongViewModel
@@ -25,10 +27,13 @@ import com.project.appealic.utils.SongViewModelFactory
 class ActivityLikedSong : AppCompatActivity() {
     private lateinit var adapter: LikedSongsAdapter
     private lateinit var songViewModel: SongViewModel
+    private lateinit var binding: ActivityLikedSongBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_liked_song)
+        binding = ActivityLikedSongBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Khởi tạo SongRepository và UserRepository
         val songRepository = SongRepository(application)
@@ -38,11 +43,9 @@ class ActivityLikedSong : AppCompatActivity() {
         val factory = SongViewModelFactory(songRepository, userRepository)
         songViewModel = ViewModelProvider(this, factory)[SongViewModel::class.java]
 
-        adapter = LikedSongsAdapter(this, ArrayList())
-
         val lvLikedSongs: ListView = findViewById(R.id.lvLikedSongs)
+        adapter = LikedSongsAdapter(this, ArrayList())
         lvLikedSongs.adapter = adapter
-
         songViewModel.likedSongs.observe(this, Observer { songs ->
             adapter.clear()
             adapter.addAll(songs)
@@ -52,10 +55,8 @@ class ActivityLikedSong : AppCompatActivity() {
         })
 
         // Gọi phương thức để lấy danh sách các bài hát yêu thích
+        println(FirebaseAuth.getInstance().currentUser?.uid.toString())
         songViewModel.getLikedSongs(FirebaseAuth.getInstance().currentUser?.uid.toString())
-
-
-
 
         findViewById<ImageView>(R.id.imv_back).setOnClickListener {
             finish()
