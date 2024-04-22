@@ -1,5 +1,6 @@
 package com.project.appealic.ui.view.Fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -87,10 +88,10 @@ class ProfileFragment : Fragment() {
 //        logout
         view.findViewById<Button>(R.id.btnSignout).setOnClickListener {
             authViewModel.signOut(googleSignInClient)
-            val intent = Intent(requireContext(),GoogleLoginActivity::class.java)
+            val intent = Intent(activity, GoogleLoginActivity::class.java)
             startActivity(intent)
+            activity?.finish()
         }
-
     }
 
     private fun showDialog(dialog: DialogFragment) {
