@@ -242,9 +242,10 @@ class ActivityMusicControl : AppCompatActivity(){
         }
 
         player?.addListener(object :Player.Listener{
-            override fun onTracksChanged(tracks: Tracks) {
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 val newIndex = player!!.currentMediaItemIndex // Lấy chỉ số của bài hát mới
                 // Cập nhật ViewModel với bài hát mới
+                println(newIndex)
                 songViewModel.getTrackByUrl(trackList[newIndex])
             }
         })

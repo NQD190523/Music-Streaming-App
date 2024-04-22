@@ -1,98 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/dp_8"
+    android:orientation="horizontal"
+    android:background="@color/dark">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/widgetContainer"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="#10FFFFFF"
-        android:paddingHorizontal="@dimen/dp_16"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imvSongPhoto"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/artist1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/imvSongPhoto"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/dp_16"
+        android:src="@drawable/artist1" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/songInfo"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_weight="9">
+
+        <TextView
+            android:id="@+id/txtSongName"
+            style="@style/Body1Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_16"
-            app:layout_constraintBottom_toBottomOf="@+id/imvSongPhoto"
-            app:layout_constraintStart_toEndOf="@+id/imvSongPhoto"
-            app:layout_constraintTop_toTopOf="@+id/imvSongPhoto">
+            android:text="Song Name"
+            android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/txtSongName"
-                style="@style/Body1Bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Song Name"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/txtArtistName"/>
+        <TextView
+            android:id="@+id/txtArtistName"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Artist Name"
+            android:textColor="@color/subText"/>
 
-            <TextView
-                android:id="@+id/txtArtistName"
-                style="@style/Body2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Artist Name"
-                android:textColor="@color/subText"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtSongName" />
+    </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/imvLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_heart_20_outlined"
-            app:layout_constraintBottom_toBottomOf="@+id/songInfo"
-            app:layout_constraintEnd_toStartOf="@+id/imageView7"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@+id/songInfo"
-            app:layout_constraintTop_toTopOf="@+id/songInfo" />
+            android:padding="@dimen/dp_8"
+            android:src="@drawable/ic_heart_20_outlined"/>
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/imvPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_pause_20_filled"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-            app:layout_constraintEnd_toStartOf="@+id/imageView8"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toTopOf="@+id/imageView6" />
+            android:padding="@dimen/dp_8"
+            android:src="@drawable/ic_pause_20_filled"/>
 
         <ImageView
-            android:id="@+id/imageView8"
+            android:id="@+id/imvNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_next_20_filled"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imageView7"
-            app:layout_constraintTop_toTopOf="@+id/imageView7" />
+            android:padding="@dimen/dp_8"
+            android:src="@drawable/ic_next_20_filled" />
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -244,38 +244,42 @@ class MoreActionFragment : DialogFragment() {
     }
 
     private fun showDialogForArtist(){
-        val dialog = Dialog(requireActivity())
-        val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.more_background)
-        window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
-        dialog.setContentView(R.layout.bottom_artist)
+        if(isAdded) { // Kiểm tra xem Fragment đã được gắn vào Activity hay chưa
+            val dialog = Dialog(requireActivity())
+            val window = dialog.window
+            window?.setBackgroundDrawableResource(R.drawable.more_background)
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
+            dialog.setContentView(R.layout.bottom_artist)
 
-        // Lấy ID của nghệ sĩ từ bundle
-        val artistId = arguments?.getString("ARTIST_ID")
+            // Lấy ID của nghệ sĩ từ bundle
+            val artistId = arguments?.getString("ARTIST_ID")
 
-        // Truy vấn Firebase để lấy thông tin chi tiết về nghệ sĩ
-        val artistNameTextView = dialog.findViewById<TextView>(R.id.artistName)
-        val artistImageView = dialog.findViewById<ImageView>(R.id.artistImage)
-        val artistRef = Firebase.firestore.collection("artists").document(artistId.toString())
-        artistRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    // Lấy thông tin chi tiết về nghệ sĩ từ Firestore
-                    val artistName = document.getString("Name")
-                    val artistImage = document.getString("ImageResource")
+            // Truy vấn Firebase để lấy thông tin chi tiết về nghệ sĩ
+            val artistNameTextView = dialog.findViewById<TextView>(R.id.artistName)
+            val artistImageView = dialog.findViewById<ImageView>(R.id.artistImage)
+            val artistRef = Firebase.firestore.collection("artists").document(artistId.toString())
+            artistRef.get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        // Lấy thông tin chi tiết về nghệ sĩ từ Firestore
+                        val artistName = document.getString("Name")
+                        val artistImage = document.getString("ImageResource")
 
-                    // Hiển thị thông tin chi tiết của nghệ sĩ trên giao diện của Dialog
-                    artistNameTextView.text = artistName
-                    // Đoạn này chưa load được ảnh
-                    if (artistImage != null && isAdded) {
-                        val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(artistImage)
-                        Glide.with(requireContext()) // Sử dụng requireContext() thay vì this
-                            .load(storageReference)
-                            .into(artistImageView)
+                        // Hiển thị thông tin chi tiết của nghệ sĩ trên giao diện của Dialog
+                        artistNameTextView.text = artistName
+                        // Đoạn này chưa load được ảnh
+                        println(artistImage)
+                        if (artistImage != null) {
+                            val storageReference =
+                                FirebaseStorage.getInstance().getReferenceFromUrl(artistImage)
+                            println(storageReference)
+                            Glide.with(requireActivity().applicationContext) // Sử dụng requireContext() thay vì this
+                                .load(storageReference)
+                                .into(artistImageView)
                         }
                     } else {
                         Log.d("MoreActionFragment", "No such document")
@@ -285,8 +289,8 @@ class MoreActionFragment : DialogFragment() {
                     Log.d("MoreActionFragment", "get failed with ", exception)
                 }
 
-
-        dialog.show()
+            dialog.show()
+        }
     }
 
     private fun showDialogForSleep(){

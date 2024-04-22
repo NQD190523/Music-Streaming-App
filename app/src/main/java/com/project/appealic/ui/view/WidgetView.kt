@@ -45,29 +45,28 @@ class WidgetView: AppWidgetProvider() {
             }
         }
     }
-//    companion object {
-//        internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-//            val views = RemoteViews(context.packageName, R.layout.widget_playsong)
-//
-//            val playIntent = Intent(context, MusicPlayerService::class.java).apply {
-//                action = MusicPlayerService.ACTION_PLAY
-//            }
-//            val pauseIntent = Intent(context, MusicPlayerService::class.java).apply {
-//                action = MusicPlayerService.ACTION_PAUSE
-//            }
-//            val nextIntent = Intent(context, MusicPlayerService::class.java).apply {
-//                action = MusicPlayerService.ACTION_NEXT
-//            }
-//            val prevIntent = Intent(context, MusicPlayerService::class.java).apply {
-//                action = MusicPlayerService.ACTION_PREVIOUS
-//            }
-//
-//            views.setOnClickPendingIntent(R.id.play_button, PendingIntent.getService(context, 0, playIntent, 0))
-//            views.setOnClickPendingIntent(R.id.pause_button, PendingIntent.getService(context, 0, pauseIntent, 0))
-//            views.setOnClickPendingIntent(R.id.next_button, PendingIntent.getService(context, 0, nextIntent, 0))
-//            views.setOnClickPendingIntent(R.id.prev_button, PendingIntent.getService(context, 0, prevIntent, 0))
-//
-//            appWidgetManager.updateAppWidget(appWidgetId, views)
-//        }
-//    }
+    companion object {
+        internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+            val views = RemoteViews(context.packageName, R.layout.widget_playsong)
+
+            val playIntent = Intent(context, MusicPlayerService::class.java).apply {
+                action = MusicPlayerService.ACTION_PLAY
+            }
+            val pauseIntent = Intent(context, MusicPlayerService::class.java).apply {
+                action = MusicPlayerService.ACTION_PAUSE
+            }
+            val nextIntent = Intent(context, MusicPlayerService::class.java).apply {
+                action = MusicPlayerService.ACTION_NEXT
+            }
+            val prevIntent = Intent(context, MusicPlayerService::class.java).apply {
+                action = MusicPlayerService.ACTION_PREVIOUS
+            }
+
+            views.setOnClickPendingIntent(R.id.imvPlay, PendingIntent.getService(context, 0, playIntent,
+                PendingIntent.FLAG_IMMUTABLE))
+
+
+            appWidgetManager.updateAppWidget(appWidgetId, views)
+        }
+    }
 }

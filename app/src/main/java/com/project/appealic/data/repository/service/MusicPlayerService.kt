@@ -40,6 +40,8 @@ class MusicPlayerService : Service() {
         const val ACTION_PLAY = "com.project.appealic.action.PLAY"
         const val ACTION_PAUSE = "com.project.appealic.action.action.PAUSE"
         const val ACTION_STOP = "com.project.appealic.action.action.STOP"
+        const val ACTION_NEXT = "com.project.appealic.action.action.NEXT"
+        const val ACTION_PREVIOUS = "com.project.appealic.action.action.PREVIOUS"
         private const val CHANNEL_ID = "123"
     }
 
@@ -89,6 +91,15 @@ class MusicPlayerService : Service() {
                 player.pause()
                 updateNotification()
             }
+            ACTION_NEXT -> {
+                nextButtonClick()
+                updateNotification()
+            }
+            ACTION_PREVIOUS -> {
+                previousButtonClick()
+                updateNotification()
+            }
+
             ACTION_STOP -> {
                 // Xử lý yêu cầu stop
                 stopSelf() // Dừng service khi người dùng nhấn stop
@@ -130,9 +141,7 @@ class MusicPlayerService : Service() {
             // Lấy thông tin về bài hát mới
             val nextMediaItem = player.getMediaItemAt(nextMediaItemIndex)
             // Gửi thông tin về bài hát mới đến ActivityMusicControl
-            if (nextMediaItem != null) {
-                updateTrackInfoOnUI(nextMediaItem)
-            }
+            updateTrackInfoOnUI(nextMediaItem)
         }
     }
     fun previousButtonClick() {
