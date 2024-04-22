@@ -72,8 +72,7 @@ class HomeFragment : Fragment() {
 
             adapter.setOnMoreActionClickListener {track ->
                 track.trackUrl?.let { songViewModel.getTrackByUrl(it) }
-                println(track.trackUrl)
-                println(songViewModel.recentTrack.value)
+
                 val moreActionFragment = MoreActionFragment.newInstance(track)
                 val bundle = Bundle()
                 bundle.putString("SONG_TITLE", track.trackTitle)
