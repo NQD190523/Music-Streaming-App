@@ -23,6 +23,14 @@ class UpdateProfileFragment : Fragment(){
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val imageViewBack = view.findViewById<ImageView>(R.id.imv_back)
+        imageViewBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+    }
+
     private fun setOnClickListeners(view: View) {
         view.findViewById<ImageView>(R.id.btn_buy_now_solo).setOnClickListener {
             // Replace UpdateProfileFragment with ProfileFragment

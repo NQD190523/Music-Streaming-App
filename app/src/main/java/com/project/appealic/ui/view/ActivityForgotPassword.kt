@@ -1,9 +1,11 @@
 package com.project.appealic.ui.view
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.project.appealic.R
 import com.project.appealic.databinding.ActivityFotgotpassBinding
 
 class ActivityForgotPassword : AppCompatActivity() {
@@ -16,6 +18,11 @@ class ActivityForgotPassword : AppCompatActivity() {
         binding = ActivityFotgotpassBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val auth = FirebaseAuth.getInstance()
+
+        val imageViewBack = findViewById<ImageView>(R.id.imv_back)
+        imageViewBack.setOnClickListener {
+            finish()
+        }
 
         binding.btnForgetPassword.setOnClickListener {
             val email = binding.edtemail.text.toString().trim()

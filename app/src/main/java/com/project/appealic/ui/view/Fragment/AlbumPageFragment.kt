@@ -45,6 +45,11 @@ class AlbumPageFragment : Fragment() {
         )
         songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
 
+        val imageViewBack = view.findViewById<ImageView>(R.id.imv_back)
+        imageViewBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
         val selectedAlbum: Album? = arguments?.getParcelable("selected_album")
         selectedAlbum?.let {
             view.findViewById<ImageView>(R.id.imageView5).let { playlistCover ->

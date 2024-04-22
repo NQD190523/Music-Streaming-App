@@ -53,6 +53,12 @@ class PlaylistPageFragment : Fragment() {
 
         val storage = FirebaseStorage.getInstance()
 
+        val imageViewBack = view.findViewById<ImageView>(R.id.imv_back)
+        imageViewBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+
         // Correctly initialize SongViewModel using the custom factory
         val playlistFactory = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
         playListViewModel = ViewModelProvider(this,playlistFactory)[PlayListViewModel::class.java]

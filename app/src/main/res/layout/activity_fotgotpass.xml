@@ -6,7 +6,7 @@
     android:background="@drawable/background">
 
     <ImageView
-        android:id="@+id/imv_dropdown2"
+        android:id="@+id/imv_back"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"

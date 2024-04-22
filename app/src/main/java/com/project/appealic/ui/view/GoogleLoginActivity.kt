@@ -222,7 +222,24 @@ class GoogleLoginActivity : AppCompatActivity() {
                 // Xử lý khi đăng xuất thất bại
             }
         }
+
+        binding.btnForgetPassword.setOnClickListener {
+            val intent = Intent(this, ActivityForgotPassword::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnRegister.setOnClickListener {
+            val intent = Intent(this, ActivityRegister::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnPhone.setOnClickListener {
+            val intent = Intent(this, ActivityLoginPhone::class.java)
+            startActivity(intent)
+        }
     }
+
+
 
     private fun navigateToMainScreen() {
         intent = Intent(this, ActivityHome::class.java)
