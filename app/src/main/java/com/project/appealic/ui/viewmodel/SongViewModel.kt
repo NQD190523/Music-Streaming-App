@@ -53,6 +53,9 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     val albums: LiveData<List<Album>> get() = _albums
     private val firebaseDB = Firebase.firestore
 
+
+
+
     fun getAllTracks(){
         songRepository.getAllTrack()
             .addOnSuccessListener { tracks ->
@@ -86,6 +89,8 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     }
 
 
+
+
     fun getTrackFromGenres(genre: String) {
         songRepository.getAllTrack()
             .addOnSuccessListener { tracks ->
@@ -94,6 +99,7 @@ class SongViewModel(private val songRepository: SongRepository, private val user
                 _tracks.postValue(genreTrack.map { it.toObject(Track::class.java)!! })
             }
     }
+
     fun getTrackByUrl(trackUrl : String) {
         songRepository.getTrackByUrl(trackUrl)
             .addOnSuccessListener { track->
