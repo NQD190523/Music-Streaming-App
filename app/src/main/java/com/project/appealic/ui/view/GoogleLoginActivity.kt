@@ -29,28 +29,25 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
 class GoogleLoginActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var viewModel: AuthViewModel
     private lateinit var profileViewModel: ProfileViewModel
 
-    private var launcher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val data: Intent? = result.data
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            if (task.isSuccessful) {
-                val account: GoogleSignInAccount? = task.result
-                if (account != null) {
-                    viewModel.signInWithGoogle(account)
-                } else {
-                    Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
-                }
+    private var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val data: Intent? = result.data
+        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+        if (task.isSuccessful) {
+            val account: GoogleSignInAccount? = task.result
+            if (account != null) {
+                viewModel.signInWithGoogle(account)
+            } else {
+                Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,14 +69,15 @@ class GoogleLoginActivity : AppCompatActivity() {
         // Khởi tạo GoogleSignInClient
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        // Kiểm tra thông tin đăng nhập trong SharedPreferences
         val sharedPrefForLogin = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
-        val email = sharedPrefForLogin.getString("email", null)
-        val password = sharedPrefForLogin.getString("password", null)
+        val isLoggedIn = sharedPrefForLogin.getBoolean("isLoggedIn", false)
 
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-            // Nếu có thông tin đăng nhập, chuyển sang ActivityHome
+        if (isLoggedIn) {
+            // Nếu đã đăng nhập, chuyển sang ActivityHome
             navigateToMainScreen()
+        } else {
+            // Nếu chưa đăng nhập, hiển thị màn hình đăng nhập
+            // ...
         }
 
         // Đăng nhập bằng tài khoản google
@@ -191,11 +189,10 @@ class GoogleLoginActivity : AppCompatActivity() {
             if (signInSuccess) {
                 showToast("Đăng nhập thành công", android.R.color.holo_green_light)
 
-                // Lưu thông tin đăng nhập vào SharedPreferences
+                // Lưu trạng thái đăng nhập vào SharedPreferences
                 val sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
-                editor.putString("email", email)
-                editor.putString("password", password)
+                editor.putBoolean("isLoggedIn", true)
                 editor.apply()
 
                 navigateToMainScreen()
@@ -207,11 +204,10 @@ class GoogleLoginActivity : AppCompatActivity() {
 
         viewModel.logoutSuccess.observe(this) { logoutSuccess ->
             if (logoutSuccess) {
-                // Xóa thông tin đăng nhập khỏi SharedPreferences
+                // Xóa trạng thái đăng nhập khỏi SharedPreferences
                 val sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
-                editor.remove("email")
-                editor.remove("password")
+                editor.putBoolean("isLoggedIn", false)
                 editor.apply()
 
                 // Xử lý sau khi đăng xuất thành công
@@ -219,6 +215,7 @@ class GoogleLoginActivity : AppCompatActivity() {
                 // Xử lý khi đăng xuất thất bại
             }
         }
+
 
         binding.btnForgetPassword.setOnClickListener {
             val intent = Intent(this, ActivityForgotPassword::class.java)
@@ -240,6 +237,7 @@ class GoogleLoginActivity : AppCompatActivity() {
         // Chuyển hướng đến màn hình chính hoặc màn hình tiếp theo sau khi đăng nhập thành công
         intent = Intent(this, ActivityHome::class.java)
         startActivity(intent)
+        finish() // Đóng màn hình đăng nhập
     }
 
     private fun showToast(message: String, colorResId: Int) {
