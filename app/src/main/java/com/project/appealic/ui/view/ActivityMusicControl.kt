@@ -114,32 +114,49 @@ class ActivityMusicControl : AppCompatActivity(){
 
 
         Log.d("MusicControlActivity", "Song title: $songTitle, Artist name: $artistName, Track image: $trackImage")
-        val playSongFragment = PlaySongFragment.newInstance(trackImage ?: "")
 
         // Thiết lập ViewPager
         val viewLyrics = findViewById<View>(R.id.viewlyris)
         val viewInfoMusic = findViewById<View>(R.id.viewinfomusic)
         val viewSong = findViewById<View>(R.id.viewsong)
         val viewPager: ViewPager2 = findViewById(R.id.view_pager)
-        val fragments = listOf(InfoMusicFragment(), playSongFragment, LyrisFragment())
+        val fragments = listOf(InfoMusicFragment(), PlaySongFragment(), LyrisFragment())
 
-        val adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount(): Int = fragments.size
-            override fun createFragment(position: Int): Fragment = fragments[position]
-        }
-
-        viewPager.adapter = adapter
-        viewPager.currentItem = 1
-
-        // Thiết lập các sự kiện nhấp vào View
+// Thiết lập các sự kiện nhấp vào View
         viewInfoMusic.setOnClickListener { viewPager.currentItem = 0 }
         viewSong.setOnClickListener { viewPager.currentItem = 1 }
         viewLyrics.setOnClickListener { viewPager.currentItem = 2 }
+        val adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount(): Int = fragments.size
 
+            override fun createFragment(position: Int): Fragment {
+                val fragment = when (position) {
+                    0 -> InfoMusicFragment()
+                    1 -> PlaySongFragment()
+                    2 -> LyrisFragment()
+                    else -> throw IllegalArgumentException("Invalid position")
+                }
+
+                if (position == 0) {
+                    fragment.arguments = createSongInfoBundle()
+                }
+                if (position == 1) {
+                    fragment.arguments = createSongInfoBundle()
+                }
+                if (position == 2) {
+                    fragment.arguments = createSongInfoBundle()
+                }
+
+                return fragment
+            }
+        }
+        viewPager.adapter = adapter
+        viewPager.currentItem = 1
 
         val musicPlayerServiceIntent = Intent(this, MusicPlayerService::class.java)
         startService(musicPlayerServiceIntent)
         bindService(musicPlayerServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+
 
 
         songViewModel.getTrackByUrl(trackList[trackIndex])
@@ -172,8 +189,6 @@ class ActivityMusicControl : AppCompatActivity(){
         shareBtn = findViewById(R.id.share)
         playBtn = findViewById(R.id.playPauseIcon)
         likeBtn = findViewById(R.id.like)
-
-
 
 
         // Gắn các hàm xử lý sự kiện cho các thành phần UI
@@ -288,7 +303,19 @@ class ActivityMusicControl : AppCompatActivity(){
         }
 
     }
+    private fun createSongInfoBundle(): Bundle {
+        val bundle = Bundle()
+        bundle.putString("songTitle", songTitle)
+        bundle.putString("artistName", artistName)
+        bundle.putString("trackImage", trackImage)
+        bundle.putInt("duration", duration)
+        bundle.putString("trackId", trackId)
+        bundle.putString("albumId", intent.getStringExtra("ALBUM_ID"))
+        bundle.putString("releaseDate", intent.getStringExtra("RELEASE_DATE"))
+        bundle.putString("genre", intent.getStringExtra("GENRE"))
 
+        return bundle
+    }
     private fun handleMixButtonClick() {
 
     }

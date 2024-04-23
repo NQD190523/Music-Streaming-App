@@ -38,6 +38,9 @@ fun ListView.setOnItemClickListener(
                 null,
                 selectedSong.duration?.toLong(),
                 selectedSong.artistId,
+                selectedSong.albumId,
+                selectedSong.genre,
+                selectedSong.releaseDate,
             )
         }
 
@@ -60,6 +63,9 @@ fun ListView.setOnItemClickListener(
             putExtra("SONG_NAME", selectedSong.trackTitle)
             putExtra("TRACK_IMAGE", selectedSong.trackImage)
             putExtra("DURATION", selectedSong.duration)
+            putExtra("ALBUM_ID", selectedSong.albumId)
+            putExtra("GENRE", selectedSong.genre)
+            putExtra("RELEASED_DATE", selectedSong.releaseDate)
             putExtra("TRACK_INDEX",position)
             putStringArrayListExtra("TRACK_LIST", trackUrlList)
         }

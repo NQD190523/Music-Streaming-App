@@ -51,6 +51,9 @@ fun RecyclerView.setOnItemClickListener(
                     null,
                     selectedSong.duration?.toLong(),
                     selectedSong.artistId,
+                    selectedSong.albumId,
+                    selectedSong.genre,
+                    selectedSong.releaseDate,
                 )
                 songViewModel.insertSong(song)
                 Log.d(" test status", "success")

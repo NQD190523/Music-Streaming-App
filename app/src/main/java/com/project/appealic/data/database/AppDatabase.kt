@@ -11,7 +11,7 @@ import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.UserEntity
 
 
-@Database(entities = [UserEntity::class, SongEntity::class, PlayListEntity::class], version = 10, exportSchema = false)
+@Database(entities = [UserEntity::class, SongEntity::class, PlayListEntity::class], version = 12, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

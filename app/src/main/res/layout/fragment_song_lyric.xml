@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/imvPhoto"
             android:layout_width="71dp"
             android:layout_height="54dp"
             android:src="@drawable/song1"
@@ -29,13 +29,13 @@
             android:id="@+id/music_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView11"
+            app:layout_constraintBottom_toBottomOf="@+id/imvPhoto"
 
-            app:layout_constraintStart_toEndOf="@+id/imageView11"
-            app:layout_constraintTop_toTopOf="@+id/imageView11">
+            app:layout_constraintStart_toEndOf="@+id/imvPhoto"
+            app:layout_constraintTop_toTopOf="@+id/imvPhoto">
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/txtSongName"
                 style="@style/Body1Bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,14 +45,15 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/txtSinger"
                 style="@style/Label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Blackpink"
                 android:textColor="@color/text"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView24"
-                app:layout_constraintTop_toBottomOf="@+id/textView24" />
+                app:layout_constraintStart_toStartOf="@+id/txtSongName"
+                app:layout_constraintTop_toBottomOf="@+id/txtSongName" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

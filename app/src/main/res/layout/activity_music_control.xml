@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent" />
     <!-- Controls -->
     <ImageView
-        android:id="@+id/imv_dropdown2"
+        android:id="@+id/imv_dropdown"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"

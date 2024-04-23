@@ -115,19 +115,15 @@ class ActivityHome : AppCompatActivity() {
         // Lấy danh sách các widget trong ứng dụng của bạn
         val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this, WidgetView::class.java))
 
-        // Kiểm tra xem có widget nào không
         if (appWidgetIds.isNotEmpty()) {
-            // Lấy thông tin của WidgetProvider
             widgetProviderInfo = appWidgetManager.getAppWidgetInfo(appWidgetIds[0])
 
-            // Đăng ký BroadcastReceiver để lắng nghe broadcast từ service
             val newFilter = IntentFilter("ACTION_NEW_SONG")
             registerReceiver(songBroadcastReceiver, newFilter, RECEIVER_NOT_EXPORTED)
 
             val changedFilter = IntentFilter("ACTION_SONG_CHANGED")
             LocalBroadcastManager.getInstance(this).registerReceiver(songBroadcastReceiver, changedFilter)
 
-            // Tạo một AppWidgetHostView và cập nhật nó với thông tin từ AppWidgetProviderInfo
             val widgetHostView = AppWidgetHostView(this).apply {
                 setAppWidget(appWidgetIds[0], widgetProviderInfo)
             }
@@ -188,7 +184,6 @@ class ActivityHome : AppCompatActivity() {
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
-                    // Đặt ảnh mặc định hoặc xử lý khi không load được ảnh
                 }
             })
     }

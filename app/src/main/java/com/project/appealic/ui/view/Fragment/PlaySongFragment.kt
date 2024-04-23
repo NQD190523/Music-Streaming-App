@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
@@ -12,12 +13,14 @@ import com.project.appealic.R
 
 class PlaySongFragment : Fragment() {
 
-    private var trackImageUrl: String? = null
+    private var trackImage: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            trackImageUrl = it.getString(ARG_TRACK_IMAGE)
+            trackImage = it.getString("trackImage")
+
+
         }
     }
 
@@ -26,19 +29,25 @@ class PlaySongFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_play, container, false)
+
         val imageView = view.findViewById<ImageView>(R.id.imvGround)
-        trackImageUrl?.let { imageUrl ->
+        trackImage?.let { imageUrl ->
             Glide.with(this).load(imageUrl).into(imageView)
         }
+
         return view
+
     }
-
     companion object {
-        private const val ARG_TRACK_IMAGE = "TRACK_IMAGE"
+        fun newInstance(
+            trackImage: String?,
 
-        fun newInstance(trackImage: String) = PlaySongFragment().apply {
-            arguments = Bundle().apply {
-                putString(ARG_TRACK_IMAGE, trackImage)
+            ): PlaySongFragment {
+            return PlaySongFragment().apply {
+                arguments = Bundle().apply {
+                    putString("trackImage", trackImage)
+
+                }
             }
         }
     }

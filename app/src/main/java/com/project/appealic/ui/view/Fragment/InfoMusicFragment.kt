@@ -1,28 +1,55 @@
 package com.project.appealic.ui.view.Fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.media3.common.util.Log
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
+import com.project.appealic.data.repository.SongRepository
+import com.project.appealic.data.repository.UserRepository
+import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
+import com.project.appealic.ui.view.Adapters.PlaylistForYouAdapter
+
+import com.project.appealic.ui.viewmodel.SongViewModel
+import com.project.appealic.utils.SongViewModelFactory
 
 class InfoMusicFragment : Fragment() {
     private var songTitle: String? = null
     private var artistName: String? = null
+    private var trackImage: String? = null
+    private var genre: String? = null
+    private var albumId: String? = null
+    private var releaseDate: String? = null
+    private lateinit var rcsong: ListView
+    private lateinit var songViewModel: SongViewModel
+
+    private var duration: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            songTitle = it.getString(ARG_SONG_TITLE)
-            artistName = it.getString(ARG_SINGER_NAME)
+            songTitle = it.getString("songTitle")
+            artistName = it.getString("artistName")
+            trackImage = it.getString("trackImage")
+            genre = it.getString("genre")
+            albumId = it.getString("albumId")
+            releaseDate = it.getString("releaseDate")
+
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,17 +57,86 @@ class InfoMusicFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_info_music, container, false)
         view.findViewById<TextView>(R.id.txtSongName).text = songTitle
         view.findViewById<TextView>(R.id.txtSinger).text = artistName
+
+        val imageView = view.findViewById<ImageView>(R.id.imvPhoto)
+        val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(trackImage.toString())
+        Glide.with(this)
+            .load(storageReference)
+            .into(imageView)
+
+        view.findViewById<TextView>(R.id.txtAlbum).text = albumId
+        view.findViewById<TextView>(R.id.txtGenre).text = genre
+        view.findViewById<TextView>(R.id.txtMusician).text = artistName
+        view.findViewById<TextView>(R.id.txtReleased).text = releaseDate
+
         return view
+
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) { val songFactory = SongViewModelFactory(
+        SongRepository(requireActivity().application),
+        UserRepository(requireActivity().application)
+    )
+        songViewModel = ViewModelProvider(this, songFactory)[SongViewModel::class.java]
+
+        super.onViewCreated(view, savedInstanceState)
+        songViewModel = ViewModelProvider(this).get(SongViewModel::class.java)
+
+
+        rcsong = view.findViewById(R.id.lstRecommendSong)
+        songViewModel.getAllTracks()
+        songViewModel.tracks.observe(viewLifecycleOwner, Observer {tracks ->
+            val adapter = NewReleaseAdapter(requireContext(),tracks)
+            adapter.setOnAddPlaylistClickListener { track ->
+                // Mở dialog thêm playlist
+                val addPlaylistFragment = AddPlaylistFragment.newInstance(track)
+                addPlaylistFragment.show(childFragmentManager, "AddPlaylistFragment")
+            }
+
+            adapter.setOnMoreActionClickListener {track ->
+                track.trackUrl?.let { songViewModel.getTrackByUrl(it) }
+
+                val moreActionFragment = MoreActionFragment.newInstance(track)
+                val bundle = Bundle()
+                bundle.putString("SONG_TITLE", track.trackTitle)
+                bundle.putString("SINGER_NAME", track.artist)
+                bundle.putString("TRACK_IMAGE", track.trackImage)
+                bundle.putString("ARTIST_ID", track.artistId)
+                bundle.putString("TRACK_ID", track.trackId)
+                bundle.putString("TRACK_URL",track.trackUrl)
+                moreActionFragment.arguments = bundle
+                moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
+            }
+            rcsong.adapter = adapter
+        })
+        // Khởi tạo RecyclerView cho danh sách các playlist cho người dùng
+        val playlistForU: RecyclerView = view.findViewById(R.id.recyclerView)
+        playlistForU.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val playlistForUAdapter = PlaylistForYouAdapter(requireContext(), emptyList())
+        playlistForU.adapter = playlistForUAdapter
+
+        songViewModel.playlists.observe(viewLifecycleOwner, Observer { playlists ->
+            playlistForUAdapter.updateData(playlists)
+        })
+        songViewModel.getAllPlaylists()
+
     }
 
     companion object {
-        private const val ARG_SONG_TITLE = "SONG_TITLE"
-        private const val ARG_SINGER_NAME = "SINGER_NAME"
-
-        fun newInstance(songTitle: String, singerName: String) = InfoMusicFragment().apply {
-            arguments = Bundle().apply {
-                putString(ARG_SONG_TITLE, songTitle)
-                putString(ARG_SINGER_NAME, singerName)
+        fun newInstance(
+            songTitle: String?,
+            artistName: String?,
+            trackImage: String?,
+            duration: Int
+        ): InfoMusicFragment {
+            return InfoMusicFragment().apply {
+                arguments = Bundle().apply {
+                    putString("songTitle", songTitle)
+                    putString("artistName", artistName)
+                    putString("trackImage", trackImage)
+                    putInt("duration", duration)
+                }
             }
         }
     }
