@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.data.model.Genre
@@ -58,30 +59,28 @@ class LibraryFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerViewBanner.adapter = bannerAdapter
 
-        val tvAddArtists = view.findViewById<TextView>(R.id.tvAddArtists)
-//        val tvAddAlbums = view.findViewById<TextView>(R.id.tvAddAlbums)
-        val tvAddSongs = view.findViewById<TextView>(R.id.tvAddPlaylists)
+        val textViewAddArtists = view.findViewById<TextView>(R.id.tvAddArtists)
+        val textViewAddPlaylists = view.findViewById<TextView>(R.id.tvAddPlaylists)
 
-        val underline = view.findViewById<View>(R.id.underline)
-
+        val underlineView = view.findViewById<View>(R.id.underline)
         val initialUnderlineX = resources.getDimensionPixelOffset(R.dimen.dp_2)
-        val deltaXPlaylists = tvAddSongs.x - initialUnderlineX
-        val deltaXArtists = tvAddArtists.x - initialUnderlineX
+        val deltaXPlaylists = textViewAddPlaylists.x - initialUnderlineX
+        val deltaXArtists = textViewAddArtists.x - initialUnderlineX
 
-        tvAddSongs.setOnClickListener {
+        textViewAddPlaylists.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentAddPlaylistLibrary, AddPlaylistLibraryFragment())
                 .addToBackStack(null)
                 .commit()
-            underline.animate().translationX(deltaXPlaylists).setDuration(300).start()
+            underlineView.animate().translationX(deltaXPlaylists).setDuration(300).start()
         }
 
-        tvAddArtists.setOnClickListener {
+        textViewAddArtists.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentAddPlaylistLibrary, AddArtistFragment())
                 .addToBackStack(null)
                 .commit()
-            underline.animate().translationX(deltaXArtists).setDuration(300).start()
+            underlineView.animate().translationX(deltaXArtists).setDuration(300).start()
         }
 
         setupRecentlyViewedSongs(view)
@@ -112,7 +111,7 @@ class LibraryFragment : Fragment() {
     }
 
     private fun setupPlaylistCards(view: View) {
-        val imageResources = listOf(
+        val imageList = listOf(
             R.drawable.libraryliked_song,
             R.drawable.librarydownload,
             R.drawable.playlist1,
@@ -124,7 +123,9 @@ class LibraryFragment : Fragment() {
         )
 
         val recyclerViewPlaylistCards = view.findViewById<RecyclerView>(R.id.card_gird)
-        val cardAdapter = PlaylistCardAdapter(imageResources)
+        val cardAdapter = PlaylistCardAdapter(requireContext(), imageList)
+        recyclerViewPlaylistCards.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL)
         recyclerViewPlaylistCards.adapter = cardAdapter
 
         val horizontalSpacing = resources.getDimensionPixelSize(R.dimen.dp_2)
@@ -149,15 +150,18 @@ class LibraryFragment : Fragment() {
                     .commit()
             }
             1 -> {
-//                val downloadedSongFragment = DownloadedSongFragment()
-//                requireActivity().supportFragmentManager.beginTransaction()
-//                    .replace(R.id.fragmentContainer, downloadedSongFragment)
-//                    .addToBackStack(null)
-//                    .commit()
+                // Uncomment the following code if you want to navigate to DownloadedSongFragment
+                /*
+                val downloadedSongFragment = DownloadedSongFragment()
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, downloadedSongFragment)
+                    .addToBackStack(null)
+                    .commit()
+                */
             }
             else -> {
                 val genre = when (position) {
-                    2 -> Genre(R.drawable.playlist1, "Playlist 1")
+                    2 -> Genre(R.drawable.chill, "Sleep")
                     3 -> Genre(R.drawable.kpop, "K-pop")
                     4 -> Genre(R.drawable.vpop, "V-Pop")
                     5 -> Genre(R.drawable.tiktok, "TikTok Hits")
@@ -202,32 +206,31 @@ class StaggeredGridSpacingItemDecoration(
             left = horizontalSpacing / 6
             right = horizontalSpacing / 6
             bottom = verticalSpacing
+            }
         }
     }
-}
 
-class SelectPlaylistFragmentDialog : DialogFragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.dialog_select, container, false)
-        return view
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val dialog = dialog
-        if (dialog != null) {
-            val width = 315
-            val height = 655
-            val params = dialog.window?.attributes
-            params?.width = (width * resources.displayMetrics.density).toInt()
-            params?.height = (height * resources.displayMetrics.density).toInt()
-            dialog.window?.attributes = params as WindowManager.LayoutParams
-            val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.background_select_playlist)
-            dialog.window?.setBackgroundDrawable(drawable)
+    class SelectPlaylistFragmentDialog : DialogFragment() {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
+            val view = inflater.inflate(R.layout.dialog_select, container, false)
+            return view
+        }
+        override fun onStart() {
+            super.onStart()
+            val dialog = dialog
+            if (dialog != null) {
+                val width = 315
+                val height = 655
+                val params = dialog.window?.attributes
+                params?.width = (width * resources.displayMetrics.density).toInt()
+                params?.height = (height * resources.displayMetrics.density).toInt()
+                dialog.window?.attributes = params as WindowManager.LayoutParams
+                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.background_select_playlist)
+                dialog.window?.setBackgroundDrawable(drawable)
+            }
         }
     }
-}
