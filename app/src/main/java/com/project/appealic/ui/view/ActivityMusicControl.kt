@@ -1,13 +1,16 @@
 package com.project.appealic.ui.view
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.IBinder
 import android.util.Log
 import android.view.Gravity
@@ -42,13 +45,14 @@ import com.project.appealic.ui.view.Fragment.InfoMusicFragment
 import com.project.appealic.ui.view.Fragment.LyrisFragment
 import com.project.appealic.ui.view.Fragment.MoreActionFragment
 import com.project.appealic.ui.view.Fragment.PlaySongFragment
+import com.project.appealic.ui.view.Fragment.SleepFragmentDialog
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 
 
 
-class ActivityMusicControl : AppCompatActivity(){
+class ActivityMusicControl : AppCompatActivity() , SleepFragmentDialog.OnSleepTimeSelectedListener {
 
     private lateinit var songViewModel: SongViewModel
     private lateinit var progressTv: TextView
@@ -57,6 +61,7 @@ class ActivityMusicControl : AppCompatActivity(){
     private lateinit var previousBtn: ImageView
     private lateinit var playBtn: ImageView
     private lateinit var mixBtn: ImageView
+    private lateinit var sleepBtn: TextView
     private lateinit var nextBtn: ImageView
     private lateinit var repeatBtn: ImageView
     private lateinit var commentBtn: ImageView
@@ -78,6 +83,9 @@ class ActivityMusicControl : AppCompatActivity(){
     private lateinit var trackImage : String
     private  var duration : Int = 0
     private  var isRepeated : Boolean = false
+    private var selectedSleepTime: Long = 0
+    private var countDownTimer: CountDownTimer? = null
+
 
 
     private val serviceConnection = object : ServiceConnection {
@@ -179,6 +187,7 @@ class ActivityMusicControl : AppCompatActivity(){
         durationTv = findViewById(R.id.durationTv)
         previousBtn = findViewById(R.id.previous)
         mixBtn = findViewById(R.id.mix)
+        sleepBtn = findViewById(R.id.time_Sleep)
 //        playFrameLayout = findViewById(R.id.playPause)
         nextBtn = findViewById(R.id.next)
         repeatBtn = findViewById(R.id.repeat)
@@ -189,6 +198,7 @@ class ActivityMusicControl : AppCompatActivity(){
         shareBtn = findViewById(R.id.share)
         playBtn = findViewById(R.id.playPauseIcon)
         likeBtn = findViewById(R.id.like)
+
 
 
         // Gắn các hàm xử lý sự kiện cho các thành phần UI
@@ -203,6 +213,8 @@ class ActivityMusicControl : AppCompatActivity(){
         shareBtn.setOnClickListener { handleShareButtonClick() }
         playBtn.setOnClickListener { handlePlayButtonClick() }
         likeBtn.setOnClickListener { handleLikeButtonClick()}
+        sleepBtn.setOnClickListener { handleSleepButtonClick()}
+
 
         // Xét hiển thị bài hát yêu thích
         if (userId != null) {
@@ -277,6 +289,15 @@ class ActivityMusicControl : AppCompatActivity(){
         Back()
         super.onDestroy()
     }
+    override fun onSleepTimeSelected(seconds: Long) {
+        if (seconds >= 0) {
+            selectedSleepTime = seconds
+            updateSleepTimeTextView()
+            startSleepTimer()
+        } else {
+            Toast.makeText(this, "Please select a valid sleep time", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     fun Back() {
         val sharedPreferences = this.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
@@ -317,6 +338,8 @@ class ActivityMusicControl : AppCompatActivity(){
         return bundle
     }
     private fun handleMixButtonClick() {
+
+
 
     }
 
@@ -421,6 +444,40 @@ class ActivityMusicControl : AppCompatActivity(){
     }
 
     private fun handleShareButtonClick() {
+    }
+    private fun handleSleepButtonClick() {
+        val sleepDialog = SleepFragmentDialog()
+        sleepDialog.listener = this
+        sleepDialog.show(supportFragmentManager, "SleepFragmentDialog")
+    }
+
+    private fun updateSleepTimeTextView() {
+        val minutes = (selectedSleepTime / 60).toString().padStart(2, '0')
+        val seconds = (selectedSleepTime % 60).toString().padStart(2, '0')
+        val time_Sleep = findViewById<TextView>(R.id.time_Sleep)
+        time_Sleep.text = "$minutes:$seconds"
+    }
+
+    private fun startSleepTimer() {
+        countDownTimer?.cancel()
+
+        countDownTimer = object : CountDownTimer(selectedSleepTime * 1000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                selectedSleepTime -= 1
+                updateSleepTimeTextView()
+            }
+            override fun onFinish() {
+                pauseMusic()
+                countDownTimer = null
+            }
+        }
+        countDownTimer?.start()
+    }
+    private fun pauseMusic() {
+        if (player != null && player?.isPlaying == true) {
+            player?.pause()
+            playBtn?.setImageResource(R.drawable.ic_play_24_filled)
+        }
     }
     private fun loadDataFromFirebase() {
         // Load audio data from Firebase Storage

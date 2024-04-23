@@ -199,7 +199,7 @@ class MoreActionFragment : DialogFragment() {
 
         view.findViewById<LinearLayout>(R.id.llSleep).setOnClickListener {
             dismiss()
-            showDialogForSleep()
+            SleepFragmentDialog().show(requireActivity().supportFragmentManager, "SleepFragmentDialog")
         }
     }
 
@@ -259,16 +259,16 @@ class MoreActionFragment : DialogFragment() {
         }
     }
 
-    private fun showDialogForSleep(){
-        val dialog = Dialog(requireActivity())
-        val window = dialog.window
-        window?.setBackgroundDrawableResource(R.drawable.more_background)
-        window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
-        dialog.setContentView(R.layout.bottom_sleep)
-        dialog.show()
-    }
+//    private fun showDialogForSleep(){
+//        val dialog = Dialog(requireActivity())
+//        val window = dialog.window
+//        window?.setBackgroundDrawableResource(R.drawable.more_background)
+//        window?.setLayout(
+//            ViewGroup.LayoutParams.MATCH_PARENT,
+//            ViewGroup.LayoutParams.WRAP_CONTENT
+//        )
+//        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
+//        dialog.setContentView(R.layout.bottom_sleep)
+//        dialog.show()
+//    }
 }
