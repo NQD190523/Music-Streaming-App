@@ -25,9 +25,9 @@ class ActivityRegister : AppCompatActivity() {
 
     private lateinit var authViewModel: AuthViewModel
     private lateinit var profileViewModel: ProfileViewModel
-    private lateinit var auth : FirebaseAuth
-    private lateinit var email : String
-    private lateinit var password : String
+    private lateinit var auth: FirebaseAuth
+    private lateinit var email: String
+    private lateinit var password: String
 
 
     @SuppressLint("CutPasteId")
@@ -37,10 +37,9 @@ class ActivityRegister : AppCompatActivity() {
 
         val signUpButton = findViewById<Button>(R.id.btnSignUp)
         signUpButton.setOnClickListener {
-            email = findViewById<EditText>(R.id.txtxRegisterEmail).text.toString()
-            password = findViewById<EditText>(R.id.txtRegisterPassword).text.toString()
-            val confirmedPassword =
-                findViewById<EditText>(R.id.txtRegisterCfpassword).text.toString()
+            val email = findViewById<EditText>(R.id.txtxRegisterEmail).text.toString()
+            val password = findViewById<EditText>(R.id.txtRegisterPassword).text.toString()
+            val confirmedPassword = findViewById<EditText>(R.id.txtRegisterCfpassword).text.toString()
 
             val isValidEmail = ValidationUtils.isValidEmail(email)
             authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
@@ -52,8 +51,7 @@ class ActivityRegister : AppCompatActivity() {
 
                 when (isValidEmail) {
                     ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập Email"
-                    ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage =
-                        "Nhập đúng định dang Email"
+                    ValidationUtils.EMAIL_MISMATCH_ERROR -> errorMessage = "Nhập đúng định dang Email"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
@@ -67,47 +65,53 @@ class ActivityRegister : AppCompatActivity() {
 
                 when (isValidPassword) {
                     ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập mật khẩu"
-                    ValidationUtils.PASSWORD_LENGTH_ERROR -> errorMessage =
-                        "Vui lòng nhập ít nhất 8 ký tự"
-
-                    ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage =
-                        "Mật khẩu phải có cả chữ và số"
+                    ValidationUtils.PASSWORD_LENGTH_ERROR -> errorMessage = "Vui lòng nhập ít nhất 8 ký tự"
+                    ValidationUtils.PASSWORD_TYPE_ERROR -> errorMessage = "Mật khẩu phải có cả chữ và số"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val isValidConfirmedPassword =
-                ValidationUtils.checkConfirmPassword(password, confirmedPassword)
+            val isValidConfirmedPassword = ValidationUtils.checkConfirmPassword(password, confirmedPassword)
 
             if (isValidConfirmedPassword != ValidationUtils.VALID) {
                 var errorMessage: String = ""
 
                 when (isValidConfirmedPassword) {
                     ValidationUtils.EMPTY_ERROR -> errorMessage = "Vui lòng nhập xác nhận mật khẩu"
-                    ValidationUtils.PASSWORD_MISMATCH_ERROR -> errorMessage =
-                        "Xác nhận mật khẩu không đúng"
+                    ValidationUtils.PASSWORD_MISMATCH_ERROR -> errorMessage = "Xác nhận mật khẩu không đúng"
                 }
 
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-                try {
-                    authViewModel.signInWithEmailAndPassword(email, password)
-                    // Đăng nhập thành công
-                    val user = auth.currentUser
-                    user?.let {
-                        // Tạo dữ liệu người dùng trên Firestore
-                        profileViewModel.createUserProfile(user, email)
-                    }
-                } catch (exception: Exception) {
-                    // Xử lý khi đăng nhập thất bại
-                    Toast.makeText(this@ActivityRegister, "Đăng ký không thành công: ${exception.message}", Toast.LENGTH_SHORT).show()
-                }
-            Toast.makeText(this, "Pass validation, progress to sign up", Toast.LENGTH_SHORT).show()
 
+            // Đăng ký tài khoản mới
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Đăng ký thành công
+                        val user = auth.currentUser
+                        user?.let {
+                            profileViewModel.createUserProfile(user, email)
+                        }
+
+                        // Chuyển sang màn hình đăng nhập
+                        val intent = Intent(this, GoogleLoginActivity::class.java)
+                        startActivity(intent)
+                        finish() // Đóng màn hình đăng ký
+                    } else {
+                        // Đăng ký thất bại
+                        Toast.makeText(
+                            this@ActivityRegister,
+                            "Đăng ký không thành công: ${task.exception?.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
         }
+
         val txtPassword: EditText = findViewById(R.id.txtRegisterPassword)
         val imgShowPass: ImageView = findViewById(R.id.imgShowpass)
 
@@ -120,6 +124,7 @@ class ActivityRegister : AppCompatActivity() {
                 imgShowPass.setImageResource(R.drawable.ic_hirre_password)
             }
         }
+
         val txtPassword2: EditText = findViewById(R.id.txtRegisterCfpassword)
         val imgShowPass2: ImageView = findViewById(R.id.imgShowpass2)
 
@@ -128,22 +133,21 @@ class ActivityRegister : AppCompatActivity() {
                 txtPassword2.transformationMethod = null
                 imgShowPass2.setImageResource(R.drawable.ic_show_pass)
             } else {
-                txtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                txtPassword2.transformationMethod = PasswordTransformationMethod.getInstance()
                 imgShowPass2.setImageResource(R.drawable.ic_hirre_password)
             }
         }
 
+            val signInPhoneButton = findViewById<Button>(R.id.btnUsePhone)
+            signInPhoneButton.setOnClickListener {
+                val intent = Intent(this, ActivityLoginPhone::class.java)
+                startActivity(intent)
+            }
 
-        val signInPhoneButton = findViewById<Button>(R.id.btnUsePhone)
-        signInPhoneButton.setOnClickListener {
-            val intent = Intent(this, ActivityLoginPhone::class.java)
-            startActivity(intent)
-        }
-
-        val signInButton = findViewById<Button>(R.id.btnSignin)
-        signInButton.setOnClickListener {
-            val intent = Intent(this, GoogleLoginActivity::class.java)
-            startActivity(intent)
+            val signInButton = findViewById<Button>(R.id.btnSignin)
+            signInButton.setOnClickListener {
+                val intent = Intent(this, GoogleLoginActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
-}

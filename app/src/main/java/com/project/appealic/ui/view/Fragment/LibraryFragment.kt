@@ -68,6 +68,7 @@ class LibraryFragment : Fragment() {
         val deltaXArtists = textViewAddArtists.x - initialUnderlineX
 
         textViewAddPlaylists.setOnClickListener {
+            // Thay thế fragment hiện tại bằng AddSongToPlaylistFragment
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentAddPlaylistLibrary, AddPlaylistLibraryFragment())
                 .addToBackStack(null)
@@ -76,6 +77,7 @@ class LibraryFragment : Fragment() {
         }
 
         textViewAddArtists.setOnClickListener {
+            // Replace the current fragment with AddArtistFragment
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentAddPlaylistLibrary, AddArtistFragment())
                 .addToBackStack(null)
