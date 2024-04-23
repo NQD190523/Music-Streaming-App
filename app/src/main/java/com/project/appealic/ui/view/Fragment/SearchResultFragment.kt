@@ -1,13 +1,10 @@
 package com.project.appealic.ui.view.Fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ImageView
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,23 +13,14 @@ import com.project.appealic.R
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
-import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.project.appealic.data.model.Album
-import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.repository.AlbumRepository
 import com.project.appealic.data.repository.ArtistRepository
 import com.project.appealic.data.repository.PlayListRepository
-import com.project.appealic.ui.view.ActivityHome
-import com.project.appealic.ui.view.ActivityMusicControl
-import com.project.appealic.ui.view.ActivityNotification
 import com.project.appealic.ui.view.Adapters.AlbumsResultAdapter
-import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.ArtistResultAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistResultAdapter
 import com.project.appealic.ui.view.Adapters.SongResultAdapter
@@ -43,7 +31,6 @@ import com.project.appealic.utils.AlbumViewModelFactory
 import com.project.appealic.utils.ArtistViewModelFactory
 import com.project.appealic.utils.PlayListViewModelFactory
 import com.project.appealic.ui.view.setOnItemClickListener
-import java.util.ArrayList
 
 class SearchResultFragment: Fragment() {
     private lateinit var listSong: ListView

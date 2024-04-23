@@ -12,7 +12,6 @@ import com.project.appealic.R
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.AlbumsResultAdapter
-import com.project.appealic.ui.view.Adapters.ArtistResultAdapter
 import com.project.appealic.ui.viewmodel.AlbumViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory

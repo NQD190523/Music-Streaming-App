@@ -1,36 +1,23 @@
 package com.project.appealic.data.repository
 
-import android.app.Application
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.toObject
-import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.data.dao.SongDao
-import com.project.appealic.data.dao.UserDao
 import com.project.appealic.data.database.AppDatabase
-import com.project.appealic.data.model.SearchResults
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
-import okhttp3.Callback
-import java.util.concurrent.CompletableFuture
 
-class SongRepository (application: Application) {
+class SongRepository(application: Context) {
 
     val firebaseDB = Firebase.firestore
 

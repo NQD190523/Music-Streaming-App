@@ -2,13 +2,10 @@ package com.project.appealic.ui.view
 
 import android.app.Dialog
 import android.appwidget.AppWidgetManager
-import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.ServiceConnection
-import android.media.browse.MediaBrowser
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
@@ -17,7 +14,6 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -28,11 +24,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.media3.common.Tracks
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.MediaSource
-import androidx.media3.exoplayer.source.ProgressiveMediaSource
-import androidx.media3.ui.PlayerNotificationManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -40,7 +32,6 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import com.project.appealic.R
 import com.project.appealic.data.repository.SongRepository

@@ -1,15 +1,14 @@
 package com.project.appealic.data.repository
 
-import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.data.dao.UserDao
 import com.project.appealic.data.database.AppDatabase
-import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.UserEntity
 
-class UserRepository(application: Application) {
+class UserRepository(application: Context) {
     private val auth : FirebaseAuth = FirebaseAuth.getInstance()
     private val db: AppDatabase = Room.databaseBuilder(
         application.applicationContext,

@@ -13,11 +13,9 @@ import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
 import com.project.appealic.data.model.Album
-import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
-import com.project.appealic.ui.view.Adapters.SleepingPlaylistAdapter
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 

@@ -1,7 +1,6 @@
 package com.project.appealic.ui.view.Fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,13 +18,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
 import com.project.appealic.data.model.Artist
-import com.project.appealic.data.model.Playlist
-import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.ArtistRepository
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
-import com.project.appealic.ui.view.Adapters.SleepingPlaylistAdapter
 import com.project.appealic.ui.view.setOnItemClickListener
 import com.project.appealic.ui.viewmodel.ArtistViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel

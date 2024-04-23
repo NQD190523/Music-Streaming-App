@@ -26,7 +26,9 @@ class SearchMainFragment : Fragment() {
             R.drawable.sleeping,
             R.drawable.playlistkpop,
             R.drawable.playlistvpop,
-            R.drawable.playlisttiktok
+            R.drawable.playlisttiktok,
+            R.drawable.playlistgenz,
+            R.drawable.playlistlofi
         )
 
         val adapter = PlaylistAdapter(requireContext(), imageList, object : PlaylistAdapter.OnPlaylistClickListener {
@@ -36,6 +38,8 @@ class SearchMainFragment : Fragment() {
                     1 -> Genre(R.drawable.kpop, "K-pop")
                     2 -> Genre(R.drawable.vpop, "V-Pop")
                     3 -> Genre(R.drawable.tiktok, "TikTok Hits")
+                    4 -> Genre(R.drawable.genz, "Gen Z")
+                    5 -> Genre(R.drawable.lofi, "Lo-fi")
                     else -> Genre(0, "Unknown")
                 }
 

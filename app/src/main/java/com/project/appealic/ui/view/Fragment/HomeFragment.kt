@@ -2,12 +2,10 @@ package com.project.appealic.ui.view.Fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.ListView
 import androidx.lifecycle.Observer
@@ -16,12 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
-import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.ActivityHome
-import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.ui.view.ActivityNotification
 import com.project.appealic.ui.view.Adapters.ArtistAdapter
 import com.project.appealic.ui.view.Adapters.BannerAdapter
@@ -32,7 +28,6 @@ import com.project.appealic.ui.view.setOnItemClickListener
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
-import java.util.ArrayList
 
 class HomeFragment : Fragment() {
 
