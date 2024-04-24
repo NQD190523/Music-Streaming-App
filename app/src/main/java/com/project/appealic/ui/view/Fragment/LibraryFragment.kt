@@ -1,3 +1,5 @@
+package com.project.appealic.ui.view.Fragment
+
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,10 +24,6 @@ import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistCardAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
-import com.project.appealic.ui.view.Fragment.AddArtistFragment
-import com.project.appealic.ui.view.Fragment.AddPlaylistLibraryFragment
-import com.project.appealic.ui.view.Fragment.GenresFragment
-import com.project.appealic.ui.view.Fragment.LikeSongFragment
 import com.project.appealic.ui.view.setOnItemClickListener
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory

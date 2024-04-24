@@ -121,8 +121,8 @@ class ArtistProfileFragment: Fragment() {
         ftSong = view.findViewById(R.id.lvFeaturedSongs)
 
         // Gọi hàm getTracksFromArtist từ artistViewModel để lấy danh sách bài hát của nghệ sĩ
+        songViewModel.getAllTracks()
         artistViewModel.getTracksFromArtist(artistId)
-
         // Lắng nghe thay đổi trong danh sách các bài hát và cập nhật giao diện khi có thay đổi
         artistViewModel.track.observe(viewLifecycleOwner, Observer { tracks ->
             // Khởi tạo adapter cho ListView và nạp danh sách bài hát vào adapter
@@ -151,11 +151,11 @@ class ArtistProfileFragment: Fragment() {
             ftSong.adapter = ftAdapter
             setListViewHeightBasedOnItems(ftSong)
             ftSong.setOnItemClickListener(requireContext(), songViewModel,tracks )
+            songViewModel.recommendSong(tracks)
         })
 
         rcsong = view.findViewById(R.id.lvRecommendSongs)
-        songViewModel.getAllTracks()
-        songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
+        songViewModel.recTracks.observe(viewLifecycleOwner, Observer { tracks ->
             val adapter = NewReleaseAdapter(requireContext(), tracks)
             adapter.setOnAddPlaylistClickListener { track ->
                 // Mở dialog thêm playlist
@@ -178,7 +178,10 @@ class ArtistProfileFragment: Fragment() {
                 moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
             }
             rcsong.adapter = adapter
+            setListViewHeightBasedOnItems(rcsong)
         })
+
+
 
     }
 

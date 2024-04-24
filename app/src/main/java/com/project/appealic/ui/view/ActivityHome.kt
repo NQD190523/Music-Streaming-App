@@ -1,6 +1,6 @@
 package com.project.appealic.ui.view
 
-import LibraryFragment
+import com.project.appealic.ui.view.Fragment.LibraryFragment
 import android.app.PendingIntent
 import android.appwidget.AppWidgetHostView
 import android.appwidget.AppWidgetManager
@@ -13,7 +13,6 @@ import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.transition.Transition
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.RemoteViews

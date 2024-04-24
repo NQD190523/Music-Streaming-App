@@ -46,6 +46,9 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     private val _tracks = MutableLiveData<List<Track>>()
     val tracks: LiveData<List<Track>> get() = _tracks
 
+    private val _recTracks = MutableLiveData<List<Track>>()
+    val recTracks: LiveData<List<Track>> get() = _recTracks
+
     private val _artists = MutableLiveData<List<Artist>>()
     val artists: LiveData<List<Artist>> get() = _artists
 
@@ -67,6 +70,33 @@ class SongViewModel(private val songRepository: SongRepository, private val user
             .addOnFailureListener { exception ->
                 Log.e("error",exception.toString())
             }
+    }
+
+    fun recommendSong(tracks: List<Track>) {
+        _recTracks.postValue(emptyList())
+        // Bước 1: Thu thập dữ liệu
+        val sourceLiveData = tracks
+        val allTracks = mutableListOf<Track>()
+        // Bước 2: Xác định tất cả các bài hát có sẵn và bài hát được truyền vào
+        _tracks.value?.let { allTracks.addAll(it) }
+        allTracks.addAll(sourceLiveData)
+
+        // Bước 3: Lọc các bài hát không trùng lặp
+        val uniqueSongs = allTracks.distinctBy { it.trackId }
+
+        // Bước 4: Loại bỏ các bài hát đã có sẵn từ danh sách bài hát đề xuất
+        val filteredRecommendations = uniqueSongs.filter { song ->
+            !tracks.any { it.trackId == song.trackId }
+        }
+        // Bước 5: Đề xuất bài hát mới
+        val recommendedSongs = if (filteredRecommendations.size <= 10) {
+            filteredRecommendations
+        } else {
+            val shuffledUniqueSongs = filteredRecommendations.shuffled()
+            shuffledUniqueSongs.take(10)
+        }
+        // Đưa danh sách bài hát đề xuất vào LiveData _recTracks để cập nhật giao diện người dùng
+        _recTracks.postValue(recommendedSongs)
     }
 
     fun getAllArtists() {
@@ -176,16 +206,6 @@ class SongViewModel(private val songRepository: SongRepository, private val user
         }
     }
 
-//    fun getAllAlbums() {
-//        songRepository.getAllAlbums()
-//            .addOnSuccessListener { albums ->
-//                if (albums != null)
-//                    _albums.postValue(albums.toObjects(Album::class.java))
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.e("error", exception.toString())
-//            }
-//    }
 
     fun SearchSongResults(searchQuery: String?) {
         // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery

@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
         // Khởi tạo và cấu hình RecyclerView cho banner
         val recyclerViewBanner: RecyclerView = rootView.findViewById(R.id.rrBanner)
         recyclerViewBanner.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val bannerImages = listOf(R.drawable.imagecart, R.drawable.imagecart, R.drawable.imagecart)
+        val bannerImages = listOf(R.drawable.imagecart, R.drawable.imagecart2, R.drawable.imagecart3,R.drawable.imagecart4, R.drawable.imagecart5,R.drawable.imagecart6)
         val bannerAdapter = BannerAdapter(bannerImages)
         recyclerViewBanner.adapter = bannerAdapter
 

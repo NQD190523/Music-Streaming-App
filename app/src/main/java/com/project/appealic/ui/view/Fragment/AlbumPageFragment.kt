@@ -41,7 +41,7 @@ class AlbumPageFragment : Fragment() {
             SongRepository(requireActivity().application),
             UserRepository(requireActivity().application)
         )
-        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
+        songViewModel = ViewModelProvider(this, factory)[SongViewModel::class.java]
 
         val imageViewBack = view.findViewById<ImageView>(R.id.imv_back)
         imageViewBack.setOnClickListener {
@@ -62,6 +62,7 @@ class AlbumPageFragment : Fragment() {
 
         // Initialize adapter for ListView displaying recommended songs
         rcsong = view.findViewById(R.id.lstRecommendSong)
+        setListViewHeightBasedOnItems(rcsong)
         songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
             tracks?.let {
                 val adapter = NewReleaseAdapter(requireContext(), it)
@@ -71,5 +72,19 @@ class AlbumPageFragment : Fragment() {
 
         // Placeholder for sleepingPlaylistAdapter setup
         // Initialize and set up sleepingPlaylistAdapter here if needed
+    }
+    private fun setListViewHeightBasedOnItems(listView: ListView) {
+        val listAdapter = listView.adapter
+        val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
+        var totalHeight = 0
+        for (i in 0 until listAdapter.count) {
+            val listItem: View = listAdapter.getView(i, null, listView)
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
+            totalHeight += listItem.measuredHeight
+        }
+        val params = listView.layoutParams
+        params.height = totalHeight + (listView.dividerHeight * (listAdapter.count - 1))
+        listView.layoutParams = params
+        listView.requestLayout()
     }
 }

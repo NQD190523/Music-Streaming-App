@@ -58,19 +58,19 @@ class GenresFragment : Fragment() {
             val selectedGenre = requireArguments().getParcelable<Genre>("selected_genre")
             imageView.setImageResource(selectedGenre?.id ?: 0)
             textView.text = selectedGenre?.name ?: "Unknown"
-
+            songViewModel.getAllTracks()
             songViewModel.getTrackFromGenres(selectedGenre?.name ?: "")
             songViewModel.gerneTracks.observe(viewLifecycleOwner, Observer { tracks ->
                 val adapter = NewReleaseAdapter(requireContext(), tracks)
                 gensong.adapter = adapter
                 setListViewHeightBasedOnItems(gensong)
                 gensong.setOnItemClickListener(requireContext(), songViewModel, tracks)
+                songViewModel.recommendSong(tracks)
             })
 
 
             rcsong = view.findViewById(R.id.lstRecommendSong)
-            songViewModel.getAllTracks()
-            songViewModel.tracks.observe(viewLifecycleOwner, Observer {tracks ->
+            songViewModel.recTracks.observe(viewLifecycleOwner, Observer {tracks ->
               val adapter = NewReleaseAdapter(requireContext(),tracks)
                   adapter.setOnAddPlaylistClickListener { track ->
             // Mở dialog thêm playlist
@@ -93,6 +93,7 @@ class GenresFragment : Fragment() {
             moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
         }
         rcsong.adapter = adapter
+        setListViewHeightBasedOnItems(rcsong)
     })
     }
 

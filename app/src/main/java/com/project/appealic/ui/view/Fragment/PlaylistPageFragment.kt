@@ -95,6 +95,7 @@ class PlaylistPageFragment : Fragment() {
             title.text = selectedPlaylist.playlistName
         }
         playListViewModel.track.observe(viewLifecycleOwner, Observer { tracks ->
+            songViewModel.recommendSong(tracks)
             val adapter = NewReleaseAdapter(requireContext(), tracks)
             adapter.setOnAddPlaylistClickListener { track ->
                 // Mở dialog thêm playlist
@@ -120,7 +121,7 @@ class PlaylistPageFragment : Fragment() {
             setListViewHeightBasedOnItems(trackInPlaylist)
             trackInPlaylist.setOnItemClickListener(requireContext(), songViewModel,tracks )
         })
-        songViewModel.tracks.observe(viewLifecycleOwner, Observer {tracks ->
+        songViewModel.recTracks.observe(viewLifecycleOwner, Observer {tracks ->
             val adapter = NewReleaseAdapter(requireContext(),tracks)
             adapter.setOnAddPlaylistClickListener { track ->
                 // Mở dialog thêm playlist
@@ -143,6 +144,7 @@ class PlaylistPageFragment : Fragment() {
                 moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
             }
             rcsong.adapter = adapter
+            setListViewHeightBasedOnItems(rcsong)
         })
 
 
