@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.GridView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import com.project.appealic.R
@@ -43,21 +45,25 @@ class SearchFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
-                    if (searchHistory.size >= 5) {
-                        searchHistory.removeFirst()
-                    }
-                    searchHistory.addLast(query)
-                    updateSearchMainFragment()
+                    if (searchHistory.contains(query)) {
+                        showDuplicateSearchQueryMessage(query)
+                    } else {
+                        if (searchHistory.size >= 5) {
+                            searchHistory.removeFirst()
+                        }
+                        searchHistory.addLast(query)
+                        updateSearchMainFragment()
 
-                    // Khi người dùng nhấn nút tìm kiếm, hiển thị FragmentSearch
-                    val bundle = Bundle()
-                    bundle.putString("search_query", query)
-                    childFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentMain, SearchResultFragment().apply {
-                            arguments = bundle
-                        })
-                        .addToBackStack(null)
-                        .commit()
+                        // Khi người dùng nhấn nút tìm kiếm, hiển thị FragmentSearch
+                        val bundle = Bundle()
+                        bundle.putString("search_query", query)
+                        childFragmentManager.beginTransaction()
+                            .replace(R.id.fragmentMain, SearchResultFragment().apply {
+                                arguments = bundle
+                            })
+                            .addToBackStack(null)
+                            .commit()
+                    }
                 }
                 return true
             }
@@ -66,16 +72,27 @@ class SearchFragment : Fragment() {
                 return false
             }
         })
+        searchView.setOnClickListener {
+
+        }
 
 
         val txtCancel = view.findViewById<TextView>(R.id.txtCancel)
         txtCancel.setOnClickListener {
-             childFragmentManager.popBackStack()
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         return view
     }
 
+    private fun showDuplicateSearchQueryMessage(query: String) {
+        val message = "Bạn đã tìm kiếm '$query' trước đó."
+//        show toast
+        val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
+        toast.setGravity(Gravity.TOP, 0, 0)
+        toast.show()
+
+    }
 
 
     private fun updateSearchMainFragment() {
