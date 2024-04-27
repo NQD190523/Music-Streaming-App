@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -54,6 +55,9 @@ class SearchMainFragment : Fragment() {
             )
             textView.layoutParams = layoutParams
 
+            textView.setOnClickListener {
+                loadQueryToSearchView(query)
+            }
             flexboxLayout.addView(textView)
         }
 
@@ -97,6 +101,13 @@ class SearchMainFragment : Fragment() {
 
         return view
     }
+
+    private fun loadQueryToSearchView(query: String) {
+        // Tìm SearchView và nạp nội dung tìm kiếm vào đó
+        val searchView = requireActivity().findViewById<androidx.appcompat.widget.SearchView>(R.id.searchView)
+        searchView.setQuery(query, false)
+    }
+
     companion object {
         fun newInstance(searchHistory: LinkedList<String>): SearchMainFragment {
             val fragment = SearchMainFragment()
