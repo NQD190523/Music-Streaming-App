@@ -17,8 +17,11 @@ import com.project.appealic.R
 import com.project.appealic.databinding.FragmentSearchResultBinding
 import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.Adapters.PlaylistAdapter
+import java.util.LinkedList
 
 class SearchFragment : Fragment() {
+
+    private val searchHistory = LinkedList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +34,7 @@ class SearchFragment : Fragment() {
         // Đảm bảo FragmentMain được thêm vào layout
         if (savedInstanceState == null) {
             childFragmentManager.beginTransaction()
-                .replace(R.id.fragmentMain, SearchMainFragment())
+                .replace(R.id.fragmentMain, SearchMainFragment.newInstance(searchHistory))
                 .commit()
         }
 
@@ -39,15 +42,24 @@ class SearchFragment : Fragment() {
         val searchView = view.findViewById<SearchView>(R.id.searchView)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // Khi người dùng nhấn nút tìm kiếm, hiển thị FragmentSearch
-                val bundle = Bundle()
-                bundle.putString("search_query", query)
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentMain, SearchResultFragment().apply {
-                        arguments = bundle
-                    })
-                    .commit()
-                return false
+                if (query != null) {
+                    if (searchHistory.size >= 5) {
+                        searchHistory.removeFirst()
+                    }
+                    searchHistory.addLast(query)
+                    updateSearchMainFragment()
+
+                    // Khi người dùng nhấn nút tìm kiếm, hiển thị FragmentSearch
+                    val bundle = Bundle()
+                    bundle.putString("search_query", query)
+                    childFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentMain, SearchResultFragment().apply {
+                            arguments = bundle
+                        })
+                        .addToBackStack(null)
+                        .commit()
+                }
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -55,15 +67,21 @@ class SearchFragment : Fragment() {
             }
         })
 
-        // Thêm sự kiện cho TextView "Cancel"
+
         val txtCancel = view.findViewById<TextView>(R.id.txtCancel)
         txtCancel.setOnClickListener {
-            // Khi người dùng nhấn "Cancel", hiển thị FragmentMain lại
-            childFragmentManager.beginTransaction()
-                .replace(R.id.fragmentMain, SearchMainFragment())
-                .commit()
+             childFragmentManager.popBackStack()
         }
 
         return view
+    }
+
+
+
+    private fun updateSearchMainFragment() {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fragmentMain, SearchMainFragment.newInstance(searchHistory))
+            .addToBackStack(null)
+            .commit()
     }
 }

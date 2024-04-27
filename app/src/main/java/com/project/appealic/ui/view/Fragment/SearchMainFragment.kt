@@ -7,12 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.flexbox.FlexboxLayout
 import com.project.appealic.R
 import com.project.appealic.data.model.Genre
 import com.project.appealic.ui.view.Adapters.PlaylistAdapter
+import java.util.LinkedList
 
 class SearchMainFragment : Fragment() {
+    private var searchHistory: LinkedList<String> = LinkedList()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,6 +26,38 @@ class SearchMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_search_main, container, false)
+        val flexboxLayout = view.findViewById<FlexboxLayout>(R.id.flexboxLayout)
+
+        searchHistory = arguments?.getStringArrayList("search_history")?.let { LinkedList(it) } ?: LinkedList()
+        flexboxLayout.removeAllViews()
+        searchHistory.forEach { query ->
+            val textView = TextView(requireContext())
+            textView.text = query
+            textView.setTextAppearance(R.style.Body2)
+            textView.setBackgroundResource(R.drawable.button_color_white)
+            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            textView.setPadding(
+                resources.getDimensionPixelSize(R.dimen.dp_16),
+                resources.getDimensionPixelSize(R.dimen.dp_4),
+                resources.getDimensionPixelSize(R.dimen.dp_16),
+                resources.getDimensionPixelSize(R.dimen.dp_4)
+            )
+            val layoutParams = FlexboxLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.setMargins(
+                resources.getDimensionPixelSize(R.dimen.dp_4), // Left margin
+                resources.getDimensionPixelSize(R.dimen.dp_8), // Top margin
+                resources.getDimensionPixelSize(R.dimen.dp_4), // Right margin
+                resources.getDimensionPixelSize(R.dimen.dp_4) // Bottom margin
+            )
+            textView.layoutParams = layoutParams
+
+            flexboxLayout.addView(textView)
+        }
+
+
 
         val gridView: GridView = view.findViewById(R.id.gridviewSearch)
         val imageList = listOf(
@@ -58,5 +96,14 @@ class SearchMainFragment : Fragment() {
         gridView.adapter = adapter
 
         return view
+    }
+    companion object {
+        fun newInstance(searchHistory: LinkedList<String>): SearchMainFragment {
+            val fragment = SearchMainFragment()
+            val bundle = Bundle()
+            bundle.putStringArrayList("search_history", ArrayList(searchHistory))
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }
