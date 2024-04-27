@@ -31,7 +31,9 @@ class SearchMainFragment : Fragment() {
 
         searchHistory = arguments?.getStringArrayList("search_history")?.let { LinkedList(it) } ?: LinkedList()
         flexboxLayout.removeAllViews()
-        searchHistory.forEach { query ->
+
+        val uniqueSearchHistory = LinkedHashSet<String>(searchHistory)
+        uniqueSearchHistory.forEach { query ->
             val textView = TextView(requireContext())
             textView.text = query
             textView.setTextAppearance(R.style.Body2)
