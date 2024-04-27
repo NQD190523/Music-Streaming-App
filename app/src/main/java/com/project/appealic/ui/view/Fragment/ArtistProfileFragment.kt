@@ -79,7 +79,7 @@ class ArtistProfileFragment: Fragment() {
         if (userId != null) {
 
             artistViewModel.getFollowArtistFromUser(userId)
-            artistViewModel.likedArtist.observe(context as LifecycleOwner, Observer {
+            artistViewModel.likedArtist.observe(viewLifecycleOwner, Observer {
                 val isFollowed = artistViewModel.likedArtist.value?.any { it.Id == artistId } ?: false
                 if (isFollowed) {
                     followBtn.text = "Following"
@@ -97,7 +97,7 @@ class ArtistProfileFragment: Fragment() {
 
         followBtn.setOnClickListener {
             if (userId != null) {
-
+                artistViewModel.getFollowArtistFromUser(userId)
                 val isFollowed = artistViewModel.likedArtist.value?.any { it.Id == artistId } ?: false
                 if (selectedArtist != null) {
                     if (isFollowed) {

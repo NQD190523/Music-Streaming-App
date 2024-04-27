@@ -85,6 +85,7 @@ class ArtistResultAdapter(context: Context, artists: List<Artist>,
         // Xử lý sự kiện click cho nút follow
         viewHolder.followBtn.setOnClickListener {
             if (userId != null) {
+                artistViewModel.getFollowArtistFromUser(userId)
                 val artistId = artistIds[position] ?: ""
                 val isFollowed = artistViewModel.likedArtist.value?.any { it.Id == artistId } ?: false
                 if (currentArtist != null) {
