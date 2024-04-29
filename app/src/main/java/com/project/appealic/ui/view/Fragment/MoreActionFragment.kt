@@ -1,32 +1,24 @@
 package com.project.appealic.ui.view.Fragment
 
 import ArtistDetailFragment
-import SongAdapter
 import android.app.Dialog
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
 import com.project.appealic.data.model.Track
@@ -191,6 +183,10 @@ class MoreActionFragment : DialogFragment() {
             dismiss()
             showDialogForComment()
         }
+        view.findViewById<LinearLayout>(R.id.llAblum).setOnClickListener {
+            dismiss()
+            showAlbumPage()
+        }
 
         view.findViewById<LinearLayout>(R.id.llArtist).setOnClickListener {
             dismiss()
@@ -259,6 +255,23 @@ class MoreActionFragment : DialogFragment() {
         }
     }
 
+    private fun showAlbumPage() {
+        val albumId = arguments?.getString("ALBUM_ID")
+        if (albumId != null) {
+            val bundle = Bundle().apply {
+                putString("ALBUM_ID", albumId)
+            }
+
+            val albumPageFragment = AlbumPageFragment().apply {
+                arguments = bundle
+            }
+
+            val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.fragmenthome, albumPageFragment, "AlbumPageFragment")
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        }
+    }
 //    private fun showDialogForSleep(){
 //        val dialog = Dialog(requireActivity())
 //        val window = dialog.window

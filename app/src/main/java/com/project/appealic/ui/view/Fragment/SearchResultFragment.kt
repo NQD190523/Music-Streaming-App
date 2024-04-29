@@ -74,7 +74,7 @@ class SearchResultFragment: Fragment() {
         val factoryPlaylist = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
         playlistViewModel = ViewModelProvider(this, factoryPlaylist)[PlayListViewModel:: class.java]
 
-        val factoryAlbum = AlbumViewModelFactory(AlbumRepository())
+        val factoryAlbum = AlbumViewModelFactory(AlbumRepository(application))
         albumViewModel = ViewModelProvider(this, factoryAlbum)[AlbumViewModel:: class.java]
 
         // Nhận dữ liệu từ Bundle

@@ -42,6 +42,9 @@ class SongRepository(application: Context) {
     fun getAllPlaylists(): Task<QuerySnapshot> {
         return firebaseDB.collection("playlists").get()
     }
+    fun getAllAlbums(): Task<QuerySnapshot> {
+        return firebaseDB.collection("albums").get()
+    }
 
     fun getRecentSongs(userId: String): LiveData<List<SongEntity>> {
         return songDao.getRecentSongs(userId)
