@@ -28,6 +28,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.concurrent.CompletableFuture
 
 
@@ -45,6 +47,9 @@ class SongViewModel(private val songRepository: SongRepository, private val user
 
     private val _tracks = MutableLiveData<List<Track>>()
     val tracks: LiveData<List<Track>> get() = _tracks
+
+    private val _newReleaseTracks = MutableLiveData<List<Track>>()
+    val newReleaseTracks: LiveData<List<Track>> get() = _newReleaseTracks
 
     private val _recTracks = MutableLiveData<List<Track>>()
     val recTracks: LiveData<List<Track>> get() = _recTracks
@@ -71,6 +76,20 @@ class SongViewModel(private val songRepository: SongRepository, private val user
                 Log.e("error",exception.toString())
             }
     }
+    fun getNewReleaseTracks(){
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        songRepository.getAllTrack().addOnSuccessListener { tracks ->
+            val tracks = tracks.documents.mapNotNull { track ->
+                track.toObject(Track::class.java)
+            }
+            val sortedTracks =  tracks.sortedByDescending { track->
+                track.releaseDate?.let { dateFormat.parse(it) }
+            }
+            _newReleaseTracks.postValue(sortedTracks.take(6))
+        }.addOnFailureListener { exception ->
+            Log.e("error",exception.toString())}
+    }
+
 
     fun recommendSong(tracks: List<Track>) {
         _recTracks.postValue(emptyList())

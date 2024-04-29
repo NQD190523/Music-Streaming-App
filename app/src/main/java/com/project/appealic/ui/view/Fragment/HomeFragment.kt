@@ -54,8 +54,9 @@ class HomeFragment : Fragment() {
         recyclerViewBanner.adapter = bannerAdapter
 
         // Khởi tạo và cấu hình ListView cho danh sách các bài hát mới
+        songViewModel.getNewReleaseTracks()
         listView = rootView.findViewById(R.id.lvNewRelease)
-        songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
+        songViewModel.newReleaseTracks.observe(viewLifecycleOwner, Observer { tracks ->
             listView.setOnItemClickListener(requireContext(),songViewModel,tracks)
             val adapter = NewReleaseAdapter(requireContext(), tracks)
 

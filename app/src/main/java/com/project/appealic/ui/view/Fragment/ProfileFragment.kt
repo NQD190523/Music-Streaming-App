@@ -39,8 +39,8 @@ class ProfileFragment : Fragment() {
         googleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
 
         return view
-
     }
+
 
     private fun setOnClickListeners(view: View) {
         view.findViewById<ImageView>(R.id.solo_card).setOnClickListener {
