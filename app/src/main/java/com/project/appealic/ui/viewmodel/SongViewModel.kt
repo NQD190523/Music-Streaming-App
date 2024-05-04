@@ -151,6 +151,16 @@ class SongViewModel(private val songRepository: SongRepository, private val user
                 _gerneTracks.postValue(genreTrack.map { it.toObject(Track::class.java)!! })
             }
     }
+    fun getAllAlbums() {
+        songRepository.getAllAlbums()
+            .addOnSuccessListener { albums ->
+                if (albums != null)
+                    _albums.postValue(albums.toObjects(Album::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.e("error", exception.toString())
+            }
+    }
 
     fun getTrackByUrl(trackUrl : String) {
         songRepository.getTrackByUrl(trackUrl)

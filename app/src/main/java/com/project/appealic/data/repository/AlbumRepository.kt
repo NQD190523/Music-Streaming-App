@@ -1,5 +1,6 @@
 package com.project.appealic.data.repository
 
+import android.app.Application
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -11,7 +12,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import com.project.appealic.data.model.Album
 
-class AlbumRepository {
+class AlbumRepository(application: Application) {
     val firebaseDB = Firebase.firestore
 
     fun getAllAlbums(): Task<QuerySnapshot> {
