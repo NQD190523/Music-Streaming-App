@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
+import com.project.appealic.data.model.Album
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
@@ -29,34 +30,26 @@ import com.project.appealic.utils.SongViewModelFactory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MoreActionFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MoreActionFragment : DialogFragment() {
 
     private lateinit var songViewModel: SongViewModel
-    private lateinit var trackId : String
-    private lateinit var songTitle : String
-    private lateinit var artistName : String
-    private lateinit var trackImage : String
-    private lateinit var trackUrl : String
-
+    private lateinit var trackId: String
+    private lateinit var songTitle: String
+    private lateinit var artistName: String
+    private lateinit var trackImage: String
+    private lateinit var trackUrl: String
+    private var album: Album? = null
 
     companion object {
         private const val ARG_TRACK = "arg_track"
+        private const val ARG_ALBUM = "arg_album"
 
-        fun newInstance(track: Track): MoreActionFragment {
+        fun newInstance(track: Track, album: Album? = null): MoreActionFragment {
             val fragment = MoreActionFragment()
             val args = Bundle().apply {
                 putParcelable(ARG_TRACK, track)
                 putString("TRACK_ID", track.trackId)
+                putParcelable(ARG_ALBUM, album)
             }
             fragment.arguments = args
             return fragment
@@ -65,31 +58,27 @@ class MoreActionFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
+        val factory = SongViewModelFactory(
+            SongRepository(requireActivity().application),
+            UserRepository(requireActivity().application)
+        )
         songViewModel = ViewModelProvider(requireActivity(), factory)[SongViewModel::class.java]
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
-
+        savedInstanceState: Bundle?
     ): View? {
-        // Khởi tạo SongViewModel
-
         val track: Track? = arguments?.getParcelable(ARG_TRACK)
         return inflater.inflate(R.layout.fragment_more_action, container, false)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
         val dialog = Dialog(requireActivity())
-        // Tạo và gán layout cho dialog
         val view = LayoutInflater.from(requireActivity()).inflate(R.layout.fragment_more_action, null)
         dialog.setContentView(view)
 
-        // Tùy chỉnh cài đặt của Window
         val window = dialog.window
         window?.setBackgroundDrawableResource(R.drawable.more_background)
         val layoutParams = window?.attributes
@@ -104,36 +93,29 @@ class MoreActionFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Lấy dữ liệu từ Bundle
         songTitle = arguments?.getString("SONG_TITLE").toString()
         artistName = arguments?.getString("SINGER_NAME").toString()
         trackImage = arguments?.getString("TRACK_IMAGE").toString()
         trackId = arguments?.getString("TRACK_ID").toString()
         trackUrl = arguments?.getString("TRACK_URL").toString()
+        album = arguments?.getParcelable(ARG_ALBUM)
 
-        // Ánh xạ các thành phần trong layout
         val txtSongName = view.findViewById<TextView>(R.id.txtSongName)
         val txtSinger = view.findViewById<TextView>(R.id.txtSinger)
         val songImageView = view.findViewById<ImageView>(R.id.imvPhoto)
 
-        // Gán giá trị ban đầu vào layout
         txtSongName.text = songTitle
         txtSinger.text = artistName
 
-        // Load hình ảnh từ Firebase Storage
-        println(trackImage)
         val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(trackImage)
         Glide.with(this)
             .load(storageReference)
             .into(songImageView)
 
-        // Quan sát LiveData để cập nhật layout khi dữ liệu thay đổi
         songViewModel.recentTrack.observe(viewLifecycleOwner, Observer { recentSong ->
-            // Cập nhật layout với dữ liệu mới
             txtSongName.text = recentSong[0].trackTitle.toString()
             txtSinger.text = recentSong[0].artist.toString()
 
-            // Load hình ảnh mới từ Firebase Storage
             val newImageURL = recentSong[0].trackImage
             if (newImageURL != null) {
                 val newStorageReference = FirebaseStorage.getInstance().getReferenceFromUrl(newImageURL)
@@ -142,34 +124,28 @@ class MoreActionFragment : DialogFragment() {
                     .into(songImageView)
             }
 
-            // Cập nhật trackId (nếu cần thiết)
             trackId = recentSong[0].trackId.toString()
         })
 
-
-
-
-        // Xét điều kiện hiển thị thêm vào yêu thích
         val heartIcon = view.findViewById<ImageView>(R.id.heartIcon)
         val userId = FirebaseAuth.getInstance().currentUser?.uid
-        // Xét hiển thị bài hát yêu thích
         if (userId != null) {
             songViewModel.getLikedSongs(userId)
             songViewModel.likedSongs.observe(this, Observer { likedSongs ->
                 if (likedSongs.any { it.trackId == trackId }) {
-                    // Track hiện tại đã được người dùng yêu thích
                     heartIcon.setImageResource(R.drawable.ic_isliked)
                 } else {
-                    // Track hiện tại chưa được người dùng yêu thích
                     heartIcon.setImageResource(R.drawable.ic_heart_24_outlined)
                 }
             })
         } else {
-            // Hiển thị thông báo yêu cầu đăng nhập nếu người dùng chưa đăng nhập
-            Toast.makeText(requireContext(), "You need to sign in to use this feature", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "You need to sign in to use this feature",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
-        // Xử lý các sự kiện click
         view.findViewById<LinearLayout>(R.id.llAddPlay).setOnClickListener {
             dismiss()
             showDialogForAddPlay()
@@ -183,19 +159,21 @@ class MoreActionFragment : DialogFragment() {
             dismiss()
             showDialogForComment()
         }
+
         view.findViewById<LinearLayout>(R.id.llAblum).setOnClickListener {
-            dismiss()
-            showAlbumPage()
+            album?.let { showAlbumPage(it) }
         }
 
         view.findViewById<LinearLayout>(R.id.llArtist).setOnClickListener {
-            dismiss()
             showDialogForArtist()
         }
 
         view.findViewById<LinearLayout>(R.id.llSleep).setOnClickListener {
             dismiss()
-            SleepFragmentDialog().show(requireActivity().supportFragmentManager, "SleepFragmentDialog")
+            SleepFragmentDialog().show(
+                requireActivity().supportFragmentManager,
+                "SleepFragmentDialog"
+            )
         }
     }
 
@@ -206,7 +184,6 @@ class MoreActionFragment : DialogFragment() {
 
     private fun handleAddToFavorites() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
-        println(userId)
         val heartIcon = view?.findViewById<ImageView>(R.id.heartIcon)
         if (userId != null) {
             songViewModel.getLikedSongs(userId)
@@ -218,16 +195,17 @@ class MoreActionFragment : DialogFragment() {
                 songViewModel.addTrackToUserLikedSongs(userId, trackId)
                 heartIcon?.setImageResource(R.drawable.ic_isliked)
             }
-        } else {
-            // Hiển thị thông báo yêu cầu đăng nhập nếu người dùng chưa đăng nhập
-            Toast.makeText(requireContext(), "You need to sign in to use this feature", Toast.LENGTH_SHORT).show()
+        } else {Toast.makeText(
+            requireContext(),
+            "You need to sign in to use this feature",
+            Toast.LENGTH_SHORT
+        ).show()
         }
         lifecycleScope.launch {
             delay(800)
             dismiss()
         }
     }
-
 
     private fun showDialogForComment() {
         val dialog = Dialog(requireActivity())
@@ -242,7 +220,7 @@ class MoreActionFragment : DialogFragment() {
         dialog.show()
     }
 
-    private fun showDialogForArtist(){
+    private fun showDialogForArtist() {
         val bundle = Bundle().apply {
             putString("ARTIST_ID", arguments?.getString("ARTIST_ID"))
         }
@@ -251,37 +229,23 @@ class MoreActionFragment : DialogFragment() {
         if (artistDetailFragment != null) {
             artistDetailFragment.arguments = bundle
             artistDetailFragment.show(parentFragmentManager, "ArtistDetailFragment")
-
         }
     }
 
-    private fun showAlbumPage() {
-        val albumId = arguments?.getString("ALBUM_ID")
-        if (albumId != null) {
-            val bundle = Bundle().apply {
-                putString("ALBUM_ID", albumId)
-            }
-
-            val albumPageFragment = AlbumPageFragment().apply {
-                arguments = bundle
-            }
-
-            val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.fragmenthome, albumPageFragment, "AlbumPageFragment")
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
+    private fun showAlbumPage(album: Album) {
+        val bundle = Bundle().apply {
+            putParcelable("selected_album", album)
         }
+
+        val albumPageFragment = AlbumPageFragment().apply {
+            arguments = bundle
+        }
+
+        dismiss() // Đóng DialogFragment hiện tại
+
+        parentFragmentManager.beginTransaction()
+            .add(R.id.fragmenthome, albumPageFragment)
+            .addToBackStack(null)
+            .commit()
     }
-//    private fun showDialogForSleep(){
-//        val dialog = Dialog(requireActivity())
-//        val window = dialog.window
-//        window?.setBackgroundDrawableResource(R.drawable.more_background)
-//        window?.setLayout(
-//            ViewGroup.LayoutParams.MATCH_PARENT,
-//            ViewGroup.LayoutParams.WRAP_CONTENT
-//        )
-//        window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
-//        dialog.setContentView(R.layout.bottom_sleep)
-//        dialog.show()
-//    }
 }

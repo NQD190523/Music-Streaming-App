@@ -17,6 +17,7 @@ import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
+import com.project.appealic.data.model.Album
 import com.project.appealic.data.repository.AlbumRepository
 import com.project.appealic.data.repository.ArtistRepository
 import com.project.appealic.data.repository.PlayListRepository
@@ -112,11 +113,31 @@ class SearchResultFragment: Fragment() {
 
             albumViewModel.album.observe(viewLifecycleOwner, Observer { albums ->
                 val adapterAlbum = AlbumsResultAdapter(requireContext(), albums)
+                adapterAlbum.setOnItemClickListener(object : AlbumsResultAdapter.OnItemClickListener {
+                    override fun onItemClick(album: Album) {
+                        navigateToAlbumPageFragment(album)
+                    }
+                })
                 listAlbum.adapter = adapterAlbum
                 setListViewHeightBasedOnItems(listAlbum)
             })
+
         }
         return view
+    }
+
+    private fun navigateToAlbumPageFragment(album: Album) {
+        val bundle = Bundle().apply {
+            putParcelable("selected_album", album)
+        }
+
+        val albumPageFragment = AlbumPageFragment()
+        albumPageFragment.arguments = bundle
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmenthome, albumPageFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun setListViewHeightBasedOnItems(listView: ListView) {
