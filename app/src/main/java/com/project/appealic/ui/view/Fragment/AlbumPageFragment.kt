@@ -96,6 +96,7 @@ class AlbumPageFragment() : Fragment() {
         }
 
         albumViewModel.track.observe(viewLifecycleOwner, Observer { tracks ->
+            songViewModel.recommendSong(tracks)
             val adapter = NewReleaseAdapter(requireContext(), tracks)
             adapter.setOnMoreActionClickListener { track ->
                 track.trackUrl?.let { songViewModel.getTrackByUrl(it) }
@@ -115,7 +116,7 @@ class AlbumPageFragment() : Fragment() {
             setListViewHeightBasedOnItems(trackInAlbum)
         })
 
-        songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
+        songViewModel.recTracks.observe(viewLifecycleOwner, Observer { tracks->
             val adapter = NewReleaseAdapter(requireContext(), tracks)
             adapter.setOnAddPlaylistClickListener { track ->
                 // Mở dialog thêm playlist
@@ -138,6 +139,7 @@ class AlbumPageFragment() : Fragment() {
                 moreActionFragment.show(childFragmentManager, "MoreActionsFragment")
             }
             rcsong.adapter = adapter
+            setListViewHeightBasedOnItems(rcsong)
         })
     }
 
