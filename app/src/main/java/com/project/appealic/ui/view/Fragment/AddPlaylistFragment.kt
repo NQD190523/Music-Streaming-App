@@ -116,32 +116,8 @@ class AddPlaylistFragment : DialogFragment() {
     }
 
     private fun showCreatePlaylistDialog() {
-        val dialog = Dialog(requireActivity())
-        dialog.setContentView(R.layout.dialog_create_playlist)
-        dialog.window?.setLayout(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        dialog.window?.setBackgroundDrawableResource(R.drawable.radius_background)
-        dialog.window?.setWindowAnimations(R.style.DialogAnimation)
-
-        val edtPlaylistName = dialog.findViewById<EditText>(R.id.edtPlaylistName)
-        val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
-        val btnConfirm = dialog.findViewById<Button>(R.id.btnConfirm)
-
-        btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        btnConfirm.setOnClickListener {
-            if (userId != null) {
-                val newPlaylist =
-                    PlayListEntity("", userId, edtPlaylistName.text.toString(), R.drawable.song2, listOf())
-                playListViewModel.createNewPlayList(newPlaylist)
-                playListViewModel.getUserPlaylist(userId)
-                dialog.dismiss()
-            }
-        }
-        dialog.show()
+        val addPlaylistDialog = AddPlaylistDialog()
+        addPlaylistDialog.show(parentFragmentManager, "AddPlaylistDialog")
     }
 
     fun drawableToByteArray(resources: Resources, drawableResId: Int): ByteArray {
