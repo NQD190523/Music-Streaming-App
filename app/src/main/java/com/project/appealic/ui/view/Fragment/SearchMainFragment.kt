@@ -3,12 +3,14 @@ package com.project.appealic.ui.view.Fragment
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.flexbox.FlexboxLayout
@@ -20,7 +22,6 @@ import java.util.LinkedList
 class SearchMainFragment : Fragment() {
     private var searchHistory: LinkedList<String> = LinkedList()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,42 +31,31 @@ class SearchMainFragment : Fragment() {
         val flexboxLayout = view.findViewById<FlexboxLayout>(R.id.flexboxLayout)
 
         searchHistory = arguments?.getStringArrayList("search_history")?.let { LinkedList(it) } ?: LinkedList()
-        flexboxLayout.removeAllViews()
+        flexboxLayout?.removeAllViews()
 
         val uniqueSearchHistory = LinkedHashSet<String>(searchHistory)
-        uniqueSearchHistory.forEach { query ->
-            val textView = TextView(requireContext())
-            textView.text = query
-            textView.setTextAppearance(R.style.Body2)
-            textView.setBackgroundResource(R.drawable.button_color_white)
-            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            textView.setPadding(
-                resources.getDimensionPixelSize(R.dimen.dp_16),
-                resources.getDimensionPixelSize(R.dimen.dp_4),
-                resources.getDimensionPixelSize(R.dimen.dp_16),
-                resources.getDimensionPixelSize(R.dimen.dp_4)
-            )
-            val layoutParams = FlexboxLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.setMargins(
-                resources.getDimensionPixelSize(R.dimen.dp_4), // Left margin
-                resources.getDimensionPixelSize(R.dimen.dp_8), // Top margin
-                resources.getDimensionPixelSize(R.dimen.dp_4), // Right margin
-                resources.getDimensionPixelSize(R.dimen.dp_4) // Bottom margin
-            )
-            textView.layoutParams = layoutParams
+        val textViews = mutableListOf<TextView>()
 
-            textView.setOnClickListener {
-                loadQueryToSearchView(query)
-            }
-            flexboxLayout.addView(textView)
+        uniqueSearchHistory.forEach { query ->
+            val textView = createTextView(query)
+            textViews.add(textView)
+            flexboxLayout?.addView(textView)
         }
 
+        // Kiểm tra chiều cao tổng của các TextView
+        val totalHeight = textViews.sumBy { it.measuredHeight }
+        val maxHeight = flexboxLayout?.let { flexboxLayout ->
+            val layoutParams = flexboxLayout.layoutParams as? ConstraintLayout.LayoutParams
+            layoutParams?.matchConstraintMaxHeight ?: 0
+        } ?: 0
 
+        if (totalHeight > maxHeight) {
+            searchHistory.removeFirst()
+            flexboxLayout?.removeAllViews()
+            textViews.drop(1).forEach { flexboxLayout?.addView(it) }
+        }
 
-        val gridView: GridView = view.findViewById(R.id.gridviewSearch)
+        val gridView: GridView? = view.findViewById(R.id.gridviewSearch)
         val imageList = listOf(
             R.drawable.sleeping,
             R.drawable.playlistkpop,
@@ -99,15 +89,49 @@ class SearchMainFragment : Fragment() {
                     .commit()
             }
         })
-        gridView.adapter = adapter
+        gridView?.adapter = adapter
 
         return view
     }
 
+    private fun createTextView(text: String): TextView {
+        val textView = TextView(requireContext())
+        textView.text = text
+        textView.setTextAppearance(R.style.Body2)
+        textView.setBackgroundResource(R.drawable.button_color_white)
+        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        textView.setPadding(
+            resources.getDimensionPixelSize(R.dimen.dp_16),
+            resources.getDimensionPixelSize(R.dimen.dp_4),
+            resources.getDimensionPixelSize(R.dimen.dp_16),
+            resources.getDimensionPixelSize(R.dimen.dp_4)
+        )
+        val layoutParams = FlexboxLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        layoutParams.setMargins(
+            resources.getDimensionPixelSize(R.dimen.dp_4),
+            resources.getDimensionPixelSize(R.dimen.dp_8),
+            resources.getDimensionPixelSize(R.dimen.dp_4),
+            resources.getDimensionPixelSize(R.dimen.dp_4)
+        )
+        textView.layoutParams = layoutParams
+
+        textView.setOnClickListener {
+            loadQueryToSearchView(text)
+        }
+
+        textView.ellipsize = TextUtils.TruncateAt.END
+        textView.maxWidth = resources.getDimensionPixelSize(R.dimen.max_wight)
+        textView.maxLines = 1
+
+        return textView
+    }
+
     private fun loadQueryToSearchView(query: String) {
-        // Tìm SearchView và nạp nội dung tìm kiếm vào đó
         val searchView = requireActivity().findViewById<androidx.appcompat.widget.SearchView>(R.id.searchView)
-        searchView.setQuery(query, false)
+        searchView?.setQuery(query, false)
     }
 
     companion object {

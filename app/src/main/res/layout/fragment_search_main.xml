@@ -37,6 +37,7 @@
                 android:id="@+id/flexboxLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintHeight_max="100dp"
                 android:layout_marginTop="@dimen/dp_8"
                 app:alignItems="center"
                 app:flexWrap="wrap"
@@ -56,9 +57,11 @@
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:singleLine="true"
                     android:text="Taylor Swift"
-                    android:textColor="@color/white" />
+                    android:ellipsize="end"
+                    android:maxWidth="150dp"
+                    android:textColor="@color/white"
+                    android:maxLines="1" />
 
 
             </com.google.android.flexbox.FlexboxLayout>
