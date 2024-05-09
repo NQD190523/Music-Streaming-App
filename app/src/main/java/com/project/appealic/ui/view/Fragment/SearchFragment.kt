@@ -42,7 +42,7 @@ class SearchFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
-                    if (searchHistory.size >= 5) {
+                    if (searchHistory.size >= 7) {
                         searchHistory.removeFirst()
                     }
                     searchHistory.addLast(query)
