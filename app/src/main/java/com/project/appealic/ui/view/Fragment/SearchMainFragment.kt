@@ -42,6 +42,18 @@ class SearchMainFragment : Fragment() {
             flexboxLayout?.addView(textView)
         }
 
+        // Tìm TextView tiêu đề "History"
+        val txtHistory = view.findViewById<TextView>(R.id.txtHistory)
+
+        // Kiểm tra xem danh sách lịch sử tìm kiếm có dữ liệu không
+        if (searchHistory.isEmpty()) {
+            // Nếu không có dữ liệu, ẩn TextView tiêu đề "History"
+            txtHistory.visibility = View.GONE
+        } else {
+            // Nếu có dữ liệu, hiển thị TextView tiêu đề "History"
+            txtHistory.visibility = View.VISIBLE
+        }
+
         // Kiểm tra chiều cao tổng của các TextView
         val totalHeight = textViews.sumBy { it.measuredHeight }
         val maxHeight = flexboxLayout?.let { flexboxLayout ->

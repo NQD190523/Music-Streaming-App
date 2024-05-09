@@ -166,16 +166,16 @@
                 android:id="@+id/recentlyPlayed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_24"
                 app:layout_constraintTop_toBottomOf="@+id/newRelease"
                 tools:layout_editor_absoluteX="16dp">
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/txtRecentlyPlayed"
                     style="@style/Heading4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_24"
                     android:text="Recently Played"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
@@ -191,7 +191,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtRecentlyPlayed" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -199,17 +199,17 @@
                 android:id="@+id/yourFavArtist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_32"
                 app:layout_constraintTop_toBottomOf="@+id/recentlyPlayed"
                 tools:layout_editor_absoluteX="16dp">
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/txtFavArtists"
                     style="@style/Heading4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="@dimen/dp_16"
                     android:text="Your Favourite Artists"
+                    android:layout_marginTop="@dimen/dp_32"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -223,14 +223,14 @@
                     android:layout_marginTop="@dimen/dp_16"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtFavArtists" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_32"
+
                 app:layout_constraintTop_toBottomOf="@+id/yourFavArtist"
                 tools:layout_editor_absoluteX="16dp">
 
@@ -240,6 +240,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_32"
                     android:text="Playlists For You"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
