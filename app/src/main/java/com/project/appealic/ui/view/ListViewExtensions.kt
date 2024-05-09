@@ -67,6 +67,7 @@ fun ListView.setOnItemClickListener(
             putExtra("GENRE", selectedSong.genre)
             putExtra("RELEASED_DATE", selectedSong.releaseDate)
             putExtra("TRACK_INDEX",position)
+            putExtra("ARTIST_ID",selectedSong.artistId)
             putStringArrayListExtra("TRACK_LIST", trackUrlList)
         }
         context.startActivity(intent)

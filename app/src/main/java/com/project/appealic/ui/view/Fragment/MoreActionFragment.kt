@@ -225,11 +225,9 @@ class MoreActionFragment : DialogFragment() {
             putString("ARTIST_ID", arguments?.getString("ARTIST_ID"))
         }
 
-        val artistDetailFragment = context?.let { ArtistDetailFragment(it) }
-        if (artistDetailFragment != null) {
-            artistDetailFragment.arguments = bundle
-            artistDetailFragment.show(parentFragmentManager, "ArtistDetailFragment")
-        }
+        val artistDetailFragment = ArtistDetailFragment(requireActivity())
+        artistDetailFragment.arguments = bundle
+        artistDetailFragment.show(parentFragmentManager, "ArtistDetailFragment")
     }
 
     private fun showAlbumPage(album: Album) {
