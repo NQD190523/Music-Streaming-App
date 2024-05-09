@@ -20,7 +20,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/txtSongResult"
                 style="@style/Heading4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,10 +43,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSongResult" />
 
             <TextView
-                android:id="@+id/textView20"
+                android:id="@+id/txtArtistResult"
                 style="@style/Heading4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,10 +67,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView20" />
+                app:layout_constraintTop_toBottomOf="@+id/txtArtistResult" />
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/txtPlaylistResult"
                 style="@style/Heading4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,10 +90,10 @@
                 android:scrollbars="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                app:layout_constraintTop_toBottomOf="@+id/txtPlaylistResult" />
 
             <TextView
-                android:id="@+id/textView22"
+                android:id="@+id/txtAlbumResult"
                 style="@style/Heading4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
                 android:scrollbars="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+                app:layout_constraintTop_toBottomOf="@+id/txtAlbumResult" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

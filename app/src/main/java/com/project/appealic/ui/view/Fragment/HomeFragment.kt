@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
 import com.project.appealic.data.model.Track
+import com.project.appealic.data.repository.ArtistRepository
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.ActivityHome
@@ -25,14 +27,18 @@ import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistForYouAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
 import com.project.appealic.ui.view.setOnItemClickListener
+import com.project.appealic.ui.viewmodel.ArtistViewModel
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
+import com.project.appealic.utils.ArtistViewModelFactory
 import com.project.appealic.utils.SongViewModelFactory
 
 class HomeFragment : Fragment() {
 
     private lateinit var songViewModel: SongViewModel
+    private lateinit var artistViewModel: ArtistViewModel
     private lateinit var listView: ListView
+    val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
     private lateinit var musicPlayerViewModel: MusicPlayerViewModel
     private lateinit var recyclerViewArtists: RecyclerView
 
@@ -45,6 +51,10 @@ class HomeFragment : Fragment() {
         // Initialize SongViewModel
         val factory = SongViewModelFactory(SongRepository(requireActivity().application), UserRepository(requireActivity().application))
         songViewModel = ViewModelProvider(this, factory)[SongViewModel::class.java]
+
+        // Initialize ArtistViewModel
+        val factoryArtist = ArtistViewModelFactory(ArtistRepository(requireActivity().application))
+        artistViewModel = ViewModelProvider(this, factoryArtist)[ArtistViewModel::class.java]
 
         // Khởi tạo và cấu hình RecyclerView cho banner
         val recyclerViewBanner: RecyclerView = rootView.findViewById(R.id.rrBanner)
@@ -85,6 +95,7 @@ class HomeFragment : Fragment() {
         })
 
 // Khởi tạo RecyclerView cho danh sách các bài hát đã xem gần đây
+        val recentSongTitle = rootView.findViewById<TextView>(R.id.txtRecentlyPlayed)
         val recentlyViewSong: RecyclerView = rootView.findViewById(R.id.RecentlyViewSong)
         recentlyViewSong.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
@@ -92,21 +103,53 @@ class HomeFragment : Fragment() {
         recentlyViewSong.adapter = recentlySongAdapter
 
         songViewModel.getRecentSongs(FirebaseAuth.getInstance().currentUser?.uid.toString()).observe(viewLifecycleOwner, Observer { songs ->
-            recentlySongAdapter.updateData(songs)
-            println(songs)
-            recentlyViewSong.post {
-                recentlyViewSong.setOnItemClickListener(requireContext(), songViewModel, songs)
+
+            if (songs.isEmpty()) {
+
+                recentlyViewSong.visibility = View.GONE
+                recentSongTitle.visibility = View.GONE
+
+            } else {
+
+                recentlyViewSong.visibility = View.VISIBLE
+                recentSongTitle.visibility = View.VISIBLE
+
+                recentlySongAdapter.updateData(songs)
+                println(songs)
+                recentlyViewSong.post {
+                    recentlyViewSong.setOnItemClickListener(requireContext(), songViewModel, songs)
+                }
             }
         })
 
 
 // Khởi tạo và cấu hình RecyclerView cho danh sách nghệ sĩ
+        val favArtistsTitle = rootView.findViewById<TextView>(R.id.txtFavArtists)
         val recyclerViewArtists: RecyclerView = rootView.findViewById(R.id.recyclerViewArtist)
         recyclerViewArtists.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        songViewModel.artists.observe(viewLifecycleOwner, Observer { artists ->
-            val artistAdapter = ArtistAdapter(requireContext(), artists, requireActivity().supportFragmentManager)
-            recyclerViewArtists.adapter = artistAdapter
+
+        // Quan sát LiveData để nhận danh sách nghệ sĩ mà người dùng đã follow
+        artistViewModel.likedArtist.observe(viewLifecycleOwner, Observer { likedArtists ->
+
+            if (likedArtists.isEmpty()) {
+
+                recyclerViewArtists.visibility = View.GONE
+                favArtistsTitle.visibility = View.GONE
+
+            } else {
+
+                recyclerViewArtists.visibility = View.VISIBLE
+                favArtistsTitle.visibility = View.VISIBLE
+
+                // Tạo một Adapter mới với danh sách nghệ sĩ mà người dùng đã follow
+                val artistAdapter = ArtistAdapter(requireContext(), likedArtists, requireActivity().supportFragmentManager)
+                // Đặt Adapter cho RecyclerView
+                recyclerViewArtists.adapter = artistAdapter
+            }
         })
+
+        // Gọi hàm để lấy danh sách các nghệ sĩ đã follow
+        artistViewModel.getFollowArtistFromUser(userId)
 
 // Khởi tạo RecyclerView cho danh sách các playlist cho người dùng
         val playlistForU: RecyclerView = rootView.findViewById(R.id.PlaylistForYou)

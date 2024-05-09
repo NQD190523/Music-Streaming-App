@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.DatabaseReference
@@ -90,36 +91,74 @@ class SearchResultFragment: Fragment() {
             // Quan sát LiveData _tracks để cập nhật ListView khi có kết quả tìm kiếm mới
             songViewModel.tracks.observe(viewLifecycleOwner, Observer { tracks ->
                 val adapterSong = SongResultAdapter(requireContext(), tracks)
-                listSong.adapter = adapterSong
+                val txtSongResult = view.findViewById<TextView>(R.id.txtSongResult)
 
-                // Cập nhật chiều cao của ListView
-                setListViewHeightBasedOnItems(listSong)
+                if (tracks.isEmpty()){
+                    listSong.visibility = View.GONE
+                    txtSongResult.visibility = View.GONE
+                } else {
+                    listSong.visibility = View.VISIBLE
+                    txtSongResult.visibility = View.VISIBLE
 
-                // Thiết lập OnItemClickListener cho ListView
-                listSong.setOnItemClickListener(requireContext(), songViewModel, tracks)
+                    listSong.adapter = adapterSong
+
+                    // Cập nhật chiều cao của ListView
+                    setListViewHeightBasedOnItems(listSong)
+
+                    // Thiết lập OnItemClickListener cho ListView
+                    listSong.setOnItemClickListener(requireContext(), songViewModel, tracks)
+                }
             })
 
             artistViewModel.artists.observe(viewLifecycleOwner, Observer { artists->
                 val adapterArtist = ArtistResultAdapter(requireContext(), artists, artistViewModel)
-                listArtist.adapter = adapterArtist
-                setListViewHeightBasedOnItems(listArtist)
+                val txtArtistResult = view.findViewById<TextView>(R.id.txtArtistResult)
+                if (artists.isEmpty()){
+                    listArtist.visibility = View.GONE
+                    txtArtistResult.visibility = View.GONE
+                } else {
+                    listArtist.visibility = View.VISIBLE
+                    txtArtistResult.visibility = View.VISIBLE
+
+                    listArtist.adapter = adapterArtist
+                    setListViewHeightBasedOnItems(listArtist)
+                }
             })
 
             playlistViewModel.playLists.observe(viewLifecycleOwner, Observer { playlits ->
                 val adapterPlaylists = PlaylistResultAdapter(requireContext(), playlits)
-                listPlaylist.adapter = adapterPlaylists
-                setListViewHeightBasedOnItems(listPlaylist)
+                val txtPlaylistResult = view.findViewById<TextView>(R.id.txtPlaylistResult)
+                if (playlits.isEmpty()){
+                    listPlaylist.visibility = View.GONE
+                    txtPlaylistResult.visibility = View.GONE
+                } else {
+                    listPlaylist.visibility = View.VISIBLE
+                    txtPlaylistResult.visibility = View.VISIBLE
+
+                    listPlaylist.adapter = adapterPlaylists
+                    setListViewHeightBasedOnItems(listPlaylist)
+                }
             })
 
             albumViewModel.album.observe(viewLifecycleOwner, Observer { albums ->
                 val adapterAlbum = AlbumsResultAdapter(requireContext(), albums)
-                adapterAlbum.setOnItemClickListener(object : AlbumsResultAdapter.OnItemClickListener {
-                    override fun onItemClick(album: Album) {
-                        navigateToAlbumPageFragment(album)
-                    }
-                })
-                listAlbum.adapter = adapterAlbum
-                setListViewHeightBasedOnItems(listAlbum)
+                val txtAlbumResult = view.findViewById<TextView>(R.id.txtAlbumResult)
+                if (albums.isEmpty()){
+                    listAlbum.visibility = View.GONE
+                    txtAlbumResult.visibility = View.GONE
+                } else {
+                    listAlbum.visibility = View.VISIBLE
+                    txtAlbumResult.visibility = View.VISIBLE
+
+                    adapterAlbum.setOnItemClickListener(object : AlbumsResultAdapter.OnItemClickListener {
+                        override fun onItemClick(album: Album) {
+                            navigateToAlbumPageFragment(album)
+                        }
+                    })
+                    listAlbum.adapter = adapterAlbum
+                    setListViewHeightBasedOnItems(listAlbum)
+                }
+
             })
 
         }

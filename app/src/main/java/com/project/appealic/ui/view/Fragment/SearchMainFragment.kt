@@ -63,6 +63,18 @@ class SearchMainFragment : Fragment() {
             flexboxLayout.addView(textView)
         }
 
+        // Tìm TextView tiêu đề "History"
+        val txtHistory = view.findViewById<TextView>(R.id.txtHistory)
+
+        // Kiểm tra xem danh sách lịch sử tìm kiếm có dữ liệu không
+        if (searchHistory.isEmpty()) {
+            // Nếu không có dữ liệu, ẩn TextView tiêu đề "History"
+            txtHistory.visibility = View.GONE
+        } else {
+            // Nếu có dữ liệu, hiển thị TextView tiêu đề "History"
+            txtHistory.visibility = View.VISIBLE
+        }
+
 
 
         val gridView: GridView = view.findViewById(R.id.gridviewSearch)

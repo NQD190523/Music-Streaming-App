@@ -91,6 +91,7 @@ class LibraryFragment : Fragment() {
     }
 
     private fun setupRecentlyViewedSongs(view: View) {
+        val recentlyPlayedTitle = view.findViewById<TextView>(R.id.recentlyPlayed)
         val recentlyViewedSongsRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recentlyViewedSongsRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -102,8 +103,18 @@ class LibraryFragment : Fragment() {
         if (currentUserId != null) {
             songViewModel.getRecentSongs(currentUserId)
                 .observe(viewLifecycleOwner, Observer { songs ->
-                    recentlySongAdapter.updateData(songs)
-                    recentlyViewedSongsRecyclerView.setOnItemClickListener(requireContext(), songViewModel, songs)
+
+                    if (songs.isEmpty()) {
+                        recentlyViewedSongsRecyclerView.visibility = View.GONE
+                        recentlyPlayedTitle.visibility = View.GONE
+                    } else {
+                        recentlyViewedSongsRecyclerView.visibility = View.VISIBLE
+                        recentlyPlayedTitle.visibility = View.VISIBLE
+
+                        recentlySongAdapter.updateData(songs)
+                        recentlyViewedSongsRecyclerView.setOnItemClickListener(requireContext(), songViewModel, songs)
+                    }
+
                 })
         } else {
             // Handle the case when currentUserId is null
