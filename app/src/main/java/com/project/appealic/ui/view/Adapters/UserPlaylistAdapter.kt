@@ -51,8 +51,7 @@ class UserPlaylistAdapter (
         val currentPlaylist = playlists[position]
         holder.playlistNameTextView.text = currentPlaylist.playListName
         // Load the image from Firebase Storage
-        val imageRef = storage.getReferenceFromUrl(currentPlaylist.playlistThumb.toString())
-        Glide.with(context).load(imageRef).into(holder.playlistImageView)
+        holder.playlistImageView.setImageResource(currentPlaylist.playlistThumb)
 
         return view
     }

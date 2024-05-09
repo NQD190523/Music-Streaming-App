@@ -5,40 +5,35 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
+import com.project.appealic.data.dao.PlayListDao
+import com.project.appealic.data.dao.SongDao
+import com.project.appealic.data.database.AppDatabase
 import com.project.appealic.data.model.PlayListEntity
 import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.model.Track
 
 class PlayListRepository(application: Application) {
     private val firebaseDB = Firebase.firestore
+    private val db: AppDatabase = Room.databaseBuilder(
+        application.applicationContext,
+        AppDatabase::class.java, "appealic"
+    )
+        .fallbackToDestructiveMigration()
+        .build()
+    private val playlistDao: PlayListDao = db.playListDao()
 
     fun createNewPlaylist(playlist: PlayListEntity) {
-        val playlistRef = firebaseDB.collection("playlists").document()
-        playlist.playlistId = playlistRef.id
-        playlistRef.set(playlist)
-            .addOnSuccessListener { Log.d("PlayListRepository", "Playlist created successfully") }
-            .addOnFailureListener { e -> Log.w("PlayListRepository", "Error creating playlist", e) }
+        playlistDao.insert(playlist)
     }
 
-    fun getAllUserPlayList(userId: String): MutableLiveData<List<PlayListEntity>?> {
-        val playlistsLiveData = MutableLiveData<List<PlayListEntity>?>()
-        firebaseDB.collection("playlists")
-            .whereEqualTo("userId", userId)
-            .addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    Log.w("PlayListRepository", "Error listening for playlists", e)
-                    return@addSnapshotListener
-                }
-
-                val playlists = snapshot?.toObjects(PlayListEntity::class.java)
-                playlistsLiveData.value = playlists
-            }
-        return playlistsLiveData
+    fun getAllUserPlayList(userId: String): List<PlayListEntity> {
+        return  playlistDao.getUserPlayLists(userId)
     }
 
     fun getAllPlaylists(): Task<QuerySnapshot> {
@@ -72,16 +67,6 @@ class PlayListRepository(application: Application) {
     }
 
     fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
-        // Implement adding a track to a playlist in Firestore
-        val playlistRef = firebaseDB.collection("playlists").document(playlist.playlistId)
-        val trackIds = playlist.trackIds.toMutableList()
-        trackIds.add(track.trackId.toString())
-        playlistRef.update("trackIds", trackIds)
-            .addOnSuccessListener {
-                Log.d("PlayListRepository", "Track added to playlist successfully")
-            }
-            .addOnFailureListener { e ->
-                Log.w("PlayListRepository", "Error adding track to playlist", e)
-            }
+        playlistDao.update(playlist)
     }
 }

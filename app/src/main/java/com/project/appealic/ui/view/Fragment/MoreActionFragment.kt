@@ -242,8 +242,7 @@ class MoreActionFragment : DialogFragment() {
         }
 
         dismiss() // Đóng DialogFragment hiện tại
-
-        parentFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction()
             .add(R.id.fragmenthome, albumPageFragment)
             .addToBackStack(null)
             .commit()

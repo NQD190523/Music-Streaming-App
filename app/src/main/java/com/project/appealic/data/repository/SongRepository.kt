@@ -90,30 +90,6 @@ class SongRepository(application: Context) {
             }
     }
 
-//    suspend fun getLikedSongFromUser(userId: String): List<Map<String, Any>> {
-//        return withContext(Dispatchers.IO) {
-//            val userDocRef = firebaseDB.collection("users").document(userId)
-//            val userDoc = userDocRef.get().await()
-//
-//            if (userDoc.exists()) {
-//                val favoriteSongIds = userDoc["likedSong"] as? List<String> ?: emptyList()
-//
-//                // Truy vấn các bài hát từ collection "tracks" dựa trên danh sách ID
-//                val querySnapshot =
-//                    firebaseDB.collection("tracks").whereIn(FieldPath.documentId(), favoriteSongIds)
-//                        .get().await()
-//                val tracksList = mutableListOf<Map<String, Any>>()
-//
-//                for (doc in querySnapshot.documents) {
-//                    doc.data?.let { tracksList.add(it) }
-//                }
-//                tracksList
-//            } else {
-//                emptyList()
-//            }
-//        }
-//    }
-
     fun insertSong(song: SongEntity) {
         songDao.insertSong(song)
     }

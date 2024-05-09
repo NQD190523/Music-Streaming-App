@@ -5,32 +5,23 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.toObject
-import com.google.firebase.firestore.toObjects
 import com.project.appealic.data.model.Album
 import com.project.appealic.data.model.Artist
 import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.model.SongEntity
 import com.project.appealic.data.model.Track
 import com.project.appealic.data.model.UserEntity
-import com.project.appealic.data.repository.AuthRepository
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.concurrent.CompletableFuture
 
 
 class SongViewModel(private val songRepository: SongRepository, private val userRepository: UserRepository) : ViewModel() {
@@ -99,23 +90,29 @@ class SongViewModel(private val songRepository: SongRepository, private val user
         // Bước 2: Xác định tất cả các bài hát có sẵn và bài hát được truyền vào
         _tracks.value?.let { allTracks.addAll(it) }
         allTracks.addAll(sourceLiveData)
-
-        // Bước 3: Lọc các bài hát không trùng lặp
-        val uniqueSongs = allTracks.distinctBy { it.trackId }
-
-        // Bước 4: Loại bỏ các bài hát đã có sẵn từ danh sách bài hát đề xuất
-        val filteredRecommendations = uniqueSongs.filter { song ->
-            !tracks.any { it.trackId == song.trackId }
+        print(allTracks)
+        if(sourceLiveData.isEmpty()) {
+            allTracks.shuffled().take(6)
+            _recTracks.postValue(allTracks)
         }
-        // Bước 5: Đề xuất bài hát mới
-        val recommendedSongs = if (filteredRecommendations.size <= 10) {
-            filteredRecommendations
-        } else {
-            val shuffledUniqueSongs = filteredRecommendations.shuffled()
-            shuffledUniqueSongs.take(10)
+        else {
+            // Bước 3: Lọc các bài hát không trùng lặp
+            val uniqueSongs = allTracks.distinctBy { it.trackId }
+
+            // Bước 4: Loại bỏ các bài hát đã có sẵn từ danh sách bài hát đề xuất
+            val filteredRecommendations = uniqueSongs.filter { song ->
+                !tracks.any { it.trackId == song.trackId }
+            }
+            // Bước 5: Đề xuất bài hát mới
+            val recommendedSongs = if (filteredRecommendations.size <= 10) {
+                filteredRecommendations
+            } else {
+                val shuffledUniqueSongs = filteredRecommendations.shuffled()
+                shuffledUniqueSongs.take(10)
+            }
+            // Đưa danh sách bài hát đề xuất vào LiveData _recTracks để cập nhật giao diện người dùng
+            _recTracks.postValue(recommendedSongs)
         }
-        // Đưa danh sách bài hát đề xuất vào LiveData _recTracks để cập nhật giao diện người dùng
-        _recTracks.postValue(recommendedSongs)
     }
 
     fun getAllArtists() {

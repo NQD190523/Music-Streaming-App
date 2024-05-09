@@ -14,8 +14,11 @@ import com.project.appealic.R
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.project.appealic.data.model.PlayListEntity
 import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.repository.PlayListRepository
 import com.project.appealic.data.repository.SongRepository
@@ -39,6 +42,7 @@ class PlaylistPageFragment : Fragment() {
     private lateinit var trackInPlaylist : ListView
     private lateinit var title : TextView
     private lateinit var songNumb : TextView
+    private val uid = Firebase.auth.currentUser!!.uid
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,34 +69,47 @@ class PlaylistPageFragment : Fragment() {
         val songFactory = SongViewModelFactory(SongRepository(requireActivity().application),UserRepository(requireActivity().application))
         songViewModel = ViewModelProvider(this,songFactory)[SongViewModel::class.java]
 
-        val selectedPlaylist = arguments?.getParcelable<Playlist>("selected_playlist")
-        selectedPlaylist?.let {
-            view.findViewById<ImageView>(R.id.imageView5).let { playlistCover ->
-                selectedPlaylist.playlistThumb?.let { imageUrl ->
-                    val gsReference = storage.getReferenceFromUrl(imageUrl)
-                    Glide.with(requireContext())
-                        .load(gsReference)
-                        .into(playlistCover)
-                }
-            }
-        }
         title = view.findViewById(R.id.textView16)
         songNumb = view.findViewById(R.id.txtSongNumb)
         trackInPlaylist = view.findViewById(R.id.lstPlalist)
 
-        // Gọi hàm để lấy tổng số bài hát từ Firebase và cập nhật UI
-        if (selectedPlaylist != null) {
-            getTotalSongsFromFirebase(selectedPlaylist.playlistId) { totalSongs ->
-                songNumb.text = (totalSongs.toString()+" Songs")
+        // Lấy đối tượng playlist từ arguments, có thể là Playlist hoặc PlayListEntity
+        val selectedPlaylist: Playlist? = arguments?.getParcelable("selected_playlist") as? Playlist
+        val selectedPlaylistEntity: PlayListEntity? = arguments?.getParcelable("user_selected_playlist") as? PlayListEntity
+        // Kiểm tra kiểu của selectedPlaylist trước khi sử dụng
+        if(selectedPlaylist !=null) {
+            selectedPlaylist.let {
+                view.findViewById<ImageView>(R.id.imageView5).let { playlistCover ->
+                    selectedPlaylist.playlistThumb?.let { imageUrl ->
+                        val gsReference = storage.getReferenceFromUrl(imageUrl)
+                        Glide.with(requireContext())
+                            .load(gsReference)
+                            .into(playlistCover)
+                    }
+                }
             }
-        }
-
-        rcsong = view.findViewById(R.id.lstRecommendSong)
-        // Initialize adapter for ListView displaying recommended songs
-        if (selectedPlaylist != null) {
+            // Gọi hàm để lấy tổng số bài hát từ Firebase và cập nhật UI
+            getTotalSongsFromFirebase(selectedPlaylist.playlistId) { totalSongs ->
+                songNumb.text = (totalSongs.toString() + " Songs")
+            }
+            rcsong = view.findViewById(R.id.lstRecommendSong)
+            // Initialize adapter for ListView displaying recommended songs
             playListViewModel.getTracksFromPlaylist(selectedPlaylist.playlistId)
             songViewModel.getAllTracks()
             title.text = selectedPlaylist.playlistName
+        }
+        if(selectedPlaylistEntity !=null) {
+            selectedPlaylistEntity.let { playlistEntity ->
+                view.findViewById<ImageView>(R.id.imageView5)
+                    .setImageResource(playlistEntity.playlistThumb)
+                // Gọi hàm để lấy tổng số bài hát từ Firebase và cập nhật UI
+                songNumb.text = (playlistEntity.trackIds.size.toString() + " Songs")
+                rcsong = view.findViewById(R.id.lstRecommendSong)
+                // Initialize adapter for ListView displaying recommended songs
+                playListViewModel.getTracksFromUserPlaylist(uid, playlistEntity.playlistId!! -1)
+                songViewModel.getAllTracks()
+                title.text = playlistEntity.playListName
+            }
         }
         playListViewModel.track.observe(viewLifecycleOwner, Observer { tracks ->
             songViewModel.recommendSong(tracks)

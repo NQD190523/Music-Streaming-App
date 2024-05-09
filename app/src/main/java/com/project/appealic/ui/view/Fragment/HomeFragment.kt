@@ -53,6 +53,12 @@ class HomeFragment : Fragment() {
         val bannerAdapter = BannerAdapter(bannerImages)
         recyclerViewBanner.adapter = bannerAdapter
 
+        // Lấy danh sách tracks và artists và playlist từ repository
+
+        songViewModel.getAllTracks()
+        songViewModel.getAllArtists()
+        songViewModel.getAllPlaylists()
+
         // Khởi tạo và cấu hình ListView cho danh sách các bài hát mới
         songViewModel.getNewReleaseTracks()
         listView = rootView.findViewById(R.id.lvNewRelease)
@@ -133,11 +139,6 @@ class HomeFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
-// Lấy danh sách tracks và artists và playlist từ repository
-
-        songViewModel.getAllTracks()
-        songViewModel.getAllArtists()
-        songViewModel.getAllPlaylists()
 
 
         val imageView: ImageView = rootView.findViewById(R.id.imvSearch);

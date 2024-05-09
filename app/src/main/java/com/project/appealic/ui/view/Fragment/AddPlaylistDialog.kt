@@ -46,7 +46,7 @@ class AddPlaylistDialog : DialogFragment() {
         binding.btnConfirm.setOnClickListener {
             if (userId != null) {
                 val newPlaylist =
-                    PlayListEntity("", userId, binding.edtPlaylistName.text.toString(), R.drawable.song2, listOf())
+                    PlayListEntity( null, userId, binding.edtPlaylistName.text.toString(), R.drawable.song2, listOf())
                 playListViewModel.createNewPlayList(newPlaylist)
                 playListViewModel.getUserPlaylist(userId)
                 dialog?.dismiss()

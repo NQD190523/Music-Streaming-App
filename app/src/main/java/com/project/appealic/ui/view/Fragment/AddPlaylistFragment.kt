@@ -88,17 +88,26 @@ class AddPlaylistFragment : DialogFragment() {
         val track = arguments?.getParcelable<Track>("TRACK")
         playListViewModel.userPlayLists.observe(viewLifecycleOwner, Observer { playlists ->
             playlists?.let { playlist ->
+                println(playlist)
                 val adapter = UserPlaylistAdapter(requireContext(), playlist)
                 lvUserPlaylist.adapter = adapter
             }
             lvUserPlaylist.setOnItemClickListener { _, _, position, _ ->
-                val selectedPlaylist = playlists?.get(position)
-                if (track != null) {
-                    if (selectedPlaylist != null) {
-                        addTrackToPlaylist(track, selectedPlaylist)
-                    }
+                val selectedPlaylist = playlists!![position]
+                // Chuyển sang PlaylistPageFragment với thông tin của playlist đã chọn
+                val bundle = Bundle().apply {
+                    putParcelable("user_selected_playlist", selectedPlaylist)
                 }
+                val playlistPageFragment = PlaylistPageFragment()
+                playlistPageFragment.arguments = bundle
+
+                // Thay đổi Fragment hoặc khởi chạy Activity mới (tùy vào thiết kế của bạn)
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmenthome, playlistPageFragment)
+                    .addToBackStack(null)
+                    .commit()
             }
+            setListViewHeightBasedOnItems(lvUserPlaylist)
         })
     }
 
@@ -118,6 +127,20 @@ class AddPlaylistFragment : DialogFragment() {
     private fun showCreatePlaylistDialog() {
         val addPlaylistDialog = AddPlaylistDialog()
         addPlaylistDialog.show(parentFragmentManager, "AddPlaylistDialog")
+    }
+    private fun setListViewHeightBasedOnItems(listView: ListView) {
+        val listAdapter = listView.adapter
+        val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
+        var totalHeight = 0
+        for (i in 0 until listAdapter.count) {
+            val listItem: View = listAdapter.getView(i, null, listView)
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
+            totalHeight += listItem.measuredHeight
+        }
+        val params = listView.layoutParams
+        params.height = totalHeight + (listView.dividerHeight * (listAdapter.count - 1))
+        listView.layoutParams = params
+        listView.requestLayout()
     }
 
     fun drawableToByteArray(resources: Resources, drawableResId: Int): ByteArray {
