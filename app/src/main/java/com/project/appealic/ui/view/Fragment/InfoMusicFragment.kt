@@ -2,6 +2,7 @@ package com.project.appealic.ui.view.Fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -33,8 +35,11 @@ class InfoMusicFragment : Fragment() {
     private var releaseDate: String? = null
     private lateinit var rcsong: ListView
     private lateinit var songViewModel: SongViewModel
+    private var player: ExoPlayer? = null
 
     private var duration: Int = 0
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +52,27 @@ class InfoMusicFragment : Fragment() {
             releaseDate = it.getString("releaseDate")
 
         }
+
+        val songFactory = SongViewModelFactory(
+            SongRepository(requireActivity().application),
+            UserRepository(requireActivity().application)
+        )
+
+        songViewModel = ViewModelProvider(requireActivity(), songFactory).get(SongViewModel::class.java)
+
+        songViewModel.recentTrack.observe(requireActivity(), Observer {track ->
+            Log.i("hello", "HELOOOOOOOOO")
+            requireView().findViewById<TextView>(R.id.txtSongName).text = track[0].trackTitle
+            requireView().findViewById<TextView>(R.id.txtSinger).text = track[0].artist
+            if (track[0].trackImage?.isNotEmpty() == true) {
+                val gsReference = track[0].trackImage?.let { FirebaseStorage.getInstance().getReferenceFromUrl(it) }
+                Glide.with(this).load(gsReference).into(requireView().findViewById<ImageView>(R.id.imvPhoto))
+            }
+            requireView().findViewById<TextView>(R.id.txtAlbum).text = track[0].albumId
+            requireView().findViewById<TextView>(R.id.txtMusician).text = track[0].artist
+            requireView().findViewById<TextView>(R.id.txtGenre).text = track[0].genre
+            requireView().findViewById<TextView>(R.id.txtReleased).text = track[0].releaseDate
+        })
     }
 
     @SuppressLint("MissingInflatedId")
@@ -70,14 +96,13 @@ class InfoMusicFragment : Fragment() {
         view.findViewById<TextView>(R.id.txtReleased).text = releaseDate
 
         return view
-
-
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) { val songFactory = SongViewModelFactory(
-        SongRepository(requireActivity().application),
-        UserRepository(requireActivity().application)
-    )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val songFactory = SongViewModelFactory(
+            SongRepository(requireActivity().application),
+            UserRepository(requireActivity().application)
+        )
         songViewModel = ViewModelProvider(this, songFactory)[SongViewModel::class.java]
 
         super.onViewCreated(view, savedInstanceState)
