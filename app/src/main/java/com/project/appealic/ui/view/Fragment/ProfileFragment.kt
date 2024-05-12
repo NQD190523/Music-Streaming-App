@@ -16,13 +16,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.appbar.AppBarLayout
 import com.project.appealic.R
 import com.project.appealic.ui.view.GoogleLoginActivity
 import com.project.appealic.ui.view.Fragment.EditAccountFragment
 import com.project.appealic.ui.viewmodel.AuthViewModel
 
 class ProfileFragment : Fragment() {
-    private lateinit var authViewModel : AuthViewModel
+    private lateinit var appBarLayout: AppBarLayout
+    private lateinit var toplayout: ConstraintLayout // Layout mặc định
+    private lateinit var expandlayout: ConstraintLayout // Layout thay đổi khi cuộn
+    private lateinit var authViewModel: AuthViewModel
     private lateinit var googleSignInClient: GoogleSignInClient
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +40,33 @@ class ProfileFragment : Fragment() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        googleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+
+
+        // Kết nối các thành phần trong layout với code Kotlin
+        appBarLayout = view.findViewById(R.id.appBarLayout)
+        toplayout = view.findViewById(R.id.toplayout)
+        expandlayout = view.findViewById(R.id.expandlayout)
+
+        // Thêm sự kiện lắng nghe cho sự thay đổi khi cuộn
+        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val expandedHeight = -verticalOffset
+
+            // Chiều cao của layout mặc định (182dp)
+            val defaultHeight = resources.getDimension(R.dimen.default_layout_height).toInt()
+
+            // Nếu expandedHeight lớn hơn hoặc bằng chiều cao mặc định, hiển thị layout thay đổi
+            if (expandedHeight >= defaultHeight) {
+                toplayout.visibility = View.GONE
+                expandlayout.visibility = View.VISIBLE
+            } else {
+                // Ngược lại, hiển thị layout mặc định
+                toplayout.visibility = View.VISIBLE
+                expandlayout.visibility = View.GONE
+            }
+        })
+
 
         return view
     }
