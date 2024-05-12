@@ -6,7 +6,7 @@
         android:name="android.hardware.telephony"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -26,6 +26,9 @@
         android:theme="@style/Theme.Appealic"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".ui.view.BankTransfer"
+            android:exported="false" />
+        <activity
             android:name=".ui.view.ActivityForgotPassword"
             android:exported="false" />
         <activity
@@ -39,32 +42,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ui.view.ActivityLikedSong" />
         <activity android:name=".ui.view.ActivityRegister" />
         <activity android:name=".ui.view.ActivityNotification" />
         <activity android:name=".ui.view.ActivityLoginPhoneOTP" />
-        <activity android:name=".ui.view.Activity_welcome"/>
-        <activity android:name=".ui.view.MediaActivity"/>
+        <activity android:name=".ui.view.Activity_welcome" />
+        <activity android:name=".ui.view.MediaActivity" />
         <activity android:name=".ui.view.ActivityLogin" />
         <activity android:name=".ui.view.ActivityMusicControl" />
         <activity android:name=".ui.view.ActivityNewPassword" />
         <activity android:name=".ui.view.ActivityHome" />
         <activity android:name=".ui.view.ActivityLoginPhone" />
         <activity android:name=".MainActivity" />
-        <receiver android:name=".ui.view.WidgetView"
+
+        <receiver
+            android:name=".ui.view.WidgetView"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
-        <service android:name=".data.repository.service.MusicPlayerService"
+
+        <service
+            android:name=".data.repository.service.MusicPlayerService"
+            android:exported="true"
             android:foregroundServiceType="mediaPlayback"
-            android:permission="android.permission.BIND_REMOTEVIEWS"
-            android:exported="true">
+            android:permission="android.permission.BIND_REMOTEVIEWS">
             <intent-filter>
                 <action android:name="com.project.appealic.action.PLAY" />
                 <action android:name="com.project.appealic.action.PAUSE" />
@@ -73,8 +80,6 @@
                 <!-- Thêm các action khác nếu cần -->
             </intent-filter>
         </service>
-
-
     </application>
 
 </manifest>

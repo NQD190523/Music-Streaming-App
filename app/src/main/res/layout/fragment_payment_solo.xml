@@ -124,7 +124,7 @@
                     android:drawableEnd="@drawable/solo_one_month"
                     android:paddingEnd="@dimen/dp_16"
                     android:text="1 month"
-                    android:textColor="@drawable/solo_text_color"></RadioButton>
+                    android:textColor="@drawable/solo_text_color"/>
 
                 <RadioButton
                     android:id="@+id/threeMonths"
@@ -137,7 +137,7 @@
                     android:drawableRight="@drawable/solo_3_months"
                     android:paddingEnd="@dimen/dp_16"
                     android:text="3 months"
-                    android:textColor="@drawable/solo_text_color"></RadioButton>
+                    android:textColor="@drawable/solo_text_color"/>
 
                 <RadioButton
                     android:id="@+id/sixMonths"
@@ -150,7 +150,7 @@
                     android:drawableRight="@drawable/solo_6_months"
                     android:paddingEnd="@dimen/dp_16"
                     android:text="6 months"
-                    android:textColor="@drawable/solo_text_color"></RadioButton>
+                    android:textColor="@drawable/solo_text_color"/>
 
                 <RadioButton
                     android:id="@+id/twelveMonths"
@@ -202,7 +202,7 @@
                 android:background="@drawable/btn_momo"
                 android:drawableStart="@drawable/momo"
                 android:gravity="center"
-                android:paddingHorizontal="90dp"
+                android:paddingHorizontal="70dp"
                 android:text="Pay with momo wallet"
                 android:textColor="@color/text"
                 app:layout_constraintEnd_toEndOf="parent"

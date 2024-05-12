@@ -138,5 +138,9 @@
     <string name="you_have_an_account">You have an account?</string>
     <string name="sign_in">Sign in</string>
 
+    <!--   Bank Transfer -->
+    <string name="transfer_title1">Please transfer money to the account below with the exact amount as above.</string>
+    <string name="transfer_title2">The system will automatically activate after 5 - 10 minutes. Please be sure that your payment is successful.</string>
+    <string name="transfer_note">Note: Please fill in the transfer information exactly. Do not enter any text when transferring money to the virtual account.</string>
 
 </resources>

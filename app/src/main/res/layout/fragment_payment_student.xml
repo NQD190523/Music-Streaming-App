@@ -134,7 +134,7 @@
                     android:layout_marginTop="@dimen/dp_8"
                     android:background="@drawable/student_radio_bg"
                     android:button="@drawable/student_radio_btn_bg"
-                    android:drawableRight="@drawable/solo_3_months"
+                    android:drawableRight="@drawable/student_3_months"
                     android:paddingEnd="@dimen/dp_16"
                     android:text="3 months"
                     android:textColor="@drawable/student_text_color"/>
@@ -202,7 +202,7 @@
                 android:background="@drawable/btn_momo"
                 android:drawableStart="@drawable/momo"
                 android:gravity="center"
-                android:paddingHorizontal="90dp"
+                android:paddingHorizontal="70dp"
                 android:text="Pay with momo wallet"
                 android:textColor="@color/text"
                 app:layout_constraintEnd_toEndOf="parent"
