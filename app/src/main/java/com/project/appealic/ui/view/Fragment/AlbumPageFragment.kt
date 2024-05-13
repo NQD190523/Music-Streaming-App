@@ -119,7 +119,7 @@ class AlbumPageFragment : Fragment() {
             setListViewHeightBasedOnItems(trackInAlbum)
         })
 
-        songViewModel.recTracks.observe(viewLifecycleOwner, Observer { tracks->
+        songViewModel.recTracks.observe(viewLifecycleOwner, Observer { tracks ->
             val adapter = NewReleaseAdapter(requireContext(), tracks)
             adapter.setOnAddPlaylistClickListener { track ->
                 // Mở dialog thêm playlist
@@ -151,9 +151,11 @@ class AlbumPageFragment : Fragment() {
         val totalSongs = album.trackIds?.size ?: 0
         onResult(totalSongs)
     }
+
     private fun setListViewHeightBasedOnItems(listView: ListView) {
         val listAdapter = listView.adapter
-        val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
+        val desiredWidth =
+            View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
         var totalHeight = 0
         for (i in 0 until listAdapter.count) {
             val listItem: View = listAdapter.getView(i, null, listView)
@@ -167,12 +169,9 @@ class AlbumPageFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(album: Album): AlbumPageFragment {
+        fun newInstance(bundle: Bundle): AlbumPageFragment {
             val fragment = AlbumPageFragment()
-            val args = Bundle().apply {
-                putParcelable("album", album)
-            }
-            fragment.arguments = args
+            fragment.arguments = bundle
             return fragment
         }
     }

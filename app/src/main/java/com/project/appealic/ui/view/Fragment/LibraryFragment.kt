@@ -43,7 +43,6 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_library, container, false)
-// Initialize AlbumViewModel
         val albumFactory = AlbumViewModelFactory(AlbumRepository(requireActivity().application))
         albumViewModel = ViewModelProvider(this, albumFactory)[AlbumViewModel::class.java]
 
@@ -53,19 +52,19 @@ class LibraryFragment : Fragment() {
             R.drawable.imagecard2
         )
 
-        // Lấy danh sách các album từ cơ sở dữ liệu
-        val albums = getAlbumsFromDatabase()
-
-        val bannerAdapter = BannerAdapter(bannerImageResources, albums) { position ->
-            val selectedAlbum = albums[position]
-            navigateToAlbumPageFragment(selectedAlbum)
-        }
 
         val recyclerViewBanner = view.findViewById<RecyclerView>(R.id.rrBanner)
-        recyclerViewBanner.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewBanner.adapter = bannerAdapter
-        
+        recyclerViewBanner.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        albumViewModel.album.observe(viewLifecycleOwner, Observer { albums ->
+            val bannerAdapter = BannerAdapter(bannerImageResources, albums) { position ->
+                val selectedAlbum = albums[position]
+                navigateToAlbumPageFragment(selectedAlbum)
+            }
+            recyclerViewBanner.adapter = bannerAdapter
+        })
+        albumViewModel.getAllAlbum()
+
+
 
         val factory = SongViewModelFactory(
             SongRepository(requireActivity().application),
@@ -107,21 +106,16 @@ class LibraryFragment : Fragment() {
     }
 
     private fun navigateToAlbumPageFragment(album: Album) {
-        val albumPageFragment = AlbumPageFragment.newInstance(album)
+        val bundle = Bundle().apply {
+            putParcelable("selected_album", album)
+        }
+        val albumPageFragment = AlbumPageFragment.newInstance(bundle)
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragmenthome, albumPageFragment)
             .addToBackStack(null)
             .commit()
     }
-    private fun getAlbumsFromDatabase(): List<Album> {
-        // Implement logic to retrieve albums from the database
-        // Return a list of Album objects
-        return listOf(
-            Album("0", "artist0", "Artist 0", "2022-01-01", "thumb0.jpg", "Album 0", listOf("track01", "track02")),
-            Album("1", "artist1", "Artist 1", "2022-02-01", "thumb1.jpg", "Album 1", listOf("track11", "track12")),
-            Album("2", "artist2", "Artist 2", "2022-03-01", "thumb2.jpg", "Album 2", listOf("track21", "track22"))
-        )
-    }
+
 
     private fun setupRecentlyViewedSongs(view: View) {
         val recentlyPlayedTitle = view.findViewById<TextView>(R.id.recentlyPlayed)

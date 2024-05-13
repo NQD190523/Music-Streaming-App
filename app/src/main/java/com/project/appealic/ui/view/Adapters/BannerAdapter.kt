@@ -21,11 +21,13 @@ class BannerAdapter(
     }
 
     override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
-        holder.bind(bannerImageResources[position], albums[position], onBannerClickListener)
+        val album = albums[position]
+        val imageResource = bannerImageResources[position]
+        holder.bind(imageResource, album, onBannerClickListener)
     }
 
     override fun getItemCount(): Int {
-        return bannerImageResources.size
+        return albums.size
     }
 
     class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

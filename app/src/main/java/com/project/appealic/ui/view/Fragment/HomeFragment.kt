@@ -81,8 +81,8 @@ class HomeFragment : Fragment() {
             }
             recyclerViewBanner.adapter = bannerAdapter
         })
-
         albumViewModel.getAllAlbum()
+
         songViewModel.getAllTracks()
         songViewModel.getAllArtists()
         songViewModel.getAllPlaylists()
@@ -225,7 +225,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToAlbumPageFragment(album: Album) {
-        val albumPageFragment = AlbumPageFragment.newInstance(album)
+        val bundle = Bundle().apply {
+            putParcelable("selected_album", album)
+        }
+        val albumPageFragment = AlbumPageFragment.newInstance(bundle)
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragmenthome, albumPageFragment)
             .addToBackStack(null)
