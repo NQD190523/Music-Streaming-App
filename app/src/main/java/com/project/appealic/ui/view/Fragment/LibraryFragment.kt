@@ -44,7 +44,7 @@ class LibraryFragment : Fragment() {
             R.drawable.imagecard2,
             R.drawable.imagecard2
         )
-        val bannerAdapter = BannerAdapter(bannerImageResources)
+        val bannerAdapter = BannerAdapter(emptyList(), bannerImageResources)
 
         val factory = SongViewModelFactory(
             SongRepository(requireActivity().application),

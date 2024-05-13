@@ -22,7 +22,7 @@ import com.project.appealic.ui.viewmodel.AlbumViewModelFactory
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 
-class AlbumPageFragment() : Fragment() {
+class AlbumPageFragment : Fragment() {
     private lateinit var songViewModel: SongViewModel
     private lateinit var albumViewModel: AlbumViewModel
     private lateinit var rcsong: ListView
@@ -55,20 +55,22 @@ class AlbumPageFragment() : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        // Correctly initialize SongViewModel using the custom factory
-        val songFactory = SongViewModelFactory(
-            SongRepository(requireActivity().application),
-            UserRepository(requireActivity().application)
-        )
-        songViewModel = ViewModelProvider(this, songFactory)[SongViewModel::class.java]
-
         val viewModelFactory = AlbumViewModelFactory(requireActivity().application)
         albumViewModel = ViewModelProvider(this, viewModelFactory).get(AlbumViewModel::class.java)
 
         val selectedAlbum: Album? = arguments?.getParcelable("selected_album")
         selectedAlbum?.let {
+            // Hiển thị thông tin album
+            title = view.findViewById(R.id.textView16)
+            songNumb = view.findViewById(R.id.txtSongNumb)
+            trackInAlbum = view.findViewById(R.id.lstPlalist)
+            rcsong = view.findViewById(R.id.lstRecommendSong)
+
+            title.text = it.title
+            songNumb.text = "${it.trackIds?.size ?: 0} Songs"
+
             view.findViewById<ImageView>(R.id.imageView5).let { albumCover ->
-                selectedAlbum.thumbUrl?.let { imageUrl ->
+                it.thumbUrl?.let { imageUrl ->
                     val gsReference = storage.getReferenceFromUrl(imageUrl)
                     Glide.with(requireContext())
                         .load(gsReference)
@@ -90,7 +92,7 @@ class AlbumPageFragment() : Fragment() {
         }
 
         if (selectedAlbum != null) {
-            albumViewModel.getTracksFromAlbum(selectedAlbum.albumId)
+            selectedAlbum.albumId?.let { albumViewModel.getTracksFromAlbum(it) }
             songViewModel.getAllTracks()
             title.text = selectedAlbum.title
         }

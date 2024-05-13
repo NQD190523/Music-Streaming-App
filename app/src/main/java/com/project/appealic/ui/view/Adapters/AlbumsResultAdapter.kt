@@ -44,8 +44,10 @@ class AlbumsResultAdapter(context: Context, private var albums: List<Album>) : A
         }
 
         // Gọi hàm để lấy tổng số bài hát từ Firebase và cập nhật UI
-        getTotalSongsFromFirebase(currentAlbum.albumId) { totalSongs ->
-            txtAlbumTotalSongs.text = (totalSongs.toString() + " Songs")
+        currentAlbum.albumId?.let {
+            getTotalSongsFromFirebase(it) { totalSongs ->
+                txtAlbumTotalSongs.text = (totalSongs.toString() + " Songs")
+            }
         }
 
         // Set the on click listener to the view
