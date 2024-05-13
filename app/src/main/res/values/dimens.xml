@@ -80,4 +80,5 @@
     <dimen name="platesTitleHeight">56dp</dimen>
     <dimen name="platesTitleLeftRightPadding">3dp</dimen>
     <dimen name="subTitleTextSize">10sp</dimen>
+    <dimen name="default_layout_height">182dp</dimen>
 </resources>

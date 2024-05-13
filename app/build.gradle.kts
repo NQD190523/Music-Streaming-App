@@ -67,7 +67,8 @@ dependencies {
     implementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
-
+    //noinspection GradleCompatible
+    implementation("com.android.support:design:29.0.0")
 
     implementation ("androidx.media:media:1.7.0")
 

@@ -16,13 +16,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.appbar.AppBarLayout
 import com.project.appealic.R
 import com.project.appealic.ui.view.GoogleLoginActivity
 import com.project.appealic.ui.view.Fragment.EditAccountFragment
 import com.project.appealic.ui.viewmodel.AuthViewModel
 
 class ProfileFragment : Fragment() {
-    private lateinit var authViewModel : AuthViewModel
+    private lateinit var appBarLayout: AppBarLayout
+    private lateinit var toplayout: ConstraintLayout // Layout mặc định
+    private lateinit var expandlayout: ConstraintLayout // Layout thay đổi khi cuộn
+    private lateinit var authViewModel: AuthViewModel
     private lateinit var googleSignInClient: GoogleSignInClient
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +40,32 @@ class ProfileFragment : Fragment() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        googleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+
+        // Kết nối các thành phần trong layout với code Kotlin
+        appBarLayout = view.findViewById(R.id.appBarLayout)
+        toplayout = view.findViewById(R.id.toplayout)
+        expandlayout = view.findViewById(R.id.expandlayout)
+
+        // Thêm sự kiện lắng nghe cho sự thay đổi khi cuộn
+        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val expandedHeight = -verticalOffset
+
+            // Chiều cao của layout mặc định (182dp)
+            val defaultHeight = resources.getDimension(R.dimen.default_layout_height).toInt()
+
+            // Nếu expandedHeight lớn hơn hoặc bằng chiều cao mặc định, hiển thị layout thay đổi
+            if (expandedHeight >= defaultHeight) {
+                toplayout.visibility = View.GONE
+                expandlayout.visibility = View.VISIBLE
+            } else {
+                // Ngược lại, hiển thị layout mặc định
+                toplayout.visibility = View.VISIBLE
+                expandlayout.visibility = View.GONE
+            }
+        })
+
 
         return view
     }
@@ -69,22 +98,36 @@ class ProfileFragment : Fragment() {
                 transaction?.addToBackStack(null)
                 transaction?.commit()
             })
-//        Hiện dialog fragment contact
+//        Hiện  contact
+//        view.findViewById<ConstraintLayout>(R.id.ll_Contact)
+//            .setOnClickListener(View.OnClickListener {
+//                showDialog(ContactFragmentDialog())
+//            })
+//        view.findViewById<ConstraintLayout>(R.id.ll_Legal).setOnClickListener(View.OnClickListener {
+//            showDialog(LegalFragmentDialog())
+//        })
+
         view.findViewById<ConstraintLayout>(R.id.ll_Contact)
             .setOnClickListener(View.OnClickListener {
-                showDialog(ContactFragmentDialog())
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                transaction?.replace(
+                    R.id.fragmenthome,
+                    ContactFragment()
+                ) // Thêm Fragment Contact thay vì hiển thị dialog
+                transaction?.addToBackStack(null)
+                transaction?.commit()
             })
-        view.findViewById<ConstraintLayout>(R.id.ll_Legal).setOnClickListener(View.OnClickListener {
-            showDialog(LegalFragmentDialog())
-        })
 
 //        Dialog change pass word
-        view.findViewById<ConstraintLayout>(R.id.ll_ChangePassword)
-            .setOnClickListener(View.OnClickListener {
-                showDialog(UpdatePassDialogFragment())
-
-            })
-
+        view.findViewById<ConstraintLayout>(R.id.ll_Legal).setOnClickListener(View.OnClickListener {
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(
+                R.id.fragmenthome,
+                LegalFragment()
+            ) // Thêm Fragment Legal thay vì hiển thị dialog
+            transaction?.addToBackStack(null)
+            transaction?.commit()
+        })
 //        logout
         view.findViewById<Button>(R.id.btnSignout).setOnClickListener {
             authViewModel.signOut(googleSignInClient)
@@ -93,6 +136,7 @@ class ProfileFragment : Fragment() {
             activity?.finish()
         }
     }
+
 
     private fun showDialog(dialog: DialogFragment) {
         val tag = dialog::class.java.simpleName
@@ -218,35 +262,38 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    class ContactFragmentDialog : DialogFragment() {
+    class ContactFragment : Fragment() {
         override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View? {
-            val view = inflater.inflate(R.layout.dialog_fragment_contact, container, false)
+            val view = inflater.inflate(R.layout.fragment_contact, container, false)
 
             view.findViewById<ImageView>(R.id.imageView3).setOnClickListener {
-                dismiss()
+                // Thực hiện hành động khi người dùng nhấn vào hình ảnh trong ContactFragment
+                activity?.supportFragmentManager?.popBackStack()
             }
             return view
         }
 
     }
-
-    class LegalFragmentDialog : DialogFragment() {
+//
+    class LegalFragment : Fragment() {
         override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View? {
-            val view = inflater.inflate(R.layout.dialog_fragment_legal, container, false)
+            val view = inflater.inflate(R.layout.fragment_legal, container, false)
 
             view.findViewById<ImageView>(R.id.imageView3).setOnClickListener {
-                dismiss()
+                // Thực hiện hành động khi người dùng nhấn vào hình ảnh trong ContactFragment
+                activity?.supportFragmentManager?.popBackStack()
             }
             return view
         }
 
     }
 }
+
