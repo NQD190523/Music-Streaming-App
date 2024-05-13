@@ -29,6 +29,7 @@ class AlbumPageFragment : Fragment() {
     private lateinit var trackInAlbum: ListView
     private lateinit var title: TextView
     private lateinit var songNumb: TextView
+    private lateinit var album: Album
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -163,5 +164,16 @@ class AlbumPageFragment : Fragment() {
         params.height = totalHeight + (listView.dividerHeight * (listAdapter.count - 1))
         listView.layoutParams = params
         listView.requestLayout()
+    }
+
+    companion object {
+        fun newInstance(album: Album): AlbumPageFragment {
+            val fragment = AlbumPageFragment()
+            val args = Bundle().apply {
+                putParcelable("album", album)
+            }
+            fragment.arguments = args
+            return fragment
+        }
     }
 }
