@@ -99,6 +99,7 @@
                 android:textColor="@color/subText" />
 
             <EditText
+                android:id="@+id/etEmail"
                 style="@style/Placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -283,6 +284,7 @@
             app:layout_constraintVertical_bias="0.187" />
 
         <Button
+            android:id="@+id/btnSubmit"
             style="@style/CTAsSmall"
             android:layout_width="283dp"
             android:layout_height="40dp"
