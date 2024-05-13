@@ -69,7 +69,8 @@
 
         <service
             android:name=".data.repository.service.MusicPlayerService"
-            android:exported="true"
+            android:exported="false"
+            android:enabled="true"
             android:foregroundServiceType="mediaPlayback"
             android:permission="android.permission.BIND_REMOTEVIEWS">
             <intent-filter>

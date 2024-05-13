@@ -190,7 +190,7 @@ class ActivityHome : AppCompatActivity() {
             })
     }
 
-    fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.fragmenthome, fragment).commit()
     }
 

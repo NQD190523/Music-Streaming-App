@@ -107,7 +107,7 @@ class ActivityMusicControl : AppCompatActivity() , SleepFragmentDialog.OnSleepTi
 
         // Khởi tạo SongViewModel
         val factory = SongViewModelFactory(SongRepository(this.application), UserRepository(this.application))
-        songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
+        songViewModel = ViewModelProvider(this, factory)[SongViewModel::class.java]
         musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
 
 
@@ -476,14 +476,13 @@ class ActivityMusicControl : AppCompatActivity() , SleepFragmentDialog.OnSleepTi
     private fun pauseMusic() {
         if (player != null && player?.isPlaying == true) {
             player?.pause()
-            playBtn?.setImageResource(R.drawable.ic_play_24_filled)
+            playBtn.setImageResource(R.drawable.ic_play_24_filled)
         }
     }
     private fun loadDataFromFirebase() {
         // Load audio data from Firebase Storage
         val mediaItems = mutableListOf<MediaItem>()
         val tasks = mutableListOf<Task<Uri>>()
-
         for (i in 0 until trackList.size) {
             val trackPath = trackList[i]
             val audioRef = storageRef.child(trackPath.substring(trackPath.indexOf("/", 5) + 1))
