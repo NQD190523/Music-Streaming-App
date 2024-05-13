@@ -19,6 +19,8 @@ import com.project.appealic.utils.SongViewModelFactory
 import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.data.model.Album
+import com.project.appealic.data.model.Artist
+import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.repository.AlbumRepository
 import com.project.appealic.data.repository.ArtistRepository
 import com.project.appealic.data.repository.PlayListRepository
@@ -119,6 +121,11 @@ class SearchResultFragment: Fragment() {
                 } else {
                     listArtist.visibility = View.VISIBLE
                     txtArtistResult.visibility = View.VISIBLE
+                    adapterArtist.setOnItemClickListener(object : ArtistResultAdapter.OnItemClickListener{
+                        override fun onItemClick(artist: Artist) {
+                            navigateToArtistPageFragment(artist)
+                        }
+                    })
 
                     listArtist.adapter = adapterArtist
                     setListViewHeightBasedOnItems(listArtist)
@@ -134,6 +141,11 @@ class SearchResultFragment: Fragment() {
                 } else {
                     listPlaylist.visibility = View.VISIBLE
                     txtPlaylistResult.visibility = View.VISIBLE
+                    adapterPlaylists.setOnItemClickListener(object : PlaylistResultAdapter.OnItemClickListener {
+                        override fun onItemClick(playlist: Playlist) {
+                            navigateToPlaylistPageFragment(playlist)
+                        }
+                    })
 
                     listPlaylist.adapter = adapterPlaylists
                     setListViewHeightBasedOnItems(listPlaylist)
@@ -175,6 +187,28 @@ class SearchResultFragment: Fragment() {
 
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragmenthome, albumPageFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private  fun  navigateToPlaylistPageFragment(playList: Playlist){
+        val bundle = Bundle().apply {
+            putParcelable("selected_playlist", playList)
+        }
+        val playlistPageFragment = PlaylistPageFragment()
+        playlistPageFragment.arguments = bundle
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmenthome,playlistPageFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private  fun  navigateToArtistPageFragment(artist: Artist){
+        val bundle = Bundle().apply {
+            putParcelable("selectedArtist", artist)
+        }
+        val artistProfileFragment = ArtistProfileFragment()
+        artistProfileFragment.arguments = bundle
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmenthome,artistProfileFragment)
             .addToBackStack(null)
             .commit()
     }

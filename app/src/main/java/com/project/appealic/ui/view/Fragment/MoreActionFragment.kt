@@ -234,11 +234,9 @@ class MoreActionFragment : DialogFragment() {
         val bundle = Bundle().apply {
             putParcelable("selected_album", album)
         }
-
         val albumPageFragment = AlbumPageFragment().apply {
             arguments = bundle
         }
-
         dismiss() // Đóng DialogFragment hiện tại
         requireActivity().supportFragmentManager.beginTransaction()
             .add(R.id.fragmenthome, albumPageFragment)
