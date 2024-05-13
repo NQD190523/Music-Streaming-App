@@ -8,17 +8,20 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
 import com.project.appealic.data.model.Artist
+import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.Fragment.ArtistProfileFragment
 
 class ArtistDetailFragment(private var context: Context) : DialogFragment() {
 
     private var selectedArtist: Artist? = null // Biến để lưu trữ thông tin về nghệ sĩ được chọn
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(context)
         val window = dialog.window
@@ -68,6 +71,7 @@ class ArtistDetailFragment(private var context: Context) : DialogFragment() {
         llArtistDetail.setOnClickListener {
             // Sử dụng thông tin về nghệ sĩ đã được tải trước đó
             println(selectedArtist)
+            println(requireContext())
             selectedArtist?.let { artist ->
                 // Tạo một instance của ArtistProfileFragment và truyền selectedArtist vào
                 val artistProfileFragment = ArtistProfileFragment().apply {
@@ -76,7 +80,7 @@ class ArtistDetailFragment(private var context: Context) : DialogFragment() {
                     }
                 }
                 // Chuyển sang ArtistProfileFragment
-                requireActivity().supportFragmentManager.beginTransaction()
+                (requireActivity() as ActivityHome).supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmenthome, artistProfileFragment)
                     .addToBackStack(null)
                     .commit()

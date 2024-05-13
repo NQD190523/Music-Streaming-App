@@ -70,7 +70,6 @@ class MoreActionFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val track: Track? = arguments?.getParcelable(ARG_TRACK)
         return inflater.inflate(R.layout.fragment_more_action, container, false)
     }
 
@@ -92,7 +91,7 @@ class MoreActionFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val track: Track? = arguments?.getParcelable(ARG_TRACK)
         songTitle = arguments?.getString("SONG_TITLE").toString()
         artistName = arguments?.getString("SINGER_NAME").toString()
         trackImage = arguments?.getString("TRACK_IMAGE").toString()
