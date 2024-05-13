@@ -36,6 +36,7 @@ class PlayListRepository(application: Application) {
         return  playlistDao.getUserPlayLists(userId)
     }
 
+
     fun getAllPlaylists(): Task<QuerySnapshot> {
         return firebaseDB.collection("playlists").get()
     }
