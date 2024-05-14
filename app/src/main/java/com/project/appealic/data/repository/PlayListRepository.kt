@@ -67,7 +67,7 @@ class PlayListRepository(application: Application) {
         return searchResultsLiveData
     }
 
-    fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
+    fun addTrackToPlaylist( playlist: PlayListEntity) {
         playlistDao.update(playlist)
     }
 }

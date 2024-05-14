@@ -3,7 +3,9 @@ package com.project.appealic.ui.view.Fragment
 import ArtistDetailFragment
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -96,7 +98,6 @@ class MoreActionFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val track: Track? = arguments?.getParcelable(ARG_TRACK)
         songTitle = arguments?.getString("SONG_TITLE").toString()
         artistName = arguments?.getString("SINGER_NAME").toString()
         trackImage = arguments?.getString("TRACK_IMAGE").toString()
@@ -183,6 +184,11 @@ class MoreActionFragment : DialogFragment() {
 
     private fun showDialogForAddPlay() {
         val addPlaylistFragment = AddPlaylistFragment()
+        println(arguments?.getString("TRACK_ID").toString())
+        val bundle = Bundle()
+        bundle.putString("TRACK_ID",arguments?.getString("TRACK_ID").toString())
+        Log.d("Check Track data from more action",bundle.toString())
+        addPlaylistFragment.arguments = bundle
         addPlaylistFragment.show(parentFragmentManager, "AddPlaylistFragment")
     }
 

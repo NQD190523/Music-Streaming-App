@@ -22,6 +22,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.project.appealic.R
+import com.project.appealic.data.model.Track
 import com.project.appealic.ui.view.ActivityMusicControl
 import com.project.appealic.ui.viewmodel.SongViewModel
 
@@ -91,6 +92,7 @@ class MusicPlayerService : Service() {
         startService(intent)
     }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val track = intent?.getParcelableExtra<Track>("songData")
         when (intent?.action) {
             ACTION_PLAY -> {
                 // Xử lý yêu cầu play
@@ -263,7 +265,7 @@ class MusicPlayerService : Service() {
         // Xây dựng thông báo
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Your Audio Player")
-            .setContentText("Now playing...")
+            .setContentText("Title")
             .setSmallIcon(R.drawable.ic_alert_20_outlined)
             .setContentIntent(contentIntent)
             .addAction(

@@ -1,6 +1,7 @@
 package com.project.appealic.ui.view.Fragment
 
 import android.app.Dialog
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -29,7 +30,7 @@ import com.project.appealic.ui.viewmodel.PlayListViewModel
 import com.project.appealic.utils.PlayListViewModelFactory
 import java.io.ByteArrayOutputStream
 
-class AddPlaylistFragment : DialogFragment() {
+class AddPlaylistFragment() : DialogFragment() {
     private lateinit var lvUserPlaylist: ListView
     private lateinit var playListViewModel: PlayListViewModel
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
@@ -59,7 +60,7 @@ class AddPlaylistFragment : DialogFragment() {
         val dialog = Dialog(requireActivity())
 
         val factory = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
-        playListViewModel = ViewModelProvider(this, factory).get(PlayListViewModel::class.java)
+        playListViewModel = ViewModelProvider(this, factory)[PlayListViewModel::class.java]
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawableResource(R.drawable.background)
@@ -92,35 +93,39 @@ class AddPlaylistFragment : DialogFragment() {
                 val adapter = UserPlaylistAdapter(requireContext(), playlist)
                 lvUserPlaylist.adapter = adapter
             }
-            lvUserPlaylist.setOnItemClickListener { _, _, position, _ ->
+//            lvUserPlaylist.setOnItemClickListener { _, _, position, _ ->
+//                val selectedPlaylist = playlists!![position]
+//                // Chuyển sang PlaylistPageFragment với thông tin của playlist đã chọn
+//                val bundle = Bundle().apply {
+//                    putParcelable("user_selected_playlist", selectedPlaylist)
+//                }
+//                val playlistPageFragment = PlaylistPageFragment()
+//                playlistPageFragment.arguments = bundle
+//
+//                // Thay đổi Fragment hoặc khởi chạy Activity mới (tùy vào thiết kế của bạn)
+//                requireActivity().supportFragmentManager.beginTransaction()
+//                    .replace(R.id.fragmenthome, playlistPageFragment)
+//                    .addToBackStack(null)
+//                    .commit()
+//            }
+//            setListViewHeightBasedOnItems(lvUserPlaylist)
+            lvUserPlaylist.setOnItemClickListener { _, _, position,_ ->
                 val selectedPlaylist = playlists!![position]
-                // Chuyển sang PlaylistPageFragment với thông tin của playlist đã chọn
-                val bundle = Bundle().apply {
-                    putParcelable("user_selected_playlist", selectedPlaylist)
+                val trackIds = mutableListOf<String>()
+                val selectedTrackIdsInPlaylist = selectedPlaylist.trackIds
+                arguments?.getString("TRACK_ID")?.let { trackIds.add(it) }
+                println(selectedTrackIdsInPlaylist)
+                println(selectedTrackIdsInPlaylist.isNotEmpty())
+                if (selectedTrackIdsInPlaylist.isNotEmpty()) {
+                    selectedTrackIdsInPlaylist.filterNotNull().filter { it.isNotEmpty() }.forEach {
+                        trackIds.add(it)
+                    }
                 }
-                val playlistPageFragment = PlaylistPageFragment()
-                playlistPageFragment.arguments = bundle
-
-                // Thay đổi Fragment hoặc khởi chạy Activity mới (tùy vào thiết kế của bạn)
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmenthome, playlistPageFragment)
-                    .addToBackStack(null)
-                    .commit()
+                // Loại bỏ các phần tử trùng lặp
+                val uniqueTrackIds = trackIds.distinct()
+                val newTrack = PlayListEntity(selectedPlaylist.playlistId, selectedPlaylist.userId,selectedPlaylist.playListName,selectedPlaylist.playlistThumb,uniqueTrackIds)
+                playListViewModel.addTrackToPlaylist(newTrack)
             }
-            setListViewHeightBasedOnItems(lvUserPlaylist)
-        })
-    }
-
-    private fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
-        playListViewModel.addTrackToPlaylist(track, playlist)
-        Toast.makeText(
-            context,
-            "Bài hát \"${track.trackTitle}\" đã được thêm vào playlist ${playlist.playListName}.",
-            Toast.LENGTH_SHORT
-        ).show()
-        playListViewModel.userPlayLists.observe(viewLifecycleOwner, Observer { playlists ->
-            val adapter = playlists?.let { UserPlaylistAdapter(requireContext(), it) }
-            lvUserPlaylist.adapter = adapter
         })
     }
 

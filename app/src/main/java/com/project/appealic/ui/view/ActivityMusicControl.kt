@@ -51,7 +51,6 @@ import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 
 
-
 class ActivityMusicControl : AppCompatActivity() , SleepFragmentDialog.OnSleepTimeSelectedListener {
 
     private lateinit var songViewModel: SongViewModel
@@ -169,6 +168,9 @@ class ActivityMusicControl : AppCompatActivity() , SleepFragmentDialog.OnSleepTi
 
         songViewModel.getTrackByUrl(trackList[trackIndex])
         songViewModel.recentTrack.observe(this, Observer {track ->
+            val intent = Intent(this, MusicPlayerService::class.java)
+            intent.putExtra("songData", track[0])
+            this.startService(intent)
             findViewById<TextView>(R.id.song_name).text = track[0].trackTitle
             findViewById<TextView>(R.id.singer_name).text = track[0].artist
             trackId = track[0].trackId.toString()

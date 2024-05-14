@@ -137,7 +137,13 @@ class PlayListViewModel(private val playListRepository: PlayListRepository) : Vi
         }
     }
 
-    fun addTrackToPlaylist(track: Track, playlist: PlayListEntity) {
-        playListRepository.addTrackToPlaylist(track, playlist)
+    fun addTrackToPlaylist( playlist: PlayListEntity) = viewModelScope.launch {
+        withContext(Dispatchers.IO){
+            try {
+                playListRepository.addTrackToPlaylist( playlist)
+            } catch (e: Exception){
+                Log.e("PlayListViewModel", "Error add track to playlist", e)
+            }
+        }
     }
 }
