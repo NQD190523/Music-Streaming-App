@@ -3,9 +3,11 @@ package com.project.appealic.ui.view
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.appwidget.AppWidgetManager
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.media.MediaPlayer
 import android.net.Uri
@@ -84,6 +86,7 @@ class ActivityMusicControl : AppCompatActivity() , SleepFragmentDialog.OnSleepTi
     private  var isRepeated : Boolean = false
     private var selectedSleepTime: Long = 0
     private var countDownTimer: CountDownTimer? = null
+    private var musicPlayerService: MusicPlayerService? = null
 
 
 
@@ -93,10 +96,11 @@ class ActivityMusicControl : AppCompatActivity() , SleepFragmentDialog.OnSleepTi
             val musicService = binder.getService()
             musicPlayerViewModel.setMusicService(musicService)
             player = musicPlayerViewModel.getPlayerInstance()!!
+            musicPlayerService = binder.getService()
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
-            // Do nothing
+            musicPlayerService = null
         }
     }
 
@@ -164,8 +168,10 @@ class ActivityMusicControl : AppCompatActivity() , SleepFragmentDialog.OnSleepTi
         startService(musicPlayerServiceIntent)
         bindService(musicPlayerServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
 
-
-
+        musicPlayerService?.mediaIndexLiveData?.observe(this, Observer{ newIndex ->
+            // Xử lý newIndex ở đây
+            trackIndex = newIndex
+        })
         songViewModel.getTrackByUrl(trackList[trackIndex])
         songViewModel.recentTrack.observe(this, Observer {track ->
             val intent = Intent(this, MusicPlayerService::class.java)

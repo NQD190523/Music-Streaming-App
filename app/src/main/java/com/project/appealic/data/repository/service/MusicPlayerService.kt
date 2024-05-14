@@ -39,6 +39,8 @@ class MusicPlayerService : Service() {
     private val _serviceReady = MutableLiveData<Boolean>()
     val serviceReady: LiveData<Boolean> = _serviceReady
     private lateinit var mediaSession: MediaSessionCompat
+    private val _mediaIndexLiveData = MutableLiveData<Int>()
+    val mediaIndexLiveData: LiveData<Int> = _mediaIndexLiveData
     companion object {
         private const val NOTIFICATION_ID = 1
         const val ACTION_PLAY = "com.project.appealic.action.PLAY"
@@ -48,8 +50,6 @@ class MusicPlayerService : Service() {
         const val ACTION_PREVIOUS = "com.project.appealic.action.action.PREVIOUS"
         private const val CHANNEL_ID = "123"
     }
-
-
 
     override fun onBind(p0: Intent?): IBinder {
         return binder
@@ -69,6 +69,7 @@ class MusicPlayerService : Service() {
                 super.onMediaItemTransition(mediaItem, reason)
                 if (mediaItem != null) {
                     updateTrackInfoOnUI(mediaItem)
+                    _mediaIndexLiveData.postValue(player.currentMediaItemIndex)
                 }
             }
         })
@@ -85,11 +86,12 @@ class MusicPlayerService : Service() {
         val songTitle = mediaItem.mediaMetadata.title.toString()
         val artistName = mediaItem.mediaMetadata.artist.toString()
 
-        val intent = Intent(this,MusicPlayerService::class.java)
-        intent.putExtra("songTitle", songTitle)
-        intent.putExtra("artistName", artistName)
-        intent.putExtra("TRACK_INDEX", player.currentMediaItemIndex)
-        startService(intent)
+        val intent = Intent("ACTION_TRACK_INDEX_CHANGED").apply {
+            putExtra("songTitle", songTitle)
+            putExtra("artistName", artistName)
+            putExtra("TRACK_INDEX", player.currentMediaItemIndex)
+        }
+        sendBroadcast(intent)
     }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val track = intent?.getParcelableExtra<Track>("songData")
@@ -299,6 +301,13 @@ class MusicPlayerService : Service() {
         // Cập nhật nội dung thông báo (ví dụ: trạng thái play/pause)
         val notification = createNotification()
         notificationManager.notify(NOTIFICATION_ID, notification)
+    }
+    // Lưu track index vào SharedPreferences
+    fun saveTrackIndexToSharedPreferences(context: Context, trackIndex: Int) {
+        val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("trackIndex", trackIndex)
+        editor.apply()
     }
 
     inner class MusicBinder : Binder() {
