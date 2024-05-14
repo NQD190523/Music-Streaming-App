@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +36,7 @@ class AddPlaylistFragment() : DialogFragment() {
     private lateinit var playListViewModel: PlayListViewModel
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val userId = auth.currentUser?.uid
+    val trackId = arguments?.getString("TRACK_ID")
 
     companion object {
         fun newInstance(track: Track): AddPlaylistFragment {
@@ -86,7 +88,10 @@ class AddPlaylistFragment() : DialogFragment() {
         }
         lvUserPlaylist = view.findViewById(R.id.lvUserPlaylist)
         if (userId != null) playListViewModel.getUserPlaylist(userId)
-        val track = arguments?.getParcelable<Track>("TRACK")
+//        val track = arguments?.getParcelable<Track>("TRACK")
+//        println(track)
+
+        println(trackId)
         playListViewModel.userPlayLists.observe(viewLifecycleOwner, Observer { playlists ->
             playlists?.let { playlist ->
                 println(playlist)
@@ -113,7 +118,7 @@ class AddPlaylistFragment() : DialogFragment() {
                 val selectedPlaylist = playlists!![position]
                 val trackIds = mutableListOf<String>()
                 val selectedTrackIdsInPlaylist = selectedPlaylist.trackIds
-                arguments?.getString("TRACK_ID")?.let { trackIds.add(it) }
+                trackId?.let { trackIds.add(it) }
                 println(selectedTrackIdsInPlaylist)
                 println(selectedTrackIdsInPlaylist.isNotEmpty())
                 if (selectedTrackIdsInPlaylist.isNotEmpty()) {
@@ -131,6 +136,10 @@ class AddPlaylistFragment() : DialogFragment() {
 
     private fun showCreatePlaylistDialog() {
         val addPlaylistDialog = AddPlaylistDialog()
+        val bundle = Bundle()
+        bundle.putString("TRACK_ID",arguments?.getString("TRACK_ID").toString())
+        Log.d("Check Track data from create playlist",bundle.toString())
+        addPlaylistDialog.arguments = bundle
         addPlaylistDialog.show(parentFragmentManager, "AddPlaylistDialog")
     }
     private fun setListViewHeightBasedOnItems(listView: ListView) {
@@ -155,3 +164,4 @@ class AddPlaylistFragment() : DialogFragment() {
         return outputStream.toByteArray()
     }
 }
+

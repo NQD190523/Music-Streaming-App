@@ -23,6 +23,7 @@ class AddPlaylistDialog : DialogFragment() {
     private lateinit var playListViewModel: PlayListViewModel
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val userId = auth.currentUser?.uid
+//    val trackId = arguments?.getString("TRACK_ID")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,11 +46,28 @@ class AddPlaylistDialog : DialogFragment() {
 
         binding.btnConfirm.setOnClickListener {
             if (userId != null) {
+                // Tạo một danh sách mới từ trackIds hiện tại và thêm trackId vào danh sách này
+                val trackIds = mutableListOf<String>()
+                arguments?.getString("TRACK_ID")?.let { trackId ->
+                    trackIds.add(trackId)
+                }
+
                 val newPlaylist =
-                    PlayListEntity( null, userId, binding.edtPlaylistName.text.toString(), R.drawable.song2, listOf())
+                    PlayListEntity(
+                        null,
+                        userId,
+                        binding.edtPlaylistName.text.toString(),
+                        R.drawable.song2,
+                        trackIds)
+
                 playListViewModel.createNewPlayList(newPlaylist)
                 playListViewModel.getUserPlaylist(userId)
+
+                println(trackIds)
+                println(newPlaylist)
+                
                 dialog?.dismiss()
+
             }
         }
     }
