@@ -23,6 +23,7 @@ class AddPlaylistDialog : DialogFragment() {
     private lateinit var playListViewModel: PlayListViewModel
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val userId = auth.currentUser?.uid
+//    val trackId = arguments?.getString("TRACK_ID")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,28 +46,24 @@ class AddPlaylistDialog : DialogFragment() {
 
         binding.btnConfirm.setOnClickListener {
             if (userId != null) {
-                val newPlaylist = PlayListEntity( null, userId, binding.edtPlaylistName.text.toString(), R.drawable.song2, listOf())
+                // Tạo một danh sách mới từ trackIds hiện tại và thêm trackId vào danh sách này
+                val trackIds = mutableListOf<String>()
+                arguments?.getString("TRACK_ID")?.let { trackId ->
+                    trackIds.add(trackId)
+                }
+
+                val newPlaylist =
+                    PlayListEntity(
+                        null,
+                        userId,
+                        binding.edtPlaylistName.text.toString(),
+                        R.drawable.song2,
+                        trackIds)
+
                 playListViewModel.createNewPlayList(newPlaylist)
                 playListViewModel.getUserPlaylist(userId)
-                val playlist = playListViewModel.userPlayLists.value?.get(0)
-                println(playlist)
-                val trackIds = mutableListOf<String>()
-                val selectedTrackIdsInPlaylist = playlist?.trackIds
-                arguments?.getString("TRACK_ID")?.let { trackIds.add(it) }
-                println(selectedTrackIdsInPlaylist)
-                println(selectedTrackIdsInPlaylist?.isNotEmpty())
-                if (selectedTrackIdsInPlaylist != null) {
-                    if (selectedTrackIdsInPlaylist.isNotEmpty()) {
-                        selectedTrackIdsInPlaylist.filterNotNull().filter { it.isNotEmpty() }.forEach {
-                            trackIds.add(it)
-                        }
-                    }
-                }
-                // Loại bỏ các phần tử trùng lặp
-                val uniqueTrackIds = trackIds.distinct()
-                val newTrack = PlayListEntity(playlist!!.playlistId, playlist.userId,playlist.playListName,playlist.playlistThumb,uniqueTrackIds)
-                playListViewModel.addTrackToPlaylist(newTrack)
                 dialog?.dismiss()
+
             }
         }
     }
