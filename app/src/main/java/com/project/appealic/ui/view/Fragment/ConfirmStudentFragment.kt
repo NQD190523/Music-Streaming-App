@@ -10,6 +10,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.project.appealic.R
 import com.project.appealic.ui.view.ActivityRegister
@@ -103,7 +104,18 @@ class ConfirmStudentFragment : Fragment() {
     }
 
     private fun handleConfirmCheckBoxClick() {
-        // Perform any necessary actions when the checkbox is clicked
+        val isChecked = confirmCheckBox.isChecked
+        if (isChecked) {
+            // Checkbox đã được chọn, cho phép submit
+            submitButton.isEnabled = true
+        } else {
+            // Checkbox không được chọn, không cho phép submit
+            submitButton.isEnabled = false
+            showToast("Please agree to the terms and conditions to proceed.")
+        }
+    }
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun isValidStudentEmail(email: String): Boolean {
