@@ -42,7 +42,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.ActivityLikedSong" />
+
+<!--        <activity android:name=".ui.view.ActivityLikedSong" />-->
         <activity android:name=".ui.view.ActivityRegister" />
         <activity android:name=".ui.view.ActivityNotification" />
         <activity android:name=".ui.view.ActivityLoginPhoneOTP" />
@@ -50,7 +51,6 @@
         <activity android:name=".ui.view.MediaActivity" />
         <activity android:name=".ui.view.ActivityLogin" />
         <activity android:name=".ui.view.ActivityMusicControl" />
-        <activity android:name=".ui.view.ActivityNewPassword" />
         <activity android:name=".ui.view.ActivityHome" />
         <activity android:name=".ui.view.ActivityLoginPhone" />
         <activity android:name=".MainActivity" />
@@ -69,7 +69,8 @@
 
         <service
             android:name=".data.repository.service.MusicPlayerService"
-            android:exported="true"
+            android:exported="false"
+            android:enabled="true"
             android:foregroundServiceType="mediaPlayback"
             android:permission="android.permission.BIND_REMOTEVIEWS">
             <intent-filter>

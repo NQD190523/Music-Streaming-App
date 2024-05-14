@@ -2,6 +2,7 @@ package com.project.appealic.ui.view.Fragment
 
 import ArtistDetailFragment
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import androidx.fragment.app.Fragment
@@ -26,12 +27,15 @@ import com.project.appealic.data.model.Track
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.viewmodel.SongViewModel
+import com.project.appealic.utils.ActivityContextSingleton
 import com.project.appealic.utils.SongViewModelFactory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.ref.WeakReference
 
 class MoreActionFragment : DialogFragment() {
 
+    private lateinit var singleActivityContext: Context
     private lateinit var songViewModel: SongViewModel
     private lateinit var trackId: String
     private lateinit var songTitle: String
@@ -70,7 +74,6 @@ class MoreActionFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val track: Track? = arguments?.getParcelable(ARG_TRACK)
         return inflater.inflate(R.layout.fragment_more_action, container, false)
     }
 
@@ -86,13 +89,14 @@ class MoreActionFragment : DialogFragment() {
         layoutParams?.width = WindowManager.LayoutParams.MATCH_PARENT
         layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
         window?.attributes = layoutParams
-
+        singleActivityContext = ActivityContextSingleton.getActivityHomeContext()!!
         return dialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val track: Track? = arguments?.getParcelable(ARG_TRACK)
         songTitle = arguments?.getString("SONG_TITLE").toString()
         artistName = arguments?.getString("SINGER_NAME").toString()
         trackImage = arguments?.getString("TRACK_IMAGE").toString()
@@ -234,11 +238,9 @@ class MoreActionFragment : DialogFragment() {
         val bundle = Bundle().apply {
             putParcelable("selected_album", album)
         }
-
         val albumPageFragment = AlbumPageFragment().apply {
             arguments = bundle
         }
-
         dismiss() // Đóng DialogFragment hiện tại
         requireActivity().supportFragmentManager.beginTransaction()
             .add(R.id.fragmenthome, albumPageFragment)

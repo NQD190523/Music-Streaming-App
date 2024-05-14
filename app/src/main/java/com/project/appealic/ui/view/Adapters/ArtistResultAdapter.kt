@@ -20,6 +20,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import com.project.appealic.R
 import com.project.appealic.data.model.Artist
+import com.project.appealic.data.model.Playlist
 import com.project.appealic.data.repository.ArtistRepository
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
@@ -29,8 +30,7 @@ import com.project.appealic.utils.ArtistViewModelFactory
 import com.project.appealic.utils.SongViewModelFactory
 
 class ArtistResultAdapter(context: Context, artists: List<Artist>,
-                          private val artistViewModel: ArtistViewModel
-) :
+                          private val artistViewModel: ArtistViewModel) :
     ArrayAdapter<Artist>(context, R.layout.item_search_result_artist, artists) {
 
     private val storage = Firebase.storage
@@ -38,6 +38,15 @@ class ArtistResultAdapter(context: Context, artists: List<Artist>,
     private lateinit var artistId: String
     private val artistIds: HashMap<Int, String> = HashMap()
 
+    interface OnItemClickListener {
+        fun onItemClick(artist: Artist)
+    }
+
+    private var onItemClickListener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        onItemClickListener = listener
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
@@ -106,7 +115,11 @@ class ArtistResultAdapter(context: Context, artists: List<Artist>,
                 Toast.makeText(context, "You need to sign in to use this feature", Toast.LENGTH_SHORT).show()
             }
         }
-
+        view.setOnClickListener {
+            if (currentArtist != null) {
+                onItemClickListener?.onItemClick(currentArtist)
+            }
+        }
 
         return view
     }

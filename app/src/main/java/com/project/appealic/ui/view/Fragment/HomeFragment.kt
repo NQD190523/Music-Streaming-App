@@ -291,7 +291,7 @@ class HomeFragment : Fragment() {
         this.onAddPlaylistClick = listener
     }
 
-    private fun NewReleaseAdapter.setOnMoreActionClickListener(listener: (Track) -> Unit) {
+    private fun NewReleaseAdapter.onMoreActionClickListener(listener: (Track) -> Unit) {
         this.moreActionClickListener = listener
     }
 

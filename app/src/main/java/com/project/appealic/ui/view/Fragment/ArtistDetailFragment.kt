@@ -8,17 +8,24 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
 import com.project.appealic.data.model.Artist
+import com.project.appealic.ui.view.ActivityHome
 import com.project.appealic.ui.view.Fragment.ArtistProfileFragment
+import com.project.appealic.utils.ActivityContextSingleton
+import java.lang.ref.WeakReference
 
 class ArtistDetailFragment(private var context: Context) : DialogFragment() {
 
+    private lateinit var activityHomeContext : FragmentActivity
     private var selectedArtist: Artist? = null // Biến để lưu trữ thông tin về nghệ sĩ được chọn
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(context)
         val window = dialog.window
@@ -29,7 +36,7 @@ class ArtistDetailFragment(private var context: Context) : DialogFragment() {
         )
         window?.setGravity(Gravity.BOTTOM or Gravity.START or Gravity.END)
         dialog.setContentView(R.layout.bottom_artist)
-
+        activityHomeContext = ActivityContextSingleton.getActivityHomeContext()!!
         // Lấy ID của nghệ sĩ từ bundle
         val artistId = arguments?.getString("ARTIST_ID")
 
@@ -68,6 +75,7 @@ class ArtistDetailFragment(private var context: Context) : DialogFragment() {
         llArtistDetail.setOnClickListener {
             // Sử dụng thông tin về nghệ sĩ đã được tải trước đó
             println(selectedArtist)
+            println(activityHomeContext)
             selectedArtist?.let { artist ->
                 // Tạo một instance của ArtistProfileFragment và truyền selectedArtist vào
                 val artistProfileFragment = ArtistProfileFragment().apply {
@@ -76,10 +84,11 @@ class ArtistDetailFragment(private var context: Context) : DialogFragment() {
                     }
                 }
                 // Chuyển sang ArtistProfileFragment
-                requireActivity().supportFragmentManager.beginTransaction()
+
+                activityHomeContext.supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmenthome, artistProfileFragment)
                     .addToBackStack(null)
-                    .commit()
+                    .commitNow()
             }
         }
         return dialog

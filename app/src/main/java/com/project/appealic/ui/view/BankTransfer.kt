@@ -76,6 +76,7 @@ class BankTransfer : AppCompatActivity() {
         val clip = ClipData.newPlainText("label", data)
         clipboard.setPrimaryClip(clip)
         // Hiển thị thông báo hoặc thực hiện hành động khác sau khi sao chép thành công (tuỳ vào nhu cầu của bạn)
+        Toast.makeText(this,"$data copied to clipboard",Toast.LENGTH_SHORT).show()
     }
 
     // Phương thức tải ảnh QR Code về thiết bị

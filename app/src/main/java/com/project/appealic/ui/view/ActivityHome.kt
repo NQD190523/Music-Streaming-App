@@ -36,6 +36,7 @@ import com.project.appealic.ui.view.Fragment.SearchFragment
 import com.project.appealic.ui.viewmodel.SongViewModel
 import com.project.appealic.utils.SongViewModelFactory
 import com.project.appealic.ui.viewmodel.AuthViewModel
+import com.project.appealic.utils.ActivityContextSingleton
 
 class ActivityHome : AppCompatActivity() {
 
@@ -110,6 +111,8 @@ class ActivityHome : AppCompatActivity() {
 
         // Khởi tạo AppWidgetManager
         appWidgetManager = AppWidgetManager.getInstance(this)
+
+        ActivityContextSingleton.setActivityHomeContext(this)
 
         // Lấy danh sách các widget trong ứng dụng của bạn
         val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this, WidgetView::class.java))
@@ -187,7 +190,7 @@ class ActivityHome : AppCompatActivity() {
             })
     }
 
-    fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.fragmenthome, fragment).commit()
     }
 

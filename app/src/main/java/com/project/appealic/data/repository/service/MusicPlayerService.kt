@@ -12,15 +12,18 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.project.appealic.R
 import com.project.appealic.ui.view.ActivityMusicControl
+import com.project.appealic.ui.viewmodel.SongViewModel
 
 class MusicPlayerService : Service() {
     private lateinit var player: ExoPlayer
@@ -32,9 +35,9 @@ class MusicPlayerService : Service() {
     }
     private var isRepeating = false
     private lateinit var notificationManager: NotificationManager
-
     private val _serviceReady = MutableLiveData<Boolean>()
     val serviceReady: LiveData<Boolean> = _serviceReady
+    private lateinit var mediaSession: MediaSessionCompat
     companion object {
         private const val NOTIFICATION_ID = 1
         const val ACTION_PLAY = "com.project.appealic.action.PLAY"
@@ -46,11 +49,19 @@ class MusicPlayerService : Service() {
     }
 
 
+
     override fun onBind(p0: Intent?): IBinder {
         return binder
     }
     override fun onCreate() {
         super.onCreate()
+        ViewModelProvider.Factory
+        // Khởi tạo mediaSession
+        mediaSession = MediaSessionCompat(this, "MusicService")
+        // Đặt callback cho mediaSession
+        mediaSession.setCallback(mediaSessionCallback)
+        // Đặt mediaSession là hoạt động chính
+        mediaSession.isActive = true
         player = ExoPlayer.Builder(this).build()
         player.addListener(object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
@@ -61,7 +72,6 @@ class MusicPlayerService : Service() {
             }
         })
         trackCurrentPosition()
-
         // Khởi tạo NotificationManager
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         // Tạo kênh thông báo
@@ -74,10 +84,11 @@ class MusicPlayerService : Service() {
         val songTitle = mediaItem.mediaMetadata.title.toString()
         val artistName = mediaItem.mediaMetadata.artist.toString()
 
-        val intent = Intent("ACTION_TRACK_CHANGED")
+        val intent = Intent(this,MusicPlayerService::class.java)
         intent.putExtra("songTitle", songTitle)
         intent.putExtra("artistName", artistName)
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+        intent.putExtra("TRACK_INDEX", player.currentMediaItemIndex)
+        startService(intent)
     }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
@@ -107,6 +118,21 @@ class MusicPlayerService : Service() {
         }
         return START_NOT_STICKY
     }
+    private val mediaSessionCallback = object : MediaSessionCompat.Callback() {
+        override fun onPlay() {
+            // Xử lý yêu cầu play
+            player.play()
+            updateNotification()
+        }
+
+        override fun onPause() {
+            // Xử lý yêu cầu pause
+            player.pause()
+            updateNotification()
+        }
+
+        // Các phương thức khác như onSkipToNext, onSkipToPrevious...
+    }
 
     fun setMediaUri(uri: MutableList<MediaItem>, startIndex : Int) {
         player.setMediaItems(uri)
@@ -116,8 +142,6 @@ class MusicPlayerService : Service() {
         val intent = Intent("ACTION_NEW_SONG")
         sendBroadcast(intent)
     }
-
-
 
     fun play() {
         if(player.isPlaying){
@@ -163,6 +187,7 @@ class MusicPlayerService : Service() {
             player.repeatMode = if (isRepeating) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
         }
     }
+
     fun getExoPlayerInstance(): ExoPlayer {
         return player
     }
@@ -206,25 +231,32 @@ class MusicPlayerService : Service() {
             PendingIntent.FLAG_MUTABLE
         )
 
-        // Tạo các action cho thông báo (play, pause, stop)
-        val playIntent = PendingIntent.getService(
-            this,
-            0,
-            Intent(this, MusicPlayerService::class.java).apply { action = ACTION_PLAY.toString() },
-            PendingIntent.FLAG_MUTABLE
-        )
-
-        val pauseIntent = PendingIntent.getService(
-            this,
-            0,
-            Intent(this, MusicPlayerService::class.java).apply { action = ACTION_PAUSE.toString() },
-            PendingIntent.FLAG_MUTABLE
-        )
-
+        // Tạo Intent cho action (play hoặc pause)
+        val actionIntent = if (player.isPlaying) {
+            PendingIntent.getService(
+                this,
+                0,
+                Intent(this, MusicPlayerService::class.java).apply { action = ACTION_PAUSE },
+                PendingIntent.FLAG_MUTABLE
+            )
+        } else {
+            PendingIntent.getService(
+                this,
+                0,
+                Intent(this, MusicPlayerService::class.java).apply { action = ACTION_PLAY },
+                PendingIntent.FLAG_MUTABLE
+            )
+        }
         val stopIntent = PendingIntent.getService(
             this,
             0,
-            Intent(this, MusicPlayerService::class.java).apply { action = ACTION_STOP.toString() },
+            Intent(this, MusicPlayerService::class.java).apply { action = ACTION_STOP},
+            PendingIntent.FLAG_MUTABLE
+        )
+        val nextIntent = PendingIntent.getService(
+            this,
+            0,
+            Intent(this, MusicPlayerService::class.java).apply { action = ACTION_NEXT},
             PendingIntent.FLAG_MUTABLE
         )
 
@@ -234,20 +266,23 @@ class MusicPlayerService : Service() {
             .setContentText("Now playing...")
             .setSmallIcon(R.drawable.ic_alert_20_outlined)
             .setContentIntent(contentIntent)
-            .addAction(R.drawable.ic_play_20_filled, "Play", playIntent)
-            .addAction(R.drawable.ic_pause_20_filled, "Pause", pauseIntent)
+            .addAction(
+                if (player.isPlaying) R.drawable.ic_pause_20_filled else R.drawable.ic_play_20_filled,
+                if (player.isPlaying) "Pause" else "Play",
+                actionIntent
+            )
+            .addAction(R.drawable.ic_next_20_filled,"Next",nextIntent)
             .addAction(R.drawable.ic_cancel_16_outlined, "Stop", stopIntent)
-
+            .setStyle(
+                androidx.media.app.NotificationCompat.MediaStyle()
+                    .setShowActionsInCompactView(1, 2, 3) // Hiển thị các action play, pause, next, previous trong chế độ nhỏ gọn
+                    .setMediaSession(mediaSession.sessionToken)
+            )
+            .setPriority(NotificationCompat.PRIORITY_LOW) // Ưu tiên thấp để không làm phiền người dùng
         // Trả về thông báo đã tạo
         return notificationBuilder.build()
     }
-
-    private fun updateNotification() {
-        // Cập nhật nội dung thông báo (ví dụ: trạng thái play/pause)
-        val notification = createNotification()
-        notificationManager.notify(NOTIFICATION_ID, notification)
-    }
-    fun createNotificationChannel() {
+    private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
@@ -256,6 +291,12 @@ class MusicPlayerService : Service() {
             )
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    private fun updateNotification() {
+        // Cập nhật nội dung thông báo (ví dụ: trạng thái play/pause)
+        val notification = createNotification()
+        notificationManager.notify(NOTIFICATION_ID, notification)
     }
 
     inner class MusicBinder : Binder() {

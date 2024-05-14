@@ -14,11 +14,21 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.project.appealic.R
+import com.project.appealic.data.model.Album
 import com.project.appealic.data.model.Playlist
 
 class PlaylistResultAdapter(context: Context, private var playlists: List<Playlist>) : ArrayAdapter<Playlist>(context, 0, playlists) {
     private val storage = FirebaseStorage.getInstance()
 
+    interface OnItemClickListener {
+        fun onItemClick(playlist: Playlist)
+    }
+
+    private var onItemClickListener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        onItemClickListener = listener
+    }
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_search_result_playlist, parent, false)
         val currentPlaylist = playlists[position]
@@ -39,7 +49,11 @@ class PlaylistResultAdapter(context: Context, private var playlists: List<Playli
             txtPlaylistTotalSongs.text = (totalSongs.toString()+" Songs")
         }
 
+        // Set the on click listener to the view
+        view.setOnClickListener { onItemClickListener?.onItemClick(currentPlaylist) }
+
         return view
+
     }
 
     private fun getTotalSongsFromFirebase(playlistId: String, onResult: (Int) -> Unit) {
