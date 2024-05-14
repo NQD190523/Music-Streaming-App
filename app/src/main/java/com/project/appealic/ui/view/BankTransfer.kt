@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.project.appealic.R
+import com.project.appealic.ui.view.Fragment.HomeFragment
 import org.junit.runner.manipulation.Ordering
 import java.io.File
 import java.io.FileOutputStream
@@ -67,6 +69,8 @@ class BankTransfer : AppCompatActivity() {
         val btnTransferred = findViewById<Button>(R.id.btnTransferred)
         btnTransferred.setOnClickListener {
             Toast.makeText(this, "Payment successful!", Toast.LENGTH_SHORT).show()
+            intent = Intent(this, ActivityHome::class.java)
+            startActivity(intent)
         }
     }
 

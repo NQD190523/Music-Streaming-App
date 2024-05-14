@@ -67,6 +67,7 @@
                 android:textColor="@color/subText" />
 
             <EditText
+                android:id="@+id/etFullName"
                 style="@style/Placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,6 +100,7 @@
                 android:textColor="@color/subText" />
 
             <EditText
+                android:id="@+id/etEmail"
                 style="@style/Placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -197,10 +199,11 @@
                 style="@style/Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Your Scholl"
+                android:text="Your School"
                 android:textColor="@color/subText" />
 
             <EditText
+                android:id="@+id/etSchool"
                 style="@style/Placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -232,6 +235,7 @@
                 android:textColor="@color/subText" />
 
             <EditText
+                android:id="@+id/etStudentID"
                 style="@style/Placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -253,6 +257,7 @@
             app:layout_constraintVertical_bias="0">
 
             <CheckBox
+                android:id="@+id/chkConfirm"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal" />
@@ -283,6 +288,7 @@
             app:layout_constraintVertical_bias="0.187" />
 
         <Button
+            android:id="@+id/btnSubmit"
             style="@style/CTAsSmall"
             android:layout_width="283dp"
             android:layout_height="40dp"

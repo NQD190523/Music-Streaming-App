@@ -18,19 +18,24 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
+import com.project.appealic.data.model.Album
 import com.project.appealic.data.model.Genre
+import com.project.appealic.data.repository.AlbumRepository
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
 import com.project.appealic.ui.view.Adapters.BannerAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistCardAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
 import com.project.appealic.ui.view.setOnItemClickListener
+import com.project.appealic.ui.viewmodel.AlbumViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
+import com.project.appealic.utils.AlbumViewModelFactory
 import com.project.appealic.utils.SongViewModelFactory
 
 class LibraryFragment : Fragment() {
 
     private lateinit var songViewModel: SongViewModel
+    private lateinit var albumViewModel: AlbumViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,24 +43,34 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_library, container, false)
+        val albumFactory = AlbumViewModelFactory(AlbumRepository(requireActivity().application))
+        albumViewModel = ViewModelProvider(this, albumFactory)[AlbumViewModel::class.java]
 
         val bannerImageResources = listOf(
             R.drawable.imagecard2,
             R.drawable.imagecard2,
             R.drawable.imagecard2
         )
-        val bannerAdapter = BannerAdapter(bannerImageResources)
+
+
+        val recyclerViewBanner = view.findViewById<RecyclerView>(R.id.rrBanner)
+        recyclerViewBanner.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        albumViewModel.album.observe(viewLifecycleOwner, Observer { albums ->
+            val bannerAdapter = BannerAdapter(bannerImageResources, albums) { position ->
+                val selectedAlbum = albums[position]
+                navigateToAlbumPageFragment(selectedAlbum)
+            }
+            recyclerViewBanner.adapter = bannerAdapter
+        })
+        albumViewModel.getAllAlbum()
+
+
 
         val factory = SongViewModelFactory(
             SongRepository(requireActivity().application),
             UserRepository(requireActivity().application)
         )
         songViewModel = ViewModelProvider(this, factory).get(SongViewModel::class.java)
-
-        val recyclerViewBanner = view.findViewById<RecyclerView>(R.id.rrBanner)
-        recyclerViewBanner.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewBanner.adapter = bannerAdapter
 
         val textViewAddArtists = view.findViewById<TextView>(R.id.tvAddArtists)
         val textViewAddPlaylists = view.findViewById<TextView>(R.id.tvAddPlaylists)
@@ -89,6 +104,18 @@ class LibraryFragment : Fragment() {
 
         return view
     }
+
+    private fun navigateToAlbumPageFragment(album: Album) {
+        val bundle = Bundle().apply {
+            putParcelable("selected_album", album)
+        }
+        val albumPageFragment = AlbumPageFragment.newInstance(bundle)
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmenthome, albumPageFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
 
     private fun setupRecentlyViewedSongs(view: View) {
         val recentlyPlayedTitle = view.findViewById<TextView>(R.id.recentlyPlayed)
@@ -217,31 +244,31 @@ class StaggeredGridSpacingItemDecoration(
             left = horizontalSpacing / 6
             right = horizontalSpacing / 6
             bottom = verticalSpacing
-            }
         }
     }
+}
 
-    class SelectPlaylistFragmentDialog : DialogFragment() {
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            val view = inflater.inflate(R.layout.dialog_select, container, false)
-            return view
-        }
-        override fun onStart() {
-            super.onStart()
-            val dialog = dialog
-            if (dialog != null) {
-                val width = 315
-                val height = 655
-                val params = dialog.window?.attributes
-                params?.width = (width * resources.displayMetrics.density).toInt()
-                params?.height = (height * resources.displayMetrics.density).toInt()
-                dialog.window?.attributes = params as WindowManager.LayoutParams
-                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.background_select_playlist)
-                dialog.window?.setBackgroundDrawable(drawable)
-            }
+class SelectPlaylistFragmentDialog : DialogFragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.dialog_select, container, false)
+        return view
+    }
+    override fun onStart() {
+        super.onStart()
+        val dialog = dialog
+        if (dialog != null) {
+            val width = 315
+            val height = 655
+            val params = dialog.window?.attributes
+            params?.width = (width * resources.displayMetrics.density).toInt()
+            params?.height = (height * resources.displayMetrics.density).toInt()
+            dialog.window?.attributes = params as WindowManager.LayoutParams
+            val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.background_select_playlist)
+            dialog.window?.setBackgroundDrawable(drawable)
         }
     }
+}

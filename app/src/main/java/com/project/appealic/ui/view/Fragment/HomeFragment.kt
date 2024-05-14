@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.R
+import com.project.appealic.data.model.Album
 import com.project.appealic.data.model.Track
+import com.project.appealic.data.repository.AlbumRepository
 import com.project.appealic.data.repository.ArtistRepository
 import com.project.appealic.data.repository.SongRepository
 import com.project.appealic.data.repository.UserRepository
@@ -31,9 +33,11 @@ import com.project.appealic.ui.view.Adapters.NewReleaseAdapter
 import com.project.appealic.ui.view.Adapters.PlaylistForYouAdapter
 import com.project.appealic.ui.view.Adapters.RecentlySongAdapter
 import com.project.appealic.ui.view.setOnItemClickListener
+import com.project.appealic.ui.viewmodel.AlbumViewModel
 import com.project.appealic.ui.viewmodel.ArtistViewModel
 import com.project.appealic.ui.viewmodel.MusicPlayerViewModel
 import com.project.appealic.ui.viewmodel.SongViewModel
+import com.project.appealic.utils.AlbumViewModelFactory
 import com.project.appealic.utils.ArtistViewModelFactory
 import com.project.appealic.utils.SongViewModelFactory
 
@@ -45,6 +49,7 @@ class HomeFragment : Fragment() {
     val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
     private lateinit var musicPlayerViewModel: MusicPlayerViewModel
     private lateinit var recyclerViewArtists: RecyclerView
+    private lateinit var albumViewModel: AlbumViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,15 +64,28 @@ class HomeFragment : Fragment() {
         // Initialize ArtistViewModel
         val factoryArtist = ArtistViewModelFactory(ArtistRepository(requireActivity().application))
         artistViewModel = ViewModelProvider(this, factoryArtist)[ArtistViewModel::class.java]
+    // Initialize AlbumViewModel
+        val albumFactory = AlbumViewModelFactory(AlbumRepository(requireActivity().application))
+        albumViewModel = ViewModelProvider(this, albumFactory)[AlbumViewModel::class.java]
+        val bannerImageResources = listOf(
+            R.drawable.imagecart,
+            R.drawable.imagecart2,
+            R.drawable.imagecart3,
+            R.drawable.imagecart4,
+            R.drawable.imagecart5,
+            R.drawable.imagecart6
+        )
 
-        // Khởi tạo và cấu hình RecyclerView cho banner
         val recyclerViewBanner: RecyclerView = rootView.findViewById(R.id.rrBanner)
         recyclerViewBanner.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val bannerImages = listOf(R.drawable.imagecart, R.drawable.imagecart2, R.drawable.imagecart3,R.drawable.imagecart4, R.drawable.imagecart5,R.drawable.imagecart6)
-        val bannerAdapter = BannerAdapter(bannerImages)
-        recyclerViewBanner.adapter = bannerAdapter
-
-        // Lấy danh sách tracks và artists và playlist từ repository
+        albumViewModel.album.observe(viewLifecycleOwner, Observer { albums ->
+            val bannerAdapter = BannerAdapter(bannerImageResources, albums) { position ->
+                val selectedAlbum = albums[position]
+                navigateToAlbumPageFragment(selectedAlbum)
+            }
+            recyclerViewBanner.adapter = bannerAdapter
+        })
+        albumViewModel.getAllAlbum()
 
         songViewModel.getAllTracks()
         songViewModel.getAllArtists()
@@ -285,6 +303,17 @@ class HomeFragment : Fragment() {
         return rootView
 
 
+    }
+
+    private fun navigateToAlbumPageFragment(album: Album) {
+        val bundle = Bundle().apply {
+            putParcelable("selected_album", album)
+        }
+        val albumPageFragment = AlbumPageFragment.newInstance(bundle)
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmenthome, albumPageFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun NewReleaseAdapter.setOnAddPlaylistClickListener(listener: (Track) -> Unit) {

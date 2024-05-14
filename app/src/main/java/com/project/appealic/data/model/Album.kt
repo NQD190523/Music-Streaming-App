@@ -2,29 +2,27 @@ package com.project.appealic.data.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.util.ArrayList
-
 data class Album(
-    val albumId: String,
-    val artistId: String,
-    val artistName: String,
-    val releaseDate: String,
+    val albumId: String?,
+    val artistId: String?,
+    val artistName: String?,
+    val releaseDate: String?,
     val thumbUrl: String?,
-    val title: String,
+    val title: String?,
     val trackIds: List<String>?
 ) : Parcelable {
 
     // Default constructor
-    constructor() : this("", "", "", "", null, "", null)
+    constructor() : this(null, null, null, null, null, null, null)
 
     // Constructor that takes a Parcel and gives you an object populated with its values
     constructor(parcel: Parcel) : this(
-        parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readString()!!,
         parcel.readString(),
-        parcel.readString()!!,
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.createStringArrayList()
     )
 
@@ -33,8 +31,8 @@ data class Album(
         parcel.writeString(artistId)
         parcel.writeString(artistName)
         parcel.writeString(releaseDate)
-        parcel.writeString(thumbUrl.toString())
-        parcel.writeStringList(trackIds)
+        parcel.writeString(thumbUrl)
+        parcel.writeList(trackIds)
         parcel.writeString(title)
     }
 
