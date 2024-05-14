@@ -28,7 +28,7 @@ class AddPlaylistDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DialogCreatePlaylistBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -37,7 +37,7 @@ class AddPlaylistDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val factory = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
-        playListViewModel = ViewModelProvider(this, factory).get(PlayListViewModel::class.java)
+        playListViewModel = ViewModelProvider(this, factory)[PlayListViewModel::class.java]
 
         binding.btnCancel.setOnClickListener {
             dialog?.dismiss()
@@ -45,10 +45,27 @@ class AddPlaylistDialog : DialogFragment() {
 
         binding.btnConfirm.setOnClickListener {
             if (userId != null) {
-                val newPlaylist =
-                    PlayListEntity( null, userId, binding.edtPlaylistName.text.toString(), R.drawable.song2, listOf())
+                val newPlaylist = PlayListEntity( null, userId, binding.edtPlaylistName.text.toString(), R.drawable.song2, listOf())
                 playListViewModel.createNewPlayList(newPlaylist)
                 playListViewModel.getUserPlaylist(userId)
+                val playlist = playListViewModel.userPlayLists.value?.get(0)
+                println(playlist)
+                val trackIds = mutableListOf<String>()
+                val selectedTrackIdsInPlaylist = playlist?.trackIds
+                arguments?.getString("TRACK_ID")?.let { trackIds.add(it) }
+                println(selectedTrackIdsInPlaylist)
+                println(selectedTrackIdsInPlaylist?.isNotEmpty())
+                if (selectedTrackIdsInPlaylist != null) {
+                    if (selectedTrackIdsInPlaylist.isNotEmpty()) {
+                        selectedTrackIdsInPlaylist.filterNotNull().filter { it.isNotEmpty() }.forEach {
+                            trackIds.add(it)
+                        }
+                    }
+                }
+                // Loại bỏ các phần tử trùng lặp
+                val uniqueTrackIds = trackIds.distinct()
+                val newTrack = PlayListEntity(playlist!!.playlistId, playlist.userId,playlist.playListName,playlist.playlistThumb,uniqueTrackIds)
+                playListViewModel.addTrackToPlaylist(newTrack)
                 dialog?.dismiss()
             }
         }

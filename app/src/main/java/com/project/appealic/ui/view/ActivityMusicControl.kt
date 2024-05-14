@@ -341,8 +341,6 @@ class ActivityMusicControl : AppCompatActivity() , SleepFragmentDialog.OnSleepTi
     }
     private fun handleMixButtonClick() {
 
-
-
     }
 
     // Các hàm xử lý sự kiện khi nhấn các nút

@@ -2,6 +2,7 @@ package com.project.appealic.ui.view.Fragment
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -110,9 +111,9 @@ class AddPlaylistFragment() : DialogFragment() {
 //            }
 //            setListViewHeightBasedOnItems(lvUserPlaylist)
             lvUserPlaylist.setOnItemClickListener { _, _, position,_ ->
-                val selectedPlaylist = playlists!![position]
+                val playlist = playlists!![position]
                 val trackIds = mutableListOf<String>()
-                val selectedTrackIdsInPlaylist = selectedPlaylist.trackIds
+                val selectedTrackIdsInPlaylist = playlist.trackIds
                 arguments?.getString("TRACK_ID")?.let { trackIds.add(it) }
                 println(selectedTrackIdsInPlaylist)
                 println(selectedTrackIdsInPlaylist.isNotEmpty())
@@ -123,7 +124,7 @@ class AddPlaylistFragment() : DialogFragment() {
                 }
                 // Loại bỏ các phần tử trùng lặp
                 val uniqueTrackIds = trackIds.distinct()
-                val newTrack = PlayListEntity(selectedPlaylist.playlistId, selectedPlaylist.userId,selectedPlaylist.playListName,selectedPlaylist.playlistThumb,uniqueTrackIds)
+                val newTrack = PlayListEntity(playlist.playlistId, playlist.userId,playlist.playListName,playlist.playlistThumb,uniqueTrackIds)
                 playListViewModel.addTrackToPlaylist(newTrack)
             }
         })
@@ -131,6 +132,9 @@ class AddPlaylistFragment() : DialogFragment() {
 
     private fun showCreatePlaylistDialog() {
         val addPlaylistDialog = AddPlaylistDialog()
+        val bundle = Bundle()
+        bundle.putString("TRACK_ID",arguments?.getString("TRACK_ID"))
+        addPlaylistDialog.arguments = bundle
         addPlaylistDialog.show(parentFragmentManager, "AddPlaylistDialog")
     }
     private fun setListViewHeightBasedOnItems(listView: ListView) {
