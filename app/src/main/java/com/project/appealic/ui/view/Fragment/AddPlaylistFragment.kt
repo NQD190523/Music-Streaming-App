@@ -37,7 +37,6 @@ class AddPlaylistFragment() : DialogFragment() {
     private lateinit var playListViewModel: PlayListViewModel
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val userId = auth.currentUser?.uid
-    val trackId = arguments?.getString("TRACK_ID")
 
     companion object {
         fun newInstance(track: Track): AddPlaylistFragment {
@@ -92,7 +91,6 @@ class AddPlaylistFragment() : DialogFragment() {
 //        val track = arguments?.getParcelable<Track>("TRACK")
 //        println(track)
 
-        println(trackId)
         playListViewModel.userPlayLists.observe(viewLifecycleOwner, Observer { playlists ->
             playlists?.let { playlist ->
                 println(playlist)
@@ -119,7 +117,8 @@ class AddPlaylistFragment() : DialogFragment() {
                 val selectedPlaylist = playlists!![position]
                 val trackIds = mutableListOf<String>()
                 val selectedTrackIdsInPlaylist = selectedPlaylist.trackIds
-                trackId?.let { trackIds.add(it) }
+                arguments?.getString("TRACK_ID")?.let { trackIds.add(it) }
+                println(arguments?.getString("TRACK_ID"))
                 println(selectedTrackIdsInPlaylist)
                 println(selectedTrackIdsInPlaylist.isNotEmpty())
                 if (selectedTrackIdsInPlaylist.isNotEmpty()) {

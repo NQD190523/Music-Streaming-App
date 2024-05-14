@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.project.appealic.data.repository.SongRepository
@@ -41,13 +42,12 @@ class LikeSongFragment : Fragment() {
         adapter = LikedSongsAdapter(requireContext(), ArrayList())
         binding.lvLikedSongs.adapter = adapter
 
-        songViewModel.likedSongs.observe(viewLifecycleOwner) { songs ->
+        songViewModel.likedSongs.observe(viewLifecycleOwner, Observer {  songs ->
             adapter.clear()
             adapter.addAll(songs)
             adapter.notifyDataSetChanged()
             binding.lvLikedSongs.setOnItemClickListener(requireContext(), songViewModel, songs)
-        }
-
+        })
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         if (currentUserId != null) {
             songViewModel.getLikedSongs(currentUserId)
