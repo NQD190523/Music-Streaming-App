@@ -88,8 +88,6 @@ class AddPlaylistFragment() : DialogFragment() {
         }
         lvUserPlaylist = view.findViewById(R.id.lvUserPlaylist)
         if (userId != null) playListViewModel.getUserPlaylist(userId)
-//        val track = arguments?.getParcelable<Track>("TRACK")
-//        println(track)
 
         playListViewModel.userPlayLists.observe(viewLifecycleOwner, Observer { playlists ->
             playlists?.let { playlist ->
@@ -130,6 +128,21 @@ class AddPlaylistFragment() : DialogFragment() {
                 val uniqueTrackIds = trackIds.distinct()
                 val newTrack = PlayListEntity(selectedPlaylist.playlistId, selectedPlaylist.userId,selectedPlaylist.playListName,selectedPlaylist.playlistThumb,uniqueTrackIds)
                 playListViewModel.addTrackToPlaylist(newTrack)
+                dialog?.dismiss()
+
+                // Chuyển sang PlaylistPageFragment với thông tin của playlist đã chọn
+                val bundle = Bundle().apply {
+                    putParcelable("user_selected_playlist", selectedPlaylist)
+                    putInt("playlist_index",position)
+                }
+                val playlistPageFragment = PlaylistPageFragment()
+                playlistPageFragment.arguments = bundle
+
+                // Thay đổi Fragment hoặc khởi chạy Activity mới (tùy vào thiết kế của bạn)
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmenthome, playlistPageFragment)
+                    .addToBackStack(null)
+                    .commit()
             }
         })
     }

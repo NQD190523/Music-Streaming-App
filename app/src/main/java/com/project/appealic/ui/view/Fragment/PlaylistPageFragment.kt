@@ -73,6 +73,9 @@ class PlaylistPageFragment : Fragment() {
         songNumb = view.findViewById(R.id.txtSongNumb)
         trackInPlaylist = view.findViewById(R.id.lstPlalist)
 
+        playListViewModel.userPlayLists.observe(viewLifecycleOwner, Observer {playlist ->
+
+        })
         // Lấy đối tượng playlist từ arguments, có thể là Playlist hoặc PlayListEntity
         val selectedPlaylist: Playlist? = arguments?.getParcelable("selected_playlist") as? Playlist
         val selectedPlaylistEntity: PlayListEntity? = arguments?.getParcelable("user_selected_playlist") as? PlayListEntity
