@@ -138,8 +138,6 @@ class SongViewModel(private val songRepository: SongRepository, private val user
     }
 
 
-
-
     fun getTrackFromGenres(genre: String) {
         songRepository.getAllTrack()
             .addOnSuccessListener { tracks ->
@@ -232,12 +230,16 @@ class SongViewModel(private val songRepository: SongRepository, private val user
         }
     }
 
-
     fun SearchSongResults(searchQuery: String?) {
         // Gọi phương thức trong Repository để tải dữ liệu từ Firebase dựa trên searchQuery
         val searchResultsLiveData = songRepository.loadSongSearchResults(searchQuery)
         // Cập nhật LiveData _tracks với dữ liệu mới
         searchResultsLiveData.observeForever { tracks ->
             _tracks.postValue(tracks) }
-}
+    }
+
+    fun FilterSongResults(searchQuery: String?){
+
+    }
+
 }
