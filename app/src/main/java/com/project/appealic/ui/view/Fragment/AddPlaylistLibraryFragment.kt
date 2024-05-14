@@ -48,7 +48,7 @@ class AddPlaylistLibraryFragment : Fragment()  {
         songViewModel = ViewModelProvider(this, songFactory)[SongViewModel::class.java]
 
         val factory = PlayListViewModelFactory(PlayListRepository(requireActivity().application))
-        playListViewModel = ViewModelProvider(this, factory).get(PlayListViewModel::class.java)
+        playListViewModel = ViewModelProvider(this, factory)[PlayListViewModel::class.java]
 
         val containerCreatePlaylist = view.findViewById<LinearLayout>(R.id.containerCreatePlaylist)
         containerCreatePlaylist.setOnClickListener{
@@ -70,6 +70,7 @@ class AddPlaylistLibraryFragment : Fragment()  {
                 // Chuyển sang PlaylistPageFragment với thông tin của playlist đã chọn
                 val bundle = Bundle().apply {
                     putParcelable("user_selected_playlist", selectedPlaylist)
+                    putInt("playlist_index",position)
                 }
                 val playlistPageFragment = PlaylistPageFragment()
                 playlistPageFragment.arguments = bundle

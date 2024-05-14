@@ -106,7 +106,8 @@ class PlaylistPageFragment : Fragment() {
                 songNumb.text = (playlistEntity.trackIds.size.toString() + " Songs")
                 rcsong = view.findViewById(R.id.lstRecommendSong)
                 // Initialize adapter for ListView displaying recommended songs
-                playListViewModel.getTracksFromUserPlaylist(uid, playlistEntity.playlistId!! -1)
+                arguments?.getInt("playlist_index")
+                    ?.let { playListViewModel.getTracksFromUserPlaylist(uid, it) }
                 songViewModel.getAllTracks()
                 title.text = playlistEntity.playListName
             }
