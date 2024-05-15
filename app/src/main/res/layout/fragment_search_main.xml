@@ -37,7 +37,7 @@
                 android:id="@+id/flexboxLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintHeight_max="100dp"
+                app:layout_constraintHeight_max="85dp"
                 android:layout_marginTop="@dimen/dp_8"
                 app:alignItems="center"
                 app:flexWrap="wrap"

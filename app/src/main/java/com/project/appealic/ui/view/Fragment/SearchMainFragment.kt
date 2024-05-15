@@ -135,7 +135,7 @@ class SearchMainFragment : Fragment() {
         }
 
         textView.ellipsize = TextUtils.TruncateAt.END
-        textView.maxWidth = ViewGroup.LayoutParams.WRAP_CONTENT
+        textView.maxWidth = resources.getDimensionPixelSize(R.dimen.max_wight)
         textView.maxLines = 1
 
         return textView

@@ -68,7 +68,7 @@
 
     <dimen name="tab_text_size">15sp</dimen>
     <dimen name="tab_height">48dp</dimen>
-    <dimen name="max_wight">75dp</dimen>
+    <dimen name="max_wight">120dp</dimen>
     <dimen name="max_height">60dp</dimen>
 
 
