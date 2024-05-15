@@ -57,7 +57,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:text="Taylor Swift"
+                    android:text="Taylor Swiftt"
                     android:ellipsize="end"
                     android:maxWidth="150dp"
                     android:textColor="@color/white"
