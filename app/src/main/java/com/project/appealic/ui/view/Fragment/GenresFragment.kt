@@ -48,7 +48,7 @@ class GenresFragment : Fragment() {
         songViewModel = ViewModelProvider(this, songFactory)[SongViewModel::class.java]
 
         super.onViewCreated(view, savedInstanceState)
-        songViewModel = ViewModelProvider(this).get(SongViewModel::class.java)
+        songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
 
         val imageViewBack = view.findViewById<ImageView>(R.id.imv_back)
         imageViewBack.setOnClickListener {
